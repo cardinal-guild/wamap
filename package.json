@@ -11,6 +11,8 @@
     "axios": "^0.18.0",
     "leaflet": "^1.3.4",
     "leaflet.icon.glyph": "^0.2.0",
+    "node-sass": "^4.10.0",
+    "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
     "vue2-leaflet": "^1.1.1"
   },

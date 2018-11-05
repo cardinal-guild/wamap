@@ -28,6 +28,28 @@
       :geojson="tier3Regions.geojson"
       :options="tier3Regions.options"
     />
+    <l-geo-json
+      :geojson="tier4Regions.geojson"
+      :options="tier4Regions.options"
+    />
+    <l-geo-json
+      :geojson="windWalls.geojson"
+      :options="windWalls.options"
+    />
+    <l-geo-json
+      :geojson="stormWalls.geojson"
+      :options="stormWalls.options"
+    />
+    <l-geo-json
+      :geojson="sandWalls.geojson"
+      :options="sandWalls.options"
+    />
+    <l-geo-json
+      :geojson="havenWall.geojson"
+      :options="havenWall.options"
+    />
+
+
   </l-map>
 </template> 
 
@@ -76,6 +98,7 @@ export default {
       bounds: [[0, 0], [1000, 1000]],
       zoom: -2,
       minZoom: -2,
+      wallWeight: 5,
       crs: L.CRS.Simple,
       center: [0, 0],
       url: require("../assets/map.png"),
@@ -110,8 +133,51 @@ export default {
           fillColor: "#888888",
           fillOpacity: 0.8
         }
+      },
+      tier4Regions: {
+        geojson: data.tier4Regions,
+        options: {
+          stroke: false,
+          fillColor: "#997A54",
+          fillOpacity: 0.8
+        }
+      },
+      havenWall: {
+        geojson: data.havenWall,
+        options: {
+          color: "#660066",
+          weight: 5,
+          className: "thickwall"
+        }
+      },
+      windWalls: {
+        geojson: data.windWalls,
+        options: {
+          color: "#FFFFFF",
+          weight: 5
+        }
+      },
+      stormWalls: {
+        geojson: data.stormWalls,
+        options: {
+          color: "#333333",
+          weight: 5
+        }
+      },
+      sandWalls: {
+        geojson: data.sandWalls,
+        options: {
+          color: "#c19a6b",
+          weight: 5
+        }
       }
     };
   }
 };
 </script>
+
+<style lang="scss">
+.leaflet-image-layer {
+  opacity: 0.1;
+}
+</style>
