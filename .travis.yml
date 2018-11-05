@@ -9,7 +9,7 @@ cache:
 install:
   - yarn install
 
-before_deploy:
+script:
   - yarn build
 
 deploy:
