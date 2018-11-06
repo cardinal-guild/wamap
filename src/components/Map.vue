@@ -54,7 +54,7 @@
       :options="borderWalls.options"
     />
     <l-control
-      :position="'topright'"
+      position="topright"
       class="map-legend">
       <div id="map-legend">
         This is the map Legend
@@ -116,7 +116,8 @@ export default {
       minZoom: -2,
       wallWeight: 5,
       crs: L.CRS.Simple,
-      attribution: "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
+      attribution:
+        "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
       center: [0, 0],
       url: require("../assets/map.png"),
       haven: {
@@ -205,11 +206,11 @@ export default {
   opacity: 0.1;
 }
 #map-legend {
-  background-color: rgba(79,65,65,0.9);
+  background-color: rgba(79, 65, 65, 0.9);
   border: none;
-  border-top: 5px rgb(224,176,132) solid;
-  border-bottom: 5px rgb(224,176,132) solid;
-  box-shadow: 6px 9px 14px -7px rgba(0,0,0,0.75);
+  border-top: 5px rgb(224, 176, 132) solid;
+  border-bottom: 5px rgb(224, 176, 132) solid;
+  box-shadow: 6px 9px 14px -7px rgba(0, 0, 0, 0.75);
   box-sizing: border-box;
   padding: 5px;
   color: #ffe5c4;
