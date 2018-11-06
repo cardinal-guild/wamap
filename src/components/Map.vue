@@ -1,5 +1,5 @@
 <template>
-  <l-map 
+  <l-map
 
     ref="map"
     :zoom="zoom"
@@ -10,7 +10,7 @@
     v-on:click="mapClick"
     >
     <l-image-overlay
-      :url="url" 
+      :url="url"
       :bounds="bounds" />
     <l-geo-json
       :geojson="haven.geojson"
@@ -48,10 +48,13 @@
       :geojson="havenWall.geojson"
       :options="havenWall.options"
     />
-
+    <l-geo-json
+      :geojson="borderWalls.geojson"
+      :options="borderWalls.options"
+    />
 
   </l-map>
-</template> 
+</template>
 
 
 
@@ -169,6 +172,13 @@ export default {
         options: {
           color: "#c19a6b",
           weight: 5
+        }
+      },
+      borderWalls: {
+        geojson: data.borderWalls,
+        options: {
+          color: "#000000",
+          weight: 7
         }
       }
     };

@@ -35,6 +35,10 @@ const points = {
   k4TopRight: [895, 166],
   k2BottomRight: [322, 0],
   k3BottomRight: [616, 0],
+  topLeft: [0, 1000],
+  topRight: [1000, 1000],
+  bottomRight: [1000, 0],
+  bottomLeft: [0, 0],
 };
 
 
@@ -147,7 +151,7 @@ export default {
     }]
   },
   //         [
-  //           
+  //
   //         ],
   //         [
   //         ],
@@ -753,4 +757,20 @@ export default {
       }
     }]
   },
+  borderWalls: {
+    'type': 'FeatureCollection',
+    'features': [{
+      'type': 'Feature',
+      'geometry': {
+        'type': 'LineString',
+        'coordinates': [
+          points.topLeft,
+          points.topRight,
+          points.bottomRight,
+          points.bottomLeft,
+          points.topLeft
+        ]
+      }
+    }]
+  }
 };
