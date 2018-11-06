@@ -11,7 +11,8 @@
     >
     <l-image-overlay
       :url="url"
-      :bounds="bounds" />
+      :bounds="bounds"
+      :attribution="attribution" />
     <l-geo-json
       :geojson="haven.geojson"
       :options="haven.options"
@@ -52,7 +53,18 @@
       :geojson="borderWalls.geojson"
       :options="borderWalls.options"
     />
-
+    <l-control
+      :position="'topright'"
+      class="map-legend">
+      <div id="map-legend">
+        This is the map Legend
+      </div>
+    </l-control>
+    <l-control
+      :position="'bottomright'"
+      class="custom-watermark">
+      <img src="../assets/logo.png" width="180px" alt="Cardinal Guild Logo">
+    </l-control>
   </l-map>
 </template>
 
@@ -62,7 +74,7 @@
 /* eslint-disable */
 import Vue from "vue";
 import L from "leaflet";
-import { LMap, LImageOverlay, LGeoJson } from "vue2-leaflet";
+import { LMap, LImageOverlay, LGeoJson, LControl } from "vue2-leaflet";
 
 import { default as data } from "../assets/map.js";
 
@@ -89,7 +101,8 @@ export default {
   components: {
     LMap,
     LImageOverlay,
-    LGeoJson
+    LGeoJson,
+    LControl
   },
   methods: {
     mapClick: e => {
@@ -103,6 +116,7 @@ export default {
       minZoom: -2,
       wallWeight: 5,
       crs: L.CRS.Simple,
+      attribution: "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
       center: [0, 0],
       url: require("../assets/map.png"),
       haven: {
@@ -186,8 +200,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .leaflet-image-layer {
   opacity: 0.1;
+}
+#map-legend {
+  background-color: rgba(79,65,65,0.9);
+  border: none;
+  border-top: 5px rgb(224,176,132) solid;
+  border-bottom: 5px rgb(224,176,132) solid;
+  box-shadow: 6px 9px 14px -7px rgba(0,0,0,0.75);
+  box-sizing: border-box;
+  padding: 5px;
+  color: #ffe5c4;
 }
 </style>
