@@ -27,11 +27,19 @@ export default {
 .leaflet-container.crosshair-cursor-enabled {
   cursor: crosshair;
 }
+.leaflet-container {
+  background-image: linear-gradient(to right, #4f4141, #5c4949, #4f4141);
+}
+
+.leaflet-image-layer {
+  background-color: #4f4141;
+}
+
 body {
   margin: 0;
 }
 #app {
-  padding: 0;
+  padding-top: 20px;
   margin: 0;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

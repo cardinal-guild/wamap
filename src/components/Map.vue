@@ -13,6 +13,7 @@
     @zoom="onZoom"
     @zoomend="zoomEnd"
     >
+    <h1 class="map-title">Worlds Adrift Map</h1>
     <l-image-overlay
       :url="url"
       :bounds="bounds"
@@ -69,16 +70,13 @@
       class="custom-watermark">
       <img src="../assets/logo.png" width="180px" alt="Cardinal Guild Logo">
     </l-control>
-    <l-layer-group key="zoneNameLayer"
-      :style="display" >
-      <l-marker
-        v-for="item in zoneNames"
-        :key="item.name"
-        :lat-lng="item.latlng"
-        :icon="item.icon"
-        style="display:none;"
-        interactive="false" />
-    </l-layer-group>
+    <l-marker
+      v-for="item in zoneNames"
+      :key="item.name"
+      :lat-lng="item.latlng"
+      :icon="item.icon"
+      style="display:none;"
+      interactive="false" />
   </l-map>
 </template>
 
@@ -88,7 +86,7 @@
 /* eslint-disable */
 import Vue from "vue";
 import L from "leaflet";
-import { LMap, LImageOverlay, LGeoJson, LControl, LMarker, LLayerGroup } from "vue2-leaflet";
+import { LMap, LImageOverlay, LGeoJson, LControl, LMarker } from "vue2-leaflet";
 
 import { default as data } from "../assets/map.js";
 
@@ -117,8 +115,7 @@ export default {
     LImageOverlay,
     LGeoJson,
     LControl,
-    LMarker,
-    LLayerGroup
+    LMarker
   },
   methods: {
     mapClick: e => {
@@ -127,16 +124,12 @@ export default {
     },
     zoomStart: e => {
       data.prevZoom = e.target._zoom;
+      if (e.target._zoom == -1)
+        e.target.getPane("markerPane").style.display = "none";
     },
     onZoom: e => {
-      if (e.target._zoom == 0 && data.prevZoom == -1) {
-        data.display = "display: none;"
-        e.target.getPane("markerPane").style.display = "none";
-      }
-      if (e.target._zoom == -1 && data.prevZoom == 0) {
-        data.display = "display: block;";
+      if (e.target._zoom == -1 && data.prevZoom == 0)
         e.target.getPane("markerPane").style.display = "block";
-      }
     },
     zoomEnd: e => {
       console.log("Zooming from " + data.prevZoom + " to " + e.target._zoom);
@@ -153,7 +146,7 @@ export default {
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
       center: [0, 0],
-      url: require("../assets/map.png"),
+      url: require("../assets/map_background.png"),
       display: "display: block;",
       haven: {
         geojson: data.haven,
@@ -272,14 +265,14 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans');
 
 .leaflet-image-layer {
-  opacity: 0.1;
+  opacity: 1;
 }
 #map-legend {
   background-color: rgba(79, 65, 65, 0.9);
   border: none;
   border-top: 5px rgb(224, 176, 132) solid;
   border-bottom: 5px rgb(224, 176, 132) solid;
-  box-shadow: 6px 9px 14px -7px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.35);
   box-sizing: border-box;
   padding: 5px;
   color: #ffe5c4;
@@ -291,5 +284,16 @@ export default {
   font-weight: bold;
   letter-spacing: 10px;
   color: #291a087d;
+}
+
+.map-background {
+  background: #fff;
+  opacity: 1;
+}
+
+.map-title {
+  color: #ffe5c4;
+  font-size: 40px;
+  font-family: "Noto Sans", sans-serif;
 }
 </style>
