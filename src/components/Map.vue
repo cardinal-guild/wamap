@@ -2,13 +2,11 @@
   <l-map
     id="wamap"
     ref="map"
-    :zoom="zoom"
-    :crs="crs"
-    :min-zoom="minZoom"
-    :max-zoom="maxZoom"
+    :options="mapOptions"
     :center="center"
     :bounds="bounds"
-    v-on:click="mapClick"
+    :crs="crs"
+    @click="mapClick"
     @zoomstart="zoomStart"
     @zoom="onZoom"
     @zoomend="zoomEnd"
@@ -120,7 +118,6 @@ export default {
   methods: {
     mapClick: e => {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
-      console.log(e.target.getPane("markerPane"))
     },
     zoomStart: e => {
       data.prevZoom = e.target._zoom;
@@ -134,20 +131,25 @@ export default {
     zoomEnd: e => {
       console.log("Zooming from " + data.prevZoom + " to " + e.target._zoom);
     },
+    onLoad: e => {
+      console.log(e)
+    }
   },
   data() {
     return {
+      mapOptions: {
+        minZoom: -1,
+        maxZoom: 2,
+        zoom: -1
+      },
+      center: L.latLng(1000, 1000),
       bounds: [[0, 0], [1000, 1000]],
-      zoom: -1,
-      minZoom: -1,
-      maxZoom: 3,
       wallWeight: 5,
       crs: L.CRS.Simple,
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
       center: [0, 0],
       url: require("../assets/map_background.png"),
-      display: "display: block;",
       haven: {
         geojson: data.haven,
         options: {
@@ -254,6 +256,11 @@ export default {
           name: "Kunlun",
           latlng: L.latLng(150, 180),
           icon: L.divIcon({html: '<div>Kunlun</div>', className: "zone-label"})
+        },
+        {
+          name: "Haven",
+          latlng: L.latLng(770, 947),
+          icon: L.divIcon({html: '<div style="transform: rotate(90deg); color: #291a08ad;">Haven</div>', className: "zone-label"})
         }
       ]
     };
@@ -276,6 +283,7 @@ export default {
   box-sizing: border-box;
   padding: 5px;
   color: #ffe5c4;
+  margin-right: 10px;
 }
 .zone-label {
   text-transform: uppercase;
