@@ -1,50 +1,51 @@
 <template>
-<div class="map">
-  <h1 class="map-title">Worlds Adrift Map</h1>
-  <l-map
-    id="wamap"
-    ref="map"
-    :options="mapOptions"
-    :center="center"
-    :bounds="bounds"
-    :crs="crs"
-    :zoom="defaultZoom"
-    @click="mapClick"
-    >
-    <div class="loading-overlay"  v-if="loading">
-      <span>Loading...</span>
-    </div>
-    <l-image-overlay
-      :url="url"
+  <div class="map">
+    <l-map
+      id="wamap"
+      ref="map"
+      :options="mapOptions"
+      @move="onLoad"
+      :center="center"
       :bounds="bounds"
-      :attribution="attribution" />
-
-    <l-geo-json
-     v-if="show && loaded"
-      :geojson="geojson.data"
-      :options="geojson.options"
-    />
-    <l-control
-      position="topright"
-      class="map-legend">
-      <div id="map-legend">
-        This is the map Legend
+      :crs="crs"
+      @click="mapClick"
+      @zoomstart="zoomStart"
+      @zoomend="zoomEnd"
+      @ready="onLoad"
+      >
+      <h1 class="map-title">Worlds Adrift Map</h1>
+      <div class="loading-overlay"  v-if="loading">
+        <span>Loading...</span>
       </div>
-    </l-control>
-    <l-control
-      :position="'bottomright'"
-      class="custom-watermark">
-      <img src="../assets/logo.png" width="180px" alt="Cardinal Guild Logo">
-    </l-control>
-    <l-marker
-      v-show="!hideMainLabels"
-      v-for="item in zoneNames"
-      :key="item.name"
-      :lat-lng="item.latlng"
-      :icon="item.icon"
-      interactive="false" />
-  </l-map>
-</div>
+      <l-image-overlay
+        :url="url"
+        :bounds="bounds"
+        :attribution="attribution" />
+      <l-geo-json
+       v-if="show && loaded"
+        :geojson="geojson.data"
+        :options="geojson.options"
+      />
+      <l-control
+        position="topright"
+        class="map-legend">
+        <div id="map-legend">
+          This is the map Legend
+        </div>
+      </l-control>
+      <l-control
+        :position="'bottomright'"
+        class="custom-watermark">
+        <img src="../assets/logo.png" width="180px" alt="Cardinal Guild Logo">
+      </l-control>
+      <l-marker
+        v-for="item in zoneNames"
+        :key="item.name"
+        :lat-lng="item.latlng"
+        :icon="item.icon"
+        interactive="false" />
+    </l-map>
+  </div>
 </template>
 
 
@@ -56,14 +57,14 @@ import L from "leaflet";
 import { LMap, LImageOverlay, LGeoJson, LControl, LMarker } from "vue2-leaflet";
 import axios from "axios";
 
-import { default as data } from "../assets/map.js";
+//import { default as data } from "../assets/map.js";
 
-var baseballIcon = L.icon({
-  iconUrl: "static/images/baseball-marker.png",
-  iconSize: [32, 37],
-  iconAnchor: [16, 37],
-  popupAnchor: [0, -28]
-});
+// var baseballIcon = L.icon({
+//   iconUrl: "static/images/baseball-marker.png",
+//   iconSize: [32, 37],
+//   iconAnchor: [16, 37],
+//   popupAnchor: [0, -28]
+// });
 
 // function onEachFeature(feature, layer) {
 //   let PopupCont = Vue.extend(PopupContent);
@@ -75,6 +76,7 @@ var baseballIcon = L.icon({
 //   });
 //   layer.bindPopup(popup.$mount().$el);
 // }
+let mapData = {}
 
 export default {
   name: "Example",
@@ -90,15 +92,17 @@ export default {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
     },
     zoomEnd: e => {
-      console.log("Zooming from " + this.prevZoom + " to " + e.target._zoom);
+      if (e.target._zoom == -4) e.target.getPane("markerPane").style.display = "block";
+      console.log("Zooming from " + mapData.prevZoom + " to " + e.target._zoom);
     },
     zoomStart: e => {
-      this.prevZoom = e.target._zoom;
-      if (e.target._zoom >= -2) this.hideMainLabels = true;
-      console.log(this.hideMainLabels);
+      mapData.prevZoom = e.target._zoom;
+      if (e.target._zoom == -4) e.target.getPane("markerPane").style.display = "none";
     },
     onLoad: e => {
-      console.log(e);
+      if (!mapData.mapObj) {
+        mapData.mapObj = e.target;
+      }
     }
   },
   created() {
@@ -116,17 +120,18 @@ export default {
       show: true,
       mapOptions: {
         minZoom: -4,
-        maxZoom: 2
+        maxZoom: 0,
+        zoomSnap: 1,
+        zoom: -4
       },
-      defaultZoom: -10,
+      defaultZoom: -4,
+      hideMainLabels: false,
       center: L.latLng(-4750, -4750),
       bounds: [[0, 0], [-9500, 9500]],
       wallWeight: 5,
-      hideMainLabels: false,
       crs: L.CRS.Simple,
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
-      center: [0, 0],
       url: require("../assets/map_background.png"),
       geojson: {
         data: null,
@@ -211,11 +216,9 @@ export default {
   width: 100%;
 
   .map-title {
-    margin: 0;
     color: #ffe5c4;
     font-size: 40px;
     font-family: "Noto Sans", sans-serif;
-    z-index: 1;
   }
 }
 .leaflet-container {
@@ -245,6 +248,7 @@ export default {
     opacity: 1;
   }
 }
+
 </style>
 
 <style lang="scss">
