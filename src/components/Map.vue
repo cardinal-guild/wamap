@@ -217,6 +217,7 @@ export default {
   width: 100%;
 
   .map-title {
+    margin-top: 0;
     color: #ffe5c4;
     font-size: 40px;
     font-family: "Noto Sans", sans-serif;
