@@ -230,6 +230,7 @@ export default {
   display: block;
   height: 100%;
   width: 100%;
+  background-image: linear-gradient(to right, #4f4141, #5c4949, #4f4141);
   .leaflet-image-layer {
     opacity: 1;
   }
@@ -253,6 +254,18 @@ export default {
 </style>
 
 <style lang="scss">
+.leaflet-fake-icon-image-2x {
+  background-image: url(../../node_modules/leaflet/dist/images/marker-icon-2x.png);
+}
+.leaflet-fake-icon-shadow {
+  background-image: url(../../node_modules/leaflet/dist/images/marker-shadow.png);
+}
+.leaflet-container.crosshair-cursor-enabled {
+  cursor: crosshair;
+}
+.leaflet-image-layer {
+  background-color: #4f4141;
+}
 .zone-label {
   text-transform: uppercase;
   font-size: 3.5rem;
