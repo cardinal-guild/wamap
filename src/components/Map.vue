@@ -76,7 +76,7 @@ import axios from "axios";
 //   });
 //   layer.bindPopup(popup.$mount().$el);
 // }
-let mapData = {}
+let mapData = {};
 
 export default {
   name: "Example",
@@ -92,22 +92,25 @@ export default {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
     },
     zoomEnd: e => {
-      if (e.target._zoom == -4) e.target.getPane("markerPane").style.display = "block";
+      if (e.target._zoom == -4)
+        e.target.getPane("markerPane").style.display = "block";
       console.log("Zooming from " + mapData.prevZoom + " to " + e.target._zoom);
     },
     zoomStart: e => {
       mapData.prevZoom = e.target._zoom;
-      if (e.target._zoom == -4) e.target.getPane("markerPane").style.display = "none";
+      if (e.target._zoom == -4)
+        e.target.getPane("markerPane").style.display = "none";
     },
     onLoad: e => {
       if (!mapData.mapObj) {
         mapData.mapObj = e.target;
       }
+      console.log(mapData);
     }
   },
   created() {
     this.loading = true;
-    axios.get("/assets/wamap.geojson").then(response => {
+    axios.get("//data.cardinalguild.com/wamap.geojson").then(response => {
       this.geojson.data = response.data;
       this.loading = false;
       this.loaded = true;
@@ -248,7 +251,6 @@ export default {
     opacity: 1;
   }
 }
-
 </style>
 
 <style lang="scss">
