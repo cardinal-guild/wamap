@@ -16,6 +16,7 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans|Roboto|Abril+Fatface");
 @import "../node_modules/leaflet/dist/leaflet.css";
 
 .leaflet-fake-icon-image-2x {

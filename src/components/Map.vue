@@ -105,7 +105,6 @@ export default {
       if (!mapData.mapObj) {
         mapData.mapObj = e.target;
       }
-      console.log(mapData);
     }
   },
   created() {
@@ -181,9 +180,9 @@ export default {
         },
         {
           name: "Roke",
-          latlng: L.latLng(-6000, 2700),
+          latlng: L.latLng(-6000, 3100),
           icon: L.divIcon({
-            html: '<div style="transform: rotate(15deg);">Roke</div>',
+            html: '<div style="transform: rotate(10deg);">Roke</div>',
             className: "zone-label"
           })
         },
@@ -197,7 +196,7 @@ export default {
         },
         {
           name: "Haven",
-          latlng: L.latLng(-2600, 9000),
+          latlng: L.latLng(-2600, 8975),
           icon: L.divIcon({
             html:
               '<div style="transform: rotate(90deg);color: #291a08ad;">Haven</div>',
@@ -213,7 +212,6 @@ export default {
 <style lang="scss" scoped>
 @import "~animate-sass/animate";
 
-@import url("https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans|Roboto");
 .map {
   height: 100%;
   width: 100%;
@@ -257,7 +255,7 @@ export default {
 .zone-label {
   text-transform: uppercase;
   font-size: 3.5rem;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Abril Fatface", cursive;
   font-weight: bold;
   letter-spacing: 10px;
   color: #291a087d;
