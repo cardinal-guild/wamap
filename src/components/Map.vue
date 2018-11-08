@@ -110,7 +110,7 @@ export default {
   },
   created() {
     this.loading = true;
-    axios.get("//data.cardinalguild.com/wamap.geojson").then(response => {
+    axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
       this.geojson.data = response.data;
       this.loading = false;
       this.loaded = true;
