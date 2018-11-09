@@ -42,7 +42,7 @@
       <l-marker
         v-for="item in zoneNames"
         :key="item.name"
-        :lat-lng="item.latlng"
+        :lat-lng="item.latLng"
         :icon="item.icon"
         interactive="false" />
     </l-map>
@@ -57,6 +57,8 @@ import Vue from "vue";
 import L from "leaflet";
 import { LMap, LImageOverlay, LGeoJson, LControl, LMarker } from "vue2-leaflet";
 import axios from "axios";
+
+import {default as zoneData} from "../assets/zoneNameData.js"
 
 //import { default as data } from "../assets/map.js";
 
@@ -78,6 +80,12 @@ import axios from "axios";
 //   layer.bindPopup(popup.$mount().$el);
 // }
 let mapData = {};
+
+//make icons
+for (var i = 0; i < zoneData.length; i++) {
+  let html = "<div class='zone-label' style='transform: rotate(" + zoneData[i].rotate + "deg); font-size: " + zoneData[i].fontSize + "; letter-spacing: " + zoneData[i].spacing + ";'>" + zoneData[i].name + "</div>";
+  zoneData[i].icon = L.divIcon({html: html, className: "zone-label-div"});
+}
 
 export default {
   name: "Example",
@@ -136,13 +144,12 @@ export default {
         minZoom: -4,
         maxZoom: 0,
         zoomSnap: 1,
-        zoom: -4
+        zoom: -4,
+        wheelPxPerZoomLevel: 200,
       },
       defaultZoom: -4,
-      hideMainLabels: false,
       center: L.latLng(-4750, -4750),
       bounds: [[0, 0], [-9500, 9500]],
-      wallWeight: 5,
       crs: L.CRS.Simple,
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
@@ -155,66 +162,7 @@ export default {
           }
         }
       },
-      zoneNames: [
-        {
-          name: "Avalon",
-          latlng: L.latLng(-400, 2500),
-          icon: L.divIcon({
-            html: "<div class='zone-label' style='font-size: 3.5rem;'>Avalon</div>",
-            className: "zone-label-div"
-          })
-        },
-        {
-          name: "Lemuria",
-          latlng: L.latLng(-1900, 700),
-          icon: L.divIcon({
-            html:
-              '<div class="zone-label" style="transform: rotate(28deg); letter-spacing: normal; font-size: 1.7rem;">Lemuria</div>',
-            className: "zone-label-div"
-          })
-        },
-        {
-          name: "Ophir",
-          latlng: L.latLng(-2500, 7550),
-          icon: L.divIcon({
-            html:
-              '<div class="zone-label" style="transform: rotate(67deg); letter-spacing: normal; font-size: 2.2rem;">Ophir</div>',
-            className: "zone-label-div"
-          })
-        },
-        {
-          name: "Hades",
-          latlng: L.latLng(-3600, 1600),
-          icon: L.divIcon({
-            html: '<div class="zone-label" style="transform: rotate(10deg); font-size: 3.5rem;">Hades</div>',
-            className: "zone-label-div"
-          })
-        },
-        {
-          name: "Roke",
-          latlng: L.latLng(-6000, 3100),
-          icon: L.divIcon({
-            html: '<div class="zone-label" style="transform: rotate(15deg); font-size: 3.5rem;">Roke</div>',
-            className: "zone-label-div"
-          })
-        },
-        {
-          name: "Kunlun",
-          latlng: L.latLng(-8100, 2500),
-          icon: L.divIcon({
-            html: "<div class='zone-label' style='font-size: 3.5rem;'>Kunlun</div>",
-            className: "zone-label-div"
-          })
-        },
-        {
-          name: "Haven",
-          latlng: L.latLng(-2500, 8990),
-          icon: L.divIcon({
-            html: '<div class="zone-label" style="transform: rotate(90deg);color: #291a08ad; font-size: 3.5rem;">Haven</div>',
-            className: "zone-label-div"
-          })
-        }
-      ]
+      zoneNames: Object.assign({}, zoneData),
     };
   }
 };
