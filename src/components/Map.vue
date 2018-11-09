@@ -267,7 +267,7 @@ export default {
 <style lang="scss">
 .zone-label {
   text-transform: uppercase;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Abril Fatface", cursive;
   font-weight: bold;
   letter-spacing: 10px;
   color: #291a087d;
