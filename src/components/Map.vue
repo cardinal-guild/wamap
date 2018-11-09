@@ -77,7 +77,7 @@ import axios from "axios";
 //   });
 //   layer.bindPopup(popup.$mount().$el);
 // }
-let mapData = {}
+let mapData = {};
 
 export default {
   name: "Example",
@@ -121,7 +121,7 @@ export default {
   },
   created() {
     this.loading = true;
-    axios.get("/assets/wamap.geojson").then(response => {
+    axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
       this.geojson.data = response.data;
       this.loading = false;
       this.loaded = true;
@@ -192,7 +192,7 @@ export default {
         },
         {
           name: "Roke",
-          latlng: L.latLng(-6000, 2700),
+          latlng: L.latLng(-6000, 3100),
           icon: L.divIcon({
             html: '<div class="zone-label" style="transform: rotate(15deg); font-size: 3.5rem;">Roke</div>',
             className: "zone-label-div"
@@ -223,12 +223,12 @@ export default {
 <style lang="scss" scoped>
 @import "~animate-sass/animate";
 
-@import url("https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans|Roboto");
 .map {
   height: 100%;
   width: 100%;
 
   .map-title {
+    margin-top: 0;
     color: #ffe5c4;
     font-size: 40px;
     font-family: "Noto Sans", sans-serif;
@@ -241,8 +241,19 @@ export default {
   display: block;
   height: 100%;
   width: 100%;
+  background-image: linear-gradient(to right, #4f4141, #5c4949, #4f4141);
   .leaflet-image-layer {
     opacity: 1;
+    background-color: #4f4141;
+  }
+  .leaflet-fake-icon-image-2x {
+    background-image: url(../../node_modules/leaflet/dist/images/marker-icon-2x.png);
+  }
+  .leaflet-fake-icon-shadow {
+    background-image: url(../../node_modules/leaflet/dist/images/marker-shadow.png);
+  }
+  .crosshair-cursor-enabled {
+    cursor: crosshair;
   }
   #map-legend {
     background-color: rgba(79, 65, 65, 0.9);
@@ -261,7 +272,6 @@ export default {
     opacity: 1;
   }
 }
-
 </style>
 
 <style lang="scss">
