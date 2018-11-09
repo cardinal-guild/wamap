@@ -12,6 +12,7 @@
       @zoomstart="zoomStart"
       @zoomend="zoomEnd"
       @ready="onLoad"
+      @zoomanim="zoomAnim"
       >
       <h1 class="map-title">Worlds Adrift Map</h1>
       <div class="loading-overlay"  v-if="loading">
@@ -36,7 +37,7 @@
       <l-control
         :position="'bottomright'"
         class="custom-watermark">
-        <img src="../assets/logo.png" width="180px" alt="Cardinal Guild Logo">
+        <img src="../assets/logo.png" width="300vw" alt="Cardinal Guild Logo">
       </l-control>
       <l-marker
         v-for="item in zoneNames"
@@ -92,18 +93,31 @@ export default {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
     },
     zoomEnd: e => {
-      if (e.target._zoom == -4) e.target.getPane("markerPane").style.display = "block";
       console.log("Zooming from " + mapData.prevZoom + " to " + e.target._zoom);
     },
     zoomStart: e => {
       mapData.prevZoom = e.target._zoom;
-      if (e.target._zoom == -4) e.target.getPane("markerPane").style.display = "none";
     },
     onLoad: e => {
       if (!mapData.mapObj) {
         mapData.mapObj = e.target;
       }
-    }
+    },
+    zoomAnim: e => {
+      let labels = document.getElementsByClassName("zone-label");
+      if (e.zoom > mapData.prevZoom) {
+        for (var i = 0; i < labels.length; i++) {
+          let oldSize = parseFloat(/\d+(\.\d+|)/.exec(labels[i].style.fontSize)[0])
+          labels[i].style.fontSize = oldSize * 2 + "rem";
+        }
+      }
+      else if (e.zoom < mapData.prevZoom) {
+        for (var i = 0; i < labels.length; i++) {
+          let oldSize = parseFloat(/\d+(\.\d+|)/.exec(labels[i].style.fontSize)[0])
+          labels[i].style.fontSize = oldSize / 2 + "rem";
+        }
+      }
+    },
   },
   created() {
     this.loading = true;
@@ -146,8 +160,8 @@ export default {
           name: "Avalon",
           latlng: L.latLng(-400, 2500),
           icon: L.divIcon({
-            html: "<div>Avalon</div>",
-            className: "zone-label"
+            html: "<div class='zone-label' style='font-size: 3.5rem;'>Avalon</div>",
+            className: "zone-label-div"
           })
         },
         {
@@ -155,8 +169,8 @@ export default {
           latlng: L.latLng(-1900, 700),
           icon: L.divIcon({
             html:
-              '<div style="transform: rotate(28deg); letter-spacing: normal; font-size: 26px;">Lemuria</div>',
-            className: "zone-label"
+              '<div class="zone-label" style="transform: rotate(28deg); letter-spacing: normal; font-size: 1.7rem;">Lemuria</div>',
+            className: "zone-label-div"
           })
         },
         {
@@ -164,41 +178,40 @@ export default {
           latlng: L.latLng(-2500, 7550),
           icon: L.divIcon({
             html:
-              '<div style="transform: rotate(67deg); letter-spacing: normal; font-size: 35px;">Ophir</div>',
-            className: "zone-label"
+              '<div class="zone-label" style="transform: rotate(67deg); letter-spacing: normal; font-size: 2.2rem;">Ophir</div>',
+            className: "zone-label-div"
           })
         },
         {
           name: "Hades",
           latlng: L.latLng(-3600, 1600),
           icon: L.divIcon({
-            html: '<div style="transform: rotate(10deg);">Hades</div>',
-            className: "zone-label"
+            html: '<div class="zone-label" style="transform: rotate(10deg); font-size: 3.5rem;">Hades</div>',
+            className: "zone-label-div"
           })
         },
         {
           name: "Roke",
           latlng: L.latLng(-6000, 2700),
           icon: L.divIcon({
-            html: '<div style="transform: rotate(15deg);">Roke</div>',
-            className: "zone-label"
+            html: '<div class="zone-label" style="transform: rotate(15deg); font-size: 3.5rem;">Roke</div>',
+            className: "zone-label-div"
           })
         },
         {
           name: "Kunlun",
           latlng: L.latLng(-8100, 2500),
           icon: L.divIcon({
-            html: "<div>Kunlun</div>",
-            className: "zone-label"
+            html: "<div class='zone-label' style='font-size: 3.5rem;'>Kunlun</div>",
+            className: "zone-label-div"
           })
         },
         {
           name: "Haven",
-          latlng: L.latLng(-2600, 9000),
+          latlng: L.latLng(-2500, 8990),
           icon: L.divIcon({
-            html:
-              '<div style="transform: rotate(90deg);color: #291a08ad;">Haven</div>',
-            className: "zone-label"
+            html: '<div class="zone-label" style="transform: rotate(90deg);color: #291a08ad; font-size: 3.5rem;">Haven</div>',
+            className: "zone-label-div"
           })
         }
       ]
@@ -254,7 +267,6 @@ export default {
 <style lang="scss">
 .zone-label {
   text-transform: uppercase;
-  font-size: 3.5rem;
   font-family: "Open Sans", sans-serif;
   font-weight: bold;
   letter-spacing: 10px;
