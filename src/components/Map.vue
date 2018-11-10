@@ -4,37 +4,21 @@
       id="wamap"
       ref="map"
       :options="mapOptions"
-      @move="onLoad"
       :center="center"
       :bounds="bounds"
       :crs="crs"
       @click="mapClick"
-      @zoomstart="zoomStart"
-      @zoomend="zoomEnd"
-      @ready="onLoad"
-      @zoomanim="zoomAnim"
+      v-if="loaded"
       >
-      <h1 class="map-title">Worlds Adrift Map</h1>
-      <div class="loading-overlay"  v-if="loading">
-        <span>Loading...</span>
-      </div>
-      <l-image-overlay
-        :url="bUrl"
-        :bounds="bounds"
-        :attribution="attribution" />
       <l-geo-json
-       v-if="show && loaded"
+        ref="geojson"
         :geojson="geojson.data"
         :options="geojson.options"
-      />
-      <l-marker
-        v-if="loaded"
-        v-for="item in zoneNames"
-        pane="zoneNamePane"
-        :key="item.name"
-        :lat-lng="item.latLng"
-        :icon="item.icon"
-        interactive="false" />
+      ></l-geo-json>
+      <l-image-overlay 
+      url="https://data.cardinalguild.com/zonenames.svg"
+      :bounds="bounds"
+       />
       <l-control
         position="topright"
         class="map-legend">
@@ -48,6 +32,10 @@
         <img src="../assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
       </l-control>
     </l-map>
+      <h1 class="map-title">Worlds Adrift Map</h1>
+      <div class="loading-overlay" v-if="!loaded">
+        <span>Loading...</span>
+      </div>
   </div>
 </template>
 
@@ -57,43 +45,26 @@
 /* eslint-disable */
 import Vue from "vue";
 import L from "leaflet";
-import { LMap, LImageOverlay, LGeoJson, LControl, LMarker } from "vue2-leaflet";
+import {
+  LMap,
+  LImageOverlay,
+  LLayerGroup,
+  LGeoJson,
+  LControl,
+  LMarker
+} from "vue2-leaflet";
 import axios from "axios";
 
-import {default as zoneData} from "../assets/zoneNameData.js"
+import { default as zoneData } from "../assets/zoneNameData.js";
 
-//import { default as data } from "../assets/map.js";
-
-// var baseballIcon = L.icon({
-//   iconUrl: "static/images/baseball-marker.png",
-//   iconSize: [32, 37],
-//   iconAnchor: [16, 37],
-//   popupAnchor: [0, -28]
-// });
-
-// function onEachFeature(feature, layer) {
-//   let PopupCont = Vue.extend(PopupContent);
-//   let popup = new PopupCont({
-//     propsData: {
-//       type: feature.geometry.type,
-//       text: feature.properties.popupContent
-//     }
-//   });
-//   layer.bindPopup(popup.$mount().$el);
-// }
 let mapData = {};
-
-//make icons
-for (var i = 0; i < zoneData.length; i++) {
-  let html = "<div data-fontSize='" + zoneData[i].fontSize + "' class='zone-label' style='transform: rotate(" + zoneData[i].rotate + "deg); font-size: " + zoneData[i].fontSize + "rem; letter-spacing: " + zoneData[i].spacing + "; transition: font-size 0.32s cubic-bezier(.58,.99,.65,1);'>" + zoneData[i].name + "</div>";
-  zoneData[i].icon = L.divIcon({html: html, className: "zone-label-div"});
-}
 
 export default {
   name: "Example",
   components: {
     LMap,
     LImageOverlay,
+    LLayerGroup,
     LGeoJson,
     LControl,
     LMarker
@@ -101,74 +72,50 @@ export default {
   methods: {
     mapClick: e => {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
-    },
-    zoomEnd: e => {
-      console.log("Zooming from " + mapData.prevZoom + " to " + e.target._zoom);
-    },
-    zoomStart: e => {
-      mapData.prevZoom = e.target._zoom;
-    },
-    onLoad: e => {
-      if (!mapData.mapObj) {
-        mapData.mapObj = e.target;
-      }
-    },
-    zoomAnim: e => {
-      // let labels = document.getElementsByClassName("zone-label");
-      // if (e.zoom > mapData.prevZoom) {
-      //   for (var i = 0; i < labels.length; i++) {
-      //     let oldSize = parseFloat(/\d+(\.\d+|)/.exec(labels[i].style.fontSize)[0])
-      //     labels[i].style.fontSize = oldSize * 2 + "rem";
-      //   }
-      // }
-      // else if (e.zoom < mapData.prevZoom) {
-      //   for (var i = 0; i < labels.length; i++) {
-      //     let oldSize = parseFloat(/\d+(\.\d+|)/.exec(labels[i].style.fontSize)[0])
-      //     labels[i].style.fontSize = oldSize / 2 + "rem";
-      //   }
-      // }
-      let labels = document.getElementsByClassName("zone-label");
-      for (var i = 0; i < labels.length; i++) {
-        labels[i].style.fontSize = (15 + ((8 + 5/6) * e.zoom) + (2 * e.zoom**2) + (1/6 * e.zoom**3)) * labels[i].getAttribute("data-fontSize") + "rem";
-      }
-    },
+    }
   },
   created() {
-    this.loading = true;
+    let self = this;
+    self.loaded = false;
     axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
-      this.geojson.data = response.data;
-      this.loading = false;
-      this.loaded = true;
+      self.geojson.data = response.data;
+      self.loaded = true;
+
+      // axios
+      //   .get("https://data.cardinalguild.com/zonenames.svg")
+      //   .then(response => {
+      //     self.zoneNameData = response.data;
+      //     self.loaded = true;
+      //   });
     });
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.map = this.$refs.map.mapObject;
-      this.map.getRenderer(this.map).options.padding = 100;
-      this.map.createPane("zoneNamePane");
-      this.map.setZoom(-4);
-    })
-  },
+  // mounted() {
+  //   this.$nextTick(() => {
+  //     this.map = this.$refs.map.mapObject;
+  //     this.map.getRenderer(this.map).options.padding = 100;
+  //     this.map.createPane("zoneNamePane");
+  //     this.map.setZoom(-4);
+  //   });
+  // },
   data() {
     return {
-      loading: false,
       loaded: false,
-      show: true,
+
       mapOptions: {
-        minZoom: -4,
-        maxZoom: 0,
+        minZoom: -5,
+        maxZoom: -1,
         zoomSnap: 0.5,
         zoomDelta: 0.5,
-        zoom: -4,
-        wheelPxPerZoomLevel: 200,
+        zoom: -5,
+        wheelPxPerZoomLevel: 200
       },
       map: null,
-      center: L.latLng(-4750, -4750),
+      center: L.latLng(-4750, 4750),
       bounds: [[0, 0], [-9500, 9500]],
       crs: L.CRS.Simple,
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
-      bUrl: require("../assets/map_background.png"),
+      zoneNameData: null,
       geojson: {
         data: null,
         options: {
@@ -176,8 +123,7 @@ export default {
             return feature.properties;
           }
         }
-      },
-      zoneNames: Object.assign({}, zoneData),
+      }
     };
   }
 };
@@ -187,34 +133,37 @@ export default {
 @import "~animate-sass/animate";
 
 .map {
-  height: 100%;
-  width: 100%;
+  display: block;
+  height: 100vh;
+  width: 100vw;
 
+  font-family: "Noto Sans", sans-serif;
   .map-title {
     margin-top: 0;
     color: #ffe5c4;
     font-size: 40px;
-    font-family: "Noto Sans", sans-serif;
+  }
+  .loading-overlay {
+    display: flex;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: #fff;
   }
 }
 .leaflet-container {
-  z-index: -1;
+  background: rgba(0, 0, 0, 0);
   position: absolute;
   top: 0;
   display: block;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(to right, #4f4141, #5c4949, #4f4141);
-  .leaflet-image-layer {
-    opacity: 1;
-    background-color: #4f4141;
-  }
-  .leaflet-fake-icon-image-2x {
-    background-image: url(../../node_modules/leaflet/dist/images/marker-icon-2x.png);
-  }
-  .leaflet-fake-icon-shadow {
-    background-image: url(../../node_modules/leaflet/dist/images/marker-shadow.png);
-  }
   .crosshair-cursor-enabled {
     cursor: crosshair;
   }
@@ -231,19 +180,28 @@ export default {
   }
 
   .map-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
     background: #fff;
     opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
 
 <style lang="scss">
-.zone-label {
-  text-transform: uppercase;
-  font-family: "Abril Fatface", cursive;
-  font-weight: bold;
-  letter-spacing: 10px;
-  color: #291a087d;
+.leaflet-container .leaflet-overlay-pane {
+  img {
+    z-index: 10;
+  }
+  svg {
+    z-index: 1;
+  }
 }
 </style>
 

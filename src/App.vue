@@ -26,6 +26,8 @@ body {
 }
 
 #app {
+  background-image: linear-gradient(to right, #4f4141, #5c4949, #4f4141);
+  display: block;
   padding: 0;
   margin: 0;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
