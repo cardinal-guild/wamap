@@ -11,13 +11,16 @@
       v-if="loaded"
       >
       <l-geo-json
+        className="geojson"
         ref="geojson"
         :geojson="geojson.data"
         :options="geojson.options"
       ></l-geo-json>
       <l-image-overlay 
-      url="https://data.cardinalguild.com/zonenames.svg"
-      :bounds="bounds"
+        ref="zonenames"
+        url="https://data.cardinalguild.com/zonenames.svg"
+        className="zonenames"
+        :bounds="bounds"
        />
       <l-control
         position="topright"
@@ -82,7 +85,7 @@ export default {
       self.loaded = true;
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
-        self.map.getRenderer(self.map).options.padding = 100;
+        self.map.getRenderer(self.map).options.padding = 4750;
       });
       // axios
       //   .get("https://data.cardinalguild.com/zonenames.svg")
@@ -110,7 +113,9 @@ export default {
       crs: L.CRS.Simple,
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
-      zoneNameData: null,
+      zonenameOptions: {
+        class: "zonenames"
+      },
       geojson: {
         data: null,
         options: {
@@ -188,15 +193,15 @@ export default {
   }
 }
 </style>
-
 <style lang="scss">
 .leaflet-container .leaflet-overlay-pane {
-  img {
-    z-index: 10;
-  }
   svg {
     z-index: 1;
   }
+  .zonenames {
+    opacity: 0.6;
+  }
 }
 </style>
+
 
