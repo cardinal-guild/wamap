@@ -91,7 +91,7 @@ export default {
   methods: {
     mapClick: e => {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
-      window.postMessage(
+      window.parent.postMessage(
         {
           lat: e.latlng.lat,
           lng: e.latlng.lng
