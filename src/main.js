@@ -29,7 +29,8 @@ const router = new VueRouter({
     component: Map,
     // Inject  props based on route.query values (our query parameters!)
     props: (route) => ({
-      hidecontrols: route.query.hidecontrols,
+      hideheader: route.query.hideheader,
+      admin: route.query.admin,
       island: route.query.island
     })
   }]

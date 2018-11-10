@@ -33,13 +33,15 @@
         :bounds="bounds"
       />
       <l-control
+        v-if="!adminMode"
         position="topright"
         class="map-legend">
         <div id="map-legend">
           This is the map Legend
         </div>
       </l-control>
-      <l-control
+      <l-control 
+        v-if="!adminMode"
         :position="'bottomright'"
         class="custom-watermark">
         <img src="../assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
@@ -51,7 +53,7 @@
     </div>
 
     <!--the following are just to be copied-->
-    <div class="header" id="map-header" style="display: none;" v-if="!hideControls">
+    <div class="header" id="map-header" style="display: none;" v-if="!hideHeader || !adminMode">
       <a href="https://cardinalguild.com" style="height: 30px;">
         <img class="header-image" height="60px" id="cg-title" src="../assets/cg_title.png" alt="Cardinal Guild Title">
       </a>
@@ -120,7 +122,7 @@ export default {
         e.target.getPane("sectorNames").style.display = "none";
       else e.target.getPane("sectorNames").style.display = "block";
       let topControls = document.getElementsByClassName("leaflet-top");
-      if (!d.hideControls) {
+      if (!d.hideHeader) {
         for (var i = 0; i < topControls.length; i++) {
           if (e.target._zoom < -2) {
             topControls[i].style.top = "50px";
@@ -149,8 +151,12 @@ export default {
   },
   created() {
     let self = this;
-    if (self.$attrs.hidecontrols == "true") {
-      self.hideControls = true;
+    if (self.$attrs.hideheader == "true") {
+      self.hideHeader = true;
+    }
+    if (self.$attrs.admin == "true") {
+      self.adminMode = true;
+      self.mapOptions.attributionControl = false;
     }
     self.loaded = false;
     axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
@@ -164,7 +170,7 @@ export default {
         self.map.createPane("sectorNames");
         self.paneCreated = true;
 
-        if (!self.hideControls) {
+        if (!self.hideHeader) {
           //creates top bar
           let topBar = document.getElementById("map-header");
           let topBarClone = topBar.cloneNode(true);
@@ -216,13 +222,15 @@ export default {
     return {
       loaded: false,
       paneCreated: false,
-      hideControls: false,
+      hideHeader: false,
+      adminMode: false,
       mapOptions: {
         minZoom: -4.5,
         maxZoom: -1,
         zoomSnap: 0.2,
         zoomDelta: 0.2,
-        wheelPxPerZoomLevel: 200
+        wheelPxPerZoomLevel: 200,
+        attributionControl: true
       },
       map: null,
       center: L.latLng(-4750, 4750),
