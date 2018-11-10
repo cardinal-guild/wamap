@@ -3,6 +3,7 @@
 "name": "1811072044wamap",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
+    { "type": "Feature", "properties": { "fillColor": "#333333", "fillOpacity": 0.5, "stroke": 0 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 0, 0 ], [ 9500, 0 ], [ 9500, -9500 ], [ 0, -9500 ] ] ] } },
 { "type": "Feature", "properties": { "name": "A1", "number": 1, "fillColor": "#339933", "fillOpacity": 1.0, "stroke": 0 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 150.0, -150.0 ], [ 2299.0, -150.0 ], [ 1683.0, -1385.0 ], [ 150.0, -1764.0 ], [ 150.0, -150.0 ] ] ] } },
 { "type": "Feature", "properties": { "name": "A2", "number": 2, "fillColor": "#009999", "fillOpacity": 1.0, "stroke": 0 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 2465.7, -149.9 ], [ 4004.0, -150.0 ], [ 4037.0, -1565.0 ], [ 2849.0, -2115.0 ], [ 1835.1, -1416.8 ], [ 2465.7, -149.9 ] ] ] } },
 { "type": "Feature", "properties": { "name": "A3", "number": 3, "fillColor": "#009999", "fillOpacity": 1.0, "stroke": 0 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 4153.0, -150.0 ], [ 7381.0, -150.0 ], [ 6481.1, -2213.0 ], [ 5404.0, -2219.0 ], [ 4186.0, -1556.0 ], [ 4153.0, -150.0 ] ] ] } },

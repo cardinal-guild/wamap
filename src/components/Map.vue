@@ -85,7 +85,7 @@ export default {
       self.loaded = true;
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
-        self.map.getRenderer(self.map).options.padding = 4750;
+        self.map.getRenderer(self.map).options.padding = 10;
       });
       // axios
       //   .get("https://data.cardinalguild.com/zonenames.svg")
