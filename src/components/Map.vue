@@ -106,8 +106,9 @@ export default {
         )[0].style.opacity = zoneOpacity;
       }
 
-      if (e.target._zoom < -3.5) e.target.getPane("sectorNames").style.display = "none";
-      else e.target.getPane("sectorNames").style.display = "block"
+      if (e.target._zoom < -3.5)
+        e.target.getPane("sectorNames").style.display = "none";
+      else e.target.getPane("sectorNames").style.display = "block";
     }
   },
   created() {
@@ -127,7 +128,8 @@ export default {
 
       for (var i = 0; i < self.geojson.data.features.length; i++) {
         let currentFeature = self.geojson.data.features[i];
-        if (/\D\d/.exec(currentFeature.properties.name) != null) { //weed out non-zones
+        if (/\D\d/.exec(currentFeature.properties.name) != null) {
+          //weed out non-zones
           let lat = 0;
           let lng = 0;
           var j;
@@ -138,8 +140,11 @@ export default {
           lat /= j;
           lng /= j;
           let marker = L.divIcon({
-            html: '<div class="sector-label">' + currentFeature.properties.name + '</div>',
-            className: 'sector-label-div'
+            html:
+              '<div class="sector-label">' +
+              currentFeature.properties.name +
+              "</div>",
+            className: "sector-label-div"
           });
           self.sectorMarkers.push({
             name: currentFeature.properties.name,
@@ -182,7 +187,7 @@ export default {
           }
         }
       },
-      sectorMarkers: [],
+      sectorMarkers: []
     };
   }
 };
@@ -261,7 +266,7 @@ export default {
 
 .sector-label {
   font-size: 35px;
-  font-family: "Abril Fatface", cursive;
+  font-family: "Roboto", sans-serif;
   color: #291a08;
 }
 </style>
