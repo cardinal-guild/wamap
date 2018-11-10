@@ -9,20 +9,29 @@
       :crs="crs"
       @zoom="onZoom($event, $data)"
       @click="mapClick"
-      v-if="loaded"
-      >
+      v-if="loaded">
       <l-geo-json
         className="geojson"
         ref="geojson"
         :geojson="geojson.data"
         :options="geojson.options"
-      ></l-geo-json>
-      <l-image-overlay 
+      />
+      <l-marker
+        v-if="paneCreated"
+        v-for="marker in sectorMarkers"
+        :key="marker.name"
+        :lat-lng="marker.latLng"
+        :icon="marker.icon"
+        pane="sectorNames"
+        interactive="false"
+      />
+      <l-image-overlay
         ref="zonenames"
         url="https://data.cardinalguild.com/zonenames.svg"
         className="zonenames"
+        :attribution="attribution"
         :bounds="bounds"
-       />
+      />
       <l-control
         position="topright"
         class="map-legend">
@@ -36,10 +45,10 @@
         <img src="../assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
       </l-control>
     </l-map>
-      <h1 class="map-title">Worlds Adrift Map</h1>
-      <div class="loading-overlay" v-if="!loaded">
-        <span>Loading...</span>
-      </div>
+    <h1 class="map-title">Worlds Adrift Map</h1>
+    <div class="loading-overlay" v-if="!loaded">
+      <span>Loading...</span>
+    </div>
   </div>
 </template>
 
@@ -60,8 +69,6 @@ import {
 import axios from "axios";
 
 import { default as zoneData } from "../assets/zoneNameData.js";
-
-let mapData = {};
 
 export default {
   name: "Example",
@@ -98,6 +105,9 @@ export default {
           "zonenames"
         )[0].style.opacity = zoneOpacity;
       }
+
+      if (e.target._zoom < -3.5) e.target.getPane("sectorNames").style.display = "none";
+      else e.target.getPane("sectorNames").style.display = "block"
     }
   },
   created() {
@@ -111,7 +121,33 @@ export default {
         document.getElementsByClassName("zonenames")[0].style.opacity =
           self.zonenameMaxOpacity;
         self.map.getRenderer(self.map).options.padding = 10;
+        self.map.createPane("sectorNames");
+        self.paneCreated = true;
       });
+
+      for (var i = 0; i < self.geojson.data.features.length; i++) {
+        let currentFeature = self.geojson.data.features[i];
+        if (/\D\d/.exec(currentFeature.properties.name) != null) { //weed out non-zones
+          let lat = 0;
+          let lng = 0;
+          var j;
+          for (j = 0; j < currentFeature.geometry.coordinates[0].length; j++) {
+            lng += currentFeature.geometry.coordinates[0][j][0];
+            lat += currentFeature.geometry.coordinates[0][j][1];
+          }
+          lat /= j;
+          lng /= j;
+          let marker = L.divIcon({
+            html: '<div class="sector-label">' + currentFeature.properties.name + '</div>',
+            className: 'sector-label-div'
+          });
+          self.sectorMarkers.push({
+            name: currentFeature.properties.name,
+            latLng: L.latLng(lat, lng),
+            icon: marker
+          });
+        }
+      }
       // axios
       //   .get("https://data.cardinalguild.com/zonenames.svg")
       //   .then(response => {
@@ -123,7 +159,7 @@ export default {
   data() {
     return {
       loaded: false,
-
+      paneCreated: false,
       mapOptions: {
         minZoom: -4.5,
         maxZoom: -1,
@@ -145,7 +181,8 @@ export default {
             return feature.properties;
           }
         }
-      }
+      },
+      sectorMarkers: [],
     };
   }
 };
@@ -220,6 +257,12 @@ export default {
   svg {
     z-index: 1;
   }
+}
+
+.sector-label {
+  font-size: 35px;
+  font-family: "Abril Fatface", cursive;
+  color: #291a08;
 }
 </style>
 
