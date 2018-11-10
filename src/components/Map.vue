@@ -16,12 +16,11 @@
         :geojson="geojson.data"
         :options="geojson.options"
       />
-      <l-marker 
+      <l-marker
         v-if="adminMode"
         :lat-lng="adminMarker"
-        :draggable="false">
-      </l-marker>
-
+        :draggable="false"
+      />
       <l-marker
         v-if="paneCreated"
         v-for="marker in sectorMarkers"
@@ -46,7 +45,7 @@
           This is the map Legend
         </div>
       </l-control>
-      <l-control 
+      <l-control
         v-if="!adminMode"
         :position="'bottomright'"
         class="custom-watermark">
@@ -174,6 +173,7 @@ export default {
     }
   },
   created() {
+    //resolve url
     let self = this;
     if (self.$attrs.hideheader == "true") {
       self.hideHeader = true;
@@ -259,7 +259,7 @@ export default {
         lng: 0
       },
       mapOptions: {
-        minZoom: -4.5,
+        minZoom: -4.6,
         maxZoom: -1,
         zoomSnap: 0.2,
         zoomDelta: 0.2,
@@ -353,7 +353,7 @@ export default {
 }
 
 .zonenames {
-  transition: opacity 0.5s;
+  transition: opacity 1s;
 }
 
 .sector-label {
