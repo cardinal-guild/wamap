@@ -52,8 +52,8 @@
 
     <!--the following are just to be copied-->
     <div class="header" id="map-header" style="display: none;">
-      <a href="https://cardinalguild.com">
-        <img class="header-image" width="20%" id="cg-title" src="../assets/cg_title.png" alt="Cardinal Guild Title">
+      <a href="https://cardinalguild.com" style="height: 30px;">
+        <img class="header-image" height="60px" id="cg-title" src="../assets/cg_title.png" alt="Cardinal Guild Title">
       </a>
       <span>Worlds Adrift Map</span>
     </div>
@@ -120,12 +120,12 @@ export default {
 
       let topControls = document.getElementsByClassName("leaflet-top");
       for (var i = 0; i < topControls.length; i++) {
-        if (e.target._zoom < -3.8) {
+        if (e.target._zoom < -2) {
           topControls[i].style.top = "50px";
           document.getElementById("map-header").style.top = "0"; //show
         } else {
           topControls[i].style.top = "0";
-          document.getElementById("map-header").style.top = "-60px"; //hide
+          document.getElementById("map-header").style.top = "-80px"; //hide
         }
       }
       // console.log(e.target._zoom)
@@ -296,6 +296,10 @@ export default {
   }
 }
 
+.zonenames {
+  transition: opacity 0.5s;
+}
+
 .sector-label {
   font-size: 35px;
   font-family: "Roboto", sans-serif;
@@ -313,7 +317,7 @@ export default {
   top: 0;
   z-index: 1000;
   width: 100%;
-  transition: top 0.5s;
+  transition: top 0.8s;
   height: 45px;
 }
 
@@ -332,7 +336,7 @@ export default {
 .header .header-image {
   position: absolute;
   top: -5px;
-  left: 0px;
+  left: 50px;
 }
 </style>
 
