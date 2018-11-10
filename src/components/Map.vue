@@ -51,7 +51,7 @@
     </div>
 
     <!--the following are just to be copied-->
-    <div class="header" id="map-header" style="display: none;">
+    <div class="header" id="map-header" style="display: none;" v-if="!hideControls">
       <a href="https://cardinalguild.com" style="height: 30px;">
         <img class="header-image" height="60px" id="cg-title" src="../assets/cg_title.png" alt="Cardinal Guild Title">
       </a>
@@ -119,15 +119,21 @@ export default {
       if (e.target._zoom < -3.5)
         e.target.getPane("sectorNames").style.display = "none";
       else e.target.getPane("sectorNames").style.display = "block";
-
       let topControls = document.getElementsByClassName("leaflet-top");
-      for (var i = 0; i < topControls.length; i++) {
-        if (e.target._zoom < -2) {
-          topControls[i].style.top = "50px";
-          document.getElementById("map-header").style.top = "0"; //show
-        } else {
+      if (!d.hideControls) {
+        for (var i = 0; i < topControls.length; i++) {
+          if (e.target._zoom < -2) {
+            topControls[i].style.top = "50px";
+            document.getElementById("map-header").style.top = "0"; //show
+          } else {
+            topControls[i].style.top = "0";
+            document.getElementById("map-header").style.top = "-80px"; //hide
+          }
+        }
+      } else {
+        for (var i = 0; i < topControls.length; i++) {
+          topControls[i].style.transition = "none";
           topControls[i].style.top = "0";
-          document.getElementById("map-header").style.top = "-80px"; //hide
         }
       }
       // console.log(e.target._zoom)
@@ -143,6 +149,9 @@ export default {
   },
   created() {
     let self = this;
+    if (self.$attrs.hidecontrols == "true") {
+      self.hideControls = true;
+    }
     self.loaded = false;
     axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
       self.geojson.data = response.data;
@@ -155,15 +164,17 @@ export default {
         self.map.createPane("sectorNames");
         self.paneCreated = true;
 
-        //creates top bar
-        let topBar = document.getElementById("map-header");
-        let topBarClone = topBar.cloneNode(true);
-        //removes original elements
-        topBar.parentNode.removeChild(topBar);
-        topBarClone.style.display = "block";
-        document
-          .getElementsByClassName("leaflet-control-container")[0]
-          .appendChild(topBarClone);
+        if (!self.hideControls) {
+          //creates top bar
+          let topBar = document.getElementById("map-header");
+          let topBarClone = topBar.cloneNode(true);
+          //removes original elements
+          topBar.parentNode.removeChild(topBar);
+          topBarClone.style.display = "block";
+          document
+            .getElementsByClassName("leaflet-control-container")[0]
+            .appendChild(topBarClone);
+        }
       });
 
       for (var i = 0; i < self.geojson.data.features.length; i++) {
@@ -205,6 +216,7 @@ export default {
     return {
       loaded: false,
       paneCreated: false,
+      hideControls: false,
       mapOptions: {
         minZoom: -4.5,
         maxZoom: -1,

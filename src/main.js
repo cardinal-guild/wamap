@@ -1,6 +1,8 @@
-import Vue from 'vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import L from 'leaflet';
-import App from './App.vue'
+import App from './App.vue';
+import Map from "./components/Map.vue";
 import 'leaflet.icon.glyph';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -12,7 +14,28 @@ L.Icon.Default.mergeOptions({
 });
 
 Vue.config.productionTip = false
+Vue.use(VueRouter);
+
+
+const router = new VueRouter({
+  mode: 'history',
+  /*
+  We just add one route
+   */
+  routes: [{
+    // Wildcard path
+    path: '*',
+    // Specify the component to be rendered for this route
+    component: Map,
+    // Inject  props based on route.query values (our query parameters!)
+    props: (route) => ({
+      hidecontrols: route.query.hidecontrols,
+      island: route.query.island
+    })
+  }]
+});
 
 new Vue({
+  router,
   render: h => h(App),
 }).$mount('#app')

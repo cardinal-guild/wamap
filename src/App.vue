@@ -1,17 +1,12 @@
 <template>
   <div id="app">
-    <Map />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Map from "./components/Map.vue";
-
 export default {
-  name: "app",
-  components: {
-    Map
-  }
+  name: "app"
 };
 </script>
 
