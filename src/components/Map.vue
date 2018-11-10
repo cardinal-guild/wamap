@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     mapClick: e => {
-      console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
+      // console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
       window.parent.postMessage(
         {
           lat: e.latlng.lat,
