@@ -95,7 +95,7 @@ export default {
         lat: e.latlng.lat,
         lng: e.latlng.lng
       });
-      window.parent.dispatchEvent(latLngEvent);
+      document.dispatchEvent(latLngEvent);
     },
     onZoom: (e, d) => {
       if (
@@ -114,7 +114,8 @@ export default {
         )[0].style.opacity = zoneOpacity;
       }
 
-      if (e.target._zoom < -3.5) e.target.getPane("sectorNames").style.display = "none";
+      if (e.target._zoom < -3.5)
+        e.target.getPane("sectorNames").style.display = "none";
       else e.target.getPane("sectorNames").style.display = "block";
 
       let topControls = document.getElementsByClassName("leaflet-top");
@@ -122,10 +123,9 @@ export default {
         if (e.target._zoom < -3.8) {
           topControls[i].style.top = "50px";
           document.getElementById("map-header").style.top = "0"; //show
-        }
-        else {
+        } else {
           topControls[i].style.top = "0";
-          document.getElementById("map-header").style.top = "-60px" //hide
+          document.getElementById("map-header").style.top = "-60px"; //hide
         }
       }
       // console.log(e.target._zoom)
@@ -155,11 +155,13 @@ export default {
 
         //creates top bar
         let topBar = document.getElementById("map-header");
-        let topBarClone = topBar.cloneNode(true)
+        let topBarClone = topBar.cloneNode(true);
         //removes original elements
         topBar.parentNode.removeChild(topBar);
         topBarClone.style.display = "block";
-        document.getElementsByClassName("leaflet-control-container")[0].appendChild(topBarClone);
+        document
+          .getElementsByClassName("leaflet-control-container")[0]
+          .appendChild(topBarClone);
       });
 
       for (var i = 0; i < self.geojson.data.features.length; i++) {
