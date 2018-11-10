@@ -8,7 +8,7 @@
       :bounds="bounds"
       :crs="crs"
       @zoom="onZoom($event, $data)"
-      @click="mapClick"
+      @click="mapClick($event, $data)"
       v-if="loaded">
       <l-geo-json
         className="geojson"
@@ -16,6 +16,12 @@
         :geojson="geojson.data"
         :options="geojson.options"
       />
+      <l-marker 
+        v-if="adminMode"
+        :lat-lng="adminMarker"
+        :draggable="false">
+      </l-marker>
+
       <l-marker
         v-if="paneCreated"
         v-for="marker in sectorMarkers"
@@ -91,15 +97,33 @@ export default {
     LMarker
   },
   methods: {
-    mapClick: e => {
+    mapClick: (e, d) => {
       // console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
-      window.parent.postMessage(
-        {
-          lat: e.latlng.lat,
-          lng: e.latlng.lng
-        },
-        "*"
-      );
+      let lat = e.latlng.lat;
+      let lng = e.latlng.lng;
+      if (d.adminMode) {
+        if (lat > 0) {
+          lat = 0;
+        }
+        if (lat < -9500) {
+          lat = -9500;
+        }
+        if (lng < 0) {
+          lng = 0;
+        }
+        if (lng > 9500) {
+          lng = 9500;
+        }
+        d.adminMarker.lat = lat;
+        d.adminMarker.lng = lng;
+        window.parent.postMessage(
+          {
+            lat: lat,
+            lng: lng
+          },
+          "*"
+        );
+      }
     },
     onZoom: (e, d) => {
       if (
@@ -157,6 +181,12 @@ export default {
     if (self.$attrs.admin == "true") {
       self.adminMode = true;
       self.mapOptions.attributionControl = false;
+      if (self.$attrs.lat) {
+        self.adminMarker.lat = self.$attrs.lat;
+      }
+      if (self.$attrs.lng) {
+        self.adminMarker.lng = self.$attrs.lng;
+      }
     }
     self.loaded = false;
     axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
@@ -224,6 +254,10 @@ export default {
       paneCreated: false,
       hideHeader: false,
       adminMode: false,
+      adminMarker: {
+        lat: 0,
+        lng: 0
+      },
       mapOptions: {
         minZoom: -4.5,
         maxZoom: -1,

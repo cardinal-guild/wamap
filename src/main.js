@@ -31,6 +31,8 @@ const router = new VueRouter({
     props: (route) => ({
       hideheader: route.query.hideheader,
       admin: route.query.admin,
+      lat: route.query.lat,
+      lng: route.query.lng,
       island: route.query.island
     })
   }]
