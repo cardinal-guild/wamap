@@ -27,7 +27,7 @@ body {
 
 #app {
   transform: translate3d(0, 0, 0);
-  background-image: linear-gradient(to right, #4f4141, #5c4949, #4f4141);
+  background: linear-gradient(to right, #cca7a0, #c0aca8, #cca7a0);
   display: block;
   padding: 0;
   margin: 0;

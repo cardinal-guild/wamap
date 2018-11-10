@@ -45,9 +45,17 @@
         <img src="../assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
       </l-control>
     </l-map>
-    <h1 class="map-title">Worlds Adrift Map</h1>
+    <!--<h1 class="map-title">Worlds Adrift Map</h1>-->
     <div class="loading-overlay" v-if="!loaded">
       <span>Loading...</span>
+    </div>
+
+    <!--the following are just to be copied-->
+    <div class="header" id="map-header" style="display: none;">
+      <a href="https://cardinalguild.com">
+        <img class="header-image" width="20%" id="cg-title" src="../assets/cg_title.png" alt="Cardinal Guild Title">
+      </a>
+      <span>Worlds Adrift Map</span>
     </div>
   </div>
 </template>
@@ -107,7 +115,28 @@ export default {
       }
 
       if (e.target._zoom < -3.5) e.target.getPane("sectorNames").style.display = "none";
-      else e.target.getPane("sectorNames").style.display = "block"
+      else e.target.getPane("sectorNames").style.display = "block";
+
+      let topControls = document.getElementsByClassName("leaflet-top");
+      for (var i = 0; i < topControls.length; i++) {
+        if (e.target._zoom < -3.8) {
+          topControls[i].style.top = "50px";
+          document.getElementById("map-header").style.top = "0"; //show
+        }
+        else {
+          topControls[i].style.top = "0";
+          document.getElementById("map-header").style.top = "-60px" //hide
+        }
+      }
+      // console.log(e.target._zoom)
+      // if (e.target._zoom < -3.5) {
+      //   document.getElementById("map-header").style.display = "block";
+      //   console.log("show")
+      // }
+      // else {
+      //   document.getElementById("map-header").style.display = "none";
+      //   console.log("hide")
+      // }
     }
   },
   created() {
@@ -123,6 +152,14 @@ export default {
         self.map.getRenderer(self.map).options.padding = 10;
         self.map.createPane("sectorNames");
         self.paneCreated = true;
+
+        //creates top bar
+        let topBar = document.getElementById("map-header");
+        let topBarClone = topBar.cloneNode(true)
+        //removes original elements
+        topBar.parentNode.removeChild(topBar);
+        topBarClone.style.display = "block";
+        document.getElementsByClassName("leaflet-control-container")[0].appendChild(topBarClone);
       });
 
       for (var i = 0; i < self.geojson.data.features.length; i++) {
@@ -197,14 +234,8 @@ export default {
   width: 100vw;
 
   font-family: "Noto Sans", sans-serif;
-  .map-title {
-    margin-top: 0;
-    color: #ffe5c4;
-    font-size: 40px;
-  }
   .loading-overlay {
     display: flex;
-
     position: fixed;
     top: 0;
     left: 0;
@@ -213,7 +244,7 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 3rem;
-    color: #fff;
+    color: #291a08;
   }
 }
 .leaflet-container {
@@ -263,6 +294,39 @@ export default {
   font-size: 35px;
   font-family: "Abril Fatface", cursive;
   color: #291a08;
+}
+
+.header {
+  font-family: "Noto Sans", sans-serif;
+  margin-top: 0;
+  border: none;
+  border-top: 5px rgb(244, 176, 132) solid;
+  border-bottom: 5px rgb(244, 176, 132) solid;
+  background: #4f4141;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  transition: top 0.5s;
+  height: 45px;
+}
+
+.leaflet-control-container .leaflet-top {
+  top: 50px;
+  transition: top 0.5s;
+}
+
+.leaflet-control-container .header span {
+  color: #ffe5c4;
+  font-size: 30px;
+  text-align: center;
+  margin: auto;
+}
+
+.header .header-image {
+  position: absolute;
+  top: -5px;
+  left: 0px;
 }
 </style>
 
