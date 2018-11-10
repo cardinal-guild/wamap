@@ -45,7 +45,7 @@
       <l-control
         :position="'bottomright'"
         class="custom-watermark">
-        <img src="../assets/logo.png" width="300vw" alt="Cardinal Guild Logo">
+        <img src="../assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
       </l-control>
     </l-map>
   </div>
