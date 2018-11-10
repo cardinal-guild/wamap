@@ -7,6 +7,7 @@
       :center="center"
       :bounds="bounds"
       :crs="crs"
+      @zoom="onZoom($event, $data)"
       @click="mapClick"
       v-if="loaded"
       >
@@ -75,6 +76,23 @@ export default {
   methods: {
     mapClick: e => {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
+    },
+    onZoom: (e, d) => {
+      if (
+        e.target.options.minZoom &&
+        e.target.options.maxZoom &&
+        d &&
+        d.zonenameMaxOpacity
+      ) {
+        let minZoom = e.target.options.minZoom;
+        let maxZoom = e.target.options.maxZoom;
+        let opacityPercentage =
+          ((e.target._zoom - maxZoom) * 100) / (minZoom - maxZoom);
+        let zoneOpacity = (opacityPercentage / 100) * d.zonenameMaxOpacity;
+        document.getElementsByClassName(
+          "zonenames"
+        )[0].style.opacity = zoneOpacity;
+      }
     }
   },
   created() {
@@ -85,6 +103,8 @@ export default {
       self.loaded = true;
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
+        document.getElementsByClassName("zonenames")[0].style.opacity =
+          self.zonenameMaxOpacity;
         self.map.getRenderer(self.map).options.padding = 10;
       });
       // axios
@@ -100,11 +120,10 @@ export default {
       loaded: false,
 
       mapOptions: {
-        minZoom: -5,
+        minZoom: -4.5,
         maxZoom: -1,
-        zoomSnap: 0.5,
-        zoomDelta: 0.5,
-        zoom: -5,
+        zoomSnap: 0.2,
+        zoomDelta: 0.2,
         wheelPxPerZoomLevel: 200
       },
       map: null,
@@ -113,9 +132,7 @@ export default {
       crs: L.CRS.Simple,
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
-      zonenameOptions: {
-        class: "zonenames"
-      },
+      zonenameMaxOpacity: 0.5,
       geojson: {
         data: null,
         options: {
@@ -197,9 +214,6 @@ export default {
 .leaflet-container .leaflet-overlay-pane {
   svg {
     z-index: 1;
-  }
-  .zonenames {
-    opacity: 0.6;
   }
 }
 </style>
