@@ -91,11 +91,13 @@ export default {
   methods: {
     mapClick: e => {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
-      var latLngEvent = new CustomEvent("latLng", {
-        lat: e.latlng.lat,
-        lng: e.latlng.lng
-      });
-      document.dispatchEvent(latLngEvent);
+      window.postMessage(
+        {
+          lat: e.latlng.lat,
+          lng: e.latlng.lng
+        },
+        "*"
+      );
     },
     onZoom: (e, d) => {
       if (
