@@ -76,6 +76,11 @@ export default {
   methods: {
     mapClick: e => {
       console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
+      var latLngEvent = new CustomEvent("latLng", {
+        lat: e.latlng.lat,
+        lng: e.latlng.lng
+      });
+      window.parent.dispatchEvent(latLngEvent);
     },
     onZoom: (e, d) => {
       if (
