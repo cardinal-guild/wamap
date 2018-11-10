@@ -80,7 +80,10 @@ export default {
     axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
       self.geojson.data = response.data;
       self.loaded = true;
-
+      self.$nextTick(() => {
+        self.map = self.$refs.map.mapObject;
+        self.map.getRenderer(self.map).options.padding = 100;
+      });
       // axios
       //   .get("https://data.cardinalguild.com/zonenames.svg")
       //   .then(response => {
@@ -89,14 +92,6 @@ export default {
       //   });
     });
   },
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     this.map = this.$refs.map.mapObject;
-  //     this.map.getRenderer(this.map).options.padding = 100;
-  //     this.map.createPane("zoneNamePane");
-  //     this.map.setZoom(-4);
-  //   });
-  // },
   data() {
     return {
       loaded: false,
