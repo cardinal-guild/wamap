@@ -1,17 +1,18 @@
-.leaflet-container .leaflet-overlay-pane {
-  svg {
-    z-index: 1;
-  }
-}
-
 .zonenames {
   transition: opacity 1s;
 }
 
-.sector-label {
-  font-size: 35px;
-  font-family: "Roboto", sans-serif;
-  color: #291a08;
+.leaflet-container {
+  .leaflet-overlay-pane {
+    svg {
+      z-index: 1;
+    }
+  }
+  .sector-label {
+    font-size: 35px;
+    font-family: "Roboto", sans-serif;
+    color: #291a08;
+  }
 }
 
 .leaflet-control-container {
@@ -52,6 +53,21 @@
   }
   .header.noheader {
     top: -80px;
+  }
+
+  .leaflet-top.leaflet-right {
+    #map-legend {
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+  }
+  .leaflet-top.leaflet-right.faded {
+    #map-legend {
+      opacity: 0.2;
+    }
+    #map-legend:hover {
+      opacity: 1;
+    }
   }
 }
 
