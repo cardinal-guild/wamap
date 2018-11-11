@@ -141,35 +141,29 @@ export default {
         )[0].style.opacity = zoneOpacity;
       }
 
+      // shows/hides sector names
       if (e.target._zoom < -3.5)
         e.target.getPane("sectorNames").style.display = "none";
       else e.target.getPane("sectorNames").style.display = "block";
+
+      // shows/hides top bar
       let topControls = document.getElementsByClassName("leaflet-top");
       if (!d.hideHeader) {
         for (var i = 0; i < topControls.length; i++) {
           if (e.target._zoom < -2) {
-            topControls[i].style.top = "50px";
-            document.getElementById("map-header").style.top = "0"; //show
+            topControls[i].classList.remove("noheader");
+            document.getElementById("map-header").classList.remove("noheader") //show
           } else {
-            topControls[i].style.top = "0";
-            document.getElementById("map-header").style.top = "-80px"; //hide
+            topControls[i].classList.add("noheader");
+            document.getElementById("map-header").classList.add("noheader") //hide
           }
         }
       } else {
         for (var i = 0; i < topControls.length; i++) {
           topControls[i].style.transition = "none";
-          topControls[i].style.top = "0";
+          topControls[i].classList.add("noheader");
         }
       }
-      // console.log(e.target._zoom)
-      // if (e.target._zoom < -3.5) {
-      //   document.getElementById("map-header").style.display = "block";
-      //   console.log("show")
-      // }
-      // else {
-      //   document.getElementById("map-header").style.display = "none";
-      //   console.log("hide")
-      // }
     }
   },
   created() {
@@ -200,19 +194,35 @@ export default {
         self.map.createPane("sectorNames");
         self.paneCreated = true;
 
+        //attempts to set view to lat & lng from url
+        // if (self.adminMarker.lat && self.adminMarker.lng) {
+        //   console.log("test")
+        //   self.center = L.latLng(self.adminMarker.lat, self.adminMarker.lng);
+        //   //self.map.zoomIn(2);
+        // }
+
+        //add mobile class if screen width size < 850
+        if (screen.width <= 850) {
+          let controls = document.getElementsByClassName("leaflet-control-container")[0].children;
+          for (var i = 0; i < controls.length; i++) {
+            controls[i].classList.add("mobile");
+          }
+        }
+
         if (!self.hideHeader) {
           //creates top bar
           let topBar = document.getElementById("map-header");
           let topBarClone = topBar.cloneNode(true);
           //removes original elements
           topBar.parentNode.removeChild(topBar);
-          topBarClone.style.display = "block";
+          topBarClone.style.display = "";
           document
             .getElementsByClassName("leaflet-control-container")[0]
             .appendChild(topBarClone);
         }
       });
 
+      //calculates middle pos for sector names (possibly too much calculations)
       for (var i = 0; i < self.geojson.data.features.length; i++) {
         let currentFeature = self.geojson.data.features[i];
         if (/\D\d/.exec(currentFeature.properties.name) != null) {
@@ -377,9 +387,18 @@ export default {
   height: 45px;
 }
 
+.header.noheader {
+  top: -80px;
+}
+
 .leaflet-control-container .leaflet-top {
   top: 50px;
   transition: top 0.5s;
+}
+
+.leaflet-control-container .leaflet-top.mobile,
+.leaflet-control-container .leaflet-top.noheader {
+  top: 0;
 }
 
 .leaflet-control-container .header span {
@@ -393,6 +412,12 @@ export default {
   position: absolute;
   top: -5px;
   left: 50px;
+}
+
+@media screen and (max-width: 850px) {
+  div#map-header {
+    display: none;
+  }
 }
 </style>
 
