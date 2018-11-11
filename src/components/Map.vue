@@ -49,7 +49,9 @@
         v-if="!adminMode"
         :position="'bottomright'"
         class="custom-watermark">
-        <img src="../assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
+        <a href="https://cardinalguild.com">
+          <img src="../assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
+        </a>
       </l-control>
     </l-map>
     <!--<h1 class="map-title">Worlds Adrift Map</h1>-->
@@ -66,9 +68,6 @@
     </div>
   </div>
 </template>
-
-
-
 <script>
 /* eslint-disable */
 import Vue from "vue";
@@ -125,6 +124,17 @@ export default {
       }
     },
     onZoom: (e, d) => {
+      //hiding map legend
+      let legend = $(".leaflet-top.leaflet-right");
+      if (e.target._zoom > -2) {
+        legend.addClass("faded");
+      }
+      else {
+        legend.removeClass("faded");
+      }
+
+
+      //tier names' opacities
       if (
         e.target.options.minZoom &&
         e.target.options.maxZoom &&
@@ -356,69 +366,6 @@ export default {
 }
 </style>
 <style lang="scss">
-.leaflet-container .leaflet-overlay-pane {
-  svg {
-    z-index: 1;
-  }
-}
-
-.zonenames {
-  transition: opacity 1s;
-}
-
-.sector-label {
-  font-size: 35px;
-  font-family: "Roboto", sans-serif;
-  color: #291a08;
-}
-
-.header {
-  font-family: "Noto Sans", sans-serif;
-  margin-top: 0;
-  border: none;
-  border-top: 5px rgb(244, 176, 132) solid;
-  border-bottom: 5px rgb(244, 176, 132) solid;
-  background: #4f4141;
-  position: absolute;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-  transition: top 0.8s;
-  height: 45px;
-}
-
-.header.noheader {
-  top: -80px;
-}
-
-.leaflet-control-container .leaflet-top {
-  top: 50px;
-  transition: top 0.5s;
-}
-
-.leaflet-control-container .leaflet-top.mobile,
-.leaflet-control-container .leaflet-top.noheader {
-  top: 0;
-}
-
-.leaflet-control-container .header span {
-  color: #ffe5c4;
-  font-size: 30px;
-  text-align: center;
-  margin: auto;
-}
-
-.header .header-image {
-  position: absolute;
-  top: -5px;
-  left: 50px;
-}
-
-@media screen and (max-width: 850px) {
-  div#map-header {
-    display: none;
-  }
-}
+  @import "../css/style.scss"
 </style>
-
 
