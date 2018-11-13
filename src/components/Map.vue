@@ -21,6 +21,7 @@
         :lat-lng="adminMarker"
         :draggable="false"
       />
+      <!--Sector Markers-->
       <l-marker
         v-if="paneCreated"
         v-for="marker in sectorMarkers"
@@ -30,11 +31,24 @@
         pane="sectorNames"
         interactive="false"
       />
+      <!--Island Markers-->
       <l-marker
         v-if="paneCreated && !adminMode"
         v-for="island in islandData"
         :key="island.properties.name"
         :lat-lng="island.latLng"
+        :icon="island.icon"
+        pane="islandMarkers"
+        interactive="false"
+      />
+      <!--Island Image Markers-->
+      <l-marker
+        v-if="paneCreated"
+        v-for="island in islandData"
+        :key="island.properties.name + '_image'"
+        :lat-lng="island.latLng"
+        :icon="island.imageIcon"
+        pane="islandImageMarkers"
         interactive="false"
       />
       <l-image-overlay
@@ -157,9 +171,20 @@ export default {
       }
 
       // shows/hides sector names
-      if (e.target._zoom < -3.5)
+      if (e.target._zoom < -3.5) {
         e.target.getPane("sectorNames").style.display = "none";
-      else e.target.getPane("sectorNames").style.display = "block";
+      }
+      else {
+        e.target.getPane("sectorNames").style.display = "block";
+      }
+
+      // shows/hides island markers
+      if (e.target._zoom > -2.8 && e.target._zoom < -1.3) {
+        e.target.getPane("islandMarkers").style.display = "block";
+      }
+      else {
+        e.target.getPane("islandMarkers").style.display = "none";
+      }
 
       // shows/hides top bar
       let topControls = document.getElementsByClassName("leaflet-top");
@@ -208,6 +233,7 @@ export default {
         self.map.getRenderer(self.map).options.padding = 10;
         self.map.createPane("sectorNames");
         self.map.createPane("islandMarkers");
+        self.map.createPane("islandImageMarkers");
         self.paneCreated = true;
 
         //attempts to set view to lat & lng from url
@@ -252,11 +278,19 @@ export default {
               islandDataJson[i].geometry.coordinates[0],
               islandDataJson[i].geometry.coordinates[1]
             );
-            islands.push(island);
-          }
-          console.log(islands);
-          self.islandData = islands;
-        });
+          island.icon = L.icon({
+            iconUrl: '../assets/Island_Frame_Saborian.svg',
+            iconSize: [40, 40]
+          });
+          island.imageIcon = L.icon({
+            iconUrl: islandDataJson[i].properties.imageIcon,
+            ironSize: [50, 50]
+          })
+          islands.push(island);
+        }
+        self.islandData = islands;
+
+      });
 
       //calculates middle pos for sector names (possibly too much calculations)
       for (var i = 0; i < self.geojson.data.features.length; i++) {
