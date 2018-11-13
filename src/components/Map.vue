@@ -30,6 +30,13 @@
         pane="sectorNames"
         interactive="false"
       />
+      <l-marker
+        v-if="paneCreated"
+        v-for="island in islandData"
+        :key="island.properties.name"
+        :lat-lng="island.latLng"
+        interactive="false"
+      />
       <l-image-overlay
         ref="zonenames"
         url="https://data.cardinalguild.com/zonenames.svg"
@@ -202,6 +209,7 @@ export default {
           self.zonenameMaxOpacity;
         self.map.getRenderer(self.map).options.padding = 10;
         self.map.createPane("sectorNames");
+        self.map.createPane("islandMarkers");
         self.paneCreated = true;
 
         //attempts to set view to lat & lng from url
@@ -231,6 +239,23 @@ export default {
             .appendChild(topBarClone);
         }
       });
+
+      axios.get("https://surveyor.cardinalguild.com/api/islands.json").then(response => {
+        let islandDataJson = response.data.features;
+        let islands = [];
+        for (var i = 0; i < islandDataJson.length; i++) {
+          let island = {}
+          island.properties = islandDataJson[i].properties;
+          island.latLng = L.latLng(
+            islandDataJson[i].geometry.coordinates[0],
+            islandDataJson[i].geometry.coordinates[1]
+            );
+          islands.push(island);
+        }
+        console.log(islands);
+        self.islandData = islands;
+
+      })
 
       //calculates middle pos for sector names (possibly too much calculations)
       for (var i = 0; i < self.geojson.data.features.length; i++) {
@@ -301,6 +326,7 @@ export default {
           }
         }
       },
+      islandData: null,
       sectorMarkers: []
     };
   }
