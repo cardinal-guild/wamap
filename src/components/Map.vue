@@ -292,12 +292,12 @@ export default {
           });
           island.imageIcon = L.icon({
             iconUrl: islandDataJson[i].properties.imageIcon,
-            iconSize: [50, 50]
+            iconSize: [80, 80],
+            className: "island-image-icon"
           })
           islands.push(island);
         }
         self.islandData = islands;
-
       });
 
       //calculates middle pos for sector names (possibly too much calculations)
@@ -435,6 +435,92 @@ export default {
 }
 </style>
 <style lang="scss">
-@import "../css/style.scss";
+.zonenames {
+  transition: opacity 1s;
+}
+
+.leaflet-container {
+  .leaflet-overlay-pane {
+    svg {
+      z-index: 1;
+    }
+  }
+  .sector-label {
+    font-size: 35px;
+    font-family: "Roboto", sans-serif;
+    color: #291a08;
+  }
+
+  .leaflet-islandImageMarkers-pane {
+    img.island-image-icon {
+      border-radius: 50%;
+    }
+  }
+}
+
+.leaflet-control-container {
+  .leaflet-top {
+    top: 50px;
+    transition: top 0.5s;
+  }
+  .leaflet-top.mobile,
+  .leaflet-top.noheader {
+    top: 0;
+  }
+
+  .header {
+    font-family: "Noto Sans", sans-serif;
+    margin-top: 0;
+    border: none;
+    border-top: 5px rgb(244, 176, 132) solid;
+    border-bottom: 5px rgb(244, 176, 132) solid;
+    background: #4f4141;
+    position: absolute;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    transition: top 0.8s;
+    height: 45px;
+
+    span {
+      color: #ffe5c4;
+      font-size: 30px;
+      text-align: center;
+      margin: auto;
+    }
+    .header-image {
+      position: absolute;
+      top: -5px;
+      left: 50px;
+    }
+  }
+  .header.noheader {
+    top: -80px;
+  }
+
+  .leaflet-top.leaflet-right {
+    #map-legend {
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+  }
+  .leaflet-top.leaflet-right.faded {
+    #map-legend {
+      opacity: 0.2;
+    }
+    #map-legend:hover {
+      opacity: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  div#map-header {
+    display: none;
+  }
+}
+
+/* legend */
+
 </style>
 
