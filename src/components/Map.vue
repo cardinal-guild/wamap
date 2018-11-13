@@ -186,6 +186,14 @@ export default {
         e.target.getPane("islandMarkers").style.display = "none";
       }
 
+      // shows/hides island images
+      if (e.target._zoom > -1.3) {
+        e.target.getPane("islandImageMarkers").style.display = "block";
+      }
+      else {
+        e.target.getPane("islandImageMarkers").style.display = "none";
+      }
+
       // shows/hides top bar
       let topControls = document.getElementsByClassName("leaflet-top");
       if (!d.hideHeader) {
@@ -284,7 +292,7 @@ export default {
           });
           island.imageIcon = L.icon({
             iconUrl: islandDataJson[i].properties.imageIcon,
-            ironSize: [50, 50]
+            iconSize: [50, 50]
           })
           islands.push(island);
         }
