@@ -31,7 +31,7 @@
         interactive="false"
       />
       <l-marker
-        v-if="paneCreated"
+        v-if="paneCreated && !adminMode"
         v-for="island in islandData"
         :key="island.properties.name"
         :lat-lng="island.latLng"
@@ -135,11 +135,9 @@ export default {
       let legend = $(".leaflet-top.leaflet-right");
       if (e.target._zoom > -2) {
         legend.addClass("faded");
-      }
-      else {
+      } else {
         legend.removeClass("faded");
       }
-
 
       //tier names' opacities
       if (
@@ -169,10 +167,10 @@ export default {
         for (var i = 0; i < topControls.length; i++) {
           if (e.target._zoom < -2) {
             topControls[i].classList.remove("noheader");
-            document.getElementById("map-header").classList.remove("noheader") //show
+            document.getElementById("map-header").classList.remove("noheader"); //show
           } else {
             topControls[i].classList.add("noheader");
-            document.getElementById("map-header").classList.add("noheader") //hide
+            document.getElementById("map-header").classList.add("noheader"); //hide
           }
         }
       } else {
@@ -221,7 +219,9 @@ export default {
 
         //add mobile class if screen width size < 850
         if (screen.width <= 850) {
-          let controls = document.getElementsByClassName("leaflet-control-container")[0].children;
+          let controls = document.getElementsByClassName(
+            "leaflet-control-container"
+          )[0].children;
           for (var i = 0; i < controls.length; i++) {
             controls[i].classList.add("mobile");
           }
@@ -240,22 +240,23 @@ export default {
         }
       });
 
-      axios.get("https://surveyor.cardinalguild.com/api/islands.json").then(response => {
-        let islandDataJson = response.data.features;
-        let islands = [];
-        for (var i = 0; i < islandDataJson.length; i++) {
-          let island = {}
-          island.properties = islandDataJson[i].properties;
-          island.latLng = L.latLng(
-            islandDataJson[i].geometry.coordinates[0],
-            islandDataJson[i].geometry.coordinates[1]
+      axios
+        .get("https://surveyor.cardinalguild.com/api/islands.json")
+        .then(response => {
+          let islandDataJson = response.data.features;
+          let islands = [];
+          for (var i = 0; i < islandDataJson.length; i++) {
+            let island = {};
+            island.properties = islandDataJson[i].properties;
+            island.latLng = L.latLng(
+              islandDataJson[i].geometry.coordinates[0],
+              islandDataJson[i].geometry.coordinates[1]
             );
-          islands.push(island);
-        }
-        console.log(islands);
-        self.islandData = islands;
-
-      })
+            islands.push(island);
+          }
+          console.log(islands);
+          self.islandData = islands;
+        });
 
       //calculates middle pos for sector names (possibly too much calculations)
       for (var i = 0; i < self.geojson.data.features.length; i++) {
@@ -392,6 +393,6 @@ export default {
 }
 </style>
 <style lang="scss">
-  @import "../css/style.scss"
+@import "../css/style.scss";
 </style>
 
