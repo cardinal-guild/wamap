@@ -187,24 +187,21 @@ export default {
       // shows/hides sector names
       if (e.target._zoom < -3.5) {
         e.target.getPane("sectorNames").style.display = "none";
-      }
-      else {
+      } else {
         e.target.getPane("sectorNames").style.display = "block";
       }
 
       // shows/hides island markers
       if (e.target._zoom > -2.8 && e.target._zoom < -1.3) {
         e.target.getPane("islandMarkers").style.display = "block";
-      }
-      else {
+      } else {
         e.target.getPane("islandMarkers").style.display = "none";
       }
 
       // shows/hides island images
       if (e.target._zoom > -1.3) {
         e.target.getPane("islandImageMarkers").style.display = "block";
-      }
-      else {
+      } else {
         e.target.getPane("islandImageMarkers").style.display = "none";
       }
 
@@ -288,27 +285,34 @@ export default {
         }
       });
 
-      axios
-        .get("https://surveyor.cardinalguild.com/api/islands.json")
-        .then(response => {
-          let islandDataJson = response.data.features;
-          let islands = [];
-          for (var i = 0; i < islandDataJson.length; i++) {
-            let island = {};
-            island.properties = islandDataJson[i].properties;
-            island.latLng = L.latLng(
-              islandDataJson[i].geometry.coordinates[0],
-              islandDataJson[i].geometry.coordinates[1]
-            );
+      let islandUrl = "https://surveyor.cardinalguild.com/api/islands.json";
+      if (self.adminMode) {
+        islandUrl =
+          islandUrl +
+          "?anticache=" +
+          Math.random()
+            .toString(11)
+            .replace("0.", "");
+      }
+      axios.get(islandUrl).then(response => {
+        let islandDataJson = response.data.features;
+        let islands = [];
+        for (var i = 0; i < islandDataJson.length; i++) {
+          let island = {};
+          island.properties = islandDataJson[i].properties;
+          island.latLng = L.latLng(
+            islandDataJson[i].geometry.coordinates[0],
+            islandDataJson[i].geometry.coordinates[1]
+          );
           island.icon = L.icon({
-            iconUrl: '../assets/Island_Frame_Saborian.svg',
+            iconUrl: "../assets/Island_Frame_Saborian.svg",
             iconSize: [40, 40]
           });
           island.imageIcon = L.icon({
             iconUrl: islandDataJson[i].properties.imageIcon,
             iconSize: [80, 80],
             className: "island-image-icon"
-          })
+          });
           islands.push(island);
         }
         self.islandData = islands;
@@ -535,6 +539,5 @@ export default {
 }
 
 /* legend */
-
 </style>
 
