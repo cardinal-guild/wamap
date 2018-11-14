@@ -687,6 +687,7 @@ export default {
 
 .leaflet-control-container {
   .leaflet-control-zoom {
+    background: #4f4141;
     border: 0px;
     border-radius: 0px;
     border-top: 5px solid #e0b084;
