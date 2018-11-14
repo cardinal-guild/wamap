@@ -325,12 +325,12 @@ export default {
           else type = "plain";
           island.imageBorder = L.icon({
             iconUrl: self.islandTypes[island.properties.type][type],
-            iconSize: [100, 100],
+            iconSize: [125, 125],
             className: "island-image-border"
           });
           island.imageIcon = L.icon({
             iconUrl: island.properties.imageIcon,
-            iconSize: [80, 80],
+            iconSize: [100, 100],
             className: "island-image-icon"
           });
           let height = "";
@@ -607,6 +607,10 @@ export default {
   div#map-header {
     display: none;
   }
+}
+
+table.island-data-table {
+  border-collapse: collapse;
 }
 
 /* legend */

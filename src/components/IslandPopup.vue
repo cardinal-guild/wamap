@@ -8,7 +8,7 @@
             </tr>
             <tr class="image">
                 <td colspan="2">
-                    <img :src="image_link" width="200px">
+                    <img :src="image_link" width="300px">
                 </td>
             </tr>
             <tr class="altitude">
