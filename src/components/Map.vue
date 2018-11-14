@@ -99,7 +99,57 @@
         <div
         class="map-legend" 
         :class="{ faded: hideLegend }">
-        This is the map Legend
+        <ul class="legend-list">
+          <li>
+            <span class="icon">
+              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_S_L.png" />
+            </span>
+            <span class="description">
+              Saborian low height island
+            </span>
+          </li>
+          <li>
+            <span class="icon">
+              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_S_M.png" />
+            </span>
+            <span class="description">
+              Saborian medium height island
+            </span>
+          </li>
+          <li>
+            <span class="icon">
+              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_S_H.png" />
+            </span>
+            <span class="description">
+              Saborian high height island
+            </span>
+          </li>
+
+          <li>
+            <span class="icon">
+              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_K_L.png" />
+            </span>
+            <span class="description">
+              Kioki low height island
+            </span>
+          </li>
+          <li>
+            <span class="icon">
+              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_K_M.png" />
+            </span>
+            <span class="description">
+              Kioki medium height island
+            </span>
+          </li>
+          <li>
+            <span class="icon">
+              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_K_H.png" />
+            </span>
+            <span class="description">
+              Kioki high height island
+            </span>
+          </li>
+        </ul>
         </div>
       </l-control>
       <l-control
@@ -522,6 +572,33 @@ export default {
 }
 </style>
 <style lang="scss">
+.legend-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  li {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    .icon {
+      text-align: left;
+      flex-wrap: nowrap;
+      padding-right: 5px;
+      img {
+        display: block;
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .description {
+      text-align: left;
+      white-space: nowrap;
+      padding-right: 10px;
+    }
+  }
+}
 .header-fade-enter-active,
 .header-fade-leave-active {
   transition: opacity 1s;
@@ -606,7 +683,6 @@ export default {
     box-sizing: border-box;
     padding: 5px;
     color: #ffe5c4;
-    margin-right: 10px;
     &.faded {
       opacity: 0.2;
     }

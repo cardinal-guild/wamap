@@ -15,8 +15,10 @@
     "lodash": "^4.17.11",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
+    "svg-inline-loader": "^0.8.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
+    "vue-svg-inline-loader": "^1.2.2",
     "vue2-leaflet": "^1.1.1"
   },
   "devDependencies": {
