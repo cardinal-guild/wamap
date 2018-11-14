@@ -102,7 +102,7 @@
         <ul class="legend-list">
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_S_L.png" />
+              <img svg-inline class="icon" src="/assets/island_icons/Island_S_L.png" />
             </span>
             <span class="description">
               Saborian low height island
@@ -110,7 +110,7 @@
           </li>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_S_M.png" />
+              <img svg-inline class="icon" src="/assets/island_icons/Island_S_M.png" />
             </span>
             <span class="description">
               Saborian medium height island
@@ -118,7 +118,7 @@
           </li>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_S_H.png" />
+              <img svg-inline class="icon" src="/assets/island_icons/Island_S_H.png" />
             </span>
             <span class="description">
               Saborian high height island
@@ -127,7 +127,7 @@
 
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_K_L.png" />
+              <img svg-inline class="icon" src="/assets/island_icons/Island_K_L.png" />
             </span>
             <span class="description">
               Kioki low height island
@@ -135,7 +135,7 @@
           </li>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_K_M.png" />
+              <img svg-inline class="icon" src="/assets/island_icons/Island_K_M.png" />
             </span>
             <span class="description">
               Kioki medium height island
@@ -143,7 +143,7 @@
           </li>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="../../public/assets/island_icons/Island_K_H.png" />
+              <img svg-inline class="icon" src="/assets/island_icons/Island_K_H.png" />
             </span>
             <span class="description">
               Kioki high height island
@@ -157,7 +157,7 @@
         :position="'bottomright'"
         class="custom-watermark">
         <a href="https://cardinalguild.com">
-          <img src="../assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
+          <img src="/assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
         </a>
       </l-control>
     </l-map>
@@ -169,7 +169,7 @@
     <transition name="header-fade">
       <div class="header-bar" v-show="showHeader">
         <a href="https://cardinalguild.com" style="height: 30px;">
-          <img class="header-image" height="60px" id="cg-title" src="../assets/cg_title.png" alt="Cardinal Guild Title">
+          <img class="header-image" height="60px" id="cg-title" src="/assets/cg_title.png" alt="Cardinal Guild Title">
         </a>
         <span>Worlds Adrift Map</span>
       </div>
@@ -193,8 +193,6 @@ import {
 import axios from "axios";
 
 import IslandPopup from "./IslandPopup.vue";
-
-import { default as zoneData } from "../assets/zoneNameData.js";
 
 export default {
   name: "Example",
@@ -476,22 +474,22 @@ export default {
       sectorMarkers: [],
       islandTypes: {
         kioki: {
-          plain: "../assets/island_icons/Web_Island_Frame_Kioki.svg",
-          respawn: "../assets/island_icons/Web_Island_Frame_Kioki_R.svg",
-          turrets: "../assets/island_icons/Web_Island_Frame_Kioki_T.svg",
-          both: "../assets/island_icons/Web_Island_Frame_Kioki_RT.svg",
-          high: "../assets/island_icons/Island_K_H.png",
-          medium: "../assets/island_icons/Island_K_M.png",
-          low: "../assets/island_icons/Island_K_L.png"
+          plain: "/assets/island_icons/Web_Island_Frame_Kioki.svg",
+          respawn: "/assets/island_icons/Web_Island_Frame_Kioki_R.svg",
+          turrets: "/assets/island_icons/Web_Island_Frame_Kioki_T.svg",
+          both: "/assets/island_icons/Web_Island_Frame_Kioki_RT.svg",
+          high: "/assets/island_icons/Island_K_H.png",
+          medium: "/assets/island_icons/Island_K_M.png",
+          low: "/assets/island_icons/Island_K_L.png"
         },
         saborian: {
-          plain: "../assets/island_icons/Web_Island_Frame_Saborian.svg",
-          respawn: "../assets/island_icons/Web_Island_Frame_Saborian_R.svg",
-          turrets: "../assets/island_icons/Web_Island_Frame_Saborian_T.svg",
-          both: "../assets/island_icons/Web_Island_Frame_Saborian_RT.svg",
-          high: "../assets/island_icons/Island_S_H.png",
-          medium: "../assets/island_icons/Island_S_M.png",
-          low: "../assets/island_icons/Island_S_L.png"
+          plain: "/assets/island_icons/Web_Island_Frame_Saborian.svg",
+          respawn: "/assets/island_icons/Web_Island_Frame_Saborian_R.svg",
+          turrets: "/assets/island_icons/Web_Island_Frame_Saborian_T.svg",
+          both: "/assets/island_icons/Web_Island_Frame_Saborian_RT.svg",
+          high: "/assets/island_icons/Island_S_H.png",
+          medium: "/assets/island_icons/Island_S_M.png",
+          low: "/assets/island_icons/Island_S_L.png"
         }
       }
     };
