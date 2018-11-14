@@ -23,14 +23,30 @@
                 <td>Culture</td>
                 <td> {{ culture }}</td>
             </tr>
-            <tr class="materials" v-if="pveMaterials && pveMaterials.length">
-                <td>PVE Materials</td>
-                <td> {{ pveMaterials.join(", ") }}</td>
+            <tr class="respawners">
+                <td>Does this island have respawners?</td>
+                <td>{{ respawners?'Yes':'No' }}</td>
             </tr>
-            <tr class="materials" v-if="pveMaterials && pvpMaterials.length">
-                <td>PVP Materials</td>
-                <td> {{ pvpMaterials.join(", ") }}</td>
+            <tr class="turrets">
+                <td>Does this island have turrets?</td>
+                <td>{{ turrets?'Yes':'No' }}</td>
             </tr>
+            <template v-if="pveMaterials && pveMaterials.length">
+                <tr class="materials">
+                    <td colspan="2">PVE Materials</td>
+                </tr>
+                <tr>
+                    <td colspan="2"> {{ pveMaterials.join(", ") }}</td>
+                </tr>
+            </template>
+            <template v-if="pvpMaterials && pvpMaterials.length">
+                <tr class="materials">
+                    <td colspan="2">PVP Materials:</td>
+                </tr>
+                <tr>
+                    <td colspan="2"> {{ pvpMaterials.join(", ") }}</td>
+                </tr>
+            </template>
         </table>
     </div>
 </template>
@@ -43,6 +59,8 @@ export default {
     "altitude",
     "creator",
     "surveyor",
+    "respawners",
+    "turrets",
     "pveMaterials",
     "pvpMaterials",
     "workshop_link",
