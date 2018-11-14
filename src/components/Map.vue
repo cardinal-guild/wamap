@@ -107,11 +107,16 @@
         <div class="map-legend-seperator"></div>
         <ul class="legend-list">
           <li>
+            <span class="description">
+              Saborian
+            </span>
+          </li>
+          <li>
             <span class="icon">
               <img class="icon" src="/assets/island_icons/Island_S_L.png" />
             </span>
             <span class="description">
-              Saborian low height island
+              Low Altitude
             </span>
           </li>
           <li>
@@ -119,7 +124,7 @@
               <img class="icon" src="/assets/island_icons/Island_S_M.png" />
             </span>
             <span class="description">
-              Saborian medium height island
+              Medium Altitude
             </span>
           </li>
           <li>
@@ -127,16 +132,21 @@
               <img class="icon" src="/assets/island_icons/Island_S_H.png" />
             </span>
             <span class="description">
-              Saborian high height island
+              High Altitude
             </span>
           </li>
           <div class="map-legend-seperator"></div>
+          <li>
+            <span class="description">
+              Kioki
+            </span>
+          </li>
           <li>
             <span class="icon">
               <img class="icon" src="/assets/island_icons/Island_K_L.png" />
             </span>
             <span class="description">
-              Kioki low height island
+              Low Altitude
             </span>
           </li>
           <li>
@@ -144,15 +154,15 @@
               <img class="icon" src="/assets/island_icons/Island_K_M.png" />
             </span>
             <span class="description">
-              Kioki medium height island
+              Medium Altitude
             </span>
           </li>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="/assets/island_icons/Island_K_H.png" />
+              <img class="icon" src="/assets/island_icons/Island_K_H.png" />
             </span>
             <span class="description">
-              Kioki high height island
+              High Altitude
             </span>
           </li>
         </ul>
@@ -680,7 +690,6 @@ export default {
     background-color: rgba(79, 65, 65, 0.9);
     border-top: 5px rgb(224, 176, 132) solid;
     border-bottom: 5px rgb(224, 176, 132) solid;
-    border-radius: 3px;
     opacity: 1;
     transition: opacity 0.3s;
     box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.35);
@@ -698,7 +707,7 @@ export default {
     }
     &-seperator {
       content: " ";
-      background-color: rgba(red, 0.6);
+      background-color: #e0b084;
       display: block;
       padding: 0;
       margin: 0;
