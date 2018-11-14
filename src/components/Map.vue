@@ -99,10 +99,12 @@
         <div
         class="map-legend" 
         :class="{ faded: hideLegend }">
+        <div class="map-legend-title">Legend</div>
+        <div class="map-legend-seperator"></div>
         <ul class="legend-list">
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="/assets/island_icons/Island_S_L.png" />
+              <img class="icon" src="/assets/island_icons/Island_S_L.png" />
             </span>
             <span class="description">
               Saborian low height island
@@ -110,7 +112,7 @@
           </li>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="/assets/island_icons/Island_S_M.png" />
+              <img class="icon" src="/assets/island_icons/Island_S_M.png" />
             </span>
             <span class="description">
               Saborian medium height island
@@ -118,16 +120,16 @@
           </li>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="/assets/island_icons/Island_S_H.png" />
+              <img class="icon" src="/assets/island_icons/Island_S_H.png" />
             </span>
             <span class="description">
               Saborian high height island
             </span>
           </li>
-
+          <div class="map-legend-seperator"></div>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="/assets/island_icons/Island_K_L.png" />
+              <img class="icon" src="/assets/island_icons/Island_K_L.png" />
             </span>
             <span class="description">
               Kioki low height island
@@ -135,7 +137,7 @@
           </li>
           <li>
             <span class="icon">
-              <img svg-inline class="icon" src="/assets/island_icons/Island_K_M.png" />
+              <img class="icon" src="/assets/island_icons/Island_K_M.png" />
             </span>
             <span class="description">
               Kioki medium height island
@@ -681,6 +683,26 @@ export default {
     box-sizing: border-box;
     padding: 5px;
     color: #ffe5c4;
+
+    &-title {
+      padding: 0;
+      margin: 0;
+      margin-left: -5px;
+      margin-right: -5px;
+      font-size: 1rem;
+      padding-bottom: 5px;
+    }
+    &-seperator {
+      content: " ";
+      background-color: rgba(red, 0.6);
+      display: block;
+      padding: 0;
+      margin: 0;
+      height: 2px;
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
     &.faded {
       opacity: 0.2;
     }
