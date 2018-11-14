@@ -686,6 +686,26 @@ export default {
 }
 
 .leaflet-control-container {
+  .leaflet-control-zoom {
+    border: 0px;
+    border-radius: 0px;
+    border-top: 5px solid #e0b084;
+    border-bottom: 5px solid #e0b084;
+    &-in {
+      background: #0000;
+      color: #e0b084;
+      border-bottom: 0px solid #e0b084;
+    }
+    &-out {
+      background: #0000;
+      color: #e0b084
+    }
+    a:hover {
+      background: #0000;
+      color: #ffe5c4;
+      border-bottom: 0px solid #e0b084;
+    }
+  }
   .map-legend {
     background-color: rgba(79, 65, 65, 0.9);
     border-top: 5px rgb(224, 176, 132) solid;
@@ -722,6 +742,10 @@ export default {
     &:hover {
       opacity: 1;
     }
+  }
+  .leaflet-bar a.leaflet-disabled{
+    background:#453836;
+    color:#5b4a4a;
   }
 }
 
