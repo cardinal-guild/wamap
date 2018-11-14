@@ -242,25 +242,6 @@ export default {
         e.target.getPane("islandImageMarkers").style.display = "none";
         e.target.getPane("islandImageBorders").style.display = "none";
       }
-
-      // shows/hides top bar
-      let topControls = document.getElementsByClassName("leaflet-top");
-      if (!d.hideHeader) {
-        for (var i = 0; i < topControls.length; i++) {
-          if (e.target._zoom < -2) {
-            topControls[i].classList.remove("noheader");
-            document.getElementById("map-header").classList.remove("noheader"); //show
-          } else {
-            topControls[i].classList.add("noheader");
-            document.getElementById("map-header").classList.add("noheader"); //hide
-          }
-        }
-      } else {
-        for (var i = 0; i < topControls.length; i++) {
-          topControls[i].style.transition = "none";
-          topControls[i].classList.add("noheader");
-        }
-      }
     }, 200)
   },
   created() {
@@ -310,18 +291,6 @@ export default {
           for (var i = 0; i < controls.length; i++) {
             controls[i].classList.add("mobile");
           }
-        }
-
-        if (!self.hideHeader) {
-          //creates top bar
-          let topBar = document.getElementById("map-header");
-          let topBarClone = topBar.cloneNode(true);
-          //removes original elements
-          topBar.parentNode.removeChild(topBar);
-          topBarClone.style.display = "";
-          document
-            .getElementsByClassName("leaflet-control-container")[0]
-            .appendChild(topBarClone);
         }
       });
 
