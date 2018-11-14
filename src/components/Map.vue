@@ -1,6 +1,6 @@
 <template>
   <div class="map" 
-        :class="{ smallicons: useSmallIcons }">
+        :class="{ smallicons: useSmallIcons, header: showHeader }">
     <l-map
       id="wamap"
       ref="map"
@@ -116,13 +116,14 @@
       <span>Loading...</span>
     </div>
 
-    <!--the following are just to be copied-->
-    <div class="header" id="map-header" style="display: none;" v-if="!hideHeader || !adminMode">
-      <a href="https://cardinalguild.com" style="height: 30px;">
-        <img class="header-image" height="60px" id="cg-title" src="../assets/cg_title.png" alt="Cardinal Guild Title">
-      </a>
-      <span>Worlds Adrift Map</span>
-    </div>
+    <transition name="header-fade">
+      <div class="header-bar" v-show="showHeader">
+        <a href="https://cardinalguild.com" style="height: 30px;">
+          <img class="header-image" height="60px" id="cg-title" src="../assets/cg_title.png" alt="Cardinal Guild Title">
+        </a>
+        <span>Worlds Adrift Map</span>
+      </div>
+    </transition>
   </div>
 </template>
 <script>
@@ -263,12 +264,13 @@ export default {
     }, 200)
   },
   created() {
-    //resolve url
     let self = this;
-    if (self.$attrs.hideheader == "true") {
-      self.hideHeader = true;
-    }
+    // Hide header after 2 seconds
+    setTimeout(function() {
+      self.showHeader = false;
+    }, 3000);
     if (self.$attrs.admin == "true") {
+      self.showHeader = false;
       self.adminMode = true;
       self.mapOptions.attributionControl = false;
       if (self.$attrs.lat) {
@@ -412,6 +414,7 @@ export default {
     return {
       useSmallIcons: true,
       hideLegend: false,
+      showHeader: true,
       loaded: false,
       paneCreated: false,
       hideHeader: false,
@@ -497,6 +500,31 @@ export default {
     font-size: 3rem;
     color: #291a08;
   }
+  .header-bar {
+    font-family: "Noto Sans", sans-serif;
+    margin-top: 0;
+    border: none;
+    border-top: 5px rgb(244, 176, 132) solid;
+    border-bottom: 5px rgb(244, 176, 132) solid;
+    background: #4f4141;
+    position: absolute;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    transition: top 0.8s;
+    height: 45px;
+    span {
+      color: #ffe5c4;
+      font-size: 30px;
+      text-align: center;
+      margin: auto;
+    }
+    .header-image {
+      position: absolute;
+      top: -5px;
+      left: 50px;
+    }
+  }
 }
 .leaflet-container {
   background: rgba(0, 0, 0, 0);
@@ -524,6 +552,13 @@ export default {
 }
 </style>
 <style lang="scss">
+.header-fade-enter-active,
+.header-fade-leave-active {
+  transition: opacity 1s;
+}
+.header-fade-leave, .header-fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .zonenames {
   transition: opacity 1s;
   &.hidden {
@@ -537,6 +572,17 @@ export default {
   margin-left: -12.5px !important;
   margin-top: -12.5px !important;
 }
+.map {
+  .leaflet-top {
+    transition: top 0.5s;
+  }
+  &.header {
+    .leaflet-top {
+      top: 50px !important;
+    }
+  }
+}
+
 .leaflet-container {
   .leaflet-overlay-pane {
     svg {
@@ -579,45 +625,6 @@ export default {
 }
 
 .leaflet-control-container {
-  .leaflet-top {
-    top: 50px;
-    transition: top 0.5s;
-  }
-  .leaflet-top.mobile,
-  .leaflet-top.noheader {
-    top: 0;
-  }
-
-  .header {
-    font-family: "Noto Sans", sans-serif;
-    margin-top: 0;
-    border: none;
-    border-top: 5px rgb(244, 176, 132) solid;
-    border-bottom: 5px rgb(244, 176, 132) solid;
-    background: #4f4141;
-    position: absolute;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    transition: top 0.8s;
-    height: 45px;
-
-    span {
-      color: #ffe5c4;
-      font-size: 30px;
-      text-align: center;
-      margin: auto;
-    }
-    .header-image {
-      position: absolute;
-      top: -5px;
-      left: 50px;
-    }
-  }
-  .header.noheader {
-    top: -80px;
-  }
-
   .map-legend {
     background-color: rgba(79, 65, 65, 0.9);
     border-top: 5px rgb(224, 176, 132) solid;
