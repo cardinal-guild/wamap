@@ -7,12 +7,15 @@
       :center="center"
       :bounds="bounds"
       :crs="crs"
+      :zoom="-100"
+      @zoomend="onZoomEnd($event, $data)"
       @zoom="onZoom($event, $data)"
       @click="mapClick($event, $data)"
       v-if="loaded">
       <l-geo-json
         className="geojson"
         ref="geojson"
+        :interactive="false"
         :geojson="geojson.data"
         :options="geojson.options"
       />
@@ -29,7 +32,7 @@
         :lat-lng="marker.latLng"
         :icon="marker.icon"
         pane="sectorNames"
-        interactive="false"
+        :interactive="false"
       />
       <!--Island Markers-->
       <l-marker
@@ -49,7 +52,6 @@
         :lat-lng="island.latLng"
         :icon="island.imageBorder"
         pane="islandImageBorders"
-        interactive="false"
         :zIndexOffset="-100">
         <l-popup>
           <IslandPopup
@@ -69,21 +71,22 @@
         :lat-lng="island.latLng"
         :icon="island.imageIcon"
         pane="islandImageMarkers"
-        interactive="false"
       />
       <l-image-overlay
         ref="zonenames"
         url="https://data.cardinalguild.com/zonenames.svg"
         className="zonenames"
+        :interactive="false"
         :attribution="attribution"
         :bounds="bounds"
       />
       <l-control
         v-if="!adminMode"
-        position="topright"
-        class="map-legend">
-        <div id="map-legend">
-          This is the map Legend
+        position="topright">
+        <div
+        class="map-legend" 
+        :class="{ faded: hideLegend }">
+        This is the map Legend
         </div>
       </l-control>
       <l-control
@@ -113,6 +116,7 @@
 /* eslint-disable */
 import Vue from "vue";
 import L from "leaflet";
+import _ from "lodash";
 import {
   LMap,
   LImageOverlay,
@@ -169,13 +173,12 @@ export default {
         );
       }
     },
-    onZoom: (e, d) => {
+    onZoomEnd: _.debounce((e, d) => {
       //hiding map legend
-      let legend = $(".leaflet-top.leaflet-right");
       if (e.target._zoom > -2) {
-        legend.addClass("faded");
+        d.hideLegend = true;
       } else {
-        legend.removeClass("faded");
+        d.hideLegend = false;
       }
 
       //tier names' opacities
@@ -185,16 +188,19 @@ export default {
         d &&
         d.zonenameMaxOpacity
       ) {
-        let minZoom = e.target.options.minZoom;
-        let maxZoom = e.target.options.maxZoom;
-        let opacityPercentage =
-          ((e.target._zoom - maxZoom) * 100) / (minZoom - maxZoom);
-        let zoneOpacity = (opacityPercentage / 100) * d.zonenameMaxOpacity;
-        document.getElementsByClassName(
-          "zonenames"
-        )[0].style.opacity = zoneOpacity;
+        if (e.target._zoom > d.zonenameMinZoom) {
+          $(".zonenames").addClass("hidden");
+        } else {
+          let opacity =
+            ((e.target._zoom - d.zonenameMinZoom) /
+              (e.target.options.minZoom - d.zonenameMinZoom)) *
+            d.zonenameMaxOpacity;
+          $(".zonenames").css("opacity", opacity);
+          $(".zonenames").removeClass("hidden");
+        }
       }
-
+    }, 600),
+    onZoom: _.debounce((e, d) => {
       // shows/hides sector names
       if (e.target._zoom < -3.5) {
         e.target.getPane("sectorNames").style.display = "none";
@@ -236,7 +242,7 @@ export default {
           topControls[i].classList.add("noheader");
         }
       }
-    }
+    }, 200)
   },
   created() {
     //resolve url
@@ -318,8 +324,9 @@ export default {
             islandDataJson[i].geometry.coordinates[0],
             islandDataJson[i].geometry.coordinates[1]
           );
-          let type = ""
-          if (island.properties.respawners && island.properties.turrets) type = "both";
+          let type = "";
+          if (island.properties.respawners && island.properties.turrets)
+            type = "both";
           else if (island.properties.respawners) type = "respawn";
           else if (island.properties.turrets) type = "turrets";
           else type = "plain";
@@ -341,7 +348,7 @@ export default {
             iconUrl: self.islandTypes[island.properties.type][height],
             iconSize: [50, 50],
             className: "island-icon"
-          })
+          });
           islands.push(island);
         }
         self.islandData = islands;
@@ -385,6 +392,7 @@ export default {
   },
   data() {
     return {
+      hideLegend: false,
       loaded: false,
       paneCreated: false,
       hideHeader: false,
@@ -407,7 +415,8 @@ export default {
       crs: L.CRS.Simple,
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
-      zonenameMaxOpacity: 0.5,
+      zonenameMaxOpacity: 0.8,
+      zonenameMinZoom: -3,
       geojson: {
         data: null,
         options: {
@@ -504,6 +513,10 @@ export default {
 <style lang="scss">
 .zonenames {
   transition: opacity 1s;
+  &.hidden {
+    display: none;
+    opacity: 0;
+  }
 }
 
 .leaflet-container {
@@ -587,18 +600,18 @@ export default {
     top: -80px;
   }
 
-  .leaflet-top.leaflet-right {
-    #map-legend {
-      opacity: 1;
-      transition: opacity 0.3s;
-    }
-  }
-  .leaflet-top.leaflet-right.faded {
-    #map-legend {
+  .map-legend {
+    padding: 5px;
+    color: white;
+    background: #4f4141f0;
+    color: #ffe5c4;
+    border-top: 5px #e0b084 solid;
+    border-bottom: 5px #e0b084 solid;
+    border-radius: 0;
+    opacity: 1;
+    transition: opacity 0.3s;
+    &.faded {
       opacity: 0.2;
-    }
-    #map-legend:hover {
-      opacity: 1;
     }
   }
 }
