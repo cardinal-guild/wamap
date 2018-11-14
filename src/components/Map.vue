@@ -694,7 +694,7 @@ export default {
     &-in {
       background: #0000;
       color: #e0b084;
-      border-bottom: 2px solid #e0b084;
+      border-bottom: 0px solid #e0b084;
     }
     &-out {
       background: #0000;
@@ -703,9 +703,9 @@ export default {
     a:hover {
       background: #0000;
       color: #ffe5c4;
+      border-bottom: 0px solid #e0b084;
     }
   }
-  
   .map-legend {
     background-color: rgba(79, 65, 65, 0.9);
     border-top: 5px rgb(224, 176, 132) solid;
@@ -739,6 +739,10 @@ export default {
     &.faded {
       opacity: 0.2;
     }
+  }
+  .leaflet-bar a.leaflet-disabled{
+    background:#453836;
+    color:#5b4a4a;
   }
 }
 
