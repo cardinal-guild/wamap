@@ -1,5 +1,5 @@
 <template>
-  <div class="map" 
+  <div class="map"
         :class="{ smallicons: useSmallIcons, header: showHeader }">
     <l-map
       id="wamap"
@@ -101,7 +101,7 @@
         v-if="!adminMode"
         position="topright">
         <div
-        class="map-legend" 
+        class="map-legend"
         :class="{ faded: hideLegend }">
         <div class="map-legend-title">Legend</div>
         <div class="map-legend-seperator"></div>
@@ -718,6 +718,9 @@ export default {
     }
     &.faded {
       opacity: 0.2;
+    }
+    &:hover {
+      opacity: 1;
     }
   }
 }
