@@ -41,15 +41,16 @@
         pane="islandMarkers"
         interactive="false"
       />
-      <!--Island Image Markers-->
+      <!--Island Image Borders-->
       <l-marker
         v-if="paneCreated"
         v-for="island in islandData"
-        :key="island.properties.name + '_image'"
+        :key="island.properties.name + '_border'"
         :lat-lng="island.latLng"
-        :icon="island.imageIcon"
-        pane="islandImageMarkers"
-        interactive="false">
+        :icon="island.imageBorder"
+        pane="islandImageBorders"
+        interactive="false"
+        :zIndexOffset="-100">
         <l-popup>
           <IslandPopup
             :name="island.properties.name"
@@ -60,6 +61,16 @@
           />
         </l-popup>
       </l-marker>
+      <!--Island Image Markers-->
+      <l-marker
+        v-if="paneCreated"
+        v-for="island in islandData"
+        :key="island.properties.name + '_image'"
+        :lat-lng="island.latLng"
+        :icon="island.imageIcon"
+        pane="islandImageMarkers"
+        interactive="false"
+      />
       <l-image-overlay
         ref="zonenames"
         url="https://data.cardinalguild.com/zonenames.svg"
@@ -201,8 +212,10 @@ export default {
       // shows/hides island images
       if (e.target._zoom > -1.3) {
         e.target.getPane("islandImageMarkers").style.display = "block";
+        e.target.getPane("islandImageBorders").style.display = "block";
       } else {
         e.target.getPane("islandImageMarkers").style.display = "none";
+        e.target.getPane("islandImageBorders").style.display = "none";
       }
 
       // shows/hides top bar
@@ -253,6 +266,7 @@ export default {
         self.map.createPane("sectorNames");
         self.map.createPane("islandMarkers");
         self.map.createPane("islandImageMarkers");
+        self.map.createPane("islandImageBorders");
         self.paneCreated = true;
 
         //attempts to set view to lat & lng from url
@@ -304,15 +318,30 @@ export default {
             islandDataJson[i].geometry.coordinates[0],
             islandDataJson[i].geometry.coordinates[1]
           );
-          island.icon = L.icon({
-            iconUrl: "../assets/Island_Frame_Saborian.svg",
-            iconSize: [40, 40]
+          let type = ""
+          if (island.properties.respawners && island.properties.turrets) type = "both";
+          else if (island.properties.respawners) type = "respawn";
+          else if (island.properties.turrets) type = "turrets";
+          else type = "plain";
+          island.imageBorder = L.icon({
+            iconUrl: self.islandTypes[island.properties.type][type],
+            iconSize: [80, 80],
+            className: "island-image-border"
           });
           island.imageIcon = L.icon({
-            iconUrl: islandDataJson[i].properties.imageIcon,
+            iconUrl: island.properties.imageIcon,
             iconSize: [80, 80],
             className: "island-image-icon"
           });
+          let height = "";
+          if (island.properties.altitude > 2200) height = "high";
+          else if (island.properties.altitude > 1800) height = "medium";
+          else height = "low";
+          island.icon = L.icon({
+            iconUrl: self.islandTypes[island.properties.type][height],
+            iconSize: [50, 50],
+            className: "island-icon"
+          })
           islands.push(island);
         }
         self.islandData = islands;
@@ -366,7 +395,7 @@ export default {
       },
       mapOptions: {
         minZoom: -4.6,
-        maxZoom: -1,
+        maxZoom: -0.4,
         zoomSnap: 0.2,
         zoomDelta: 0.2,
         wheelPxPerZoomLevel: 200,
@@ -388,7 +417,27 @@ export default {
         }
       },
       islandData: null,
-      sectorMarkers: []
+      sectorMarkers: [],
+      islandTypes: {
+        kioki: {
+          plain: "../assets/island_icons/Web_Island_Frame_Kioki.svg",
+          respawn: "../assets/island_icons/Web_Island_Frame_Kioki_R.svg",
+          turrets: "../assets/island_icons/Web_Island_Frame_Kioki_T.svg",
+          both: "../assets/island_icons/Web_Island_Frame_Kioki_RT.svg",
+          high: "../assets/island_icons/Island_K_H.png",
+          medium: "../assets/island_icons/Island_K_M.png",
+          low: "../assets/island_icons/Island_K_L.png"
+        },
+        saborian: {
+          plain: "../assets/island_icons/Web_Island_Frame_Saborian.svg",
+          respawn: "../assets/island_icons/Web_Island_Frame_Saborian_R.svg",
+          turrets: "../assets/island_icons/Web_Island_Frame_Saborian_T.svg",
+          both: "../assets/island_icons/Web_Island_Frame_Saborian_RT.svg",
+          high: "../assets/island_icons/Island_S_H.png",
+          medium: "../assets/island_icons/Island_S_M.png",
+          low: "../assets/island_icons/Island_S_L.png"
+        }
+      }
     };
   }
 };
@@ -472,6 +521,7 @@ export default {
   .leaflet-islandImageMarkers-pane {
     img.island-image-icon {
       border-radius: 50%;
+      filter: drop-shadow(4px 4px 4px #00264d);
     }
   }
 }

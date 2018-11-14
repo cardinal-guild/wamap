@@ -1,25 +1,25 @@
 <template>
-    <div class="island-popup">
-        <table class="island-data-table" :id="name">
-            <tr>
+    <div class="island-popup" :id="name">
+        <table class="island-data-table">
+            <tr class="name">
                 <th colspan="2">
                     {{ name }}
                 </th>
             </tr>
-            <tr class="image-row">
+            <tr class="image">
                 <td colspan="2">
                     <img :src="image_link" width="200px">
                 </td>
             </tr>
-            <tr>
+            <tr class="altitude">
                 <td>Altitude</td>
                 <td>{{ altitude }}</td>
             </tr>
-            <tr>
+            <tr class="databanks">
                 <td>Databanks</td>
                 <td>{{ databanks }}</td>
             </tr>
-            <tr>
+            <tr class="culture">
                 <td>Culture</td>
                 <td> {{ culture }}</td>
             </tr>
