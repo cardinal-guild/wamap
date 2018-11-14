@@ -27,7 +27,7 @@
       />
       <!--Sector Markers-->
       <l-marker
-        v-if="paneCreated"
+        v-if="paneCreated && showSectorNames"
         v-for="marker in sectorMarkers"
         :key="marker.name"
         :lat-lng="marker.latLng"
@@ -37,7 +37,7 @@
       />
       <!--Island Markers-->
       <l-marker
-        v-if="paneCreated && !adminMode"
+        v-if="paneCreated && showIslandMarkers"
         v-for="island in islandData"
         :key="island.properties.name"
         :lat-lng="island.latLng"
@@ -57,7 +57,7 @@
       </l-marker>
       <!--Island Image Borders-->
       <l-marker
-        v-if="paneCreated"
+        v-if="paneCreated && showIslandImageMarkers"
         v-for="island in islandData"
         :key="island.properties.name + '_border'"
         :lat-lng="island.latLng"
@@ -78,7 +78,7 @@
       </l-marker>
       <!--Island Image Markers-->
       <l-marker
-        v-if="paneCreated"
+        v-if="paneCreated && showIslandImageMarkers"
         v-for="island in islandData"
         :key="island.properties.name + '_image'"
         :lat-lng="island.latLng"
@@ -216,10 +216,10 @@ export default {
     }, 600),
     onZoom: _.debounce((e, d) => {
       // shows/hides sector names
-      if (e.target._zoom < -3.7) {
-        e.target.getPane("sectorNames").style.display = "none";
+      if (e.target._zoom > -3.7) {
+        d.showSectorNames = true;
       } else {
-        e.target.getPane("sectorNames").style.display = "block";
+        d.showSectorNames = false;
       }
       if (e.target._zoom < -3) {
         d.useSmallIcons = true;
@@ -229,18 +229,16 @@ export default {
 
       // shows/hides island markers
       if (e.target._zoom > -3.5 && e.target._zoom < -1.3) {
-        e.target.getPane("islandMarkers").style.display = "block";
+        d.showIslandMarkers = true;
       } else {
-        e.target.getPane("islandMarkers").style.display = "none";
+        d.showIslandMarkers = false;
       }
 
       // shows/hides island images
       if (e.target._zoom > -1.3) {
-        e.target.getPane("islandImageMarkers").style.display = "block";
-        e.target.getPane("islandImageBorders").style.display = "block";
+        d.showIslandImageMarkers = true;
       } else {
-        e.target.getPane("islandImageMarkers").style.display = "none";
-        e.target.getPane("islandImageBorders").style.display = "none";
+        d.showIslandImageMarkers = false;
       }
     }, 200)
   },
@@ -386,6 +384,9 @@ export default {
       showHeader: true,
       loaded: false,
       paneCreated: false,
+      showSectorNames: false,
+      showIslandImageMarkers: false,
+      showIslandMarkers: false,
       hideHeader: false,
       adminMode: false,
       zoomBoundary0: 10,
