@@ -325,7 +325,7 @@ export default {
           else type = "plain";
           island.imageBorder = L.icon({
             iconUrl: self.islandTypes[island.properties.type][type],
-            iconSize: [80, 80],
+            iconSize: [100, 100],
             className: "island-image-border"
           });
           island.imageIcon = L.icon({
@@ -518,10 +518,31 @@ export default {
     color: #291a08;
   }
 
+  .leaflet-islandMarkers-pane {
+    img.island-icon {
+      filter: drop-shadow(0 0 4px #000d1a);
+    }
+  }
+
   .leaflet-islandImageMarkers-pane {
     img.island-image-icon {
       border-radius: 50%;
-      filter: drop-shadow(4px 4px 4px #00264d);
+    }
+  }
+
+  .leaflet-popup {
+    .leaflet-popup-content-wrapper {
+      background: #4f4141f0;
+      color: #ffe5c4;
+      border-top: 5px rgb(224, 176, 132) solid;
+      border-bottom: 5px rgb(224, 176, 132) solid;
+      border-radius: 0;
+    }
+    a.leaflet-popup-close-button {
+      padding-top: 9px;
+    }
+    a.leaflet-popup-close-button:hover {
+      color: #d52a2a;
     }
   }
 }
