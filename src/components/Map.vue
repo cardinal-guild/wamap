@@ -49,8 +49,17 @@
         :lat-lng="island.latLng"
         :icon="island.imageIcon"
         pane="islandImageMarkers"
-        interactive="false"
-      />
+        interactive="false">
+        <l-popup>
+          <IslandPopup
+            :name="island.properties.name"
+            :altitude="island.properties.altitude"
+            :image_link="island.properties.imageMedium"
+            :databanks="island.properties.databanks"
+            :culture="island.properties.type.charAt(0).toUpperCase() + island.properties.type.slice(1)"
+          />
+        </l-popup>
+      </l-marker>
       <l-image-overlay
         ref="zonenames"
         url="https://data.cardinalguild.com/zonenames.svg"
@@ -99,9 +108,12 @@ import {
   LLayerGroup,
   LGeoJson,
   LControl,
-  LMarker
+  LMarker,
+  LPopup
 } from "vue2-leaflet";
 import axios from "axios";
+
+import IslandPopup from "./IslandPopup.vue";
 
 import { default as zoneData } from "../assets/zoneNameData.js";
 
@@ -113,7 +125,9 @@ export default {
     LLayerGroup,
     LGeoJson,
     LControl,
-    LMarker
+    LMarker,
+    LPopup,
+    IslandPopup
   },
   methods: {
     mapClick: (e, d) => {
