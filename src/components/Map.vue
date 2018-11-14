@@ -1,5 +1,6 @@
 <template>
-  <div class="map">
+  <div class="map" 
+        :class="{ smallicons: useSmallIcons }">
     <l-map
       id="wamap"
       ref="map"
@@ -41,9 +42,19 @@
         :key="island.properties.name"
         :lat-lng="island.latLng"
         :icon="island.icon"
-        pane="islandMarkers"
-        interactive="false"
-      />
+        pane="islandMarkers">
+        <l-popup>
+          <IslandPopup
+            :name="island.properties.name"
+            :altitude="island.properties.altitude"
+            :image_link="island.properties.imageMedium"
+            :databanks="island.properties.databanks"
+            :pveMaterials="island.properties.pveMaterials"
+            :pvpMaterials="island.properties.pvpMaterials"
+            :culture="island.properties.type.charAt(0).toUpperCase() + island.properties.type.slice(1)"
+          />
+        </l-popup>
+      </l-marker>
       <!--Island Image Borders-->
       <l-marker
         v-if="paneCreated"
@@ -59,6 +70,8 @@
             :altitude="island.properties.altitude"
             :image_link="island.properties.imageMedium"
             :databanks="island.properties.databanks"
+            :pveMaterials="island.properties.pveMaterials"
+            :pvpMaterials="island.properties.pvpMaterials"
             :culture="island.properties.type.charAt(0).toUpperCase() + island.properties.type.slice(1)"
           />
         </l-popup>
@@ -202,14 +215,19 @@ export default {
     }, 600),
     onZoom: _.debounce((e, d) => {
       // shows/hides sector names
-      if (e.target._zoom < -3.5) {
+      if (e.target._zoom < -3.7) {
         e.target.getPane("sectorNames").style.display = "none";
       } else {
         e.target.getPane("sectorNames").style.display = "block";
       }
+      if (e.target._zoom < -3) {
+        d.useSmallIcons = true;
+      } else {
+        d.useSmallIcons = false;
+      }
 
       // shows/hides island markers
-      if (e.target._zoom > -2.8 && e.target._zoom < -1.3) {
+      if (e.target._zoom > -3.5 && e.target._zoom < -1.3) {
         e.target.getPane("islandMarkers").style.display = "block";
       } else {
         e.target.getPane("islandMarkers").style.display = "none";
@@ -392,11 +410,17 @@ export default {
   },
   data() {
     return {
+      useSmallIcons: true,
       hideLegend: false,
       loaded: false,
       paneCreated: false,
       hideHeader: false,
       adminMode: false,
+      zoomBoundary0: 10,
+      zoomBoundary1: 20,
+      zoomBoundary2: 40,
+      zoomBoundary3: 60,
+      zoomBoundary4: 80,
       adminMarker: {
         lat: 0,
         lng: 0
@@ -405,7 +429,7 @@ export default {
         minZoom: -4.6,
         maxZoom: -0.4,
         zoomSnap: 0.2,
-        zoomDelta: 0.2,
+        zoomDelta: 0.6,
         wheelPxPerZoomLevel: 200,
         attributionControl: true
       },
@@ -416,7 +440,7 @@ export default {
       attribution:
         "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
       zonenameMaxOpacity: 0.8,
-      zonenameMinZoom: -3,
+      zonenameMinZoom: -2.8,
       geojson: {
         data: null,
         options: {
@@ -484,17 +508,6 @@ export default {
   .crosshair-cursor-enabled {
     cursor: crosshair;
   }
-  #map-legend {
-    background-color: rgba(79, 65, 65, 0.9);
-    border: none;
-    border-top: 5px rgb(224, 176, 132) solid;
-    border-bottom: 5px rgb(224, 176, 132) solid;
-    box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.35);
-    box-sizing: border-box;
-    padding: 5px;
-    color: #ffe5c4;
-    margin-right: 10px;
-  }
 
   .map-background {
     position: fixed;
@@ -518,7 +531,12 @@ export default {
     opacity: 0;
   }
 }
-
+.map.smallicons .leaflet-container .leaflet-islandMarkers-pane img.island-icon {
+  width: 25px !important;
+  height: 25px !important;
+  margin-left: -12.5px !important;
+  margin-top: -12.5px !important;
+}
 .leaflet-container {
   .leaflet-overlay-pane {
     svg {
@@ -601,15 +619,17 @@ export default {
   }
 
   .map-legend {
-    padding: 5px;
-    color: white;
-    background: #4f4141f0;
-    color: #ffe5c4;
-    border-top: 5px #e0b084 solid;
-    border-bottom: 5px #e0b084 solid;
-    border-radius: 0;
+    background-color: rgba(79, 65, 65, 0.9);
+    border-top: 5px rgb(224, 176, 132) solid;
+    border-bottom: 5px rgb(224, 176, 132) solid;
+    border-radius: 3px;
     opacity: 1;
     transition: opacity 0.3s;
+    box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
+    padding: 5px;
+    color: #ffe5c4;
+    margin-right: 10px;
     &.faded {
       opacity: 0.2;
     }

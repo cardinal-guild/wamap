@@ -23,22 +23,32 @@
                 <td>Culture</td>
                 <td> {{ culture }}</td>
             </tr>
+            <tr class="materials" v-if="pveMaterials && pveMaterials.length">
+                <td>PVE Materials</td>
+                <td> {{ pveMaterials.join(", ") }}</td>
+            </tr>
+            <tr class="materials" v-if="pveMaterials && pvpMaterials.length">
+                <td>PVP Materials</td>
+                <td> {{ pvpMaterials.join(", ") }}</td>
+            </tr>
         </table>
     </div>
 </template>
 
 <script>
 export default {
-    name: "IslandPopup",
-    props: [
+  name: "IslandPopup",
+  props: [
     "name",
     "altitude",
     "creator",
     "surveyor",
+    "pveMaterials",
+    "pvpMaterials",
     "workshop_link",
     "databanks",
     "image_link",
     "culture"
-    ]
-}
+  ]
+};
 </script>
