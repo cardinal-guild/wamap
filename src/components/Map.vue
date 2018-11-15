@@ -34,11 +34,35 @@
         pane="sectorNames"
         :interactive="false"
       />
+
+
+
+      <!--Turret Markers-->
+      <l-marker
+        v-if="paneCreated && showIslandMarkers && turrets.data.length"
+        v-for="turret in turrets.data"
+        :key="turret.id"
+        :lat-lng="turret.latLng"
+        :icon="turrets.icon"
+        pane="turretMarkers"
+      />
+
+
+      <!--Respawner Markers-->
+      <l-marker
+        v-if="paneCreated && showIslandMarkers && respawners.data.length"
+        v-for="respawner in respawners.data"
+        :key="respawner.id"
+        :lat-lng="respawner.latLng"
+        :icon="respawners.icon"
+        pane="respawnerMarkers"
+      />
+
       <!--Island Markers-->
       <l-marker
-        v-if="paneCreated && showIslandMarkers"
+        v-if="paneCreated && showIslandMarkers && islandData.length"
         v-for="island in islandData"
-        :key="island.properties.name"
+        :key="island.properties.slug+'_'+island.id"
         :lat-lng="island.latLng"
         :icon="island.icon"
         pane="islandMarkers">
@@ -60,7 +84,7 @@
       <l-marker
         v-if="paneCreated && showIslandImageMarkers"
         v-for="island in islandData"
-        :key="island.properties.name + '_border'"
+        :key="island.properties.slug + '_border'"
         :lat-lng="island.latLng"
         :icon="island.imageBorder"
         pane="islandImageBorders"
@@ -83,7 +107,7 @@
       <l-marker
         v-if="paneCreated && showIslandImageMarkers"
         v-for="island in islandData"
-        :key="island.properties.name + '_image'"
+        :key="island.properties.slug + '_' + island.id + '_image'"
         :lat-lng="island.latLng"
         :icon="island.imageIcon"
         pane="islandImageMarkers"
@@ -268,6 +292,8 @@ export default {
           self.zonenameMaxOpacity;
         self.map.getRenderer(self.map).options.padding = 10;
         self.map.createPane("sectorNames");
+        self.map.createPane("turretMarkers");
+        self.map.createPane("respawnerMarkers");
         self.map.createPane("islandMarkers");
         self.map.createPane("islandImageMarkers");
         self.map.createPane("islandImageBorders");
@@ -310,6 +336,20 @@ export default {
             islandDataJson[i].geometry.coordinates[0],
             islandDataJson[i].geometry.coordinates[1]
           );
+          if (island.properties.turrets) {
+            let turret = {};
+            turret.latLng = island.latLng;
+            turret.id = "turret_" + island.properties.slug + "_" + island.id;
+            self.turrets.data.push(turret);
+          }
+
+          if (island.properties.respawners) {
+            let respawner = {};
+            respawner.latLng = island.latLng;
+            respawner.id =
+              "respawner_" + island.properties.slug + "_" + island.id;
+            self.respawners.data.push(respawner);
+          }
           let type = "";
           if (island.properties.respawners && island.properties.turrets)
             type = "both";
@@ -421,7 +461,23 @@ export default {
           }
         }
       },
-      islandData: null,
+      turrets: {
+        data: [],
+        icon: L.icon({
+          iconUrl: "/assets/island_icons/turret.png",
+          iconSize: [50, 30],
+          className: "turret-icon"
+        })
+      },
+      respawners: {
+        data: [],
+        icon: L.icon({
+          iconUrl: "/assets/island_icons/respawner.png",
+          iconSize: [50, 30],
+          className: "respawner-icon"
+        })
+      },
+      islandData: [],
       sectorMarkers: [],
       islandTypes: {
         kioki: {
@@ -601,7 +657,7 @@ export default {
     }
     &-out {
       background: #0000;
-      color: #e0b084
+      color: #e0b084;
     }
     a:hover {
       background: #0000;
@@ -609,9 +665,9 @@ export default {
       border-bottom: 0px solid #e0b084;
     }
   }
-  .leaflet-bar a.leaflet-disabled{
-    background:#453836;
-    color:#5b4a4a;
+  .leaflet-bar a.leaflet-disabled {
+    background: #453836;
+    color: #5b4a4a;
   }
 }
 
