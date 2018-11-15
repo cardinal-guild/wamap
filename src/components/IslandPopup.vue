@@ -112,6 +112,7 @@ export default {
     th {
       line-height: 22px;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: flex-start;
     }
