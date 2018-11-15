@@ -332,7 +332,7 @@ export default {
           else height = "low";
           island.icon = L.icon({
             iconUrl: self.islandTypes[island.properties.type][height],
-            iconSize: [50, 50],
+            iconSize: [30, 30],
             className: "island-icon"
           });
           islands.push(island);
@@ -536,10 +536,10 @@ export default {
   }
 }
 .map.smallicons .leaflet-container .leaflet-islandMarkers-pane img.island-icon {
-  width: 25px !important;
-  height: 25px !important;
-  margin-left: -12.5px !important;
-  margin-top: -12.5px !important;
+  // width: 25px !important;
+  // height: 25px !important;
+  // margin-left: -12.5px !important;
+  // margin-top: -12.5px !important;
 }
 .map {
   .leaflet-top {
@@ -562,12 +562,6 @@ export default {
     font-size: 35px;
     font-family: "Roboto", sans-serif;
     color: #291a08;
-  }
-
-  .leaflet-islandMarkers-pane {
-    img.island-icon {
-      filter: drop-shadow(0 0 4px #000d1a);
-    }
   }
 
   .leaflet-islandImageMarkers-pane {
