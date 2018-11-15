@@ -66,7 +66,7 @@
         :lat-lng="island.latLng"
         :icon="island.icon"
         pane="islandMarkers">
-        <l-popup>
+        <l-popup v-if="!adminMode">
           <IslandPopup  v-bind="island.properties" />
         </l-popup>
       </l-marker>
@@ -79,7 +79,7 @@
         :icon="island.imageBorder"
         pane="islandImageBorders"
         :zIndexOffset="-100">
-        <l-popup>
+        <l-popup v-if="!adminMode">
           <IslandPopup v-bind="island.properties" />
         </l-popup>
       </l-marker>
