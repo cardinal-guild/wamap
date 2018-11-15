@@ -43,23 +43,45 @@
                 <td>Does this island have turrets?</td>
                 <td>{{ turrets?'Yes':'No' }}</td>
             </tr>
-            <template v-if="pveMaterials && pveMaterials.length">
-                <tr class="materials">
-                    <td colspan="2">PVE Materials</td>
-                </tr>
-                <tr>
-                    <td colspan="2"> {{ pveMaterials.join(", ") }}</td>
-                </tr>
-            </template>
-            <template v-if="pvpMaterials && pvpMaterials.length">
-                <tr class="materials">
-                    <td colspan="2">PVP Materials:</td>
-                </tr>
-                <tr>
-                    <td colspan="2"> {{ pvpMaterials.join(", ") }}</td>
-                </tr>
-            </template>
         </table>
+        <div class="wrap-collabsible">
+            <input id="collapsible" class="toggle" type="checkbox">
+            <label for="collapsible" class="lbl-toggle">More Info</label>
+            <div class="collapsible-content">
+                <table class="content-inner">
+                    <tr v-if="pveMaterials && pveMaterials.length">
+                        <td colspan="2" class="materials-info-title">PVE Materials:</td>
+                    </tr>
+                    <tr v-if="pveMaterials && pveMaterials.length">
+                        <td colspan="2" class="materials-info-content">{{ pveMaterials.join(", ") }}</td>
+                    </tr>
+                    <tr v-if="pvpMaterials && pvpMaterials.length">
+                        <td colspan="2" class="materials-info-title">PVP Materials:</td>
+                    </tr>
+                    <tr v-if="pvpMaterials && pvpMaterials.length">
+                        <td colspan="2" class="materials-info-content">{{ pvpMaterials.join(", ") }}</td>
+                    </tr>
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr v-if="surveyCreatedBy">
+                        <td>Survey created by:</td>
+                        <td>{{surveyCreatedBy}}</td>
+                    </tr>
+                    <tr v-if="createdAt">
+                        <td>Created at:</td>
+                        <td>{{createdAt}}</td>
+                    </tr>
+                    <tr><td colspan="2">&nbsp;</td></tr>
+                    <tr v-if="surveyUpdatedBy">
+                        <td>Survey updated by:</td>
+                        <td>{{surveyUpdatedBy}}</td>
+                    </tr>
+                    <tr v-if="updatedAt">
+                        <td>Updated at:</td>
+                        <td>{{updatedAt}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -98,7 +120,9 @@ export default {
     "imagePopup",
     "imageMedium",
     "imageLarge",
-    "imageOriginal"
+    "imageOriginal",
+    "createdAt",
+    "updatedAt"
   ]
 };
 </script>
@@ -128,6 +152,79 @@ export default {
     .creator-name {
       font-size: 12px;
     }
+  }
+}
+.wrap-collabsible {
+  margin-bottom: 1.2rem 0;
+  input[type="checkbox"] {
+    display: none;
+  }
+  .lbl-toggle {
+    display: block;
+
+    padding-left: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: left;
+
+    color: black;
+    background: #dbac82;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease-out;
+  }
+
+  .lbl-toggle:hover {
+    color: #7c5a0b;
+  }
+
+  .lbl-toggle::before {
+    content: " ";
+    display: inline-block;
+
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid currentColor;
+    vertical-align: middle;
+    margin-right: 0.7rem;
+    transform: translateY(-2px);
+
+    transition: transform 0.2s ease-out;
+  }
+
+  .toggle:checked + .lbl-toggle::before {
+    transform: rotate(90deg) translateX(-3px);
+  }
+
+  .collapsible-content {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.25s ease-in-out;
+  }
+
+  .toggle:checked + .lbl-toggle + .collapsible-content {
+    max-height: 350px;
+  }
+
+  .toggle:checked + .lbl-toggle {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .content-inner {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    .materials-info-title {
+      font-size: 1rem;
+    }
+  }
+  .collapsible-content .content-inner {
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid rgba(#dbac82, 0.45);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
   }
 }
 </style>
