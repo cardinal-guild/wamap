@@ -4,13 +4,13 @@
             <tr class="name">
                 <th colspan="2">
                     <div class="island-name" v-if="workshopUrl">
-                        <a target="blank" rel="nofollow,noopener" :href="workshopUrl">{{ fullName }}&nbsp;<img src="/assets/steamicon.png"></a>
+                        <a target="blank" rel="nofollow,noopener" :href="workshopUrl">{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span>&nbsp;<img src="/assets/steamicon.png"></a>
                     </div>
                     <div class="island-name" v-else>
-                        {{ fullName }}
+                        {{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span>
                     </div>
                     <div class="creator-name" v-if="creatorWorkshopUrl">
-                        by <a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
+                        by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
                     </div>
                     <div class="creator-name" v-else>
                         by {{creator}}
@@ -121,6 +121,9 @@ export default {
     .island-name {
       font-size: 16px;
       margin-right: 10px;
+    }
+    .nickname {
+      font-size: 12px;
     }
     .creator-name {
       font-size: 12px;
