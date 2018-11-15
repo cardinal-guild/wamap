@@ -108,12 +108,10 @@ export default {
 .island-data-table {
   border-collapse: collapse;
   .name {
-    font-size: 1rem;
     th {
       line-height: 22px;
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       justify-content: flex-start;
     }
     a {
@@ -121,10 +119,11 @@ export default {
       color: #e0b084;
     }
     .island-name {
+      font-size: 16px;
       margin-right: 10px;
     }
     .creator-name {
-      font-size: 0.8rem;
+      font-size: 12px;
     }
   }
 }
