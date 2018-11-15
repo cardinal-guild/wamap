@@ -1,6 +1,5 @@
 <template>
-  <div class="map"
-        :class="{ smallicons: useSmallIcons, header: showHeader }">
+  <div class="map" :class="{ smallicons: useSmallIcons, header: showHeader }">
     <l-map
       id="wamap"
       ref="map"
@@ -45,7 +44,7 @@
         pane="islandMarkers">
         <l-popup>
           <IslandPopup
-            :name="island.properties.name"
+            :name="island.properties.nickName?island.properties.nickName:island.properties.name"
             :altitude="island.properties.altitude"
             :image_link="island.properties.imageMedium"
             :databanks="island.properties.databanks"
@@ -68,7 +67,7 @@
         :zIndexOffset="-100">
         <l-popup>
           <IslandPopup
-            :name="island.properties.name"
+            :name="island.properties.nickName?island.properties.nickName:island.properties.name"
             :altitude="island.properties.altitude"
             :image_link="island.properties.imageMedium"
             :databanks="island.properties.databanks"
@@ -100,73 +99,7 @@
       <l-control
         v-if="!adminMode"
         position="topright">
-        <div
-        class="map-legend"
-        :class="{ faded: hideLegend }">
-        <div class="map-legend-title">Legend</div>
-        <div class="map-legend-seperator"></div>
-        <ul class="legend-list">
-          <li>
-            <span class="description">
-              Saborian
-            </span>
-          </li>
-          <li>
-            <span class="icon">
-              <img class="icon" src="/assets/island_icons/Island_S_L.png" />
-            </span>
-            <span class="description">
-              Low Altitude
-            </span>
-          </li>
-          <li>
-            <span class="icon">
-              <img class="icon" src="/assets/island_icons/Island_S_M.png" />
-            </span>
-            <span class="description">
-              Medium Altitude
-            </span>
-          </li>
-          <li>
-            <span class="icon">
-              <img class="icon" src="/assets/island_icons/Island_S_H.png" />
-            </span>
-            <span class="description">
-              High Altitude
-            </span>
-          </li>
-          <div class="map-legend-seperator"></div>
-          <li>
-            <span class="description">
-              Kioki
-            </span>
-          </li>
-          <li>
-            <span class="icon">
-              <img class="icon" src="/assets/island_icons/Island_K_L.png" />
-            </span>
-            <span class="description">
-              Low Altitude
-            </span>
-          </li>
-          <li>
-            <span class="icon">
-              <img class="icon" src="/assets/island_icons/Island_K_M.png" />
-            </span>
-            <span class="description">
-              Medium Altitude
-            </span>
-          </li>
-          <li>
-            <span class="icon">
-              <img class="icon" src="/assets/island_icons/Island_K_H.png" />
-            </span>
-            <span class="description">
-              High Altitude
-            </span>
-          </li>
-        </ul>
-        </div>
+        <MapLegend :hideLegend="hideLegend" />
       </l-control>
       <l-control
         v-if="!adminMode"
@@ -209,6 +142,7 @@ import {
 import axios from "axios";
 
 import IslandPopup from "./IslandPopup.vue";
+import MapLegend from "./MapLegend.vue";
 
 export default {
   name: "Example",
@@ -220,7 +154,8 @@ export default {
     LControl,
     LMarker,
     LPopup,
-    IslandPopup
+    IslandPopup,
+    MapLegend
   },
   methods: {
     mapClick: (e, d) => {
@@ -586,33 +521,6 @@ export default {
 }
 </style>
 <style lang="scss">
-.legend-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  li {
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: center;
-    .icon {
-      text-align: left;
-      flex-wrap: nowrap;
-      padding-right: 5px;
-      img {
-        display: block;
-        width: 20px;
-        height: 20px;
-      }
-    }
-    .description {
-      text-align: left;
-      white-space: nowrap;
-      padding-right: 10px;
-    }
-  }
-}
 .header-fade-enter-active,
 .header-fade-leave-active {
   transition: opacity 1s;
@@ -705,43 +613,6 @@ export default {
       background: #0000;
       color: #ffe5c4;
       border-bottom: 0px solid #e0b084;
-    }
-  }
-  .map-legend {
-    background-color: rgba(79, 65, 65, 0.9);
-    border-top: 5px rgb(224, 176, 132) solid;
-    border-bottom: 5px rgb(224, 176, 132) solid;
-    opacity: 1;
-    transition: opacity 0.3s;
-    box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.35);
-    box-sizing: border-box;
-    padding: 5px;
-    color: #ffe5c4;
-
-    &-title {
-      padding: 0;
-      margin: 0;
-      margin-left: -5px;
-      margin-right: -5px;
-      font-size: 1rem;
-      padding-bottom: 5px;
-    }
-    &-seperator {
-      content: " ";
-      background-color: #e0b084;
-      display: block;
-      padding: 0;
-      margin: 0;
-      height: 2px;
-      width: 100%;
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
-    &.faded {
-      opacity: 0.2;
-    }
-    &:hover {
-      opacity: 1;
     }
   }
   .leaflet-bar a.leaflet-disabled{
