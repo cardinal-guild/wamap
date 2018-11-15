@@ -67,17 +67,7 @@
         :icon="island.icon"
         pane="islandMarkers">
         <l-popup>
-          <IslandPopup
-            :name="island.properties.nickName?island.properties.nickName:island.properties.name"
-            :altitude="island.properties.altitude"
-            :image_link="island.properties.imageMedium"
-            :databanks="island.properties.databanks"
-            :turrets="island.properties.turrets"
-            :respawners="island.properties.respawners"
-            :pveMaterials="island.properties.pveMaterials"
-            :pvpMaterials="island.properties.pvpMaterials"
-            :culture="island.properties.type.charAt(0).toUpperCase() + island.properties.type.slice(1)"
-          />
+          <IslandPopup  v-bind="island.properties" />
         </l-popup>
       </l-marker>
       <!--Island Image Borders-->
@@ -90,17 +80,7 @@
         pane="islandImageBorders"
         :zIndexOffset="-100">
         <l-popup>
-          <IslandPopup
-            :name="island.properties.nickName?island.properties.nickName:island.properties.name"
-            :altitude="island.properties.altitude"
-            :image_link="island.properties.imageMedium"
-            :databanks="island.properties.databanks"
-            :turrets="island.properties.turrets"
-            :respawners="island.properties.respawners"
-            :pveMaterials="island.properties.pveMaterials"
-            :pvpMaterials="island.properties.pvpMaterials"
-            :culture="island.properties.type.charAt(0).toUpperCase() + island.properties.type.slice(1)"
-          />
+          <IslandPopup v-bind="island.properties" />
         </l-popup>
       </l-marker>
       <!--Island Image Markers-->
@@ -675,10 +655,6 @@ export default {
   div#map-header {
     display: none;
   }
-}
-
-table.island-data-table {
-  border-collapse: collapse;
 }
 
 /* legend */
