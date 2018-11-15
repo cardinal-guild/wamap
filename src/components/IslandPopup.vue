@@ -35,13 +35,17 @@
                 <td>Culture</td>
                 <td> {{ type | capitalize }}</td>
             </tr>
-            <tr class="respawners">
-                <td>Does this island have respawners?</td>
-                <td>{{ respawners?'Yes':'No' }}</td>
+            <tr v-if="pveMaterials && pveMaterials.length">
+                <td colspan="2" class="materials-info-title">PVE Materials:</td>
             </tr>
-            <tr class="turrets">
-                <td>Does this island have turrets?</td>
-                <td>{{ turrets?'Yes':'No' }}</td>
+            <tr v-if="pveMaterials && pveMaterials.length">
+                <td colspan="2" class="materials-info-content">{{ pveMaterials.join(", ") }}</td>
+            </tr>
+            <tr v-if="pvpMaterials && pvpMaterials.length">
+                <td colspan="2" class="materials-info-title">PVP Materials:</td>
+            </tr>
+            <tr v-if="pvpMaterials && pvpMaterials.length">
+                <td colspan="2" class="materials-info-content">{{ pvpMaterials.join(", ") }}</td>
             </tr>
         </table>
         <div class="wrap-collabsible">
@@ -49,19 +53,6 @@
             <label for="collapsible" class="lbl-toggle">More Info</label>
             <div class="collapsible-content">
                 <table class="content-inner">
-                    <tr v-if="pveMaterials && pveMaterials.length">
-                        <td colspan="2" class="materials-info-title">PVE Materials:</td>
-                    </tr>
-                    <tr v-if="pveMaterials && pveMaterials.length">
-                        <td colspan="2" class="materials-info-content">{{ pveMaterials.join(", ") }}</td>
-                    </tr>
-                    <tr v-if="pvpMaterials && pvpMaterials.length">
-                        <td colspan="2" class="materials-info-title">PVP Materials:</td>
-                    </tr>
-                    <tr v-if="pvpMaterials && pvpMaterials.length">
-                        <td colspan="2" class="materials-info-content">{{ pvpMaterials.join(", ") }}</td>
-                    </tr>
-                    <tr><td colspan="2">&nbsp;</td></tr>
                     <tr v-if="surveyCreatedBy">
                         <td>Survey created by:</td>
                         <td>{{surveyCreatedBy}}</td>
@@ -79,6 +70,11 @@
                         <td>Updated at:</td>
                         <td>{{updatedAt}}</td>
                     </tr>
+                    <tr class="island-toolbar">
+                        <td colspan="2"><a class="button" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
+                        <EditPencil />
+                         Edit island</a></td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -86,8 +82,13 @@
 </template>
 
 <script>
+import EditPencil from "./../../public/assets/edit.svg";
 export default {
   name: "IslandPopup",
+
+  components: {
+    EditPencil
+  },
   filters: {
     capitalize: function(value) {
       if (!value) return "";
@@ -96,6 +97,7 @@ export default {
     }
   },
   props: [
+    "id",
     "name",
     "nickName",
     "fullName",
@@ -131,6 +133,9 @@ export default {
 @import "~animate-sass/animate";
 .island-data-table {
   border-collapse: collapse;
+  .materials-info-title {
+    font-size: 1rem;
+  }
   .name {
     th {
       line-height: 22px;
@@ -155,6 +160,7 @@ export default {
   }
 }
 .wrap-collabsible {
+  margin-top: 10px;
   margin-bottom: 1.2rem 0;
   input[type="checkbox"] {
     display: none;
@@ -215,8 +221,11 @@ export default {
     width: 100%;
     padding: 0.5rem 1rem;
     background: rgba(0, 0, 0, 0.2);
-    .materials-info-title {
-      font-size: 1rem;
+    .island-toolbar {
+      td {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
     }
   }
   .collapsible-content .content-inner {

@@ -35,3 +35,36 @@ body {
   height: 100%;
 }
 </style>
+<style lang="scss">
+.button,
+.leaflet-container > a.button {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #524747;
+  background: #d4ad88;
+  line-height: 16px;
+  &:hover,
+  &:focus,
+  &:active {
+    color: #524747;
+    background: #d4ad88;
+  }
+  svg {
+    fill: #524747;
+    width: 16px;
+    height: 16px;
+  }
+  &.-hollow {
+    background: none;
+    border: 3px solid #d4ad88; // The thickness should correspond with the thickness set above
+    &:hover,
+    &:focus,
+    &:active {
+      color: #524747;
+      background: #d4ad88;
+    }
+  }
+}
+</style>
