@@ -409,7 +409,7 @@ export default {
   },
   computed: {
     realCenter() {
-      if (this.mapReady && this.$attrs.lat && this.$attrs.lng) {
+      if (this.mapReady && !this.$attrs.admin && this.$attrs.lat && this.$attrs.lng) {
         return [this.$attrs.lat, this.$attrs.lng];
       }
       return this.center;
