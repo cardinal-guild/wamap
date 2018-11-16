@@ -155,14 +155,12 @@ export default {
     }
     .island-name {
       font-size: 16px;
-      margin-right: 10px;
     }
     .nickname {
       font-size: 12px;
     }
     .creator-name {
       font-size: 12px;
-      padding-left: 10px;
     }
   }
 }
