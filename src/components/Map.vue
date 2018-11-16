@@ -1,5 +1,5 @@
 <template>
-  <div class="map" :class="{ smallicons: useSmallIcons, header: showHeader }">
+  <div class="map" :class="{ header: showHeader }">
     <l-map
       id="wamap"
       ref="map"
@@ -9,8 +9,8 @@
       :crs="crs"
       :zoom="-100"
       @zoomend="onZoomEnd($event, $data)"
-      @zoom="onZoom($event, $data)"
-      @click="mapClick($event, $data)"
+      @zoom="onZoom($event, $data, $root)"
+      @click="mapClick($event, $data, $root)"
       v-if="loaded">
       <l-geo-json
         className="geojson"
@@ -37,7 +37,7 @@
 
       <!--Turret Markers-->
       <l-marker
-        v-if="paneCreated && showIslandMarkers && turrets.data.length"
+        v-if="paneCreated && showInfoMarkers && turrets.data.length"
         v-for="turret in turrets.data"
         :key="turret.id"
         :lat-lng="turret.latLng"
@@ -48,7 +48,7 @@
 
       <!--Respawner Markers-->
       <l-marker
-        v-if="paneCreated && showIslandMarkers && respawners.data.length"
+        v-if="paneCreated && showInfoMarkers && respawners.data.length"
         v-for="respawner in respawners.data"
         :key="respawner.id"
         :lat-lng="respawner.latLng"
@@ -68,19 +68,6 @@
           <IslandPopup  v-bind="island.properties" />
         </l-popup>
       </l-marker>
-      <!--Island Image Borders-->
-      <l-marker
-        v-if="paneCreated && showIslandImageMarkers"
-        v-for="island in islandData"
-        :key="island.properties.slug + '_border'"
-        :lat-lng="island.latLng"
-        :icon="island.imageBorder"
-        pane="islandImageBorders"
-        :zIndexOffset="-100">
-        <l-popup v-if="!adminMode">
-          <IslandPopup v-bind="island.properties" />
-        </l-popup>
-      </l-marker>
       <!--Island Image Markers-->
       <l-marker
         v-if="paneCreated && showIslandImageMarkers"
@@ -88,8 +75,11 @@
         :key="island.properties.slug + '_' + island.id + '_image'"
         :lat-lng="island.latLng"
         :icon="island.imageIcon"
-        pane="islandImageMarkers"
-      />
+        pane="islandImageMarkers">
+        <l-popup v-if="!adminMode">
+          <IslandPopup  v-bind="island.properties" />
+        </l-popup>
+      </l-marker>
       <l-image-overlay
         ref="zonenames"
         url="https://data.cardinalguild.com/zonenames.svg"
@@ -149,7 +139,45 @@ import axios from "axios";
 
 import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
+let getLayerByContainer = (e, name) => {
+  let container = e.target.getContainer(name);
+  if (!container) {
+    return false;
+  }
+  let id = container._leaflet_id;
+  console.log(id);
+  let returnLayer = null;
+  return e.target.eachLayer(function(layer) {
+    if (layer.id === id) {
+      returnLayer = layer;
+      return returnLayer;
+    }
+  });
+};
+let setInfoIconSizes = (e, d) => {
+  let zoomScale = (e.target._zoom + 3.4) / (-1.3 + 3.4);
+  if (e.target._zoom > -1.3) {
+    d.showInfoMarkers = true;
+    $(".map .respawner-icon, .map .turret-icon").css({
+      width: 180,
+      height: 180,
+      marginTop: -90,
+      marginLeft: -90
+    });
+  } else if (e.target._zoom > -3.5) {
+    d.showInfoMarkers = true;
 
+    let infoIconSize = (1 + zoomScale * 2) * 30;
+    $(".map .respawner-icon, .map .turret-icon").css({
+      width: infoIconSize,
+      height: infoIconSize,
+      marginTop: -(infoIconSize / 2),
+      marginLeft: -(infoIconSize / 2)
+    });
+  } else {
+    d.showInfoMarkers = false;
+  }
+};
 export default {
   name: "Map",
   components: {
@@ -192,7 +220,7 @@ export default {
         );
       }
     },
-    onZoomEnd: _.debounce((e, d) => {
+    onZoomEnd: _.debounce((e, d, r) => {
       //hiding map legend
       if (e.target._zoom > -2) {
         d.hideLegend = true;
@@ -200,6 +228,7 @@ export default {
         d.hideLegend = false;
       }
 
+      setInfoIconSizes(e, d);
       //tier names' opacities
       if (
         e.target.options.minZoom &&
@@ -219,18 +248,15 @@ export default {
         }
       }
     }, 600),
-    onZoom: _.debounce((e, d) => {
+    onZoom: _.debounce((e, d, r) => {
+      console.log(e.target._zoom);
       // shows/hides sector names
       if (e.target._zoom > -3.7) {
         d.showSectorNames = true;
       } else {
         d.showSectorNames = false;
       }
-      if (e.target._zoom < -3) {
-        d.useSmallIcons = true;
-      } else {
-        d.useSmallIcons = false;
-      }
+      setInfoIconSizes(e, d);
 
       // shows/hides island markers
       if (e.target._zoom > -3.5 && e.target._zoom < -1.3) {
@@ -400,12 +426,12 @@ export default {
   },
   data() {
     return {
-      useSmallIcons: true,
       hideLegend: false,
       showHeader: true,
       loaded: false,
       paneCreated: false,
       showSectorNames: false,
+      showInfoMarkers: false,
       showIslandImageMarkers: false,
       showIslandMarkers: false,
       hideHeader: false,
@@ -441,14 +467,14 @@ export default {
           style: function(feature) {
             return feature.properties;
           },
-          interactive: false,
+          interactive: false
         }
       },
       turrets: {
         data: [],
         icon: L.icon({
           iconUrl: "/assets/island_icons/turret.png",
-          iconSize: [50, 30],
+          iconSize: [40, 40],
           className: "turret-icon"
         })
       },
@@ -456,7 +482,7 @@ export default {
         data: [],
         icon: L.icon({
           iconUrl: "/assets/island_icons/respawner.png",
-          iconSize: [50, 30],
+          iconSize: [40, 40],
           className: "respawner-icon"
         })
       },

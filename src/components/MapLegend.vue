@@ -10,31 +10,53 @@
       </li>
       <li>
         <span class="icon">
-          <img class="icon" width="40px" src="/assets/island_icons/Island_S_L.png" />
-          <img class="icon" width="40px" src="/assets/island_icons/Island_K_L.png" />
+          <img src="/assets/island_icons/Island_S_L.png" />
+          <img src="/assets/island_icons/Island_K_L.png" />
         </span>
         <span class="description">
           Low Altitude
         </span>
       </li>
-      <div class="map-legend-separator"></div>
+      <li class="map-legend-separator"></li>
       <li>
         <span class="icon">
-          <img class="icon" src="/assets/island_icons/Island_S_M.png" />
-          <img class="icon" src="/assets/island_icons/Island_K_M.png" />
+          <img src="/assets/island_icons/Island_S_M.png" />
+          <img src="/assets/island_icons/Island_K_M.png" />
         </span>
         <span class="description">
           Medium Altitude
         </span>
       </li>
-      <div class="map-legend-separator"></div>
+      <li class="map-legend-separator"></li>
       <li>
         <span class="icon">
-          <img class="icon" width="40px" src="/assets/island_icons/Island_S_H.png" />
-          <img class="icon" width="40px" src="/assets/island_icons/Island_K_H.png" />
+          <img src="/assets/island_icons/Island_S_H.png" />
+          <img src="/assets/island_icons/Island_K_H.png" />
         </span>
         <span class="description">
           High Altitude
+        </span>
+      </li>
+      <li class="map-legend-separator"></li>
+      <li>
+        <span class="header">
+          Icons
+        </span>
+      </li>
+      <li class="bright-bg">
+        <span class="icon info">
+          <img src="/assets/island_icons/respawner.png" />
+        </span>
+        <span class="description">
+          Has revival chambers
+        </span>
+      </li>
+      <li class="bright-bg">
+        <span class="icon info">
+          <img src="/assets/island_icons/turret.png" />
+        </span>
+        <span class="description">
+          Has turrets
         </span>
       </li>
     </ul>
@@ -44,15 +66,13 @@
 <script>
 export default {
   name: "MapLegend",
-  props: [
-    "hideLegend"
-  ]
+  props: ["hideLegend"]
 };
 </script>
 
 <style lang="scss">
 #toggle-legend,
-label[for=toggle-legend] {
+label[for="toggle-legend"] {
   display: none;
 }
 
@@ -101,14 +121,25 @@ label[for=toggle-legend] {
       flex-wrap: nowrap;
       flex-direction: row;
       align-items: center;
+      margin-bottom: 5px;
+      margin-top: 5px;
       .icon {
         text-align: left;
         flex-wrap: nowrap;
-        padding-right: 5px;
+        margin-right: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         img {
           display: inline-block;
           width: 30px;
           height: 30px;
+        }
+        &.info {
+          border-radius: 100%;
+          background-color: rgba(white, 0.2);
+          width: 35px;
+          height: 35px;
         }
       }
       .description {
@@ -124,7 +155,8 @@ label[for=toggle-legend] {
   }
 }
 
-.leaflet-top.leaflet-right.mobile { /* legend on mobile */
+.leaflet-top.leaflet-right.mobile {
+  /* legend on mobile */
   #toggle-legend {
     position: absolute;
     top: -9999px;
@@ -135,14 +167,14 @@ label[for=toggle-legend] {
       box-shadow: none;
     }
 
-    &:checked ~ label[for=toggle-legend] {
+    &:checked ~ label[for="toggle-legend"] {
       left: 180px;
       svg {
         transform: rotate(-180deg);
       }
     }
   }
-  label[for=toggle-legend] {
+  label[for="toggle-legend"] {
     display: initial;
     content: " ";
     width: 30px;
