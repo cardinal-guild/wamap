@@ -9,13 +9,14 @@
                     <div class="island-name" v-else>
                         {{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span>
                     </div>
+                    <br>
                     <div class="creator-name" v-if="creatorWorkshopUrl">
                         by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
                     </div>
                     <div class="creator-name" v-else>
                         by {{creator}}
                     </div>
-                     
+
                 </th>
             </tr>
             <tr class="image">

@@ -51,6 +51,11 @@ export default {
 </script>
 
 <style lang="scss">
+#toggle-legend,
+label[for=toggle-legend] {
+  display: none;
+}
+
 .map-legend {
   background-color: rgba(79, 65, 65, 0.9);
   border-top: 5px rgb(224, 176, 132) solid;
@@ -61,6 +66,7 @@ export default {
   box-sizing: border-box;
   padding: 5px;
   color: #ffe5c4;
+  width: 200px;
 
   &-title {
     padding: 0;
@@ -75,11 +81,9 @@ export default {
     background-color: #e0b084;
     display: block;
     padding: 0;
-    margin: 0;
+    margin: 5px 0;
     height: 2px;
     width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
   }
   &.faded {
     opacity: 0.2;
@@ -117,6 +121,50 @@ export default {
         font-size: 1.5em;
       }
     }
+  }
+}
+
+.leaflet-top.leaflet-right.mobile { /* legend on mobile */
+  #toggle-legend {
+    position: absolute;
+    top: -9999px;
+    display: block;
+
+    &:checked ~ .map-legend {
+      left: 210px;
+      box-shadow: none;
+    }
+
+    &:checked ~ label[for=toggle-legend] {
+      left: 180px;
+      svg {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+  label[for=toggle-legend] {
+    display: initial;
+    content: " ";
+    width: 30px;
+    height: 30px;
+    background-color: #777777;
+    position: absolute;
+    left: -30px;
+    top: 5px;
+    float: left;
+    transition: left 0.5s;
+
+    svg {
+      padding: 3px 2px 3px 4px;
+      transform: rotate(0deg);
+      transition: 0.5s transform;
+    }
+  }
+
+  .map-legend {
+    position: relative;
+    left: 0;
+    transition: box-shadow 0.5s, left 0.5s;
   }
 }
 </style>

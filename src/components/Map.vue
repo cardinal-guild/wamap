@@ -103,6 +103,10 @@
       <l-control
         v-if="!adminMode"
         position="topright">
+        <input type="checkbox" id="toggle-legend">
+        <label for="toggle-legend">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
+        </label>
         <MapLegend :hideLegend="hideLegend" />
       </l-control>
       <l-control
