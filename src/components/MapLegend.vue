@@ -147,19 +147,19 @@ label[for=toggle-legend] {
     content: " ";
     width: 30px;
     height: 30px;
-    background-color: #291a08dd;
+    background-color: rgba(79,65,65,.9);
+    border-top: 5px solid #e0af84;
     position: absolute;
     left: -30px;
-    top: 5px;
     float: left;
-    transition: left 0.5s;
-    border-radius: 5px 0 0 5px;
+    -webkit-transition: left .5s;
+    transition: left .5s;
 
     svg {
       padding: 3px 2px 3px 4px;
       transform: rotate(0deg);
       transition: 0.5s transform;
-      fill: #904328;
+      fill: #e0af84;
     }
   }
 
