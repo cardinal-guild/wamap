@@ -147,17 +147,19 @@ label[for=toggle-legend] {
     content: " ";
     width: 30px;
     height: 30px;
-    background-color: #777777;
+    background-color: #291a08dd;
     position: absolute;
     left: -30px;
     top: 5px;
     float: left;
     transition: left 0.5s;
+    border-radius: 5px 0 0 5px;
 
     svg {
       padding: 3px 2px 3px 4px;
       transform: rotate(0deg);
       transition: 0.5s transform;
+      fill: #904328;
     }
   }
 
@@ -165,6 +167,7 @@ label[for=toggle-legend] {
     position: relative;
     left: 0;
     transition: box-shadow 0.5s, left 0.5s;
+    opacity: 1;
   }
 }
 </style>
