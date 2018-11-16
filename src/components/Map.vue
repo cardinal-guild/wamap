@@ -4,13 +4,14 @@
       id="wamap"
       ref="map"
       :options="mapOptions"
-      :center="center"
+      :center="realCenter"
       :bounds="bounds"
       :crs="crs"
       :zoom="-100"
       @zoomend="onZoomEnd($event, $data)"
       @zoom="onZoom($event, $data, $root)"
       @click="mapClick($event, $data, $root)"
+      @leaflet:load="mapReady=true"
       v-if="loaded">
       <l-geo-json
         className="geojson"
@@ -306,13 +307,6 @@ export default {
         self.map.createPane("islandImageMarkers");
         self.paneCreated = true;
 
-        //attempts to set view to lat & lng from url
-        // if (self.adminMarker.lat && self.adminMarker.lng) {
-        //   console.log("test")
-        //   self.center = L.latLng(self.adminMarker.lat, self.adminMarker.lng);
-        //   //self.map.zoomIn(2);
-        // }
-
         //add mobile class if screen width size < 850
         if (screen.width <= 850) {
           let controls = document.getElementsByClassName(
@@ -411,16 +405,19 @@ export default {
           });
         }
       }
-      // axios
-      //   .get("https://data.cardinalguild.com/zonenames.svg")
-      //   .then(response => {
-      //     self.zoneNameData = response.data;
-      //     self.loaded = true;
-      //   });
     });
+  },
+  computed: {
+    realCenter() {
+      if (this.mapReady && this.$attrs.lat && this.$attrs.lng) {
+        return [this.$attrs.lat, this.$attrs.lng];
+      }
+      return this.center;
+    }
   },
   data() {
     return {
+      mapReady: false,
       hideLegend: false,
       showHeader: true,
       loaded: false,
