@@ -3,20 +3,20 @@
         <table class="island-data-table">
             <tr class="name">
                 <th colspan="2">
-                    <div class="island-name" v-if="workshopUrl">
-                        <a target="blank" rel="nofollow,noopener" :href="workshopUrl">{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span>&nbsp;<img src="/assets/steamicon.png"></a>
+                    <div class="island-name" v-if="workshopUrl"><a target="blank" rel="nofollow,noopener" :href="workshopUrl">{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})&nbsp;</span><img src="/assets/steamicon.png"></a>
+                        <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
+                        </div>
+                        <div class="creator-name" v-else>
+                            by {{creator}}
+                        </div>
                     </div>
-                    <div class="island-name" v-else>
-                        {{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span>
+                    <div class="island-name" v-else>{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span><br>
+                        <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
+                        </div>
+                        <div class="creator-name" v-else>
+                            by {{creator}}
+                        </div>
                     </div>
-                    <br>
-                    <div class="creator-name" v-if="creatorWorkshopUrl">
-                        by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
-                    </div>
-                    <div class="creator-name" v-else>
-                        by {{creator}}
-                    </div>
-
                 </th>
             </tr>
             <tr class="image">
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import EditPencil from "./../../public/assets/edit.svg";
+import EditPencil from "../../public/assets/edit.svg";
 export default {
   name: "IslandPopup",
 
@@ -147,6 +147,11 @@ export default {
     a {
       text-decoration: none;
       color: #e0b084;
+
+      img {
+        position: relative;
+        top: 2px;
+      }
     }
     .island-name {
       font-size: 16px;
@@ -157,6 +162,7 @@ export default {
     }
     .creator-name {
       font-size: 12px;
+      padding-left: 10px;
     }
   }
 }

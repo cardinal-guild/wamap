@@ -15,7 +15,6 @@
       <l-geo-json
         className="geojson"
         ref="geojson"
-        :interactive="false"
         :geojson="geojson.data"
         :options="geojson.options"
       />
@@ -32,7 +31,6 @@
         :lat-lng="marker.latLng"
         :icon="marker.icon"
         pane="sectorNames"
-        :interactive="false"
       />
 
 
@@ -153,7 +151,7 @@ import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
 
 export default {
-  name: "Example",
+  name: "Map",
   components: {
     LMap,
     LImageOverlay,
@@ -442,7 +440,8 @@ export default {
         options: {
           style: function(feature) {
             return feature.properties;
-          }
+          },
+          interactive: false,
         }
       },
       turrets: {
@@ -574,12 +573,6 @@ export default {
     display: none;
     opacity: 0;
   }
-}
-.map.smallicons .leaflet-container .leaflet-islandMarkers-pane img.island-icon {
-  // width: 25px !important;
-  // height: 25px !important;
-  // margin-left: -12.5px !important;
-  // margin-top: -12.5px !important;
 }
 .map {
   .leaflet-top {
