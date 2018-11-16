@@ -304,7 +304,6 @@ export default {
         self.map.createPane("respawnerMarkers");
         self.map.createPane("islandMarkers");
         self.map.createPane("islandImageMarkers");
-        self.map.createPane("islandImageBorders");
         self.paneCreated = true;
 
         //attempts to set view to lat & lng from url
@@ -344,6 +343,8 @@ export default {
             islandDataJson[i].geometry.coordinates[0],
             islandDataJson[i].geometry.coordinates[1]
           );
+
+          //Set turret icons
           if (island.properties.turrets) {
             let turret = {};
             turret.latLng = island.latLng;
@@ -351,6 +352,7 @@ export default {
             self.turrets.data.push(turret);
           }
 
+          //Set respawner icons
           if (island.properties.respawners) {
             let respawner = {};
             respawner.latLng = island.latLng;
@@ -358,22 +360,15 @@ export default {
               "respawner_" + island.properties.slug + "_" + island.id;
             self.respawners.data.push(respawner);
           }
-          let type = "";
-          if (island.properties.respawners && island.properties.turrets)
-            type = "both";
-          else if (island.properties.respawners) type = "respawn";
-          else if (island.properties.turrets) type = "turrets";
-          else type = "plain";
-          island.imageBorder = L.icon({
-            iconUrl: self.islandTypes[island.properties.type][type],
-            iconSize: [125, 125],
-            className: "island-image-border"
-          });
+
+          //Set image icon icons
           island.imageIcon = L.icon({
             iconUrl: island.properties.imageIcon,
-            iconSize: [100, 100],
+            iconSize: [120, 120],
             className: "island-image-icon"
           });
+
+          //Set island icons when zoomed out with height
           let height = "";
           if (island.properties.altitude > 2200) height = "high";
           else if (island.properties.altitude > 1800) height = "medium";
