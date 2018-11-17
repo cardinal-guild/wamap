@@ -19,10 +19,14 @@ export default {
         iconSize: [100, 100],
         className: "glow-icon"
       });
-      new L.Marker(island.latLng, {icon: glowMarkerIcon, pane: "glowMarkers"}).addTo(this.map);
+      let marker = new L.Marker(island.latLng, {icon: glowMarkerIcon, pane: "glowMarkers"});
+      marker.addTo(this.map);
       setTimeout(function () {
         $(".glow-icon").addClass("stop-glow");
       }, 500);
+      setTimeout(function(mapObj) {
+        mapObj.removeLayer(marker);
+      }, 5500, this.map);
     }
   }
 }

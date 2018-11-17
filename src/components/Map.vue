@@ -336,11 +336,16 @@ export default {
             iconSize: [100, 100],
             className: "glow-icon"
           });
-          new L.Marker([self.$attrs.lat, self.$attrs.lng],{icon: glowMarkerIcon, pane: "glowMarkers"}).addTo(self.map);
+          let marker = new L.Marker([self.$attrs.lat, self.$attrs.lng],{icon: glowMarkerIcon, pane: "glowMarkers"});
+          marker.addTo(self.map);
 
           setTimeout(function() {
             $(".glow-icon").addClass("stop-glow");
           }, 8000);
+
+          setTimeout(function(mapObj) {
+            mapObj.removeLayer(marker);
+          }, 13000, self.map);
         }
 
         //add mobile class if screen width size < 850
@@ -712,7 +717,7 @@ export default {
 }
 
 .glow-icon:not(.stop-glow) {
-  box-shadow: 0 0 20px 20px #a9af25;
+  box-shadow: 0 0 20px 20px #ffe5c4;
 }
 
 </style>
