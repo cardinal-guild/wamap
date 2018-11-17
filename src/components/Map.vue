@@ -10,7 +10,6 @@
       @zoomend="onZoomEnd($event, $data)"
       @zoom="onZoom($event, $data, $root)"
       @click="mapClick($event, $data, $root)"
-
       v-if="loaded">
       <l-geo-json
         className="geojson"
@@ -106,8 +105,14 @@
       <l-control
         v-if="!adminMode"
         position="topleft">
-        <input type="text" v-model="author" id="authorSearch" placeholder="Search authors...">
-        <IslandList :island-list="searchedIslands" :map="map"/>
+        <div id="authorSearch-div">
+          <input type="checkbox" id="toggle-search">
+          <label for="toggle-search">
+            <SearchIcon />
+          </label>
+          <input type="text" v-model="author" id="authorSearch" placeholder="Search authors...">
+          <IslandList :island-list="searchedIslands" :map="map"/>
+        </div>
       </l-control>
       <l-control
         v-if="!adminMode"
@@ -158,6 +163,8 @@ import {
 } from "vue2-leaflet";
 import axios from "axios";
 
+import SearchIcon from "../../public/assets/search-icon.svg";
+
 import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
 import IslandList from "./IslandList.vue"
@@ -174,6 +181,7 @@ export default {
     IslandPopup,
     MapLegend,
     IslandList,
+    SearchIcon,
   },
   methods: {
     mapClick: (e, d) => {

@@ -140,6 +140,8 @@ label[for="toggle-legend"] {
 }
 
 .leaflet-top.leaflet-right.mobile {
+
+  z-index: 999;
   /* legend on mobile */
   #toggle-legend {
     position: absolute;
