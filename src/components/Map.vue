@@ -63,7 +63,6 @@
         pane="islandBorderMarkers"
         :options="{ interactive: false }"
       />
-
       <!--Island Overlay Markers-->
       <l-marker
         v-if="paneCreated && showIslandBorders"
@@ -76,7 +75,6 @@
           <IslandPopup  v-bind="island.properties" />
         </l-popup>
       </l-marker>
-
       <!--Island Markers-->
       <l-marker
         v-if="paneCreated && showIslandMarkers && islandData.length"
