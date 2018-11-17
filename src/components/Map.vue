@@ -34,29 +34,15 @@
         pane="sectorNames"
       />
 
-
-
-      <!--Turret Markers-->
+      <!--Island Border Markers-->
       <l-marker
-        v-if="paneCreated && showInfoMarkers && turrets.data.length"
-        v-for="turret in turrets.data"
-        :key="turret.id"
-        :lat-lng="turret.latLng"
-        :icon="turrets.icon"
-        pane="turretMarkers"
+        v-if="paneCreated && showIslandBorders"
+        v-for="island in islandData"
+        :key="island.properties.slug+'_'+island.id+'_border'"
+        :lat-lng="island.latLng"
+        :icon="island.borderIcon"
+        pane="islandBorderMarkers"
       />
-
-
-      <!--Respawner Markers-->
-      <l-marker
-        v-if="paneCreated && showInfoMarkers && respawners.data.length"
-        v-for="respawner in respawners.data"
-        :key="respawner.id"
-        :lat-lng="respawner.latLng"
-        :icon="respawners.icon"
-        pane="respawnerMarkers"
-      />
-
       <!--Island Markers-->
       <l-marker
         v-if="paneCreated && showIslandMarkers && islandData.length"
@@ -267,10 +253,12 @@ export default {
       }
 
       // shows/hides island images
-      if (e.target._zoom > -1.3) {
+      if (e.target._zoom > -1.4) {
         d.showIslandImageMarkers = true;
+        d.showIslandBorders = true;
       } else {
         d.showIslandImageMarkers = false;
+        d.showIslandBorders = false;
       }
     }, 200)
   },
@@ -304,7 +292,9 @@ export default {
         self.map.createPane("turretMarkers");
         self.map.createPane("respawnerMarkers");
         self.map.createPane("islandMarkers");
+
         self.map.createPane("islandImageMarkers");
+        self.map.createPane("islandBorderMarkers");
         self.paneCreated = true;
 
         //add mobile class if screen width size < 850
@@ -338,27 +328,22 @@ export default {
             islandDataJson[i].geometry.coordinates[1]
           );
 
-          //Set turret icons
-          if (island.properties.turrets) {
-            let turret = {};
-            turret.latLng = island.latLng;
-            turret.id = "turret_" + island.properties.slug + "_" + island.id;
-            self.turrets.data.push(turret);
-          }
-
-          //Set respawner icons
-          if (island.properties.respawners) {
-            let respawner = {};
-            respawner.latLng = island.latLng;
-            respawner.id =
-              "respawner_" + island.properties.slug + "_" + island.id;
-            self.respawners.data.push(respawner);
-          }
+          //set border markers
+          let type = "";
+          if (island.properties.respawners && island.properties.turrets) type = "both";
+          else if (island.properties.respawners) type = "respawn";
+          else if (island.properties.turrets) type = "turrets";
+          else type = "plain";
+          island.borderIcon = L.icon({
+            iconUrl: self.islandTypes[island.properties.type][type],
+            iconSize: [150, 150],
+            className: "island-border-icon"
+          });
 
           //Set image icon icons
           island.imageIcon = L.icon({
             iconUrl: island.properties.imageIcon,
-            iconSize: [120, 120],
+            iconSize: [100, 100],
             className: "island-image-icon"
           });
 
@@ -426,6 +411,7 @@ export default {
       showInfoMarkers: false,
       showIslandImageMarkers: false,
       showIslandMarkers: false,
+      showIslandBorders: false,
       hideHeader: false,
       adminMode: false,
       zoomBoundary0: 10,
@@ -441,7 +427,7 @@ export default {
         minZoom: -4.6,
         maxZoom: -0.4,
         zoomSnap: 0.2,
-        zoomDelta: 0.6,
+        zoomDelta: 0.2,
         wheelPxPerZoomLevel: 200,
         attributionControl: true
       },
@@ -462,39 +448,23 @@ export default {
           interactive: false
         }
       },
-      turrets: {
-        data: [],
-        icon: L.icon({
-          iconUrl: "/assets/island_icons/turret.png",
-          iconSize: [40, 40],
-          className: "turret-icon"
-        })
-      },
-      respawners: {
-        data: [],
-        icon: L.icon({
-          iconUrl: "/assets/island_icons/respawner.png",
-          iconSize: [40, 40],
-          className: "respawner-icon"
-        })
-      },
       islandData: [],
       sectorMarkers: [],
       islandTypes: {
         kioki: {
-          plain: "/assets/island_icons/Web_Island_Frame_Kioki.svg",
-          respawn: "/assets/island_icons/Web_Island_Frame_Kioki_R.svg",
-          turrets: "/assets/island_icons/Web_Island_Frame_Kioki_T.svg",
-          both: "/assets/island_icons/Web_Island_Frame_Kioki_RT.svg",
+          plain: "/assets/island_icons/I_Frame_K.png",
+          respawn: "/assets/island_icons/I_Frame_K-R.png",
+          turrets: "/assets/island_icons/I_Frame_K-T.png",
+          both: "/assets/island_icons/I_Frame_K-RT.png",
           high: "/assets/island_icons/Island_K_H.png",
           medium: "/assets/island_icons/Island_K_M.png",
           low: "/assets/island_icons/Island_K_L.png"
         },
         saborian: {
-          plain: "/assets/island_icons/Web_Island_Frame_Saborian.svg",
-          respawn: "/assets/island_icons/Web_Island_Frame_Saborian_R.svg",
-          turrets: "/assets/island_icons/Web_Island_Frame_Saborian_T.svg",
-          both: "/assets/island_icons/Web_Island_Frame_Saborian_RT.svg",
+          plain: "/assets/island_icons/I_Frame_S.png",
+          respawn: "/assets/island_icons/I_Frame_S-R.png",
+          turrets: "/assets/island_icons/I_Frame_S-T.png",
+          both: "/assets/island_icons/I_Frame_S-RT.png",
           high: "/assets/island_icons/Island_S_H.png",
           medium: "/assets/island_icons/Island_S_M.png",
           low: "/assets/island_icons/Island_S_L.png"

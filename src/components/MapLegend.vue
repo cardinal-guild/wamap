@@ -43,22 +43,6 @@
           Icons
         </span>
       </li>
-      <li class="bright-bg">
-        <span class="icon info">
-          <img src="/assets/island_icons/respawner.png" />
-        </span>
-        <span class="description">
-          Has revival chambers
-        </span>
-      </li>
-      <li class="bright-bg">
-        <span class="icon info">
-          <img src="/assets/island_icons/turret.png" />
-        </span>
-        <span class="description">
-          Has turrets
-        </span>
-      </li>
     </ul>
   </div>
 </template>
