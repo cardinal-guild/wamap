@@ -56,7 +56,6 @@
         :icon="respawners.icon"
         pane="respawnerMarkers"
       />
-
       <!--Island Markers-->
       <l-marker
         v-if="paneCreated && showIslandMarkers && islandData.length"
@@ -64,7 +63,10 @@
         :key="island.properties.slug+'_'+island.id"
         :lat-lng="island.latLng"
         :icon="island.icon"
-        pane="islandMarkers">
+        :author="island.properties.author"
+        pane="islandMarkers"
+        name="layerMarkerGroup"
+        layer-type="overlay">
         <l-popup v-if="!adminMode">
           <IslandPopup  v-bind="island.properties" />
         </l-popup>
@@ -126,6 +128,7 @@
 /* eslint-disable */
 import Vue from "vue";
 import L from "leaflet";
+import LSearch from "leaflet-search";
 import _ from "lodash";
 import {
   LMap,
@@ -295,6 +298,7 @@ export default {
     axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
       self.geojson.data = response.data;
       self.loaded = true;
+      let searchMarkerGroup = new L.LayerGroup();
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
         document.getElementsByClassName("zonenames")[0].style.opacity =
@@ -306,6 +310,21 @@ export default {
         self.map.createPane("islandMarkers");
         self.map.createPane("islandImageMarkers");
         self.paneCreated = true;
+        //create layergroup for island search markers
+        self.map.addLayer(searchMarkerGroup);
+
+        //add search control
+        let authorSearch = new L.control.search({
+          textPlaceholder: "Search Authors...",
+          layer: searchMarkerGroup,
+          propertyName: "author",
+          marker: false,
+          zoom: -2,
+        });
+        authorSearch.on("search:locationfound", (e) => {
+          e.layer.openPopup();
+        })
+        self.map.addControl(authorSearch);
 
         //add mobile class if screen width size < 850
         if (screen.width <= 850) {
@@ -327,6 +346,7 @@ export default {
             .toString(11)
             .replace("0.", "");
       }
+
       axios.get(islandUrl).then(response => {
         let islandDataJson = response.data.features;
         let islands = [];
@@ -373,6 +393,14 @@ export default {
             className: "island-icon"
           });
           islands.push(island);
+          let searchIcon = L.divIcon({html: " ", className: "search-layer-icon"})
+          let marker = new L.Marker(island.latLng, {icon: searchIcon}).addTo(searchMarkerGroup);
+
+          let feature = marker.feature = marker.feature || {};
+          feature.type = feature.type || "Feature"; // Initialize feature.type
+          var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+          props.name = island.properties.name;
+          props.author = island.properties.creator;
         }
         self.islandData = islands;
       });
