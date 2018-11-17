@@ -307,6 +307,7 @@ export default {
         self.map.createPane("sectorNames");
         self.map.createPane("turretMarkers");
         self.map.createPane("respawnerMarkers");
+        self.map.createPane("islandSearchMarkers");
         self.map.createPane("islandMarkers");
         self.map.createPane("islandImageMarkers");
         self.paneCreated = true;
@@ -319,10 +320,11 @@ export default {
           layer: searchMarkerGroup,
           propertyName: "author",
           marker: false,
-          zoom: -2,
+          zoom: -1,
         });
         authorSearch.on("search:locationfound", (e) => {
           e.layer.openPopup();
+          // console.log(e);
         })
         self.map.addControl(authorSearch);
 
@@ -394,7 +396,8 @@ export default {
           });
           islands.push(island);
           let searchIcon = L.divIcon({html: " ", className: "search-layer-icon"})
-          let marker = new L.Marker(island.latLng, {icon: searchIcon}).addTo(searchMarkerGroup);
+          let marker = new L.Marker(island.latLng, {icon: searchIcon, pane: "islandSearchMarkers"}).addTo(searchMarkerGroup);
+          marker.bindPopup("Hello!");
 
           let feature = marker.feature = marker.feature || {};
           feature.type = feature.type || "Feature"; // Initialize feature.type
