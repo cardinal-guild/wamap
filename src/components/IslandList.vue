@@ -6,12 +6,23 @@
   </div>
 </template>
 <script>
+import L from "leaflet";
+
 export default {
   name: "IslandList",
   props: ["islandList", "map"],
   methods: {
     moveTo: function(island) {
       this.map.setView(island.latLng, -1);
+      let glowMarkerIcon = L.icon({
+        iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+        iconSize: [100, 100],
+        className: "glow-icon"
+      });
+      new L.Marker(island.latLng, {icon: glowMarkerIcon, pane: "glowMarkers"}).addTo(this.map);
+      setTimeout(function () {
+        $(".glow-icon").addClass("stop-glow");
+      }, 500);
     }
   }
 }

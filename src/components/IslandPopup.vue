@@ -133,7 +133,7 @@ export default {
   ],
   computed: {
     islandLink: function() {
-      return location.href + "?lat=" + this.latLng.lat + "&lng=" + this.latLng.lng;
+      return location.origin + location.pathname + "?lat=" + this.latLng.lat + "&lng=" + this.latLng.lng;
     }
   }
 };

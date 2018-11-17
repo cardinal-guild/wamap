@@ -315,10 +315,6 @@ export default {
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
 
-        if (self.$attrs.lat && self.$attrs.lng && !self.adminMode) {
-          self.map.setView([self.$attrs.lat, self.$attrs.lng], -1.2);
-        }
-
         document.getElementsByClassName("zonenames")[0].style.opacity =
           self.zonenameMaxOpacity;
         self.map.getRenderer(self.map).options.padding = 10;
@@ -326,11 +322,26 @@ export default {
         self.map.createPane("turretMarkers");
         self.map.createPane("respawnerMarkers");
         self.map.createPane("islandMarkers");
+        self.map.createPane("glowMarkers");
         self.map.createPane("islandImageMarkers");
         self.map.createPane("islandBorderMarkers");
         self.map.createPane("islandDatabankMarkers");
         self.map.createPane("islandOverlayMarkers");
         self.paneCreated = true;
+
+        if (self.$attrs.lat && self.$attrs.lng && !self.adminMode) {
+          self.map.setView([self.$attrs.lat, self.$attrs.lng], -1.2);
+          let glowMarkerIcon = L.icon({
+            iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+            iconSize: [100, 100],
+            className: "glow-icon"
+          });
+          new L.Marker([self.$attrs.lat, self.$attrs.lng],{icon: glowMarkerIcon, pane: "glowMarkers"}).addTo(self.map);
+
+          setTimeout(function() {
+            $(".glow-icon").addClass("stop-glow");
+          }, 8000);
+        }
 
         //add mobile class if screen width size < 850
         if (screen.width <= 850) {
@@ -692,6 +703,16 @@ export default {
 .island-databank-count {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
+}
+
+.glow-icon {
+  box-shadow: none;
+  border-radius: 50%;
+  transition: box-shadow 5s;
+}
+
+.glow-icon:not(.stop-glow) {
+  box-shadow: 0 0 20px 20px #a9af25;
 }
 
 </style>
