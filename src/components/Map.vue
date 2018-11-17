@@ -4,14 +4,13 @@
       id="wamap"
       ref="map"
       :options="mapOptions"
-      :center="realCenter"
       :bounds="bounds"
       :crs="crs"
       :zoom="-100"
       @zoomend="onZoomEnd($event, $data)"
       @zoom="onZoom($event, $data, $root)"
       @click="mapClick($event, $data, $root)"
-      @leaflet:load="mapReady=true"
+
       v-if="loaded">
       <l-geo-json
         className="geojson"
@@ -48,7 +47,7 @@
           pane="islandSearchMarkers"
           :options="{ author: island.properties.creator, name: island.properties.name, latLng: island.latLng }">
           <l-popup v-if="!adminMode">
-            <IslandPopup  v-bind="island.properties" />
+            <IslandPopup  v-bind="island.properties" :latLng="island.latLng" />
           </l-popup>
         </l-marker>
       </l-layer-group>
@@ -63,6 +62,18 @@
         pane="islandBorderMarkers"
         :options="{ interactive: false }"
       />
+
+      <!--Databank count Markers-->
+      <l-marker
+        v-if="paneCreated && showIslandBorders"
+        v-for="island in islandData"
+        :key="island.properties.slug+'_'+island.id+'_datbanks'"
+        :lat-lng="[island.latLng.lat+122, island.latLng.lng]"
+        :icon="island.databankIcon"
+        pane="islandDatabankMarkers"
+        :options="{ interactive: false }"
+      />
+
       <!--Island Overlay Markers-->
       <l-marker
         v-if="paneCreated && showIslandBorders"
@@ -72,7 +83,7 @@
         :icon="island.overlayIcon"
         pane="islandOverlayMarkers">
         <l-popup v-if="!adminMode">
-          <IslandPopup  v-bind="island.properties" />
+          <IslandPopup  v-bind="island.properties" :latLng="island.latLng" />
         </l-popup>
       </l-marker>
       <!--Island Markers-->
@@ -87,7 +98,7 @@
         name="layerMarkerGroup"
         layer-type="overlay">
         <l-popup v-if="!adminMode">
-          <IslandPopup  v-bind="island.properties" />
+          <IslandPopup  v-bind="island.properties" :lat-lng="island.latLng" />
         </l-popup>
       </l-marker>
 
@@ -321,7 +332,6 @@ export default {
           islands.push(layer)
         }
       })
-      console.log(islands);
       self.searchedIslands = islands;
     });
 
@@ -347,6 +357,11 @@ export default {
       let searchMarkerGroup = new L.LayerGroup();
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
+
+        if (self.$attrs.lat && self.$attrs.lng && !self.adminMode) {
+          self.map.setView([self.$attrs.lat, self.$attrs.lng], -1.2);
+        }
+
         document.getElementsByClassName("zonenames")[0].style.opacity =
           self.zonenameMaxOpacity;
         self.map.getRenderer(self.map).options.padding = 10;
@@ -357,6 +372,7 @@ export default {
         self.map.createPane("islandMarkers");
         self.map.createPane("islandImageMarkers");
         self.map.createPane("islandBorderMarkers");
+        self.map.createPane("islandDatabankMarkers");
         self.map.createPane("islandOverlayMarkers");
         self.paneCreated = true;
         //create layergroup for island search markers
@@ -426,6 +442,10 @@ export default {
 
           island.overlayIcon = self.transparentIcon;
           island.searchIcon = L.divIcon({html: " ", className: "island-search-icon"});
+          island.databankIcon = L.divIcon({
+            html: island.properties.databanks,
+            className: "island-databank-count"
+          });
           islands.push(island);
         }
         self.islandData = islands;
@@ -461,17 +481,8 @@ export default {
       }
     });
   },
-  computed: {
-    realCenter() {
-      if (this.mapReady && !this.$attrs.admin && this.$attrs.lat && this.$attrs.lng) {
-        return [this.$attrs.lat, this.$attrs.lng];
-      }
-      return this.center;
-    }
-  },
   data() {
     return {
-      mapReady: false,
       hideLegend: false,
       showHeader: true,
       loaded: false,
@@ -721,5 +732,11 @@ export default {
 .transparent-island-icon {
   border-radius: 50%;
 }
+
+.island-databank-count {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+}
+
 </style>
 
