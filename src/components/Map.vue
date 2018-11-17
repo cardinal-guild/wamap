@@ -493,13 +493,6 @@ export default {
       sectorMarkers: [],
       searchedIslands: [],
       author: "",
-      // databanks: {
-      //   "1": "/assets/island_icons/databanks/I_Frame_Data-1.png",
-      //   "2": "/assets/island_icons/databanks/I_Frame_Data-2.png",
-      //   "3": "/assets/island_icons/databanks/I_Frame_Data-3.png",
-      //   "4": "/assets/island_icons/databanks/I_Frame_Data-4.png",
-      //   "5": "/assets/island_icons/databanks/I_Frame_Data-5.png"
-      // },
       islandTypes: {
         kioki: {
           plain: "/assets/island_icons/I_Frame_K.png",

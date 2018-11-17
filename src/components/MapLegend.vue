@@ -43,6 +43,30 @@
           Icons
         </span>
       </li>
+      <li>
+        <span class="icon single">
+          <img src="/assets/I_Frame_Databanks.png" />
+        </span>
+        <span class="description">
+          Databanks
+        </span>
+      </li>
+      <li>
+        <span class="icon single">
+          <img src="/assets/I_Frame_Reviver.png" />
+        </span>
+        <span class="description">
+          Revival Chambers
+        </span>
+      </li>
+      <li>
+        <span class="icon single">
+          <img src="/assets/I_Frame_Turret.png">
+        </span>
+        <span class="description">
+          Turrets
+        </span>
+      </li>
     </ul>
   </div>
 </template>
@@ -122,14 +146,22 @@ label[for="toggle-legend"] {
         &.info {
           border-radius: 100%;
           background-color: rgba(white, 0.2);
-          width: 35px;
-          height: 35px;
+          width: 40px;
+          height: 40px;
+        }
+        &.single {
+          margin-right: 16px;
+          margin-left: 20px;
+          img {
+            width: 30px;
+            height: auto;
+          }
         }
       }
       .description {
-        text-align: left;
+        text-align: right;
         white-space: nowrap;
-        padding-right: 10px;
+        //padding-right: 10px;
       }
       .header {
         margin: auto;
