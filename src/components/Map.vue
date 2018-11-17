@@ -33,25 +33,6 @@
         pane="sectorNames"
       />
 
-      <!--Search Markers-->
-      <l-layer-group
-        name="searchMarkerLayer"
-        layer-type="overlay"
-        ref="searchMarkerLayer">
-        <l-marker
-          v-if="paneCreated && !adminMode"
-          v-for="island in islandData"
-          :key="island.properties.slug+'_'+island.id+'_search'"
-          :lat-lng="island.latLng"
-          :icon="island.searchIcon"
-          pane="islandSearchMarkers"
-          :options="{ author: island.properties.creator, name: island.properties.name, latLng: island.latLng }">
-          <l-popup v-if="!adminMode">
-            <IslandPopup  v-bind="island.properties" :latLng="island.latLng" />
-          </l-popup>
-        </l-marker>
-      </l-layer-group>
-
       <!--Island Border Markers-->
       <l-marker
         v-if="paneCreated && showIslandBorders"
@@ -67,8 +48,8 @@
       <l-marker
         v-if="paneCreated && showIslandBorders"
         v-for="island in islandData"
-        :key="island.properties.slug+'_'+island.id+'_datbanks'"
-        :lat-lng="[island.latLng.lat+122, island.latLng.lng]"
+        :key="island.properties.slug+'_'+island.id+'_databank'"
+        :lat-lng="island.latLng"
         :icon="island.databankIcon"
         pane="islandDatabankMarkers"
         :options="{ interactive: false }"
@@ -86,6 +67,7 @@
           <IslandPopup  v-bind="island.properties" :latLng="island.latLng" />
         </l-popup>
       </l-marker>
+
       <!--Island Markers-->
       <l-marker
         v-if="paneCreated && showIslandMarkers && islandData.length"
@@ -125,7 +107,7 @@
         v-if="!adminMode"
         position="topleft">
         <input type="text" v-model="author" id="authorSearch" placeholder="Search authors...">
-        <IslandList :island-list="searchedIslands" />
+        <IslandList :island-list="searchedIslands" :map="map"/>
       </l-control>
       <l-control
         v-if="!adminMode"
@@ -145,7 +127,7 @@
         </a>
       </l-control>
     </l-map>
-    <!--<h1 class="map-title">Worlds Adrift Map</h1>-->
+
     <div class="loading-overlay" v-if="!loaded">
       <span>Loading...</span>
     </div>
@@ -179,45 +161,6 @@ import axios from "axios";
 import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
 import IslandList from "./IslandList.vue"
-// let getLayerByContainer = (e, name) => {
-//   let container = e.target.getContainer(name);
-//   if (!container) {
-//     return false;
-//   }
-//   let id = container._leaflet_id;
-//   console.log(id);
-//   let returnLayer = null;
-//   return e.target.eachLayer(function(layer) {
-//     if (layer.id === id) {
-//       returnLayer = layer;
-//       return returnLayer;
-//     }
-//   });
-// };
-// let setInfoIconSizes = (e, d) => {
-//   let zoomScale = (e.target._zoom + 3.4) / (-1.3 + 3.4);
-//   if (e.target._zoom > -1.3) {
-//     d.showInfoMarkers = true;
-//     $(".map .respawner-icon, .map .turret-icon").css({
-//       width: 180,
-//       height: 180,
-//       marginTop: -90,
-//       marginLeft: -90
-//     });
-//   } else if (e.target._zoom > -3.5) {
-//     d.showInfoMarkers = true;
-
-//     let infoIconSize = (1 + zoomScale * 2) * 30;
-//     $(".map .respawner-icon, .map .turret-icon").css({
-//       width: infoIconSize,
-//       height: infoIconSize,
-//       marginTop: -(infoIconSize / 2),
-//       marginLeft: -(infoIconSize / 2)
-//     });
-//   } else {
-//     d.showInfoMarkers = false;
-//   }
-// };
 export default {
   name: "Map",
   components: {
@@ -326,12 +269,19 @@ export default {
         self.searchedIslands = [];
         return;
       }
-      let group = self.$refs.searchMarkerLayer.mapObject;
-      group.eachLayer((layer) => {
-        if (layer.options.author.toLowerCase().startsWith(newVal.toLowerCase())) {
-          islands.push(layer)
+      //console.log(self.islandData);
+      for (var i in self.islandData) {
+        let island = self.islandData[i];
+        if (island.properties.creator.toLowerCase().startsWith(newVal.toLowerCase())) {
+          islands.push(island);
         }
-      })
+      }
+      // let group = self.$refs.searchMarkerLayer.mapObject;
+      // group.eachLayer((layer) => {
+      //   if (layer.options.author.toLowerCase().startsWith(newVal.toLowerCase())) {
+      //     islands.push(layer)
+      //   }
+      // })
       self.searchedIslands = islands;
     });
 
@@ -354,7 +304,6 @@ export default {
     axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
       self.geojson.data = response.data;
       self.loaded = true;
-      let searchMarkerGroup = new L.LayerGroup();
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
 
@@ -368,15 +317,12 @@ export default {
         self.map.createPane("sectorNames");
         self.map.createPane("turretMarkers");
         self.map.createPane("respawnerMarkers");
-        self.map.createPane("islandSearchMarkers")
         self.map.createPane("islandMarkers");
         self.map.createPane("islandImageMarkers");
         self.map.createPane("islandBorderMarkers");
         self.map.createPane("islandDatabankMarkers");
         self.map.createPane("islandOverlayMarkers");
         self.paneCreated = true;
-        //create layergroup for island search markers
-        self.map.addLayer(searchMarkerGroup);
 
         //add mobile class if screen width size < 850
         if (screen.width <= 850) {
@@ -422,6 +368,13 @@ export default {
             className: "island-border-icon"
           });
 
+          //set databanks number
+          island.databankIcon = L.icon({
+            iconUrl: "/assets/island_icons/databanks/I_Frame_Data-" + island.properties.databanks + ".png",
+            iconSize: [150, 150],
+            className: "island-databank-icon"
+          });
+
           //Set image icon icons
           island.imageIcon = L.icon({
             iconUrl: island.properties.imageIcon,
@@ -441,11 +394,6 @@ export default {
           });
 
           island.overlayIcon = self.transparentIcon;
-          island.searchIcon = L.divIcon({html: " ", className: "island-search-icon"});
-          island.databankIcon = L.divIcon({
-            html: island.properties.databanks,
-            className: "island-databank-count"
-          });
           islands.push(island);
         }
         self.islandData = islands;
@@ -537,6 +485,13 @@ export default {
       sectorMarkers: [],
       searchedIslands: [],
       author: "",
+      // databanks: {
+      //   "1": "/assets/island_icons/databanks/I_Frame_Data-1.png",
+      //   "2": "/assets/island_icons/databanks/I_Frame_Data-2.png",
+      //   "3": "/assets/island_icons/databanks/I_Frame_Data-3.png",
+      //   "4": "/assets/island_icons/databanks/I_Frame_Data-4.png",
+      //   "5": "/assets/island_icons/databanks/I_Frame_Data-5.png"
+      // },
       islandTypes: {
         kioki: {
           plain: "/assets/island_icons/I_Frame_K.png",
