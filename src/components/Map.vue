@@ -321,6 +321,7 @@ export default {
           islands.push(layer)
         }
       })
+      console.log(islands);
       self.searchedIslands = islands;
     });
 

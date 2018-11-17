@@ -1,6 +1,6 @@
 <template>
   <div class="island-list">
-    <button v-for="island in islandList" class="island-button" @click="moveToIsland(island, island.options.latLng)">
+    <button v-for="island in islandList" class="island-button" @click="moveToIsland(island)">
       {{ island.options.name }}
     </button>
   </div>
@@ -10,8 +10,10 @@ export default {
   name: "IslandList",
   props: ["islandList"],
   methods: {
-    moveToIsland: (layer, latLng) => {
-      layer._map.setView(latLng, -2);
+    moveToIsland: (layer) => {
+      layer._map.setView(layer.options.latLng, -1);
+      //layer.openPopup(layer.options.latLng); I have NO idea why this doesn't work. I can open the popups from the watcher but not from here
+      //console.log(layer);
     }
   }
 }
