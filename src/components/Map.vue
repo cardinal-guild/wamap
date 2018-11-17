@@ -42,7 +42,20 @@
         :lat-lng="island.latLng"
         :icon="island.borderIcon"
         pane="islandBorderMarkers"
+        :options="{ interactive: false }"
       />
+      <!--Island Overlay Markers-->
+      <l-marker
+        v-if="paneCreated && showIslandBorders"
+        v-for="island in islandData"
+        :key="island.properties.slug+'_'+island.id+'_overlay'"
+        :lat-lng="island.latLng"
+        :icon="island.overlayIcon"
+        pane="islandOverlayMarkers">
+        <l-popup v-if="!adminMode">
+          <IslandPopup  v-bind="island.properties" />
+        </l-popup>
+      </l-marker>
       <!--Island Markers-->
       <l-marker
         v-if="paneCreated && showIslandMarkers && islandData.length"
@@ -66,9 +79,7 @@
         :lat-lng="island.latLng"
         :icon="island.imageIcon"
         pane="islandImageMarkers">
-        <l-popup v-if="!adminMode">
-          <IslandPopup  v-bind="island.properties" />
-        </l-popup>
+
       </l-marker>
       <l-image-overlay
         ref="zonenames"
@@ -130,45 +141,45 @@ import axios from "axios";
 
 import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
-let getLayerByContainer = (e, name) => {
-  let container = e.target.getContainer(name);
-  if (!container) {
-    return false;
-  }
-  let id = container._leaflet_id;
-  console.log(id);
-  let returnLayer = null;
-  return e.target.eachLayer(function(layer) {
-    if (layer.id === id) {
-      returnLayer = layer;
-      return returnLayer;
-    }
-  });
-};
-let setInfoIconSizes = (e, d) => {
-  let zoomScale = (e.target._zoom + 3.4) / (-1.3 + 3.4);
-  if (e.target._zoom > -1.3) {
-    d.showInfoMarkers = true;
-    $(".map .respawner-icon, .map .turret-icon").css({
-      width: 180,
-      height: 180,
-      marginTop: -90,
-      marginLeft: -90
-    });
-  } else if (e.target._zoom > -3.5) {
-    d.showInfoMarkers = true;
+// let getLayerByContainer = (e, name) => {
+//   let container = e.target.getContainer(name);
+//   if (!container) {
+//     return false;
+//   }
+//   let id = container._leaflet_id;
+//   console.log(id);
+//   let returnLayer = null;
+//   return e.target.eachLayer(function(layer) {
+//     if (layer.id === id) {
+//       returnLayer = layer;
+//       return returnLayer;
+//     }
+//   });
+// };
+// let setInfoIconSizes = (e, d) => {
+//   let zoomScale = (e.target._zoom + 3.4) / (-1.3 + 3.4);
+//   if (e.target._zoom > -1.3) {
+//     d.showInfoMarkers = true;
+//     $(".map .respawner-icon, .map .turret-icon").css({
+//       width: 180,
+//       height: 180,
+//       marginTop: -90,
+//       marginLeft: -90
+//     });
+//   } else if (e.target._zoom > -3.5) {
+//     d.showInfoMarkers = true;
 
-    let infoIconSize = (1 + zoomScale * 2) * 30;
-    $(".map .respawner-icon, .map .turret-icon").css({
-      width: infoIconSize,
-      height: infoIconSize,
-      marginTop: -(infoIconSize / 2),
-      marginLeft: -(infoIconSize / 2)
-    });
-  } else {
-    d.showInfoMarkers = false;
-  }
-};
+//     let infoIconSize = (1 + zoomScale * 2) * 30;
+//     $(".map .respawner-icon, .map .turret-icon").css({
+//       width: infoIconSize,
+//       height: infoIconSize,
+//       marginTop: -(infoIconSize / 2),
+//       marginLeft: -(infoIconSize / 2)
+//     });
+//   } else {
+//     d.showInfoMarkers = false;
+//   }
+// };
 export default {
   name: "Map",
   components: {
@@ -219,7 +230,7 @@ export default {
         d.hideLegend = false;
       }
 
-      setInfoIconSizes(e, d);
+      //setInfoIconSizes(e, d);
       //tier names' opacities
       if (
         e.target.options.minZoom &&
@@ -247,7 +258,7 @@ export default {
       } else {
         d.showSectorNames = false;
       }
-      setInfoIconSizes(e, d);
+      //setInfoIconSizes(e, d);
 
       // shows/hides island markers
       if (e.target._zoom > -3.5 && e.target._zoom < -1.3) {
@@ -298,9 +309,9 @@ export default {
         self.map.createPane("respawnerMarkers");
         self.map.createPane("islandSearchMarkers");
         self.map.createPane("islandMarkers");
-
         self.map.createPane("islandImageMarkers");
         self.map.createPane("islandBorderMarkers");
+        self.map.createPane("islandOverlayMarkers");
         self.paneCreated = true;
         //create layergroup for island search markers
         self.map.addLayer(searchMarkerGroup);
@@ -380,6 +391,8 @@ export default {
             iconSize: [30, 30],
             className: "island-icon"
           });
+
+          island.overlayIcon = self.transparentIcon;
           islands.push(island);
           let searchIcon = L.divIcon({html: " ", className: "search-layer-icon"})
           let marker = new L.Marker(island.latLng, {icon: searchIcon, pane: "islandSearchMarkers"}).addTo(searchMarkerGroup);
@@ -480,6 +493,11 @@ export default {
           interactive: false
         }
       },
+      transparentIcon: new L.Icon({
+        iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+        iconSize: [110, 110],
+        className: "transparent-island-icon",
+      }),
       islandData: [],
       sectorMarkers: [],
       islandTypes: {
@@ -674,6 +692,8 @@ export default {
   }
 }
 
-/* legend */
+.transparent-island-icon {
+  border-radius: 50%;
+}
 </style>
 
