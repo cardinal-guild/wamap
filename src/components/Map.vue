@@ -34,6 +34,25 @@
         pane="sectorNames"
       />
 
+      <!--Search Markers-->
+      <l-layer-group
+        name="searchMarkerLayer"
+        layer-type="overlay"
+        ref="searchMarkerLayer">
+        <l-marker
+          v-if="paneCreated && !adminMode"
+          v-for="island in islandData"
+          :key="island.properties.slug+'_'+island.id+'_search'"
+          :lat-lng="island.latLng"
+          :icon="island.searchIcon"
+          pane="islandSearchMarkers"
+          :options="{ author: island.properties.creator, name: island.properties.name, latLng: island.latLng }">
+          <l-popup v-if="!adminMode">
+            <IslandPopup  v-bind="island.properties" />
+          </l-popup>
+        </l-marker>
+      </l-layer-group>
+
       <!--Island Border Markers-->
       <l-marker
         v-if="paneCreated && showIslandBorders"
@@ -44,6 +63,7 @@
         pane="islandBorderMarkers"
         :options="{ interactive: false }"
       />
+
       <!--Island Overlay Markers-->
       <l-marker
         v-if="paneCreated && showIslandBorders"
@@ -56,6 +76,7 @@
           <IslandPopup  v-bind="island.properties" />
         </l-popup>
       </l-marker>
+
       <!--Island Markers-->
       <l-marker
         v-if="paneCreated && showIslandMarkers && islandData.length"
@@ -71,6 +92,7 @@
           <IslandPopup  v-bind="island.properties" />
         </l-popup>
       </l-marker>
+
       <!--Island Image Markers-->
       <l-marker
         v-if="paneCreated && showIslandImageMarkers"
@@ -79,8 +101,9 @@
         :lat-lng="island.latLng"
         :icon="island.imageIcon"
         pane="islandImageMarkers">
-
       </l-marker>
+
+      <!--Zone names-->
       <l-image-overlay
         ref="zonenames"
         url="https://data.cardinalguild.com/zonenames.svg"
@@ -89,6 +112,12 @@
         :attribution="attribution"
         :bounds="bounds"
       />
+      <l-control
+        v-if="!adminMode"
+        position="topleft">
+        <input type="text" v-model="author" id="authorSearch" placeholder="Search authors...">
+        <IslandList :island-list="searchedIslands" />
+      </l-control>
       <l-control
         v-if="!adminMode"
         position="topright">
@@ -126,7 +155,6 @@
 /* eslint-disable */
 import Vue from "vue";
 import L from "leaflet";
-import LSearch from "leaflet-search";
 import _ from "lodash";
 import {
   LMap,
@@ -141,6 +169,7 @@ import axios from "axios";
 
 import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
+import IslandList from "./IslandList.vue"
 // let getLayerByContainer = (e, name) => {
 //   let container = e.target.getContainer(name);
 //   if (!container) {
@@ -191,7 +220,8 @@ export default {
     LMarker,
     LPopup,
     IslandPopup,
-    MapLegend
+    MapLegend,
+    IslandList,
   },
   methods: {
     mapClick: (e, d) => {
@@ -279,6 +309,23 @@ export default {
   },
   created() {
     let self = this;
+
+    self.$watch("author", (newVal, oldVal) => {
+      let islands = [];
+      if (!newVal) {
+        islands = [];
+        self.searchedIslands = [];
+        return;
+      }
+      let group = self.$refs.searchMarkerLayer.mapObject;
+      group.eachLayer((layer) => {
+        if (layer.options.author.toLowerCase().startsWith(newVal.toLowerCase())) {
+          islands.push(layer)
+        }
+      })
+      self.searchedIslands = islands;
+    });
+
     // Hide header after 2 seconds
     setTimeout(function() {
       self.showHeader = false;
@@ -307,7 +354,7 @@ export default {
         self.map.createPane("sectorNames");
         self.map.createPane("turretMarkers");
         self.map.createPane("respawnerMarkers");
-        self.map.createPane("islandSearchMarkers");
+        self.map.createPane("islandSearchMarkers")
         self.map.createPane("islandMarkers");
         self.map.createPane("islandImageMarkers");
         self.map.createPane("islandBorderMarkers");
@@ -315,20 +362,6 @@ export default {
         self.paneCreated = true;
         //create layergroup for island search markers
         self.map.addLayer(searchMarkerGroup);
-
-        //add search control
-        let authorSearch = new L.control.search({
-          textPlaceholder: "Search Authors...",
-          layer: searchMarkerGroup,
-          propertyName: "author",
-          marker: false,
-          zoom: -1,
-        });
-        authorSearch.on("search:locationfound", (e) => {
-          e.layer.openPopup();
-          // console.log(e);
-        })
-        self.map.addControl(authorSearch);
 
         //add mobile class if screen width size < 850
         if (screen.width <= 850) {
@@ -393,16 +426,8 @@ export default {
           });
 
           island.overlayIcon = self.transparentIcon;
+          island.searchIcon = L.divIcon({html: " ", className: "island-search-icon"});
           islands.push(island);
-          let searchIcon = L.divIcon({html: " ", className: "search-layer-icon"})
-          let marker = new L.Marker(island.latLng, {icon: searchIcon, pane: "islandSearchMarkers"}).addTo(searchMarkerGroup);
-          marker.bindPopup("Hello!");
-
-          let feature = marker.feature = marker.feature || {};
-          feature.type = feature.type || "Feature"; // Initialize feature.type
-          var props = feature.properties = feature.properties || {}; // Initialize feature.properties
-          props.name = island.properties.name;
-          props.author = island.properties.creator;
         }
         self.islandData = islands;
       });
@@ -500,6 +525,8 @@ export default {
       }),
       islandData: [],
       sectorMarkers: [],
+      searchedIslands: [],
+      author: "",
       islandTypes: {
         kioki: {
           plain: "/assets/island_icons/I_Frame_K.png",
