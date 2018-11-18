@@ -26,7 +26,7 @@ body {
   display: block;
   padding: 0;
   margin: 0;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Noto Sans","Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
