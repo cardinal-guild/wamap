@@ -829,5 +829,27 @@ export default {
 .glow-icon:not(.stop-glow) {
   box-shadow: 0 0 20px 20px #ffe5c4;
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+    margin: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0002;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e0af84; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffe5c4; 
+}
+
+::-webkit-scrollbar-button {
+    width:10px;
+    height: 10px;
+    background: #0002;
 </style>
 
