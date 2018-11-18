@@ -33,7 +33,8 @@ const router = new VueRouter({
       admin: route.query.admin,
       lat: route.query.lat,
       lng: route.query.lng,
-      island: route.query.island
+      island: route.query.island,
+      point: route.query.point
     })
   }]
 });

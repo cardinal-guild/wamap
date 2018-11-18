@@ -67,6 +67,22 @@
           Turrets
         </span>
       </li>
+      <li>
+        <span class="icon single culture">
+          <img src="/assets/I_Frame_K-E.png">
+        </span>
+        <span class="description">
+          Kioki
+        </span>
+      </li>
+      <li>
+        <span class="icon single culture">
+          <img src="/assets/I_Frame_S-E.png">
+        </span>
+        <span class="description">
+          Saborian
+        </span>
+      </li>
     </ul>
   </div>
 </template>
@@ -155,6 +171,13 @@ label[for="toggle-legend"] {
           img {
             width: 30px;
             height: auto;
+          }
+        }
+        &.culture {
+          margin-left: 15px;
+          margin-right: 12px;
+          img {
+          width: 40px;
           }
         }
       }

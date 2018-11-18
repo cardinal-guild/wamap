@@ -35,8 +35,9 @@ export default {
 #authorSearch-div {
   overflow: hidden;
   position: relative;
-  width: 216px;
+  width: 30px;
   z-index: -3;
+  transition: width 0.5s;
 
   #toggle-search {
     position: absolute;
@@ -53,6 +54,10 @@ export default {
 
       ~ label > svg {
         transform: rotate(90deg);
+
+        .search-icon {
+          fill: #ffe5c4;
+        }
       }
     }
   }
@@ -107,7 +112,8 @@ export default {
     border-top: 5px #e0b084 solid;
     border-bottom: 5px #e0b084 solid;
     max-height: 600px;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     z-index: -2;
     position: relative;
     left: -216px;

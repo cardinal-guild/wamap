@@ -17,11 +17,23 @@
         :geojson="geojson.data"
         :options="geojson.options"
       />
+
+      <!--Island placement marker-->
       <l-marker
         v-if="adminMode"
         :lat-lng="adminMarker"
-        :draggable="false"
       />
+
+      <!--Point link marker-->
+      <l-marker
+        v-if="point.hasPointAttr"
+        ref="pointMarker"
+        :lat-lng="point.latLng">
+        <l-popup>
+          <button class="point-delete" @click="pointButtonClick">Delete Me!</button>
+        </l-popup>
+      </l-marker>
+
       <!--Sector Markers-->
       <l-marker
         v-if="paneCreated && showSectorNames"
@@ -102,11 +114,13 @@
         :attribution="attribution"
         :bounds="bounds"
       />
+
+      <!--Author Search-->
       <l-control
         v-if="!adminMode"
         position="topleft">
         <div id="authorSearch-div">
-          <input type="checkbox" id="toggle-search">
+          <input type="checkbox" id="toggle-search" @change="toggleSearch">
           <label for="toggle-search">
             <SearchIcon />
           </label>
@@ -114,6 +128,15 @@
           <IslandList :island-list="searchedIslands" :map="map"/>
         </div>
       </l-control>
+
+      <!--Map Marker-->
+      <l-control
+        v-if="!adminMode"
+        position="topleft">
+        <MapMarker :map="map"/>
+      </l-control>
+
+      <!--Map Legend-->
       <l-control
         v-if="!adminMode"
         position="topright">
@@ -167,7 +190,8 @@ import SearchIcon from "../../public/assets/search-icon.svg";
 
 import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
-import IslandList from "./IslandList.vue"
+import IslandList from "./IslandList.vue";
+import MapMarker from "./MapMarker.vue";
 export default {
   name: "Map",
   components: {
@@ -182,8 +206,16 @@ export default {
     MapLegend,
     IslandList,
     SearchIcon,
+    MapMarker,
   },
   methods: {
+    toggleSearch: (e) => {
+      if (e.srcElement.checked) $("#authorSearch-div").css("width", "216px");
+      else $("#authorSearch-div").css("width", "30px");
+    },
+    pointButtonClick: function (e) {
+      this.$refs.map.mapObject.removeLayer(this.$refs.pointMarker.mapObject);
+    },
     mapClick: (e, d) => {
       // console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
       let lat = e.latlng.lat;
@@ -331,21 +363,28 @@ export default {
 
         if (self.$attrs.lat && self.$attrs.lng && !self.adminMode) {
           self.map.setView([self.$attrs.lat, self.$attrs.lng], -1.2);
-          let glowMarkerIcon = L.icon({
-            iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
-            iconSize: [100, 100],
-            className: "glow-icon"
-          });
-          let marker = new L.Marker([self.$attrs.lat, self.$attrs.lng],{icon: glowMarkerIcon, pane: "glowMarkers"});
-          marker.addTo(self.map);
+          if (!self.$attrs.point) {
+            let glowMarkerIcon = L.icon({
+              iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+              iconSize: [100, 100],
+              className: "glow-icon"
+            });
+            let marker = new L.Marker([self.$attrs.lat, self.$attrs.lng],{icon: glowMarkerIcon, pane: "glowMarkers"});
 
-          setTimeout(function() {
-            $(".glow-icon").addClass("stop-glow");
-          }, 8000);
+            marker.addTo(self.map);
 
-          setTimeout(function(mapObj) {
-            mapObj.removeLayer(marker);
-          }, 13000, self.map);
+            setTimeout(function() {
+              $(".glow-icon").addClass("stop-glow");
+            }, 8000);
+
+            setTimeout(function(mapObj) {
+              mapObj.removeLayer(marker);
+            }, 13000, self.map);
+          }
+          else {
+            self.point.hasPointAttr = true;
+            self.point.latLng = L.latLng(self.$attrs.lat, self.$attrs.lng);
+          }
         }
 
         //add mobile class if screen width size < 850
@@ -528,6 +567,10 @@ export default {
           medium: "/assets/island_icons/Island_S_M.png",
           low: "/assets/island_icons/Island_S_L.png"
         }
+      },
+      point: {
+        hasPointAttr: false,
+        latLng: null,
       }
     };
   }
@@ -607,6 +650,30 @@ export default {
 }
 </style>
 <style lang="scss">
+.point-delete {
+  border: none;
+  border-radius: 2px;
+  background-color: rgb(224,176,132);
+  border: none;
+  border-radius: 2px;
+  display: block;
+  padding: 4px;
+  margin: 4px auto;
+  color: #4f4141;
+  font-size: 18px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #ffe5c4;
+  }
+
+  &:focus {
+    box-shadow: 0 0 1px 1px #291a08 inset;
+    background-color: #ffe5c4;
+    outline: 0;
+  }
+}
+
 .header-fade-enter-active,
 .header-fade-leave-active {
   transition: opacity 1s;
