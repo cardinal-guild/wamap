@@ -20,7 +20,7 @@
 
       <!--Island placement marker-->
       <l-marker
-        v-if="adminMode"
+        v-if="adminMode && !$attrs.move"
         :lat-lng="adminMarker"
       />
 
@@ -46,7 +46,7 @@
 
       <!--Island Border Markers-->
       <l-marker
-        v-if="paneCreated && showIslandBorders"
+        v-if="paneCreated && showIslandBorders && !moveMode"
         v-for="island in islandData"
         :key="island.properties.slug+'_'+island.id+'_border'"
         :lat-lng="island.latLng"
@@ -57,7 +57,7 @@
 
       <!--Databank count Markers-->
       <l-marker
-        v-if="paneCreated && showIslandBorders"
+        v-if="paneCreated && showIslandBorders && !moveMode"
         v-for="island in islandData"
         :key="island.properties.slug+'_'+island.id+'_databank'"
         :lat-lng="island.latLng"
@@ -68,7 +68,7 @@
 
       <!--Island Overlay Markers-->
       <l-marker
-        v-if="paneCreated && showIslandBorders"
+        v-if="paneCreated && showIslandBorders && !moveMode"
         v-for="island in islandData"
         :key="island.properties.slug+'_'+island.id+'_overlay'"
         :lat-lng="island.latLng"
@@ -87,6 +87,8 @@
         :lat-lng="island.latLng"
         :icon="island.icon"
         :author="island.properties.author"
+        :draggable="moveMode"
+        :id="island.id"
         pane="islandMarkers"
         name="layerMarkerGroup"
         layer-type="overlay">
@@ -97,7 +99,7 @@
 
       <!--Island Image Markers-->
       <l-marker
-        v-if="paneCreated && showIslandImageMarkers"
+        v-if="paneCreated && showIslandImageMarkers && !moveMode"
         v-for="island in islandData"
         :key="island.properties.slug + '_' + island.id + '_image'"
         :lat-lng="island.latLng"
@@ -283,19 +285,21 @@ export default {
       //setInfoIconSizes(e, d);
 
       // shows/hides island markers
-      if (e.target._zoom > -3.5 && e.target._zoom < -1.3) {
-        d.showIslandMarkers = true;
-      } else {
-        d.showIslandMarkers = false;
-      }
+      if (!d.moveMode) {
+        if (e.target._zoom > -3.5 && e.target._zoom < -1.3) {
+          d.showIslandMarkers = true;
+        } else {
+          d.showIslandMarkers = false;
+        }
 
-      // shows/hides island images
-      if (e.target._zoom > -1.4) {
-        d.showIslandImageMarkers = true;
-        d.showIslandBorders = true;
-      } else {
-        d.showIslandImageMarkers = false;
-        d.showIslandBorders = false;
+        // shows/hides island images
+        if (e.target._zoom > -1.4) {
+          d.showIslandImageMarkers = true;
+          d.showIslandBorders = true;
+        } else {
+          d.showIslandImageMarkers = false;
+          d.showIslandBorders = false;
+        }
       }
     }, 200)
   },
@@ -335,7 +339,10 @@ export default {
       self.showHeader = false;
     }, 3000);
     */
-
+    if (self.$attrs.move == "true") {
+      self.moveMode = true;
+      self.showIslandMarkers = true;
+    }
     if (self.$attrs.admin == "true") {
       self.showHeader = false;
       self.adminMode = true;
@@ -512,6 +519,7 @@ export default {
   },
   data() {
     return {
+      moveMode: false,
       hideLegend: false,
       showHeader: true,
       loaded: false,
