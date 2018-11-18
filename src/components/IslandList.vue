@@ -114,7 +114,7 @@ export default {
     border: none;
     border-top: 5px #e0b084 solid;
     border-bottom: 5px #e0b084 solid;
-    max-height: 600px;
+    max-height: 312px;
     overflow-y: auto;
     overflow-x: hidden;
     z-index: -2;
@@ -134,9 +134,9 @@ export default {
       padding: 4px;
       margin: 4px auto;
       color: #4f4141;
-      font-size: 18px;
+      font-size: 14px;
       font-weight: bold;
-      width: 180px;
+      width: 196px;
 
       &:hover {
         background-color: #ffe5c4;
