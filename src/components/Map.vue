@@ -725,6 +725,11 @@ export default {
       border-bottom: 5px rgb(224, 176, 132) solid;
       border-radius: 0;
     }
+    .leaflet-popup-tip-container {
+      .leaflet-popup-tip {
+        background: #e0af84;
+      }
+    }
     a.leaflet-popup-close-button {
       padding-top: 9px;
     }
