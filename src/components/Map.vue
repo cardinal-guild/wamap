@@ -162,10 +162,9 @@
 
     <transition name="header-fade">
       <div class="header-bar" v-show="showHeader">
-        <a href="https://cardinalguild.com" style="height: 30px;">
-          <img class="header-image" height="60px" id="cg-title" src="/assets/cg_title.png" alt="Cardinal Guild Title">
+        <a href="https://cardinalguild.com">
+          <img class="header-image" height="60px" id="cg-title" src="/assets/header_title.png" alt="Cardinal Guild Title">
         </a>
-        <span>Worlds Adrift Map</span>
       </div>
     </transition>
   </div>
@@ -325,10 +324,13 @@ export default {
       self.searchedIslands = islands;
     });
 
+    /*
     // Hide header after 2 seconds
     setTimeout(function() {
       self.showHeader = false;
     }, 3000);
+    */
+    
     if (self.$attrs.admin == "true") {
       self.showHeader = false;
       self.adminMode = true;
@@ -600,27 +602,16 @@ export default {
   }
   .header-bar {
     font-family: "Noto Sans", sans-serif;
-    margin-top: 0;
-    border: none;
-    border-top: 5px rgb(244, 176, 132) solid;
-    border-bottom: 5px rgb(244, 176, 132) solid;
-    background: #4f4141;
+    background: transparent;
     position: absolute;
     top: 0;
     z-index: 1000;
     width: 100%;
-    transition: top 0.8s;
-    height: 45px;
-    span {
-      color: #ffe5c4;
-      font-size: 30px;
-      text-align: center;
-      margin: auto;
-    }
+    transition: top 1s;
     .header-image {
-      position: absolute;
-      top: -5px;
-      left: 50px;
+    position: absolute;
+    left: 50px;
+    top: 5px;
     }
   }
 }

@@ -196,7 +196,7 @@ label[for="toggle-legend"] {
     }
 
     &:checked ~ label[for="toggle-legend"] {
-      left: 180px;
+      left: 154px;
       svg {
         transform: rotate(-180deg);
       }
