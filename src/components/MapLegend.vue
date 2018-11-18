@@ -191,7 +191,7 @@ label[for="toggle-legend"] {
     display: block;
 
     &:checked ~ .map-legend {
-      left: 210px;
+      left: 184px;
       box-shadow: none;
     }
 

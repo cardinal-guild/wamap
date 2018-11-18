@@ -684,8 +684,8 @@ export default {
     transition: top 0.5s;
   }
   &.header {
-    .leaflet-top {
-      top: 50px !important;
+    .leaflet-top.leaflet-right.mobile {
+      top: 65px !important;
     }
   }
 }
