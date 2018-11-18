@@ -5,9 +5,9 @@
     </button>
   </div>
 </template>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
 import L from "leaflet";
+import $ from "jquery";
 
 export default {
   name: "IslandList",
@@ -16,21 +16,29 @@ export default {
     moveTo: function(island) {
       this.map.setView(island.latLng, -1);
       let glowMarkerIcon = L.icon({
-        iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+        iconUrl:
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
         iconSize: [100, 100],
         className: "glow-icon"
       });
-      let marker = new L.Marker(island.latLng, {icon: glowMarkerIcon, pane: "glowMarkers"});
+      let marker = new L.Marker(island.latLng, {
+        icon: glowMarkerIcon,
+        pane: "glowMarkers"
+      });
       marker.addTo(this.map);
-      setTimeout(function () {
+      setTimeout(function() {
         $(".glow-icon").addClass("stop-glow");
       }, 500);
-      setTimeout(function(mapObj) {
-        mapObj.removeLayer(marker);
-      }, 5500, this.map);
+      setTimeout(
+        function(mapObj) {
+          mapObj.removeLayer(marker);
+        },
+        5500,
+        this.map
+      );
     }
   }
-}
+};
 </script>
 <style lang="scss">
 #authorSearch-div {
@@ -63,7 +71,7 @@ export default {
     }
   }
 
-  label[for=toggle-search] {
+  label[for="toggle-search"] {
     cursor: pointer;
     display: block;
     background: #4f4141;
@@ -127,7 +135,7 @@ export default {
     }
 
     .island-button {
-      background-color: rgb(224,176,132);
+      background-color: rgb(224, 176, 132);
       border: none;
       border-radius: 2px;
       display: block;

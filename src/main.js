@@ -5,6 +5,7 @@ import App from './App.vue';
 import Map from "./components/Map.vue";
 import 'leaflet.icon.glyph';
 
+window.$ = window.jQuery = window.jquery = require("jquery");
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -34,7 +35,8 @@ const router = new VueRouter({
       lat: route.query.lat,
       lng: route.query.lng,
       island: route.query.island,
-      point: route.query.point
+      point: route.query.point,
+      move: route.query.move
     })
   }]
 });
