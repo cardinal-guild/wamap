@@ -851,5 +851,6 @@ export default {
     width:10px;
     height: 10px;
     background: #0002;
+}
 </style>
 
