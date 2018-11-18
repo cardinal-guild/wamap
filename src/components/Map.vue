@@ -700,6 +700,7 @@ export default {
 }
 
 .leaflet-container {
+  font-family: "Noto Sans","Roboto", sans-serif;
   .leaflet-overlay-pane {
     svg {
       z-index: 1;
