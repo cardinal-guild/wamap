@@ -1,8 +1,11 @@
 <template>
   <div class="island-popup" :id="name">
-    <div class="island-link">
+    <!-- <div class="island-link">
       <a :href="islandLink">Link</a>
-    </div>
+    </div> -->
+    <button class="copy-button island-link" :data-clipboard-text="islandLink">
+      Copy
+    </button>
     <table class="island-data-table">
       <tr class="name">
         <th colspan="2">
@@ -143,8 +146,9 @@ export default {
 @import "~animate-sass/animate";
 .island-link {
   position: absolute;
-  top: 8px;
+  top: 4px;
   right: 25px;
+  font-size: 12px;
 }
 .island-data-table {
   border-collapse: collapse;
