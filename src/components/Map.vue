@@ -375,7 +375,7 @@ export default {
       }
     }
     self.loaded = false;
-    axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
+    axios.get("//data.cardinalguild.com/wamap.geojson").then(response => {
       self.geojson.data = response.data;
       self.loaded = true;
       self.$nextTick(() => {
@@ -439,7 +439,7 @@ export default {
         }
       });
 
-      let islandUrl = "http://surveyor.lc/api/islands.json";
+      let islandUrl = "//surveyor.cardinalguild.com/api/islands.json";
       if (self.adminMode) {
         islandUrl =
           islandUrl +
