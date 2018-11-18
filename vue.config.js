@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 module.exports = {
     baseUrl: process.env.NODE_ENV === 'production' ? '/' : '/',
     chainWebpack: (config) => {
@@ -8,5 +9,13 @@ module.exports = {
         svgRule
             .use('vue-svg-loader')
             .loader('vue-svg-loader');
+    },
+    configureWebpack: {
+        plugins: [
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jquery: 'jquery'
+            })
+        ]
     }
 }

@@ -13,7 +13,7 @@
   <title>Worlds Adrift Map</title>
 </head>
 
-<body onresize="onResize()">
+<body>
   <noscript>
     <strong>We're sorry but wamap doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
   </noscript>
@@ -21,7 +21,6 @@
   <!-- built files will be auto injected -->
 </body>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
   function onResize() {
     //add mobile class if screen width size < 850
@@ -30,12 +29,12 @@
       if (screen.width <= 850) {
         if (!controls[i].classList.contains("mobile"))
           controls[i].classList.add("mobile")
-      }
-      else {
+      } else {
         controls[i].classList.remove("mobile");
       }
     }
   }
+  window.addEventListener('resize', onResize);
 </script>
 
 </html>

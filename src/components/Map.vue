@@ -1,5 +1,6 @@
 <template>
   <div class="map" :class="{ header: showHeader }">
+
     <l-map
       id="wamap"
       ref="map"
@@ -20,7 +21,7 @@
 
       <!--Island placement marker-->
       <l-marker
-        v-if="adminMode"
+        v-if="adminMode && !$attrs.move"
         :lat-lng="adminMarker"
       />
 
@@ -46,7 +47,7 @@
 
       <!--Island Border Markers-->
       <l-marker
-        v-if="paneCreated && showIslandBorders"
+        v-if="paneCreated && showIslandBorders && !moveMode"
         v-for="island in islandData"
         :key="island.properties.slug+'_'+island.id+'_border'"
         :lat-lng="island.latLng"
@@ -57,7 +58,7 @@
 
       <!--Databank count Markers-->
       <l-marker
-        v-if="paneCreated && showIslandBorders"
+        v-if="paneCreated && showIslandBorders && !moveMode"
         v-for="island in islandData"
         :key="island.properties.slug+'_'+island.id+'_databank'"
         :lat-lng="island.latLng"
@@ -68,7 +69,7 @@
 
       <!--Island Overlay Markers-->
       <l-marker
-        v-if="paneCreated && showIslandBorders"
+        v-if="paneCreated && showIslandBorders && !moveMode"
         v-for="island in islandData"
         :key="island.properties.slug+'_'+island.id+'_overlay'"
         :lat-lng="island.latLng"
@@ -87,6 +88,9 @@
         :lat-lng="island.latLng"
         :icon="island.icon"
         :author="island.properties.author"
+        :draggable="moveMode"
+        :id="island.id"
+        @mouseup="mouseUp($event, $data, $root)"
         pane="islandMarkers"
         name="layerMarkerGroup"
         layer-type="overlay">
@@ -97,7 +101,7 @@
 
       <!--Island Image Markers-->
       <l-marker
-        v-if="paneCreated && showIslandImageMarkers"
+        v-if="paneCreated && showIslandImageMarkers && !moveMode"
         v-for="island in islandData"
         :key="island.properties.slug + '_' + island.id + '_image'"
         :lat-lng="island.latLng"
@@ -174,6 +178,7 @@
 import Vue from "vue";
 import L from "leaflet";
 import _ from "lodash";
+import $ from "jquery";
 import {
   LMap,
   LImageOverlay,
@@ -205,17 +210,30 @@ export default {
     MapLegend,
     IslandList,
     SearchIcon,
-    MapMarker,
+    MapMarker
   },
   methods: {
-    toggleSearch: (e) => {
+    toggleSearch: e => {
       if (e.srcElement.checked) $("#authorSearch-div").css("width", "216px");
       else $("#authorSearch-div").css("width", "30px");
     },
-    pointButtonClick: function (e) {
+    pointButtonClick: function(e) {
       this.$refs.map.mapObject.removeLayer(this.$refs.pointMarker.mapObject);
     },
-    mapClick: (e, d) => {
+    mouseUp: (e, d, r) => {
+      if (d.moveMode) {
+        window.parent.postMessage(
+          {
+            id: "location",
+            lat: e.latlng.lat,
+            lng: e.latlng.lng,
+            island_id: e.target.options.icon.options.id
+          },
+          "*"
+        );
+      }
+    },
+    mapClick: (e, d, r) => {
       // console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
       let lat = e.latlng.lat;
       let lng = e.latlng.lng;
@@ -234,13 +252,16 @@ export default {
         }
         d.adminMarker.lat = lat;
         d.adminMarker.lng = lng;
-        window.parent.postMessage(
-          {
-            lat: lat,
-            lng: lng
-          },
-          "*"
-        );
+        if (!d.moveMode) {
+          window.parent.postMessage(
+            {
+              id: "mapclick",
+              lat: lat,
+              lng: lng
+            },
+            "*"
+          );
+        }
       }
     },
     onZoomEnd: _.debounce((e, d, r) => {
@@ -272,7 +293,9 @@ export default {
       }
     }, 600),
     onZoom: _.debounce((e, d, r) => {
-      console.log(e.target._zoom);
+      if (window.console) {
+        console.log("Current zoom: " + e.target._zoom);
+      }
       // shows/hides sector names
       if (e.target._zoom > -3.7) {
         d.showSectorNames = true;
@@ -282,19 +305,21 @@ export default {
       //setInfoIconSizes(e, d);
 
       // shows/hides island markers
-      if (e.target._zoom > -3.5 && e.target._zoom < -1.3) {
-        d.showIslandMarkers = true;
-      } else {
-        d.showIslandMarkers = false;
-      }
+      if (!d.moveMode) {
+        if (e.target._zoom > -3.5 && e.target._zoom < -1.3) {
+          d.showIslandMarkers = true;
+        } else {
+          d.showIslandMarkers = false;
+        }
 
-      // shows/hides island images
-      if (e.target._zoom > -1.4) {
-        d.showIslandImageMarkers = true;
-        d.showIslandBorders = true;
-      } else {
-        d.showIslandImageMarkers = false;
-        d.showIslandBorders = false;
+        // shows/hides island images
+        if (e.target._zoom > -1.4) {
+          d.showIslandImageMarkers = true;
+          d.showIslandBorders = true;
+        } else {
+          d.showIslandImageMarkers = false;
+          d.showIslandBorders = false;
+        }
       }
     }, 200)
   },
@@ -311,7 +336,11 @@ export default {
       //console.log(self.islandData);
       for (var i in self.islandData) {
         let island = self.islandData[i];
-        if (island.properties.creator.toLowerCase().startsWith(newVal.toLowerCase())) {
+        if (
+          island.properties.creator
+            .toLowerCase()
+            .startsWith(newVal.toLowerCase())
+        ) {
           islands.push(island);
         }
       }
@@ -330,7 +359,10 @@ export default {
       self.showHeader = false;
     }, 3000);
     */
-    
+    if (self.$attrs.move == "true") {
+      self.moveMode = true;
+      self.showIslandMarkers = true;
+    }
     if (self.$attrs.admin == "true") {
       self.showHeader = false;
       self.adminMode = true;
@@ -343,7 +375,7 @@ export default {
       }
     }
     self.loaded = false;
-    axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
+    axios.get("//data.cardinalguild.com/wamap.geojson").then(response => {
       self.geojson.data = response.data;
       self.loaded = true;
       self.$nextTick(() => {
@@ -367,11 +399,15 @@ export default {
           self.map.setView([self.$attrs.lat, self.$attrs.lng], -1.2);
           if (!self.$attrs.point) {
             let glowMarkerIcon = L.icon({
-              iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+              iconUrl:
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
               iconSize: [100, 100],
               className: "glow-icon"
             });
-            let marker = new L.Marker([self.$attrs.lat, self.$attrs.lng],{icon: glowMarkerIcon, pane: "glowMarkers"});
+            let marker = new L.Marker([self.$attrs.lat, self.$attrs.lng], {
+              icon: glowMarkerIcon,
+              pane: "glowMarkers"
+            });
 
             marker.addTo(self.map);
 
@@ -379,11 +415,14 @@ export default {
               $(".glow-icon").addClass("stop-glow");
             }, 8000);
 
-            setTimeout(function(mapObj) {
-              mapObj.removeLayer(marker);
-            }, 13000, self.map);
-          }
-          else {
+            setTimeout(
+              function(mapObj) {
+                mapObj.removeLayer(marker);
+              },
+              13000,
+              self.map
+            );
+          } else {
             self.point.hasPointAttr = true;
             self.point.latLng = L.latLng(self.$attrs.lat, self.$attrs.lng);
           }
@@ -400,7 +439,7 @@ export default {
         }
       });
 
-      let islandUrl = "https://surveyor.cardinalguild.com/api/islands.json";
+      let islandUrl = "//surveyor.cardinalguild.com/api/islands.json";
       if (self.adminMode) {
         islandUrl =
           islandUrl +
@@ -423,7 +462,8 @@ export default {
 
           //set border markers
           let type = "";
-          if (island.properties.respawners && island.properties.turrets) type = "both";
+          if (island.properties.respawners && island.properties.turrets)
+            type = "both";
           else if (island.properties.respawners) type = "respawn";
           else if (island.properties.turrets) type = "turrets";
           else type = "plain";
@@ -435,7 +475,10 @@ export default {
 
           //set databanks number
           island.databankIcon = L.icon({
-            iconUrl: "/assets/island_icons/databanks/I_Frame_Data-" + island.properties.databanks + ".png",
+            iconUrl:
+              "/assets/island_icons/databanks/I_Frame_Data-" +
+              island.properties.databanks +
+              ".png",
             iconSize: [150, 150],
             className: "island-databank-icon"
           });
@@ -455,6 +498,7 @@ export default {
           island.icon = L.icon({
             iconUrl: self.islandTypes[island.properties.type][height],
             iconSize: [30, 30],
+            id: island.properties.id,
             className: "island-icon"
           });
 
@@ -496,6 +540,7 @@ export default {
   },
   data() {
     return {
+      moveMode: false,
       hideLegend: false,
       showHeader: true,
       loaded: false,
@@ -542,9 +587,10 @@ export default {
         }
       },
       transparentIcon: new L.Icon({
-        iconUrl: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+        iconUrl:
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
         iconSize: [110, 110],
-        className: "transparent-island-icon",
+        className: "transparent-island-icon"
       }),
       islandData: [],
       sectorMarkers: [],
@@ -572,7 +618,7 @@ export default {
       },
       point: {
         hasPointAttr: false,
-        latLng: null,
+        latLng: null
       }
     };
   }
@@ -609,9 +655,9 @@ export default {
     width: 100%;
     transition: top 1s;
     .header-image {
-    position: absolute;
-    left: 50px;
-    top: 5px;
+      position: absolute;
+      left: 50px;
+      top: 5px;
     }
   }
 }
@@ -644,7 +690,7 @@ export default {
 .point-delete {
   border: none;
   border-radius: 2px;
-  background-color: rgb(224,176,132);
+  background-color: rgb(224, 176, 132);
   border: none;
   border-radius: 2px;
   display: block;
@@ -691,7 +737,7 @@ export default {
 }
 
 .leaflet-container {
-  font-family: "Noto Sans","Roboto", sans-serif;
+  font-family: "Noto Sans", "Roboto", sans-serif;
   .leaflet-overlay-pane {
     svg {
       z-index: 1;
@@ -699,7 +745,7 @@ export default {
   }
   .sector-label {
     font-size: 35px;
-    font-family: "Noto Sans","Roboto", sans-serif;
+    font-family: "Noto Sans", "Roboto", sans-serif;
     color: #291a08;
   }
 
@@ -770,7 +816,7 @@ export default {
 }
 
 .island-databank-count {
-  font-family: "Noto Sans","Roboto", sans-serif;
+  font-family: "Noto Sans", "Roboto", sans-serif;
   font-size: 16px;
 }
 
@@ -783,6 +829,5 @@ export default {
 .glow-icon:not(.stop-glow) {
   box-shadow: 0 0 20px 20px #ffe5c4;
 }
-
 </style>
 
