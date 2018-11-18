@@ -63,6 +63,7 @@ export default {
   }
 
   label[for=toggle-search] {
+    cursor: pointer;
     display: block;
     background: #4f4141;
     border-top: 5px #e0b084 solid;
@@ -86,13 +87,14 @@ export default {
   }
   #authorSearch {
     outline: none;
+    height: 28px;
+    padding-left: 5px;
     background-color: #4f4141;
     border: none;
     border-top: 5px #e0b084 solid;
     border-bottom: 5px #e0b084 solid;
-    border-radius: 2px;
-    padding: 6px;
     color: #ffe5c4;
+    font-family: Noto Sans, sans-serif;
     width: 174px;
     font-size: 16px;
     position: absolute;

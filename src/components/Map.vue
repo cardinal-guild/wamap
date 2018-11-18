@@ -121,10 +121,10 @@
         position="topleft">
         <div id="authorSearch-div">
           <input type="checkbox" id="toggle-search" @change="toggleSearch">
-          <label for="toggle-search">
+          <label for="toggle-search" title="Search by Author">
             <SearchIcon />
           </label>
-          <input type="text" v-model="author" id="authorSearch" placeholder="Search authors...">
+          <input type="text" v-model="author" id="authorSearch" placeholder="Search by Author">
           <IslandList :island-list="searchedIslands" :map="map"/>
         </div>
       </l-control>
@@ -707,7 +707,7 @@ export default {
   }
   .sector-label {
     font-size: 35px;
-    font-family: "Roboto", sans-serif;
+    font-family: "Noto Sans","Roboto", sans-serif;
     color: #291a08;
   }
 
@@ -773,7 +773,7 @@ export default {
 }
 
 .island-databank-count {
-  font-family: "Roboto", sans-serif;
+  font-family: "Noto Sans","Roboto", sans-serif;
   font-size: 16px;
 }
 

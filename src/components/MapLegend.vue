@@ -110,15 +110,10 @@ label[for="toggle-legend"] {
   box-sizing: border-box;
   padding: 5px;
   color: #ffe5c4;
-  width: 200px;
+  width: max-content;
 
   &-title {
-    padding: 0;
-    margin: 0;
-    margin-left: -5px;
-    margin-right: -5px;
-    font-size: 1rem;
-    padding-bottom: 5px;
+    font-size: 1.5em;
   }
   &-separator {
     content: " ";
@@ -157,7 +152,7 @@ label[for="toggle-legend"] {
         img {
           display: inline-block;
           width: 30px;
-          height: 30px;
+          height: auto;
         }
         &.info {
           border-radius: 100%;
@@ -166,29 +161,21 @@ label[for="toggle-legend"] {
           height: 40px;
         }
         &.single {
-          margin-right: 16px;
-          margin-left: 20px;
+          margin-left: 5px;
           img {
-            width: 30px;
+            width: 40px;
             height: auto;
-          }
-        }
-        &.culture {
-          margin-left: 15px;
-          margin-right: 12px;
-          img {
-          width: 40px;
           }
         }
       }
       .description {
         text-align: right;
         white-space: nowrap;
-        //padding-right: 10px;
+        padding-right: 5px;
       }
       .header {
         margin: auto;
-        font-size: 1.5em;
+        font-size: 1.25em;
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div id="map-marker">
     <input type="checkbox" id="map-marker-checkbox" @change="toggleMarker">
-    <label for="map-marker-checkbox">
+    <label for="map-marker-checkbox" title="Place a Custom Marker">
       <MapMark />
     </label>
   </div>
@@ -61,6 +61,7 @@ export default {
   }
 
   label[for=map-marker-checkbox] {
+    cursor: pointer;
     display: block;
     height: 30px;
     width: 30px;

@@ -247,12 +247,5 @@ export default {
       }
     }
   }
-  .collapsible-content .content-inner {
-    margin: 0;
-    border: 0;
-    border-bottom: 1px solid rgba(#dbac82, 0.45);
-    border-bottom-left-radius: 7px;
-    border-bottom-right-radius: 7px;
-  }
 }
 </style>
