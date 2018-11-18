@@ -7,8 +7,10 @@
   </div>
 </template>
 <script>
+
 import MapMark from "../../public/assets/Map_marker.svg"
 import L from "leaflet";
+import Clipboard from "clipboard";
 
 export default {
   name: "MapMarker",
@@ -17,19 +19,21 @@ export default {
     MapMark,
   },
   created() {
-    //this.marker = new L.Marker(this.map.getCenter())
+    let clip = new Clipboard(".copy-button");
   },
   methods: {
     toggleMarker: function(e) {
       if (!this.marker) {
         this.marker = new L.Marker(this.map.getCenter(), {draggable: true});
         this.marker.on("dragend", function(e) {
-          e.target.bindPopup("<a href='" + location.origin + location.pathname + "?lat=" + e.target.getLatLng().lat + "&lng=" + e.target.getLatLng().lng + "&point=true'>Link to point</a>");
+          let url = location.origin + location.pathname + "?lat=" + e.target.getLatLng().lat + "&lng=" + e.target.getLatLng().lng + "&point=true";
+          e.target.bindPopup("<button class='copy-button' data-clipboard-text='" + url + "'>Copy to clipboard</button>")
         })
       }
       if (e.srcElement.checked) {
         this.marker.addTo(this.map);
-        this.marker.bindPopup("<a href='" + location.origin + location.pathname + "?lat=" + this.marker.getLatLng().lat + "&lng=" + this.marker.getLatLng().lng + "&point=true'>Link to point</a>");
+        let url = location.origin + location.pathname + "?lat=" + this.marker.getLatLng().lat + "&lng=" + this.marker.getLatLng().lng + "&point=true";
+        this.marker.bindPopup("<button class='copy-button' data-clipboard-text='" + url + "'>Copy to clipboard</button>")
         //console.log(this.map.getCenter());
       }
       else {
@@ -82,6 +86,31 @@ export default {
         fill: #e0b084;
       }
     }
+  }
+}
+</style>
+<style lang="scss">
+.copy-button {
+  border: none;
+  border-radius: 2px;
+  background-color: rgb(224,176,132);
+  border: none;
+  border-radius: 2px;
+  display: block;
+  padding: 4px;
+  margin: 4px auto;
+  color: #4f4141;
+  font-size: 18px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #ffe5c4;
+  }
+
+  &:focus {
+    box-shadow: 0 0 1px 1px #291a08 inset;
+    background-color: #ffe5c4;
+    outline: 0;
   }
 }
 </style>
