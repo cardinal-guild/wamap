@@ -96,7 +96,7 @@ export default {
     border-bottom: 5px #e0b084 solid;
     color: #ffe5c4;
     font-family: Noto Sans, sans-serif;
-    width: 174px;
+    width: 184px;
     font-size: 16px;
     position: absolute;
     top: 0px;
