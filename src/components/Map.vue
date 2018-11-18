@@ -1,5 +1,6 @@
 <template>
   <div class="map" :class="{ header: showHeader }">
+
     <l-map
       id="wamap"
       ref="map"
@@ -89,6 +90,7 @@
         :author="island.properties.author"
         :draggable="moveMode"
         :id="island.id"
+        @mouseup="mouseUp($event, $data, $root)"
         pane="islandMarkers"
         name="layerMarkerGroup"
         layer-type="overlay">
@@ -218,7 +220,20 @@ export default {
     pointButtonClick: function(e) {
       this.$refs.map.mapObject.removeLayer(this.$refs.pointMarker.mapObject);
     },
-    mapClick: (e, d) => {
+    mouseUp: (e, d, r) => {
+      if (d.moveMode) {
+        window.parent.postMessage(
+          {
+            id: "location",
+            lat: e.latlng.lat,
+            lng: e.latlng.lng,
+            island_id: e.target.options.icon.options.id
+          },
+          "*"
+        );
+      }
+    },
+    mapClick: (e, d, r) => {
       // console.log("[" + e.latlng.lat + ", " + e.latlng.lng + "],");
       let lat = e.latlng.lat;
       let lng = e.latlng.lng;
@@ -237,13 +252,16 @@ export default {
         }
         d.adminMarker.lat = lat;
         d.adminMarker.lng = lng;
-        window.parent.postMessage(
-          {
-            lat: lat,
-            lng: lng
-          },
-          "*"
-        );
+        if (!d.moveMode) {
+          window.parent.postMessage(
+            {
+              id: "mapclick",
+              lat: lat,
+              lng: lng
+            },
+            "*"
+          );
+        }
       }
     },
     onZoomEnd: _.debounce((e, d, r) => {
@@ -275,7 +293,9 @@ export default {
       }
     }, 600),
     onZoom: _.debounce((e, d, r) => {
-      console.log(e.target._zoom);
+      if (window.console) {
+        console.log("Current zoom: " + e.target._zoom);
+      }
       // shows/hides sector names
       if (e.target._zoom > -3.7) {
         d.showSectorNames = true;
@@ -419,7 +439,7 @@ export default {
         }
       });
 
-      let islandUrl = "https://surveyor.cardinalguild.com/api/islands.json";
+      let islandUrl = "http://surveyor.lc/api/islands.json";
       if (self.adminMode) {
         islandUrl =
           islandUrl +
@@ -478,6 +498,7 @@ export default {
           island.icon = L.icon({
             iconUrl: self.islandTypes[island.properties.type][height],
             iconSize: [30, 30],
+            id: island.properties.id,
             className: "island-icon"
           });
 
