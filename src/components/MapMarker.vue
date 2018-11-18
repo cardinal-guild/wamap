@@ -9,7 +9,7 @@
 <script>
 import MapMark from "../../public/assets/Map_marker.svg";
 import L from "leaflet";
-// import Clipboard from "clipboard";
+import Clipboard from "clipboard";
 
 export default {
   name: "MapMarker",
@@ -18,7 +18,8 @@ export default {
     MapMark
   },
   created() {
-    // let clip = new Clipboard(".copy-button");
+    // eslint-disable-next-line
+    let clip = new Clipboard(".copy-button");
   },
   methods: {
     toggleMarker: function(e) {
