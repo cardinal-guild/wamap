@@ -78,7 +78,7 @@
             <td>{{updatedAt}}</td>
           </tr>
           <tr class="island-toolbar">
-            <td colspan="2"><a class="button" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
+            <td colspan="2"><a class="button" target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
             <EditPencil />
             Edit island</a></td>
           </tr>
@@ -136,7 +136,14 @@ export default {
   ],
   computed: {
     islandLink: function() {
-      return location.origin + location.pathname + "?lat=" + this.latLng.lat + "&lng=" + this.latLng.lng;
+      return (
+        location.origin +
+        location.pathname +
+        "?lat=" +
+        this.latLng.lat +
+        "&lng=" +
+        this.latLng.lng
+      );
     }
   }
 };

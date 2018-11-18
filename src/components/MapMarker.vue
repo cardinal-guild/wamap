@@ -7,42 +7,62 @@
   </div>
 </template>
 <script>
-
-import MapMark from "../../public/assets/Map_marker.svg"
+import MapMark from "../../public/assets/Map_marker.svg";
 import L from "leaflet";
-import Clipboard from "clipboard";
+// import Clipboard from "clipboard";
 
 export default {
   name: "MapMarker",
   props: ["map"],
   components: {
-    MapMark,
+    MapMark
   },
   created() {
-    let clip = new Clipboard(".copy-button");
+    // let clip = new Clipboard(".copy-button");
   },
   methods: {
     toggleMarker: function(e) {
       if (!this.marker) {
-        this.marker = new L.Marker(this.map.getCenter(), {draggable: true});
+        this.marker = new L.Marker(this.map.getCenter(), { draggable: true });
         this.marker.on("dragend", function(e) {
-          let url = location.origin + location.pathname + "?lat=" + e.target.getLatLng().lat + "&lng=" + e.target.getLatLng().lng + "&point=true";
-          e.target.bindPopup("<button class='copy-button' data-clipboard-text='" + url + "'>Copy to clipboard</button>")
-        })
+          let url =
+            location.origin +
+            location.pathname +
+            "?lat=" +
+            e.target.getLatLng().lat +
+            "&lng=" +
+            e.target.getLatLng().lng +
+            "&point=true";
+          e.target.bindPopup(
+            "<button class='copy-button' data-clipboard-text='" +
+              url +
+              "'>Copy to clipboard</button>"
+          );
+        });
       }
       if (e.srcElement.checked) {
         this.marker.addTo(this.map);
-        let url = location.origin + location.pathname + "?lat=" + this.marker.getLatLng().lat + "&lng=" + this.marker.getLatLng().lng + "&point=true";
-        this.marker.bindPopup("<button class='copy-button' data-clipboard-text='" + url + "'>Copy to clipboard</button>")
+        let url =
+          location.origin +
+          location.pathname +
+          "?lat=" +
+          this.marker.getLatLng().lat +
+          "&lng=" +
+          this.marker.getLatLng().lng +
+          "&point=true";
+        this.marker.bindPopup(
+          "<button class='copy-button' data-clipboard-text='" +
+            url +
+            "'>Copy to clipboard</button>"
+        );
         //console.log(this.map.getCenter());
-      }
-      else {
+      } else {
         this.map.removeLayer(this.marker);
         this.marker = null;
       }
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 #map-marker {
@@ -54,7 +74,7 @@ export default {
     top: -9999px;
 
     &:checked {
-      ~ label[for=map-marker-checkbox] svg {
+      ~ label[for="map-marker-checkbox"] svg {
         transform: rotate(-90deg);
 
         path {
@@ -64,7 +84,7 @@ export default {
     }
   }
 
-  label[for=map-marker-checkbox] {
+  label[for="map-marker-checkbox"] {
     cursor: pointer;
     display: block;
     height: 30px;
@@ -93,7 +113,7 @@ export default {
 .copy-button {
   border: none;
   border-radius: 2px;
-  background-color: rgb(224,176,132);
+  background-color: rgb(224, 176, 132);
   border: none;
   border-radius: 2px;
   display: block;
