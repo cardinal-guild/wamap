@@ -140,6 +140,13 @@
         <MapMarker :map="map"/>
       </l-control>
 
+      <!--Filters-->
+      <l-control
+        v-if="!adminMode"
+        position="topleft">
+        <MapFilter :map="map"/>
+      </l-control>
+
       <!--Map Legend-->
       <l-control
         v-if="!adminMode"
@@ -150,9 +157,20 @@
         </label>
         <MapLegend :hideLegend="hideLegend" />
       </l-control>
+
+      <!--Issue links-->
       <l-control
         v-if="!adminMode"
-        :position="'bottomright'"
+        position="bottomleft"
+        class="issue-links">
+        <a href="https://github.com/fearlessjake/wamap/issues">Report an issue</a><br>
+        <!-- <a href="www.google.com">Map Data issues</a> -->
+      </l-control>
+
+      <!--Watermark-->
+      <l-control
+        v-if="!adminMode"
+        position="bottomright"
         class="custom-watermark">
         <a href="https://cardinalguild.com">
           <img src="/assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
@@ -196,6 +214,7 @@ import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
 import IslandList from "./IslandList.vue";
 import MapMarker from "./MapMarker.vue";
+import MapFilter from "./MapFilter.vue";
 export default {
   name: "Map",
   components: {
@@ -210,7 +229,8 @@ export default {
     MapLegend,
     IslandList,
     SearchIcon,
-    MapMarker
+    MapMarker,
+    MapFilter,
   },
   methods: {
     toggleSearch: e => {
@@ -789,6 +809,18 @@ export default {
   .leaflet-bar a.leaflet-disabled {
     background: #453836;
     color: #5b4a4a;
+  }
+
+  .issue-links {
+    background: #4f4141dd;
+    border: 0px;
+    border-radius: 0px;
+    border-top: 5px solid #e0b084;
+    border-bottom: 5px solid #e0b084;
+
+    a {
+      padding: 10px;
+    }
   }
 }
 
