@@ -13,8 +13,8 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      - SOURCE_BRANCH: master
-      - TARGET_BRANCH: gh-pages
+      - GH_NAME: "Cardinal Guild CircleCI"
+      - GH_EMAIL: "fearjake82@gmail.com"
 
     steps:
       - checkout
