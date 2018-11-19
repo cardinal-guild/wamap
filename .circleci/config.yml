@@ -45,6 +45,7 @@ jobs:
             git clone $CIRCLE_REPOSITORY_URL dist
             cd dist
             git checkout -b gh-pages
+            git pull
             git rm -rf .
             cd ..
             yarn build
