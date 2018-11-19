@@ -36,6 +36,15 @@ jobs:
       - deploy:
           name: Deploy
           command: |
+            git config --global user.email $GH_EMAIL
+            git config --global user.name $GH_NAME
+            rm -rf dist || true
+            git clone $CIRCLE_REPOSITORY_URL -b gh-pages dist
+            cd dist
+            git rm -rf .
+            cd ..
             yarn build
-            chmod +x .circleci/push-gh-pages.sh
-            sh .circleci/push-gh-pages.sh dist
+            cd dist
+            git add -A
+            git commit -m "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
+            git push origin gh-pages
