@@ -13,8 +13,9 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      - GH_NAME: "Cardinal Guild CircleCI"
-      - GH_EMAIL: "fearjake82@gmail.com"
+      - GIT_COMMITTER_NAME: "Cardinal Guild CircleCI"
+      - GIT_AUTHOR_NAME: "Cardinal Guild CircleCI"
+      - EMAIL: "fearjake82@gmail.com"
 
     steps:
       - checkout
@@ -36,8 +37,6 @@ jobs:
       - deploy:
           name: Deploy
           command: |
-            git config --global user.email $GH_EMAIL
-            git config --global user.name $GH_NAME
             rm -rf dist || true
             git clone $CIRCLE_REPOSITORY_URL -b gh-pages dist
             cd dist
