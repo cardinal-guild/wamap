@@ -50,4 +50,4 @@ jobs:
             cd dist
             git add -A
             git commit -am "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
-            git push origin gh-pages
+            git push origin gh-pages:gh-pages
