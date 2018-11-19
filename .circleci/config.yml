@@ -42,7 +42,7 @@ jobs:
           name: Deploy
           command: |
             rm -rf dist || true
-            git clone $CIRCLE_REPOSITORY_URL -b gh-pages dist
+            git clone $CIRCLE_REPOSITORY_URL -b gh-pages --single-branch dist
             cd dist
             git rm -rf .
             cd ..
