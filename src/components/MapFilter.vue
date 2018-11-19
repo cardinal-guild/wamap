@@ -4,20 +4,100 @@
     <label for="map-filter-checkbox" title="Open Filter Menu">
       <FilterIcon />
     </label>
+    <div id="filters">
+      <h3>Map Filters</h3>
+      <span style="color: pink;">These dont actually do anything at the moment.</span>
+      <h4>Metal</h4>
+      <div id="metal-filters" class="type-filter">
+        <div v-for="n in numOfFilters" :key="n" :id="'filter_' + n" class="metal-filter">
+          <select :id="'metal-select_'+n" class="metal-select">
+            <option value="" selected></option>
+            <option v-for="metal in metals" :value="metal">{{ metal }}</option>
+          </select>
+          <select :id="'quality-select_'+n" class="quality-select">
+            <option value="" selected></option>
+            <option v-for="n in 10" :value="n">{{ n }}</option>
+          </select>
+          <button class="add-filter" :id="'add-filter_' + n" @click="numOfFilters++" />
+          <label :for="'add-filter_' + n" title="Add a new filter">
+            <AddIcon class="add-icon"/>
+          </label>
+        </div>
+      </div>
+      <h4>Wood</h4>
+      <div id="wood-filters" class="type-filter">
+        <div v-for="n in numOfFiltersW" :key="n" :id="'wood-filter_'+n" class="wood-filter">
+          <select :id="'wood-select_'+n" class="wood-select">
+            <option value="" selected></option>
+            <option v-for="wood in woods" :value="wood">{{ wood }}</option>
+          </select>
+          <button class="add-filter" :id="'add-filter-wood_' + n" @click="numOfFiltersW++" />
+          <label :for="'add-filter-wood_' + n" title="Add a new filter">
+            <AddIcon class="add-icon"/>
+          </label>
+        </div>
+      </div>
+      <div class="buttonCtn">
+        <button class="filter-button" @click="applyFilters">Apply</button>
+        <button class="filter-button" @click="clearFilters">Clear</button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import FilterIcon from "../../public/assets/filter.svg";
+import AddIcon from "../../public/assets/add-icon.svg";
+import $ from "jquery";
 export default {
   name: "MapFilter",
   components: {
-    FilterIcon
+    FilterIcon,
+    AddIcon,
+  },
+  methods: {
+    toggleFilterMarker: function(e) {
+      if (e.srcElement.checked) {
+        $("#map-filter").css("width", "216px");
+      }
+      else {
+        $("#map-filter").css("width", "30px");
+      }
+    },
+    applyFilters: function(e) {
+      let filters = [];
+      for (var i = 1; i <= this.numOfFilters; i++) {
+        let filter = [];
+        filter.push($("#metal-select_"+i).val());
+        filter.push($("#quality-select_"+i).val());
+        if (filter.includes(undefined)) {
+          continue;
+        }
+        filters.push(filter);
+      }
+      console.log(filters);
+    },
+    clearFilters: function(e) {
+
+    },
+  },
+  data() {
+    return {
+      metals: ["Aluminum", "Titanium", "Tin", "Iron", "Steel", "Bronze", "Nickel", "Copper", "Silver", "Lead", "Gold", "Tungsten"],
+      woods: ["Cedar", "Hemlock", "Chestnut", "Elm", "Birch", "Ash", "Oak", "Palm"],
+      numOfFilters: 1,
+      numOfFiltersW: 1,
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
 #map-filter {
   width: 30px;
+  transition: width 0.5s;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: -3;
 
   #map-filter-checkbox {
     position: absolute;
@@ -25,9 +105,14 @@ export default {
 
     &:checked {
       ~ label[for=map-filter-checkbox] {
+        border-bottom-width: 2px;
         path {
           fill: #ffe5c4;
         }
+      }
+      ~ #filters {
+        left: 0;
+        top: -37px;
       }
     }
   }
@@ -40,6 +125,8 @@ export default {
     background: #4f4141;
     border-top: 5px #e0b084 solid;
     border-bottom: 5px #e0b084 solid;
+    z-index: 1;
+    transition: border-bottom-width 0.2s;
 
     svg {
       height: 24px;
@@ -53,6 +140,101 @@ export default {
     &:hover {
       path {
         fill: #ffe5c4;
+      }
+    }
+  }
+
+  #filters {
+    width: 216px;
+    background: #4f4141;
+    border-top: 5px #e0b084 solid;
+    border-bottom: 5px #e0b084 solid;
+    position: relative;
+    top: -40px;
+    left: -216px;
+    transition: left 0.5s, top 0.5s;
+    z-index: -2;
+    color: #ffe5c4;
+
+    h3 {
+      margin: 0;
+      padding: 5px;
+      font-size: 20px;
+      line-height: 1;
+      border-bottom: 2px #e0b084 solid;
+    }
+
+    h4 {
+      margin: 5px;
+      margin-left: 7px;
+      line-height: 1;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .type-filter {
+
+
+      .metal-filter,
+      .wood-filter {
+        height: 30px;
+        margin: 5px;
+
+        select {
+          float: left;
+          height: 28px;
+          font-size: 16px;
+          margin: 1px;
+          margin-right: 5px;
+        }
+
+        label[for^=add-filter] {
+          height: 26px;
+          margin: 2px;
+          margin-right: 7px;
+          position: absolute;
+          right: 0;
+          cursor: pointer;
+
+          &:not(:last-child) {
+            display: none;
+          }
+
+          svg {
+            height: 100%;
+
+            path {
+              fill: #e0b084;
+            }
+          }
+        }
+        .add-filter {
+          position: absolute;
+          top: -9999px;
+        }
+
+        &:not(:last-child) label { //hides all but one add filter button
+          display: none;
+        }
+      }
+    }
+
+    .buttonCtn {
+      width: 100%;
+
+      .filter-button {
+        background-color: rgb(224, 176, 132);
+        border: none;
+        border-radius: 2px;
+        padding: 4px;
+        margin: 4px auto;
+        color: #4f4141;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      button:first-child {
+        margin-right: 10px;
       }
     }
   }
