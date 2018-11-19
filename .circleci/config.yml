@@ -43,5 +43,8 @@ jobs:
           command: |
             rm -rf dist || true
             yarn build
-            chmod +x push-gh-pages.sh
-            sh push-gh-pages.sh dist
+            cd dist
+            git init
+            git add .
+            git commit -am "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
+            git push --force --quiet $CIRCLE_REPOSITORY_URL master:gh-pages
