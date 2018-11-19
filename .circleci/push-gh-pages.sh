@@ -1,7 +1,7 @@
 #!/bin/sh
 
-[ ! -z "$GH_NAME" ] && git config user.email $GH_NAME
-[ ! -z "$GH_EMAIL" ] && git config user.email $GH_EMAIL
+[ ! -z "$GH_NAME" ] && git config --global user.name $GH_NAME
+[ ! -z "$GH_EMAIL" ] && git config --global user.email $GH_EMAIL
 
 MAIN_BRANCH=$(git symbolic-ref --short HEAD)
 DIST="${1:-dist}";
