@@ -12,11 +12,11 @@
         <div v-for="n in numOfFilters" :key="n" :id="'filter_' + n" class="metal-filter">
           <select :id="'metal-select_'+n" class="metal-select">
             <option value="" selected></option>
-            <option v-for="metal in metals" :value="metal">{{ metal }}</option>
+            <option v-for="metal in metals" :key="metal" :value="metal">{{ metal }}</option>
           </select>
           <select :id="'quality-select_'+n" class="quality-select">
             <option value="" selected></option>
-            <option v-for="n in 10" :value="n">{{ n }}</option>
+            <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
           </select>
           <button class="add-filter" :id="'add-filter_' + n" @click="numOfFilters++" />
           <label :for="'add-filter_' + n" title="Add a new filter">
@@ -29,7 +29,7 @@
         <div v-for="n in numOfFiltersW" :key="n" :id="'wood-filter_'+n" class="wood-filter">
           <select :id="'wood-select_'+n" class="wood-select">
             <option value="" selected></option>
-            <option v-for="wood in woods" :value="wood">{{ wood }}</option>
+            <option v-for="wood in woods" :key="wood" :value="wood">{{ wood }}</option>
           </select>
           <button class="add-filter" :id="'add-filter-wood_' + n" @click="numOfFiltersW++" />
           <label :for="'add-filter-wood_' + n" title="Add a new filter">
@@ -45,6 +45,8 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 import FilterIcon from "../../public/assets/filter.svg";
 import AddIcon from "../../public/assets/add-icon.svg";
 import $ from "jquery";
@@ -63,26 +65,44 @@ export default {
         $("#map-filter").css("width", "30px");
       }
     },
-    applyFilters: function(e) {
+    applyFilters: function() {
       let filters = [];
+      let filterSearch = "https://surveyor.cardinalguild.com/api/search.json?";
       for (var i = 1; i <= this.numOfFilters; i++) {
-        let filter = [];
-        filter.push($("#metal-select_"+i).val());
-        filter.push($("#quality-select_"+i).val());
-        if (filter.includes(undefined)) {
-          continue;
-        }
-        filters.push(filter);
+        if (!$("#metal-select_"+i).val() || !$("#quality-select_"+i).val()) continue; //if filter is not filled out
+        filters.push(axios.get(filterSearch + "metal=" + $("#metal-select_"+i).val() + "&quality=" + $("#quality-select_"+i).val()))
       }
-      console.log(filters);
+
+      axios.all(filters).then((res) => {
+        let intersection = res[0].data;
+        let toRemove = [];
+        for (var i = 1; i < res.length; i++) {
+          let toRemove = [];
+          for (var j = 0; j < intersection.length; j++) {
+            let found = false;
+            for (var k = 0; k < res[i].data.length; k++) {
+              if (res[i].data[k].id == intersection[j].id) found = true;
+            }
+            if (!found) {
+              toRemove.push(j);
+            }
+          }
+          let newInt = [];
+          for (var j = 0; j < intersection.length; j++) {
+            if (!toRemove.includes(j)) newInt.push(intersection[j]);
+          }
+          intersection = newInt;
+        }
+        console.log(intersection);
+      })
     },
-    clearFilters: function(e) {
+    clearFilters: function() {
 
     },
   },
   data() {
     return {
-      metals: ["Aluminum", "Titanium", "Tin", "Iron", "Steel", "Bronze", "Nickel", "Copper", "Silver", "Lead", "Gold", "Tungsten"],
+      metals: ["Aluminium", "Titanium", "Tin", "Iron", "Steel", "Bronze", "Nickel", "Copper", "Silver", "Lead", "Gold", "Tungsten"],
       woods: ["Cedar", "Hemlock", "Chestnut", "Elm", "Birch", "Ash", "Oak", "Palm"],
       numOfFilters: 1,
       numOfFiltersW: 1,

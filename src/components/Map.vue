@@ -163,8 +163,8 @@
         v-if="!adminMode"
         position="bottomleft"
         class="issue-links">
-        <a href="https://github.com/fearlessjake/wamap/issues">Tech issues</a><br>
-        <a href="www.google.com">Map Data issues</a>
+        <a href="https://github.com/fearlessjake/wamap/issues">Report an issue</a><br>
+        <!-- <a href="www.google.com">Map Data issues</a> -->
       </l-control>
 
       <!--Watermark-->
@@ -822,6 +822,18 @@ export default {
   .leaflet-bar a.leaflet-disabled {
     background: #453836;
     color: #5b4a4a;
+  }
+
+  .issue-links {
+    background: #4f4141dd;
+    border: 0px;
+    border-radius: 0px;
+    border-top: 5px solid #e0b084;
+    border-bottom: 5px solid #e0b084;
+
+    a {
+      padding: 10px;
+    }
   }
 }
 
