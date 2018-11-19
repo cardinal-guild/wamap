@@ -144,7 +144,7 @@
       <l-control
         v-if="!adminMode"
         position="topleft">
-        <MapFilter />
+        <MapFilter :map="map"/>
       </l-control>
 
       <!--Map Legend-->

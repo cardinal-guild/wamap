@@ -6,7 +6,6 @@
     </label>
     <div id="filters">
       <h3>Map Filters</h3>
-      <span style="color: pink;">These dont actually do anything at the moment.</span>
       <h4>Metal</h4>
       <div id="metal-filters" class="type-filter">
         <div v-for="n in numOfFilters" :key="n" :id="'filter_' + n" class="metal-filter">
@@ -37,6 +36,9 @@
           </label>
         </div>
       </div>
+      <div id="noIslandFound">
+        No islands found!
+      </div>
       <div class="buttonCtn">
         <button class="filter-button" @click="applyFilters">Apply</button>
         <button class="filter-button" @click="clearFilters">Clear</button>
@@ -46,15 +48,19 @@
 </template>
 <script>
 import axios from "axios";
+import L from "leaflet";
+import { LMarker } from "vue2-leaflet";
 
 import FilterIcon from "../../public/assets/filter.svg";
 import AddIcon from "../../public/assets/add-icon.svg";
 import $ from "jquery";
 export default {
   name: "MapFilter",
+  props: ["map"],
   components: {
     FilterIcon,
     AddIcon,
+    LMarker,
   },
   methods: {
     toggleFilterMarker: function(e) {
@@ -73,7 +79,13 @@ export default {
         filters.push(axios.get(filterSearch + "metal=" + $("#metal-select_"+i).val() + "&quality=" + $("#quality-select_"+i).val()))
       }
 
+      for (var i = 1; i <= this.numOfFiltersW; i++) {
+        if (!$("#wood-select_"+i).val()) continue;
+        filters.push(axios.get(filterSearch + "tree=" + $("#wood-select_"+i).val()));
+      }
+
       axios.all(filters).then((res) => {
+        if (res.length < 1) return;
         let intersection = res[0].data;
         let toRemove = [];
         for (var i = 1; i < res.length; i++) {
@@ -93,11 +105,33 @@ export default {
           }
           intersection = newInt;
         }
-        console.log(intersection);
+        for (var i = 0; i < this.markers.length; i++) {
+          this.map.removeLayer(this.markers[i]);
+        }
+        this.markers = [];
+        if (intersection.length < 1) {
+          $("#noIslandFound").css("visibility", "visible");
+        }
+        else {
+          for (var i = 0; i < intersection.length; i++) {
+            let marker = new L.Marker(intersection[i].latLng);
+            marker.addTo(this.map);
+            this.markers.push(marker);
+          }
+        }
       })
     },
     clearFilters: function() {
-
+      this.numOfFilters = 1;
+      this.numOfFiltersW = 1;
+      $("#metal-select_1").val("");
+      $("#quality-select_1").val("");
+      $("#wood-select_1").val("");
+      $("#noIslandFound").css("visibility", "hidden");
+      for (var i = 0; i < this.markers.length; i++) {
+        this.map.removeLayer(this.markers[i]);
+      }
+      this.markers = [];
     },
   },
   data() {
@@ -106,6 +140,7 @@ export default {
       woods: ["Cedar", "Hemlock", "Chestnut", "Elm", "Birch", "Ash", "Oak", "Palm"],
       numOfFilters: 1,
       numOfFiltersW: 1,
+      markers: [],
     }
   }
 }
@@ -206,6 +241,13 @@ export default {
           font-size: 16px;
           margin: 1px;
           margin-right: 5px;
+          background: gray;
+          border: 1px #e0b084 solid;
+
+          &:hover,
+          &:focus {
+            border-color: #ffe5c4;
+          }
         }
 
         label[for^=add-filter] {
@@ -227,6 +269,10 @@ export default {
               fill: #e0b084;
             }
           }
+
+          &:hover path {
+            fill: #ffe5c4;
+          }
         }
         .add-filter {
           position: absolute;
@@ -237,6 +283,12 @@ export default {
           display: none;
         }
       }
+    }
+
+    #noIslandFound {
+      color: #ff6262;
+      font-size: 16px;
+      visibility: hidden;
     }
 
     .buttonCtn {
