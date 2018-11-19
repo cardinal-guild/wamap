@@ -79,15 +79,14 @@ export default {
         filters.push(axios.get(filterSearch + "metal=" + $("#metal-select_"+i).val() + "&quality=" + $("#quality-select_"+i).val()))
       }
 
-      for (var i = 1; i <= this.numOfFiltersW; i++) {
-        if (!$("#wood-select_"+i).val()) continue;
-        filters.push(axios.get(filterSearch + "tree=" + $("#wood-select_"+i).val()));
+      for (var j = 1; j <= this.numOfFiltersW; j++) {
+        if (!$("#wood-select_"+j).val()) continue;
+        filters.push(axios.get(filterSearch + "tree=" + $("#wood-select_"+j).val()));
       }
 
       axios.all(filters).then((res) => {
         if (res.length < 1) return;
         let intersection = res[0].data;
-        let toRemove = [];
         for (var i = 1; i < res.length; i++) {
           let toRemove = [];
           for (var j = 0; j < intersection.length; j++) {
@@ -100,12 +99,12 @@ export default {
             }
           }
           let newInt = [];
-          for (var j = 0; j < intersection.length; j++) {
-            if (!toRemove.includes(j)) newInt.push(intersection[j]);
+          for (var l = 0; l < intersection.length; l++) {
+            if (!toRemove.includes(l)) newInt.push(intersection[l]);
           }
           intersection = newInt;
         }
-        for (var i = 0; i < this.markers.length; i++) {
+        for (i = 0; i < this.markers.length; i++) {
           this.map.removeLayer(this.markers[i]);
         }
         this.markers = [];
@@ -113,7 +112,7 @@ export default {
           $("#noIslandFound").css("visibility", "visible");
         }
         else {
-          for (var i = 0; i < intersection.length; i++) {
+          for (i = 0; i < intersection.length; i++) {
             let marker = new L.Marker(intersection[i].latLng);
             marker.addTo(this.map);
             this.markers.push(marker);
@@ -160,14 +159,12 @@ export default {
 
     &:checked {
       ~ label[for=map-filter-checkbox] {
-        border-bottom-width: 2px;
         path {
           fill: #ffe5c4;
         }
       }
       ~ #filters {
         left: 0;
-        top: -37px;
       }
     }
   }
@@ -181,7 +178,6 @@ export default {
     border-top: 5px #e0b084 solid;
     border-bottom: 5px #e0b084 solid;
     z-index: 1;
-    transition: border-bottom-width 0.2s;
 
     svg {
       height: 24px;
@@ -207,7 +203,7 @@ export default {
     position: relative;
     top: -40px;
     left: -216px;
-    transition: left 0.5s, top 0.5s;
+    transition: left 0.5s;
     z-index: -2;
     color: #ffe5c4;
 
@@ -216,7 +212,7 @@ export default {
       padding: 5px;
       font-size: 20px;
       line-height: 1;
-      border-bottom: 2px #e0b084 solid;
+      border-bottom: 5px #e0b084 solid;
     }
 
     h4 {
