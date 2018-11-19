@@ -23,6 +23,7 @@
           </label>
         </div>
       </div>
+      <div class="separator" />
       <h4>Wood</h4>
       <div id="wood-filters" class="type-filter">
         <div v-for="n in numOfFiltersW" :key="n" :id="'wood-filter_'+n" class="wood-filter">
@@ -35,6 +36,15 @@
             <AddIcon class="add-icon"/>
           </label>
         </div>
+      </div>
+      <div class="separator" />
+      <h4>Databanks</h4>
+      <div id="databank-filter" class="type-filter">
+        <select id="databank-select">
+          <option value="" selected></option>
+          <option v-for="n in 6" :key="n-1" :value="n-1">{{ n-1 }}</option>
+        </select>
+        <span style="color: pink; font-size: 14px;">Not implemented</span>
       </div>
       <div id="noIslandFound">
         No islands found!
@@ -83,6 +93,10 @@ export default {
         if (!$("#wood-select_"+j).val()) continue;
         filters.push(axios.get(filterSearch + "tree=" + $("#wood-select_"+j).val()));
       }
+
+      // if (!$("#databank-select").val()) {
+      //   filters.push(axios.get(filterSearch))
+      // }
 
       axios.all(filters).then((res) => {
         if (res.length < 1) return;
@@ -227,7 +241,8 @@ export default {
 
 
       .metal-filter,
-      .wood-filter {
+      .wood-filter,
+      &#databank-filter {
         height: 30px;
         margin: 5px;
 
@@ -240,8 +255,7 @@ export default {
           background: gray;
           border: 1px #e0b084 solid;
 
-          &:hover,
-          &:focus {
+          &:hover {
             border-color: #ffe5c4;
           }
         }
@@ -279,6 +293,13 @@ export default {
           display: none;
         }
       }
+    }
+
+    .separator {
+      height: 0;
+      width: 92%;
+      margin: auto;
+      border: 1px #e0b084 solid;
     }
 
     #noIslandFound {
