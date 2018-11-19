@@ -140,6 +140,13 @@
         <MapMarker :map="map"/>
       </l-control>
 
+      <!--Filters-->
+      <l-control
+        v-if="!adminMode"
+        position="topleft">
+        <MapFilter />
+      </l-control>
+
       <!--Map Legend-->
       <l-control
         v-if="!adminMode"
@@ -150,9 +157,20 @@
         </label>
         <MapLegend :hideLegend="hideLegend" />
       </l-control>
+
+      <!--Issue links-->
       <l-control
         v-if="!adminMode"
-        :position="'bottomright'"
+        position="bottomleft"
+        class="issue-links">
+        <a href="https://github.com/fearlessjake/wamap/issues">Tech issues</a><br>
+        <a href="www.google.com">Map Data issues</a>
+      </l-control>
+
+      <!--Watermark-->
+      <l-control
+        v-if="!adminMode"
+        position="bottomright"
         class="custom-watermark">
         <a href="https://cardinalguild.com">
           <img src="/assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
@@ -196,6 +214,7 @@ import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
 import IslandList from "./IslandList.vue";
 import MapMarker from "./MapMarker.vue";
+import MapFilter from "./MapFilter.vue";
 export default {
   name: "Map",
   components: {
@@ -210,7 +229,8 @@ export default {
     MapLegend,
     IslandList,
     SearchIcon,
-    MapMarker
+    MapMarker,
+    MapFilter,
   },
   methods: {
     toggleSearch: e => {
@@ -375,7 +395,7 @@ export default {
       }
     }
     self.loaded = false;
-    axios.get("//data.cardinalguild.com/wamap.geojson").then(response => {
+    axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
       self.geojson.data = response.data;
       self.loaded = true;
       self.$nextTick(() => {
@@ -439,7 +459,7 @@ export default {
         }
       });
 
-      let islandUrl = "//surveyor.cardinalguild.com/api/islands.json";
+      let islandUrl = "https://surveyor.cardinalguild.com/api/islands.json";
       if (self.adminMode) {
         islandUrl =
           islandUrl +
@@ -840,11 +860,11 @@ export default {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #e0af84; 
+    background: #e0af84;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #ffe5c4; 
+    background: #ffe5c4;
 }
 
 ::-webkit-scrollbar-button {
