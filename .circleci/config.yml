@@ -44,10 +44,10 @@ jobs:
             rm -rf dist || true
             git clone $CIRCLE_REPOSITORY_URL -b gh-pages dist
             cd dist
-            git rm -rf .
+            rm -rf .
             cd ..
             yarn build
             cd dist
             git add -A
             git commit -m "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
-            git push origin HEAD:gh-pages
+            git push origin gh-pages
