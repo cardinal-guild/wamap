@@ -27,7 +27,9 @@
       </tr>
       <tr class="image">
         <td colspan="2">
-          <img :src="imagePopup">
+          <a :href="imageOriginal" target="_blank">
+            <img :src="imagePopup">
+          </a>
         </td>
       </tr>
       <tr class="altitude">

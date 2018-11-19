@@ -344,21 +344,8 @@ export default {
           islands.push(island);
         }
       }
-      // let group = self.$refs.searchMarkerLayer.mapObject;
-      // group.eachLayer((layer) => {
-      //   if (layer.options.author.toLowerCase().startsWith(newVal.toLowerCase())) {
-      //     islands.push(layer)
-      //   }
-      // })
       self.searchedIslands = islands;
     });
-
-    /*
-    // Hide header after 2 seconds
-    setTimeout(function() {
-      self.showHeader = false;
-    }, 3000);
-    */
     if (self.$attrs.move == "true") {
       self.moveMode = true;
       self.showIslandMarkers = true;
@@ -375,7 +362,7 @@ export default {
       }
     }
     self.loaded = false;
-    axios.get("//data.cardinalguild.com/wamap.geojson").then(response => {
+    axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
       self.geojson.data = response.data;
       self.loaded = true;
       self.$nextTick(() => {
@@ -439,7 +426,7 @@ export default {
         }
       });
 
-      let islandUrl = "//surveyor.cardinalguild.com/api/islands.json";
+      let islandUrl = "https://surveyor.cardinalguild.com/api/islands.json";
       if (self.adminMode) {
         islandUrl =
           islandUrl +
@@ -840,11 +827,11 @@ export default {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #e0af84; 
+    background: #e0af84;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #ffe5c4; 
+    background: #ffe5c4;
 }
 
 ::-webkit-scrollbar-button {
