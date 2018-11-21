@@ -163,7 +163,7 @@
         v-if="!adminMode"
         position="bottomleft"
         class="issue-links">
-        <a href="https://github.com/fearlessjake/wamap/issues">Report an issue</a><br>
+        <a href="https://github.com/fearlessjake/wamap/issues">Report an Issue</a><br>
         <!-- <a href="www.google.com">Map Data issues</a> -->
       </l-control>
 
@@ -812,14 +812,28 @@ export default {
   }
 
   .issue-links {
-    background: #4f4141dd;
+    background: rgba(79, 65, 65, 0.9);
+    color: #ffe5c4;
     border: 0px;
     border-radius: 0px;
     border-top: 5px solid #e0b084;
     border-bottom: 5px solid #e0b084;
+    padding: 2px 10px;
 
     a {
-      padding: 10px;
+      color: #ffe5c4;
+    }
+  }
+  
+  .leaflet-control-attribution {
+    font-size: 11px;
+    background: rgba(79, 65, 65, 0.9);
+    color: #fff;
+    border-top: 3px solid #e0af84;
+    padding: 2px 10px;
+    
+    a {
+      color: #ffe5c4;
     }
   }
 }
