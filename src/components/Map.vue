@@ -230,7 +230,7 @@ export default {
     IslandList,
     SearchIcon,
     MapMarker,
-    MapFilter,
+    MapFilter
   },
   methods: {
     toggleSearch: e => {
@@ -242,11 +242,25 @@ export default {
     },
     mouseUp: (e, d, r) => {
       if (d.moveMode) {
+        let lat = e.latlng.lat;
+        let lng = e.latlng.lng;
+        if (lat > 0) {
+          lat = 0;
+        }
+        if (lat < -9500) {
+          lat = -9500;
+        }
+        if (lng < 0) {
+          lng = 0;
+        }
+        if (lng > 9500) {
+          lng = 9500;
+        }
         window.parent.postMessage(
           {
             id: "location",
-            lat: e.latlng.lat,
-            lng: e.latlng.lng,
+            lat: lat.toFixed(2),
+            lng: lng.toFixed(2),
             island_id: e.target.options.icon.options.id
           },
           "*"
@@ -826,14 +840,14 @@ export default {
       text-decoration: none;
     }
   }
-  
+
   .leaflet-control-attribution {
     font-size: 11px;
     background: rgba(79, 65, 65, 0.9);
     color: #fff;
     border-top: 3px solid #e0af84;
     padding: 2px 10px;
-    
+
     a {
       color: #ffe5c4;
     }
@@ -866,26 +880,26 @@ export default {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    margin: 10px;
+  width: 10px;
+  margin: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #0002;
+  background: #0002;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #e0af84;
+  background: #e0af84;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #ffe5c4;
+  background: #ffe5c4;
 }
 
 ::-webkit-scrollbar-button {
-    width:10px;
-    height: 10px;
-    background: #0002;
+  width: 10px;
+  height: 10px;
+  background: #0002;
 }
 </style>
 
