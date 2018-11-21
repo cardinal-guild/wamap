@@ -814,10 +814,11 @@ export default {
   .issue-links {
     background: rgba(79, 65, 65, 0.9);
     color: #ffe5c4;
+    font-size: 11px;
+    margin: 0;
     border: 0px;
     border-radius: 0px;
-    border-top: 5px solid #e0b084;
-    border-bottom: 5px solid #e0b084;
+    border-top: 3px solid #e0b084;
     padding: 2px 10px;
 
     a {
