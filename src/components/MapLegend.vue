@@ -202,12 +202,12 @@ label[for="toggle-legend"] {
     display: block;
 
     &:checked ~ .map-legend {
-      left: 184px;
+      left: 194px;
       box-shadow: none;
     }
 
     &:checked ~ label[for="toggle-legend"] {
-      left: 154px;
+      left: 164px;
       svg {
         transform: rotate(-180deg);
       }
@@ -239,6 +239,9 @@ label[for="toggle-legend"] {
     left: 0;
     transition: box-shadow 0.5s, left 0.5s;
     opacity: 1;
+    max-height:350px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 </style>
