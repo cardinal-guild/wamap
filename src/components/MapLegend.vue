@@ -1,96 +1,107 @@
 <template>
-  <div class="map-legend" :class="{ faded: hideLegend }">
-    <div class="map-legend-title">Legend</div>
-    <div class="map-legend-separator"></div>
-    <ul class="legend-list">
-      <li>
-        <span class="header">
-          Altitudes
-        </span>
-      </li>
-      <li>
-        <span class="icon">
-          <img src="/assets/island_icons/Island_S_L.png" />
-          <img src="/assets/island_icons/Island_K_L.png" />
-        </span>
-        <span class="description">
-          Low Altitude
-        </span>
-      </li>
-      <li class="map-legend-separator"></li>
-      <li>
-        <span class="icon">
-          <img src="/assets/island_icons/Island_S_M.png" />
-          <img src="/assets/island_icons/Island_K_M.png" />
-        </span>
-        <span class="description">
-          Medium Altitude
-        </span>
-      </li>
-      <li class="map-legend-separator"></li>
-      <li>
-        <span class="icon">
-          <img src="/assets/island_icons/Island_S_H.png" />
-          <img src="/assets/island_icons/Island_K_H.png" />
-        </span>
-        <span class="description">
-          High Altitude
-        </span>
-      </li>
-      <li class="map-legend-separator"></li>
-      <li>
-        <span class="header">
-          Icons
-        </span>
-      </li>
-      <li>
-        <span class="icon single">
-          <img src="/assets/I_Frame_Databanks.png" />
-        </span>
-        <span class="description">
-          Databanks
-        </span>
-      </li>
-      <li>
-        <span class="icon single">
-          <img src="/assets/I_Frame_Reviver.png" />
-        </span>
-        <span class="description">
-          Revival Chambers
-        </span>
-      </li>
-      <li>
-        <span class="icon single">
-          <img src="/assets/I_Frame_Turret.png">
-        </span>
-        <span class="description">
-          Turrets
-        </span>
-      </li>
-      <li>
-        <span class="icon single culture">
-          <img src="/assets/I_Frame_K-E.png">
-        </span>
-        <span class="description">
-          Kioki
-        </span>
-      </li>
-      <li>
-        <span class="icon single culture">
-          <img src="/assets/I_Frame_S-E.png">
-        </span>
-        <span class="description">
-          Saborian
-        </span>
-      </li>
-    </ul>
-  </div>
+  <l-control v-if="!this.$store.state.adminMode" position="topright">
+    <input type="checkbox" id="toggle-legend">
+    <label for="toggle-legend">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
+    </label>
+    <div class="map-legend" :class="{ faded: hideLegend }">
+      <div class="map-legend-title">Legend</div>
+      <div class="map-legend-separator"></div>
+      <ul class="legend-list">
+        <li>
+          <span class="header">
+            Altitudes
+          </span>
+        </li>
+        <li>
+          <span class="icon">
+            <img src="/assets/island_icons/Island_S_L.png" />
+            <img src="/assets/island_icons/Island_K_L.png" />
+          </span>
+          <span class="description">
+            Low Altitude
+          </span>
+        </li>
+        <li class="map-legend-separator"></li>
+        <li>
+          <span class="icon">
+            <img src="/assets/island_icons/Island_S_M.png" />
+            <img src="/assets/island_icons/Island_K_M.png" />
+          </span>
+          <span class="description">
+            Medium Altitude
+          </span>
+        </li>
+        <li class="map-legend-separator"></li>
+        <li>
+          <span class="icon">
+            <img src="/assets/island_icons/Island_S_H.png" />
+            <img src="/assets/island_icons/Island_K_H.png" />
+          </span>
+          <span class="description">
+            High Altitude
+          </span>
+        </li>
+        <li class="map-legend-separator"></li>
+        <li>
+          <span class="header">
+            Icons
+          </span>
+        </li>
+        <li>
+          <span class="icon single">
+            <img src="/assets/I_Frame_Databanks.png" />
+          </span>
+          <span class="description">
+            Databanks
+          </span>
+        </li>
+        <li>
+          <span class="icon single">
+            <img src="/assets/I_Frame_Reviver.png" />
+          </span>
+          <span class="description">
+            Revival Chambers
+          </span>
+        </li>
+        <li>
+          <span class="icon single">
+            <img src="/assets/I_Frame_Turret.png">
+          </span>
+          <span class="description">
+            Turrets
+          </span>
+        </li>
+        <li>
+          <span class="icon single culture">
+            <img src="/assets/I_Frame_K-E.png">
+          </span>
+          <span class="description">
+            Kioki
+          </span>
+        </li>
+        <li>
+          <span class="icon single culture">
+            <img src="/assets/I_Frame_S-E.png">
+          </span>
+          <span class="description">
+            Saborian
+          </span>
+        </li>
+      </ul>
+    </div>
+  </l-control>
 </template>
 
 <script>
+import { LControl } from "vue2-leaflet";
+
 export default {
   name: "MapLegend",
-  props: ["hideLegend"]
+  props: ["hideLegend"],
+  components: {
+    LControl,
+  }
 };
 </script>
 

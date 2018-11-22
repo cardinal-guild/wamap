@@ -13,6 +13,7 @@
       @zoom="onZoom($event, $data, $root)"
       @click="mapClick($event, $data, $root)"
       v-if="loaded">
+
       <l-geo-json
         className="geojson"
         ref="geojson"
@@ -120,60 +121,35 @@
         :bounds="bounds"
       />
 
-      <!--Pve or Pvp-->
-      <l-control
-        v-if="!adminMode"
-        position="topleft">
-        <MapToggle />
-      </l-control>
+      <MapToggle />
 
-      <!--Author Search-->
-      <l-control
-        v-if="!adminMode"
-        position="topleft">
-        <div id="authorSearch-div">
-          <input type="checkbox" id="toggle-search" @change="toggleSearch">
-          <label for="toggle-search" title="Search by Author">
-            <SearchIcon />
-          </label>
-          <input type="text" v-model="author" id="authorSearch" placeholder="Search by Author">
-          <IslandList :island-list="searchedIslands" :map="map"/>
-        </div>
-      </l-control>
+      <CreatorSearch :island-data="islandData" />
 
       <MapMarker />
 
       <MapFilter />
 
-      <!--Map Legend-->
-      <l-control
-        v-if="!adminMode"
-        position="topright">
-        <input type="checkbox" id="toggle-legend">
-        <label for="toggle-legend">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
-        </label>
-        <MapLegend :hideLegend="hideLegend" />
-      </l-control>
+      <MapLegend :hide-legend="hideLegend"/>
+
+      <MapFooter />
 
       <!--Issue links-->
-      <l-control
+      <!-- <l-control
         v-if="!adminMode"
         position="bottomleft"
         class="issue-links">
         <a href="https://github.com/fearlessjake/wamap/issues">Report an Issue</a><br>
-        <!-- <a href="www.google.com">Map Data issues</a> -->
-      </l-control>
+      </l-control> -->
 
       <!--Watermark-->
-      <l-control
+      <!-- <l-control
         v-if="!adminMode"
         position="bottomright"
         class="custom-watermark">
         <a href="https://cardinalguild.com">
           <img src="/assets/logo.png" width="100vw" alt="Cardinal Guild Logo">
         </a>
-      </l-control>
+      </l-control> -->
     </l-map>
 
     <div class="loading-overlay" v-if="!loaded">
@@ -209,14 +185,13 @@ import {
 } from "vue2-leaflet";
 import axios from "axios";
 
-import SearchIcon from "../../public/assets/search-icon.svg";
-
 import IslandPopup from "./IslandPopup.vue";
 import MapLegend from "./MapLegend.vue";
-import IslandList from "./IslandList.vue";
+import CreatorSearch from "./CreatorSearch.vue";
 import MapMarker from "./MapMarker.vue";
 import MapFilter from "./MapFilter.vue";
 import MapToggle from "./MapToggle.vue";
+import MapFooter from "./MapFooter.vue";
 
 export default {
   name: "Map",
@@ -230,17 +205,13 @@ export default {
     LPopup,
     IslandPopup,
     MapLegend,
-    IslandList,
-    SearchIcon,
+    CreatorSearch,
     MapMarker,
     MapFilter,
     MapToggle,
+    MapFooter,
   },
   methods: {
-    toggleSearch: e => {
-      if (e.srcElement.checked) $("#authorSearch-div").css("width", "216px");
-      else $("#authorSearch-div").css("width", "30px");
-    },
     pointButtonClick: function(e) {
       this.$refs.map.mapObject.removeLayer(this.$refs.pointMarker.mapObject);
     },
@@ -364,26 +335,6 @@ export default {
   created() {
     let self = this;
 
-    self.$watch("author", (newVal, oldVal) => {
-      let islands = [];
-      if (!newVal) {
-        islands = [];
-        self.searchedIslands = [];
-        return;
-      }
-      //console.log(self.islandData);
-      for (var i in self.islandData) {
-        let island = self.islandData[i];
-        if (
-          island.properties.creator
-            .toLowerCase()
-            .startsWith(newVal.toLowerCase())
-        ) {
-          islands.push(island);
-        }
-      }
-      self.searchedIslands = islands;
-    });
     if (self.$attrs.move == "true") {
       self.moveMode = true;
       self.showIslandMarkers = true;

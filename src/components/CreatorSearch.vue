@@ -1,20 +1,63 @@
 <template>
-  <div class="island-list">
-    <button v-for="island in islandList" :key="island.properties.name+'_button'" class="island-button" @click="moveTo(island)">
-      {{ island.properties.name }}
-    </button>
-  </div>
+  <l-control v-if="!this.$store.state.adminMode" position="topleft">
+    <div id="authorSearch-div">
+      <input type="checkbox" id="toggle-search" @change="toggleSearch">
+      <label for="toggle-search" title="Search by Author">
+        <SearchIcon />
+      </label>
+      <input type="text" v-model="author" id="authorSearch" placeholder="Search by Author">
+      <!-- <IslandList :island-list="searchedIslands" :map="map"/> -->
+      <div class="island-list">
+        <button v-for="island in searchedIslands" :key="island.properties.name+'_button'" class="island-button" @click="moveTo(island)">
+          {{ island.properties.name }}
+        </button>
+      </div>
+    </div>
+  </l-control>
 </template>
 <script>
 import L from "leaflet";
 import $ from "jquery";
+import { LControl } from "vue2-leaflet";
+
+import SearchIcon from "../../public/assets/search-icon.svg";
 
 export default {
-  name: "IslandList",
-  props: ["islandList", "map"],
+  name: "CreatorSearch",
+  props: ["islandData"],
+  components: {
+    LControl,
+    SearchIcon,
+  },
+  created() {
+    this.$watch("author", (newVal, oldVal) => {
+      let islands = [];
+      if (!newVal) {
+        islands = [];
+        this.searchedIslands = [];
+        return;
+      }
+      //console.log(self.islandData);
+      for (var i in this.islandData) {
+        let island = this.islandData[i];
+        if (
+          island.properties.creator
+            .toLowerCase()
+            .startsWith(newVal.toLowerCase())
+        ) {
+          islands.push(island);
+        }
+      }
+      this.searchedIslands = islands;
+    });
+  },
   methods: {
+    toggleSearch: e => {
+      if (e.srcElement.checked) $("#authorSearch-div").css("width", "216px");
+      else $("#authorSearch-div").css("width", "30px");
+    },
     moveTo: function(island) {
-      this.map.setView(island.latLng, -1);
+      this.$store.state.map.setView(island.latLng, -1);
       let glowMarkerIcon = L.icon({
         iconUrl:
           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
@@ -25,7 +68,7 @@ export default {
         icon: glowMarkerIcon,
         pane: "glowMarkers"
       });
-      marker.addTo(this.map);
+      marker.addTo(this.$store.state.map);
       setTimeout(function() {
         $(".glow-icon").addClass("stop-glow");
       }, 500);
@@ -34,8 +77,14 @@ export default {
           mapObj.removeLayer(marker);
         },
         5500,
-        this.map
+        this.$store.state.map
       );
+    }
+  },
+  data() {
+    return {
+      searchedIslands: [],
+      author: null,
     }
   }
 };

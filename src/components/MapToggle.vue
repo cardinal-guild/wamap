@@ -1,5 +1,5 @@
 <template>
-  <div id="mapToggle">
+  <l-control v-if="!this.$store.state.adminMode" id="mapToggle" position="topleft">
     <input type="checkbox" id="map-toggle-checkbox" @change="mapTypeToggle">
     <label for="map-toggle-checkbox">
       <div id="selectionBox"></div>
@@ -10,13 +10,17 @@
         PvP
       </div>
     </label>
-  </div>
+  </l-control>
 </template>
 <script>
 import $ from "jquery";
+import { LControl } from "vue2-leaflet";
 
 export default {
   name: "MapToggle",
+  components: {
+    LControl,
+  },
   methods: {
     mapTypeToggle: function(e) {
       if (e.srcElement.checked) {
