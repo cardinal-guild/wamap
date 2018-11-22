@@ -67,7 +67,7 @@ export default {
       position: absolute;
       margin: 4px 1px;
       top: 2px;
-      background: #ffe5c4;
+      background: #e0b084;
       z-index: 1;
       transition: top 0.5s;
     }
