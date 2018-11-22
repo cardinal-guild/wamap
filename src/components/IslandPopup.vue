@@ -44,17 +44,23 @@
         <td>Culture</td>
         <td> {{ type | capitalize }}</td>
       </tr>
-      <tr v-if="pveMaterials && pveMaterials.length" class="only-pve-server default-hide">
-        <td colspan="2" class="materials-info-title">PVE Materials:</td>
+      <tr v-if="trees && trees.length">
+        <td colspan="2" class="materials-info-title">Trees:</td>
       </tr>
-      <tr v-if="pveMaterials && pveMaterials.length" class="only-pve-server default-hide">
-        <td colspan="2" class="materials-info-content">{{ pveMaterials.join(", ") }}</td>
+      <tr v-if="trees && trees.length">
+        <td colspan="2" class="materials-info-content">{{ trees.join(", ") }}</td>
       </tr>
-      <tr v-if="pvpMaterials && pvpMaterials.length" class="only-pvp-server default-hide">
-        <td colspan="2" class="materials-info-title">PVP Materials:</td>
+      <tr v-if="pveMetals && pveMetals.length" class="only-pve-server default-hide">
+        <td colspan="2" class="materials-info-title">PVE Metals:</td>
       </tr>
-      <tr v-if="pvpMaterials && pvpMaterials.length" class="only-pvp-server default-hide">
-        <td colspan="2" class="materials-info-content">{{ pvpMaterials.join(", ") }}</td>
+      <tr v-if="pveMetals && pveMetals.length" class="only-pve-server default-hide">
+        <td colspan="2" class="materials-info-content">{{ pveMetals.join(", ") }}</td>
+      </tr>
+      <tr v-if="pvpMetals && pvpMetals.length" class="only-pvp-server default-hide">
+        <td colspan="2" class="materials-info-title">PVP Metals:</td>
+      </tr>
+      <tr v-if="pvpMetals && pvpMetals.length" class="only-pvp-server default-hide">
+        <td colspan="2" class="materials-info-content">{{ pvpMetals.join(", ") }}</td>
       </tr>
     </table>
     <div class="wrap-collabsible">
@@ -91,7 +97,6 @@
 </template>
 
 <script>
-
 import EditPencil from "../../public/assets/edit.svg";
 export default {
   name: "IslandPopup",
@@ -125,8 +130,9 @@ export default {
     "spikes",
     "nonGrappleWalls",
     "workshopUrl",
-    "pveMaterials",
-    "pvpMaterials",
+    "trees",
+    "pveMetals",
+    "pvpMetals",
     "imageIcon",
     "imageIconBig",
     "imagePopup",
@@ -147,8 +153,8 @@ export default {
         "&lng=" +
         this.latLng.lng
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
