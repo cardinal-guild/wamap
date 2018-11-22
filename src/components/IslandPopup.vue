@@ -44,16 +44,16 @@
         <td>Culture</td>
         <td> {{ type | capitalize }}</td>
       </tr>
-      <tr v-if="pveMaterials && pveMaterials.length">
+      <tr v-if="pveMaterials && pveMaterials.length" class="only-pve-server default-hide">
         <td colspan="2" class="materials-info-title">PVE Materials:</td>
       </tr>
-      <tr v-if="pveMaterials && pveMaterials.length">
+      <tr v-if="pveMaterials && pveMaterials.length" class="only-pve-server default-hide">
         <td colspan="2" class="materials-info-content">{{ pveMaterials.join(", ") }}</td>
       </tr>
-      <tr v-if="pvpMaterials && pvpMaterials.length">
+      <tr v-if="pvpMaterials && pvpMaterials.length" class="only-pvp-server default-hide">
         <td colspan="2" class="materials-info-title">PVP Materials:</td>
       </tr>
-      <tr v-if="pvpMaterials && pvpMaterials.length">
+      <tr v-if="pvpMaterials && pvpMaterials.length" class="only-pvp-server default-hide">
         <td colspan="2" class="materials-info-content">{{ pvpMaterials.join(", ") }}</td>
       </tr>
     </table>
@@ -91,6 +91,8 @@
 </template>
 
 <script>
+import $ from "jquery";
+
 import EditPencil from "../../public/assets/edit.svg";
 export default {
   name: "IslandPopup",
@@ -146,8 +148,8 @@ export default {
         "&lng=" +
         this.latLng.lng
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -161,6 +163,7 @@ export default {
 }
 .island-data-table {
   border-collapse: collapse;
+
   .materials-info-title {
     font-size: 1rem;
   }
@@ -259,6 +262,21 @@ export default {
         padding-bottom: 10px;
       }
     }
+  }
+}
+</style>
+<style lang="scss">
+#wamap {
+  .default-hide {
+    display: none;
+  }
+
+  &.pve-server:not(.pvp-server) .only-pve-server:not(.only-pvp-server) {
+    display: table-row;
+  }
+
+  &.pvp-server:not(.pve-server) .only-pvp-server:not(.only-pve-server) {
+    display: table-row;
   }
 }
 </style>

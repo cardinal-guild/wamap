@@ -3,6 +3,7 @@
 
     <l-map
       id="wamap"
+      class="pve-server"
       ref="map"
       :options="mapOptions"
       :bounds="bounds"
@@ -119,6 +120,13 @@
         :bounds="bounds"
       />
 
+      <!--Pve or Pvp-->
+      <l-control
+        v-if="!adminMode"
+        position="topleft">
+        <MapToggle />
+      </l-control>
+
       <!--Author Search-->
       <l-control
         v-if="!adminMode"
@@ -215,6 +223,8 @@ import MapLegend from "./MapLegend.vue";
 import IslandList from "./IslandList.vue";
 import MapMarker from "./MapMarker.vue";
 import MapFilter from "./MapFilter.vue";
+import MapToggle from "./MapToggle.vue";
+
 export default {
   name: "Map",
   components: {
@@ -230,7 +240,8 @@ export default {
     IslandList,
     SearchIcon,
     MapMarker,
-    MapFilter
+    MapFilter,
+    MapToggle,
   },
   methods: {
     toggleSearch: e => {
