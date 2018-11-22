@@ -66,7 +66,6 @@ import AddIcon from "../../public/assets/add-icon.svg";
 import $ from "jquery";
 export default {
   name: "MapFilter",
-  props: ["map"],
   components: {
     FilterIcon,
     AddIcon,
@@ -119,7 +118,7 @@ export default {
           intersection = newInt;
         }
         for (i = 0; i < this.markers.length; i++) {
-          this.map.removeLayer(this.markers[i]);
+          this.$store.state.map.removeLayer(this.markers[i]);
         }
         this.markers = [];
         if (intersection.length < 1) {
@@ -128,7 +127,7 @@ export default {
         else {
           for (i = 0; i < intersection.length; i++) {
             let marker = new L.Marker(intersection[i].latLng);
-            marker.addTo(this.map);
+            marker.addTo(this.$store.state.map);
             this.markers.push(marker);
           }
         }
@@ -142,7 +141,7 @@ export default {
       $("#wood-select_1").val("");
       $("#noIslandFound").css("visibility", "hidden");
       for (var i = 0; i < this.markers.length; i++) {
-        this.map.removeLayer(this.markers[i]);
+        this.$store.state.map.removeLayer(this.markers[i]);
       }
       this.markers = [];
     },

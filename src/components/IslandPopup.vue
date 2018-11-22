@@ -91,7 +91,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 
 import EditPencil from "../../public/assets/edit.svg";
 export default {

@@ -152,7 +152,7 @@
       <l-control
         v-if="!adminMode"
         position="topleft">
-        <MapFilter :map="map"/>
+        <MapFilter />
       </l-control>
 
       <!--Map Legend-->
@@ -201,6 +201,9 @@
 </template>
 <script>
 /* eslint-disable */
+import "../../public/stylesheets/Map.scss"
+import "../../public/stylesheets/style.scss"
+
 import Vue from "vue";
 import L from "leaflet";
 import _ from "lodash";
@@ -412,6 +415,7 @@ export default {
       self.loaded = true;
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
+        self.$store.commit("setMap", self.$refs.map.mapObject);
 
         document.getElementsByClassName("zonenames")[0].style.opacity =
           self.zonenameMaxOpacity;
@@ -584,11 +588,6 @@ export default {
       showIslandBorders: false,
       hideHeader: false,
       adminMode: false,
-      zoomBoundary0: 10,
-      zoomBoundary1: 20,
-      zoomBoundary2: 40,
-      zoomBoundary3: 60,
-      zoomBoundary4: 80,
       adminMarker: {
         lat: 0,
         lng: 0
@@ -656,261 +655,4 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "~animate-sass/animate";
-
-.map {
-  display: block;
-  height: 100vh;
-  width: 100vw;
-
-  font-family: "Noto Sans", sans-serif;
-  .loading-overlay {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    font-size: 3rem;
-    color: #291a08;
-  }
-  .header-bar {
-    font-family: "Noto Sans", sans-serif;
-    background: transparent;
-    position: absolute;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-    transition: top 1s;
-    .header-image {
-      position: absolute;
-      left: 50px;
-      top: 5px;
-    }
-  }
-}
-.leaflet-container {
-  background: rgba(0, 0, 0, 0);
-  position: absolute;
-  top: 0;
-  display: block;
-  height: 100%;
-  width: 100%;
-  .crosshair-cursor-enabled {
-    cursor: crosshair;
-  }
-
-  .map-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: #fff;
-    opacity: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
-</style>
-<style lang="scss">
-.point-delete {
-  border: none;
-  border-radius: 2px;
-  background-color: rgb(224, 176, 132);
-  border: none;
-  border-radius: 2px;
-  display: block;
-  padding: 4px;
-  margin: 4px auto;
-  color: #4f4141;
-  font-size: 18px;
-  font-weight: bold;
-
-  &:hover {
-    background-color: #ffe5c4;
-  }
-
-  &:focus {
-    box-shadow: 0 0 1px 1px #291a08 inset;
-    background-color: #ffe5c4;
-    outline: 0;
-  }
-}
-
-.header-fade-enter-active,
-.header-fade-leave-active {
-  transition: opacity 1s;
-}
-.header-fade-leave, .header-fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-.zonenames {
-  transition: opacity 1s;
-  &.hidden {
-    display: none;
-    opacity: 0;
-  }
-}
-.map {
-  .leaflet-top {
-    transition: top 0.5s;
-  }
-  &.header {
-    .leaflet-top.leaflet-right.mobile {
-      top: 65px !important;
-    }
-  }
-}
-
-.leaflet-container {
-  font-family: "Noto Sans", "Roboto", sans-serif;
-  .leaflet-overlay-pane {
-    svg {
-      z-index: 1;
-    }
-  }
-  .sector-label {
-    font-size: 35px;
-    font-family: "Noto Sans", "Roboto", sans-serif;
-    color: #291a08;
-  }
-
-  .leaflet-islandImageMarkers-pane {
-    img.island-image-icon {
-      border-radius: 50%;
-    }
-  }
-
-  .leaflet-popup {
-    .leaflet-popup-content-wrapper {
-      background: #4f4141f0;
-      color: #ffe5c4;
-      border-top: 5px rgb(224, 176, 132) solid;
-      border-bottom: 5px rgb(224, 176, 132) solid;
-      border-radius: 0;
-    }
-    .leaflet-popup-tip-container {
-      .leaflet-popup-tip {
-        background: #e0af84;
-      }
-    }
-    a.leaflet-popup-close-button {
-      padding-top: 9px;
-    }
-    a.leaflet-popup-close-button:hover {
-      color: #d52a2a;
-    }
-  }
-}
-
-.leaflet-control-container {
-  .leaflet-control-zoom {
-    background: #4f4141;
-    border: 0px;
-    border-radius: 0px;
-    border-top: 5px solid #e0b084;
-    border-bottom: 5px solid #e0b084;
-    &-in {
-      background: #0000;
-      color: #e0b084;
-      border-bottom: 0px solid #e0b084;
-    }
-    &-out {
-      background: #0000;
-      color: #e0b084;
-    }
-    a:hover {
-      background: #0000;
-      color: #ffe5c4;
-      border-bottom: 0px solid #e0b084;
-    }
-  }
-  .leaflet-bar a.leaflet-disabled {
-    background: #453836;
-    color: #5b4a4a;
-  }
-
-  .issue-links {
-    background: rgba(79, 65, 65, 0.9);
-    color: #ffe5c4;
-    font-size: 11px;
-    margin: 0;
-    border: 0px;
-    border-radius: 0px;
-    border-top: 3px solid #e0b084;
-    padding: 2px 10px;
-
-    a {
-      color: #ffe5c4;
-      text-decoration: none;
-    }
-  }
-
-  .leaflet-control-attribution {
-    font-size: 11px;
-    background: rgba(79, 65, 65, 0.9);
-    color: #fff;
-    border-top: 3px solid #e0af84;
-    padding: 2px 10px;
-
-    a {
-      color: #ffe5c4;
-    }
-  }
-}
-
-@media screen and (max-width: 850px) {
-  div#map-header {
-    display: none;
-  }
-}
-
-.transparent-island-icon {
-  border-radius: 50%;
-}
-
-.island-databank-count {
-  font-family: "Noto Sans", "Roboto", sans-serif;
-  font-size: 16px;
-}
-
-.glow-icon {
-  box-shadow: none;
-  border-radius: 50%;
-  transition: box-shadow 5s;
-}
-
-.glow-icon:not(.stop-glow) {
-  box-shadow: 0 0 20px 20px #ffe5c4;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  margin: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0002;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #e0af84;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #ffe5c4;
-}
-
-::-webkit-scrollbar-button {
-  width: 10px;
-  height: 10px;
-  background: #0002;
-}
-</style>
 

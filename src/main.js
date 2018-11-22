@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Vuex from "vuex";
 import L from 'leaflet';
 import App from './App.vue';
 import Map from "./components/Map.vue";
@@ -16,7 +17,7 @@ L.Icon.Default.mergeOptions({
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
-
+Vue.use(Vuex);
 
 const router = new VueRouter({
   mode: 'history',
@@ -41,7 +42,19 @@ const router = new VueRouter({
   }]
 });
 
+const store = new Vuex.Store({
+  state: {
+    map: null,
+  },
+  mutations: {
+    setMap(state, map) {
+      state.map = map;
+    },
+  },
+})
+
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')
