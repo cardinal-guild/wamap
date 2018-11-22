@@ -1,5 +1,5 @@
 <template>
-  <div id="map-filter">
+  <l-control position="topleft" id="map-filter" v-if="!this.$store.state.adminMode">
     <input type="checkbox" id="map-filter-checkbox" @change="toggleFilterMarker">
     <label for="map-filter-checkbox" title="Open Filter Menu">
       <FilterIcon />
@@ -23,7 +23,7 @@
           </label>
         </div>
       </div>
-      <div class="separator" />
+      <div class="separator"></div>
       <h4>Wood</h4>
       <div id="wood-filters" class="type-filter">
         <div v-for="n in numOfFiltersW" :key="n" :id="'wood-filter_'+n" class="wood-filter">
@@ -37,7 +37,7 @@
           </label>
         </div>
       </div>
-      <div class="separator" />
+      <div class="separator"></div>
       <h4>Databanks</h4>
       <div id="databank-filter" class="type-filter">
         <select id="databank-select">
@@ -54,12 +54,12 @@
         <button class="filter-button" @click="clearFilters">Clear</button>
       </div>
     </div>
-  </div>
+  </l-control>
 </template>
 <script>
 import axios from "axios";
 import L from "leaflet";
-import { LMarker } from "vue2-leaflet";
+import { LMarker, LControl } from "vue2-leaflet";
 
 import FilterIcon from "../../public/assets/filter.svg";
 import AddIcon from "../../public/assets/add-icon.svg";
@@ -70,6 +70,7 @@ export default {
     FilterIcon,
     AddIcon,
     LMarker,
+    LControl,
   },
   methods: {
     toggleFilterMarker: function(e) {

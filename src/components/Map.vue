@@ -141,19 +141,9 @@
         </div>
       </l-control>
 
-      <!--Map Marker-->
-      <l-control
-        v-if="!adminMode"
-        position="topleft">
-        <MapMarker :map="map"/>
-      </l-control>
+      <MapMarker />
 
-      <!--Filters-->
-      <l-control
-        v-if="!adminMode"
-        position="topleft">
-        <MapFilter />
-      </l-control>
+      <MapFilter />
 
       <!--Map Legend-->
       <l-control
@@ -401,6 +391,7 @@ export default {
     if (self.$attrs.admin == "true") {
       self.showHeader = false;
       self.adminMode = true;
+      self.$store.commit("setAdmin", true);
       self.mapOptions.attributionControl = false;
       if (self.$attrs.lat) {
         self.adminMarker.lat = self.$attrs.lat;

@@ -45,10 +45,14 @@ const router = new VueRouter({
 const store = new Vuex.Store({
   state: {
     map: null,
+    adminMode: false,
   },
   mutations: {
     setMap(state, map) {
       state.map = map;
+    },
+    setAdmin(state, mode) {
+      state.adminMode = mode;
     },
   },
 })

@@ -1,21 +1,22 @@
 <template>
-  <div id="map-marker">
+  <l-control position="topleft" id="map-marker" v-if="!this.$store.state.adminMode">
     <input type="checkbox" id="map-marker-checkbox" @change="toggleMarker">
     <label for="map-marker-checkbox" title="Place a Custom Marker">
       <MapMark />
     </label>
-  </div>
+  </l-control>
 </template>
 <script>
 import MapMark from "../../public/assets/Map_marker.svg";
 import L from "leaflet";
 import Clipboard from "clipboard";
+import { LControl } from "vue2-leaflet";
 
 export default {
   name: "MapMarker",
-  props: ["map"],
   components: {
-    MapMark
+    MapMark,
+    LControl,
   },
   created() {
     // eslint-disable-next-line
@@ -24,7 +25,7 @@ export default {
   methods: {
     toggleMarker: function(e) {
       if (!this.marker) {
-        this.marker = new L.Marker(this.map.getCenter(), { draggable: true });
+        this.marker = new L.Marker(this.$store.state.map.getCenter(), { draggable: true });
         this.marker.on("dragend", function(e) {
           let url =
             location.origin +
@@ -42,7 +43,7 @@ export default {
         });
       }
       if (e.srcElement.checked) {
-        this.marker.addTo(this.map);
+        this.marker.addTo(this.$store.state.map);
         let url =
           location.origin +
           location.pathname +
@@ -56,9 +57,8 @@ export default {
             url +
             "'>Copy to clipboard</button>"
         );
-        //console.log(this.map.getCenter());
       } else {
-        this.map.removeLayer(this.marker);
+        this.$store.state.map.removeLayer(this.marker);
         this.marker = null;
       }
     }
