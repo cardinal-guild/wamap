@@ -1,0 +1,98 @@
+.point-delete {
+  border: none;
+  border-radius: 2px;
+  background-color: rgb(224, 176, 132);
+  border: none;
+  border-radius: 2px;
+  display: block;
+  padding: 4px;
+  margin: 4px auto;
+  color: #4f4141;
+  font-size: 18px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #ffe5c4;
+  }
+
+  &:focus {
+    box-shadow: 0 0 1px 1px #291a08 inset;
+    background-color: #ffe5c4;
+    outline: 0;
+  }
+}
+
+.header-fade-enter-active,
+.header-fade-leave-active {
+  transition: opacity 1s;
+}
+.header-fade-leave, .header-fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+.zonenames {
+  transition: opacity 1s;
+  &.hidden {
+    display: none;
+    opacity: 0;
+  }
+}
+.map {
+  .leaflet-top {
+    transition: top 0.5s;
+  }
+  &.header {
+    .leaflet-top.leaflet-right.mobile {
+      top: 65px !important;
+    }
+  }
+}
+
+
+
+@media screen and (max-width: 850px) {
+  div#map-header {
+    display: none;
+  }
+}
+
+.transparent-island-icon {
+  border-radius: 50%;
+}
+
+.island-databank-count {
+  font-family: "Noto Sans", "Roboto", sans-serif;
+  font-size: 16px;
+}
+
+.glow-icon {
+  box-shadow: none;
+  border-radius: 50%;
+  transition: box-shadow 5s;
+}
+
+.glow-icon:not(.stop-glow) {
+  box-shadow: 0 0 20px 20px #ffe5c4;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  margin: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0002;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e0af84;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffe5c4;
+}
+
+::-webkit-scrollbar-button {
+  width: 10px;
+  height: 10px;
+  background: #0002;
+}
