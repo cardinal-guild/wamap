@@ -5,6 +5,10 @@
 </template>
 
 <script>
+import $ from "jquery";
+
+$("meta[name='og:title']").attr("content", "Hello");
+
 export default {
   name: "app"
 };
