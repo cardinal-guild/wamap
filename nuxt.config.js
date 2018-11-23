@@ -7,27 +7,27 @@ module.exports = {
   head: {
     title: 'Worlds Adrift Map',
     meta: [{
-        charset: 'utf-8'
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
-      },
-      {
-        hid: 'description',
-        name: 'description',
-        content: 'Worlds Adrift Map'
-      }
+      charset: 'utf-8'
+    },
+    {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1'
+    },
+    {
+      hid: 'description',
+      name: 'description',
+      content: 'Worlds Adrift Map'
+    }
     ],
     link: [{
-        rel: 'icon',
-        type: 'image/x-icon',
-        href: '/favicon.ico'
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans|Roboto:300,400,500,700|Material+Icons|Abril+Fatface'
-      }
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    },
+    {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans|Roboto:300,400,500,700|Material+Icons|Abril+Fatface'
+    }
     ]
   },
   modules: [
@@ -53,8 +53,13 @@ module.exports = {
     plugins: [
       new VuetifyLoaderPlugin()
     ],
+    babel: {
+      plugins: [
+        ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }]
+      ]
+    },
     extractCSS: true,
-    extend(config, ctx) {
+    extend (config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({

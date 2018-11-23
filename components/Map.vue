@@ -9,7 +9,7 @@
         :zoom="-100"
         @zoom="onZoom"
         ref="map"
-        > 
+        >  
             <l-geo-json
               className="boundaries"
               ref="boundaries"
