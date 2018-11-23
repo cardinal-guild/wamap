@@ -1,27 +1,22 @@
 <template>
   <div class="island-popup" :id="name">
-    <!-- <div class="island-link">
-      <a :href="islandLink">Link</a>
-    </div> -->
     <button class="copy-button island-link" :data-clipboard-text="islandLink">
       Copy
     </button>
     <table class="island-data-table">
       <tr class="name">
         <th colspan="2">
-          <div class="island-name" v-if="workshopUrl"><a target="blank" rel="nofollow,noopener" :href="workshopUrl">{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})&nbsp;</span><img src="/assets/steamicon.png"></a>
-            <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
-            </div>
-            <div class="creator-name" v-else>
-              by {{creator}}
-            </div>
-          </div>
-          <div class="island-name" v-else>{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span><br>
-            <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
-            </div>
-            <div class="creator-name" v-else>
-              by {{creator}}
-            </div>
+          <div class="island-title">
+            <component class="island-name" :is="workshopUrl?'a':'div'" :href="workshopUrl || ''" target="_blank" rel="nofollow,noopener">
+              <span class="nickname">{{nickName?nickName:name}}&nbsp;</span>
+              <span v-if="nickName" class="name">({{name}})&nbsp;</span>
+              <img src="/assets/steamicon.png" v-if="workshopUrl">
+            </component>
+            <span class="by-author">by</span>
+            <component class="creator-name" :is="creatorWorkshopUrl?'a':'div'" :href="creatorWorkshopUrl || ''" target="_blank" rel="nofollow,noopener">
+              <span class="username">&nbsp;{{creator}}&nbsp;</span>
+              <img src="/assets/steamicon.png" v-if="creatorWorkshopUrl">
+            </component>
           </div>
         </th>
       </tr>
@@ -100,7 +95,6 @@
 import EditPencil from "../../public/assets/edit.svg";
 export default {
   name: "IslandPopup",
-
   components: {
     EditPencil
   },
@@ -172,7 +166,7 @@ export default {
   .materials-info-title {
     font-size: 1rem;
   }
-  .name {
+  tr.name {
     th {
       line-height: 22px;
       display: flex;
@@ -183,15 +177,23 @@ export default {
       text-decoration: none;
       color: #e0b084;
 
+      &.island-name {
+        display: block;
+      }
+
       img {
         position: relative;
         top: 2px;
       }
     }
-    .island-name {
+    .by-author {
+      font-size: 12px;
+    }
+
+    .island-title {
       font-size: 16px;
     }
-    .nickname {
+    span.name {
       font-size: 12px;
     }
     .creator-name {
