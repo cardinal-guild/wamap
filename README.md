@@ -1,29 +1,29 @@
 # wamap
 
-## Project setup
-```
-yarn install
+> Worlds Adrift Map
+
+## Build Setup
+
+``` bash
+# install dependencies
+$ npm install # Or yarn install
+
+# serve with hot reload at localhost:3000
+$ npm run dev
+
+# build for production and launch server
+$ npm run build
+$ npm start
+
+# generate static project
+$ npm run generate
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+For detailed explanation on how things work, check out the [Nuxt.js](https://github.com/nuxt/nuxt.js) and [Vuetify.js](https://vuetifyjs.com/) documentation.
 
-### Compiles and minifies for production
-```
-yarn run build
-```
 
-### Run your tests
-```
-yarn run test
-```
+> Nuxt leaflet module
 
-### Lints and fixes files
-```
-yarn run lint
-```
+[Nuxt Leaflet](https://github.com/schlunsen/nuxt-leaflet)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Is used without ssr
