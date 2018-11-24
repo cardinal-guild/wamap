@@ -2,8 +2,8 @@
     <div class="credits-page">
         <no-ssr>
             <vue-particles
-            color="#dedede"
-            :particleOpacity="0.2"
+            class="particles"
+            color="#668"
             :particlesNumber="120"
             shapeType="star"
             :particleSize="4"
@@ -69,13 +69,13 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       startAnimation: false,
       title: 'Cardinal Guild Credits'
     };
   },
-  mounted() {}
+  mounted () {}
 };
 </script>
 
@@ -88,6 +88,13 @@ export default {
   right: 0;
   display: block;
   background: #111;
+  .particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    display: block;
+  }
 }
 .starwars {
   font: 700 1em 'News Cycle', sans-serif;
@@ -195,7 +202,7 @@ export default {
     $logo-width: 400px;
     width: $logo-width;
     margin: (-$logo-width / 2) 0 0 (-$logo-width / 2);
-    transform: scale(2);
+    transform: scale(1);
     opacity: 1;
   }
 
@@ -207,7 +214,7 @@ export default {
   }
 
   100% {
-    transform: scale(0.1);
+    transform: scale(0.05);
     opacity: 0;
     $logo-width: 400px;
     width: $logo-width;

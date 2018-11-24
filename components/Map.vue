@@ -1,12 +1,12 @@
 <template>
   <div id="map-wrap">
-    <no-ssr>
+      <no-ssr>
         <l-map  
         :bounds="bounds" 
         :center="center"
-        :options="mapOptions"
-        :crs="crs"
         :zoom="-100"
+        :crs="crs"
+        :options="mapOptions"
         @zoom="onZoom"
         ref="map"
         >  
@@ -22,19 +22,22 @@
 </template>
 
 <script>
+const isBrowser = typeof window !== 'undefined';
+let leaflet;
+if (isBrowser) {
+  leaflet = require('leaflet');
+}
 export default {
-  ssr: false,
   methods: {
     onZoom: e => {
-      console.log(e)
-      console.log(e.target._zoom)
+      console.log(e.target._zoom);
     }
   },
   beforeMount () {
-    this.crs = window.L.CRS.Simple
+    this.crs = leaflet.CRS.Simple;
   },
   mounted () {
-    this.$store.dispatch('loadBoundaries')
+    this.$store.dispatch('loadBoundaries');
   },
   data () {
     return {
@@ -42,7 +45,7 @@ export default {
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
         style: function (feature) {
-          return feature.properties
+          return feature.properties;
         },
         interactive: false
       },
@@ -55,10 +58,10 @@ export default {
         wheelPxPerZoomLevel: 200,
         attributionControl: true
       }
-    }
+    };
   },
   props: ['mode']
-}
+};
 </script>
 
 <style lang="scss" scoped>
