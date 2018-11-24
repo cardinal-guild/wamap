@@ -15,6 +15,9 @@
                 :icon="getIconByAltitude(island.properties.altitude, island.properties.type, $data.islandIcons)"
                 :id="island.id"
                 layer-type="overlay">
+                <l-popup>
+                  <island-popup v-bind="island.properties" />
+                </l-popup>
             </l-marker>
         </no-ssr>
     </div>
@@ -22,6 +25,8 @@
 
 <script>
 import { mapState } from 'vuex';
+import IslandPopup from '~/components/IslandPopup';
+
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -29,6 +34,9 @@ if (isBrowser) {
   leaflet = require('leaflet');
 }
 export default {
+  components: {
+    IslandPopup
+  },
   computed: {
     ...mapState(['zoomLevel', 'islandData'])
   },
