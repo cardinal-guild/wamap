@@ -4,9 +4,13 @@
         <l-map  
         :bounds="bounds" 
         :center="center"
-        :zoom="-100"
         :crs="crs"
-        :options="mapOptions"
+        :minZoom="minZoom"
+        :maxZoom="maxZoom"
+        :zoomSnap="0.2"
+        :zoomDelta="0.2"
+        :wheelPxPerZoomLevel="200"
+        :attributionControl="false"
         @zoom="onZoom"
         ref="map"
         >  
@@ -34,10 +38,12 @@ export default {
     }
   },
   beforeMount () {
+    let self = this;
     this.crs = leaflet.CRS.Simple;
     const checkMapObject = setInterval(() => {
-      if (this.$refs.map) {
-        this.map = this.$refs.map.mapObject;
+      if (this.$refs.map && this.$refs.map.mapObject) {
+        self.currentMap = this.$refs.map.mapObject;
+        self.currentMap.getRenderer(self.currentMap).options.padding = 10;
         clearInterval(checkMapObject);
       }
     }, 100);
@@ -47,7 +53,7 @@ export default {
   },
   data () {
     return {
-      map: null,
+      currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
@@ -57,14 +63,8 @@ export default {
         interactive: false
       },
       crs: null,
-      mapOptions: {
-        minZoom: -4.6,
-        maxZoom: -0.4,
-        zoomSnap: 0.2,
-        zoomDelta: 0.2,
-        wheelPxPerZoomLevel: 200,
-        attributionControl: true
-      }
+      minZoom: -4.6,
+      maxZoom: -0.4
     };
   },
   props: ['mode']
@@ -83,6 +83,9 @@ export default {
   width: 100%;
   height: 100%;
   display: block;
+  .leaflet-container {
+    background: none;
+  }
   .vue2leaflet-map {
     position: absolute;
     top: 0;

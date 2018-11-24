@@ -18,7 +18,8 @@ module.exports = {
   // add your custom rules here
   rules: {
     "space-before-function-paren": 'warn',
-    'no-unused-vars': 'warn'
+    'no-unused-vars': 'warn',
+    'no-debugger': 'off'
   },
   globals: {
     "debugger": true
