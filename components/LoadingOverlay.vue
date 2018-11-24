@@ -1,5 +1,5 @@
 <template>
-    <div class="fullscreen-loader text-xs-center" v-if="loading || boundariesLoading">
+    <div class="fullscreen-loader text-xs-center" v-if="loading || boundariesLoading || islandsLoading">
         <v-container bg fill-height grid-list-md text-xs-center>
         <v-layout row wrap align-center>
           <v-flex>
@@ -19,13 +19,16 @@
 export default {
   computed: {
     loading () {
-      return this.$store.state.loading
+      return this.$store.state.loading;
     },
     boundariesLoading () {
-      return this.$store.state.boundariesLoading
+      return this.$store.state.boundariesLoading;
+    },
+    islandsLoading () {
+      return this.$store.state.islandsLoading;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

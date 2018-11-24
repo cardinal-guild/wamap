@@ -41,13 +41,15 @@ export default {
   components: { MapLegend, MapIslands, MapIslandCircles },
   methods: {
     onZoom: (e, s) => {
-      let zoomLevel =
-        (e.target._zoom - e.target.options.minZoom) /
-        (e.target.options.maxZoom - e.target.options.minZoom);
+      let zoomLevel = Math.round(
+        ((e.target._zoom - e.target.options.minZoom) /
+          (e.target.options.maxZoom - e.target.options.minZoom)) *
+          100
+      );
       s.commit('setZoomLevel', zoomLevel);
     }
   },
-  beforeMount () {
+  beforeMount() {
     let self = this;
     this.crs = leaflet.CRS.Simple;
     const checkMapObject = setInterval(() => {
@@ -58,16 +60,17 @@ export default {
       }
     }, 100);
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('loadBoundaries');
+    this.$store.dispatch('loadIslands');
   },
-  data () {
+  data() {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function (feature) {
+        style: function(feature) {
           return feature.properties;
         },
         interactive: false

@@ -29,8 +29,9 @@
 
 <script>
 export default {
-  mounted () {
+  mounted() {
     this.$store.dispatch('loadBoundaries');
+    this.$store.dispatch('loadIslands');
   }
 };
 </script>

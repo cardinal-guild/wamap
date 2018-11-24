@@ -3,6 +3,8 @@ export const state = () => ({
   loading: false,
   boundariesLoading: false,
   boundaryData: null,
+  islandData: null,
+  islandsLoading: false,
   zoomLevel: 0
 })
 
@@ -16,11 +18,21 @@ export const mutations = {
   boundariesLoading (state, loading) {
     state.boundariesLoading = loading
   },
+
+  islandsLoading (state, loading) {
+    state.islandsLoading = loading
+  },
   boundaryData (state, data) {
     if (console.log) {
       console.log('Map boundaries loaded')
     }
     state.boundaryData = data
+  },
+  islandData (state, data) {
+    if (console.log) {
+      console.log('Island data loaded')
+    }
+    state.islandData = data
   },
   updateMapOptions (state, options) {
     state.mapOptions = options
@@ -28,6 +40,20 @@ export const mutations = {
 }
 
 export const actions = {
+  async loadIslands ({
+    commit,
+    app
+  }) {
+    if (!this.state.islandData) {
+      if (console.log) {
+        console.log('Loading islands from surveyor.cardinalguild')
+      }
+      commit('islandsLoading', true)
+      const data = await this.$axios.$get('https://surveyor.cardinalguild.com/api/islands.json')
+      commit('islandData', data)
+      commit('islandsLoading', false)
+    }
+  },
   async loadBoundaries ({
     commit,
     app
