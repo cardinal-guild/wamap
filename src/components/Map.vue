@@ -265,8 +265,8 @@ export default {
           window.parent.postMessage(
             {
               id: "mapclick",
-              lat: lat,
-              lng: lng
+              lat: lat.toFixed(2),
+              lng: lng.toFixed(2),
             },
             "*"
           );

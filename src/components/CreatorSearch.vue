@@ -30,7 +30,7 @@ export default {
     SearchIcon,
   },
   created() {
-    this.$watch("author", (newVal, oldVal) => {
+    this.$watch("author", (newVal) => {
       let islands = [];
       if (!newVal) {
         islands = [];
