@@ -440,9 +440,9 @@ export default {
 
           //set border markers
           let type = "";
-          if (island.properties.respawners && island.properties.turrets)
+          if (island.properties.revivalChambers && island.properties.turrets)
             type = "both";
-          else if (island.properties.respawners) type = "respawn";
+          else if (island.properties.revivalChambers) type = "respawn";
           else if (island.properties.turrets) type = "turrets";
           else type = "plain";
           island.borderIcon = L.icon({
