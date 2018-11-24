@@ -19,9 +19,9 @@
             :geojson="$store.state.boundaryData"
             :options="boundaryOptions" 
           /> 
-          <map-island-circles />
-          <map-island-icons />
-          <map-legend />
+          <map-island-circles :fromZoomlevel="80" :toZoomlevel="100" />
+          <map-island-icons :fromZoomlevel="25" :toZoomlevel="80" />
+          <map-legend :fadeOutFromZoomlevel="80" />
         </l-map> 
     </no-ssr>
   </div>

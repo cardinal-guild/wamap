@@ -4,8 +4,9 @@
         v-if="islandData &&
             islandData.features &&
             islandData.features.length &&
-            zoomLevel < 80 &&
-            zoomLevel > 15">
+            zoomLevel >= fromZoomlevel &&
+            zoomLevel < toZoomlevel"
+            >
         <no-ssr>
             <l-marker
                 v-for="island in islandData.features"
@@ -46,6 +47,16 @@ export default {
         }
       }
     };
+  },
+  props: {
+    fromZoomlevel: {
+      type: Number,
+      default: 15
+    },
+    toZoomlevel: {
+      type: Number,
+      default: 80
+    }
   },
   methods: {
     getIconByAltitude: (altitude, type, islandIcons) => {

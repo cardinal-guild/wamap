@@ -1,7 +1,11 @@
 <template>
     <div 
         class="islandMarkers" 
-        v-if="islandData && islandData.features && islandData.features.length && zoomLevel >= 80">
+        v-if="islandData &&
+            islandData.features &&
+            islandData.features.length &&
+            zoomLevel >= fromZoomlevel &&
+            zoomLevel <= toZoomlevel">
         <l-marker
             v-for="island in islandData.features"
             :key="island.properties.key"
@@ -19,6 +23,16 @@ import { mapState } from 'vuex';
 export default {
   computed: {
     ...mapState(['zoomLevel', 'islandData'])
+  },
+  props: {
+    fromZoomlevel: {
+      type: Number,
+      default: 15
+    },
+    toZoomlevel: {
+      type: Number,
+      default: 80
+    }
   },
   data () {
     return {};

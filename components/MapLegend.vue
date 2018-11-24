@@ -1,134 +1,169 @@
 <template>
   <l-control position="topright"> 
-    <input type="checkbox" id="toggle-legend">
-    <label for="toggle-legend">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
-    </label>
-    <div class="map-legend" :class="{ faded: hideLegend }">
-      <div class="map-legend-title">Legend</div>
-      <div class="map-legend-separator"></div>
-      <ul class="legend-list">
-        <li>
-          <span class="header">
-            Altitudes
-          </span>
-        </li>
-        <li>
-          <span class="icon">
-            <img src="~/assets/island_icons/Island_S_L.png" />
-            <img src="~/assets/island_icons/Island_K_L.png" />
-          </span>
-          <span class="description">
-            Low Altitude
-          </span>
-        </li>
-        <li class="map-legend-separator"></li>
-        <li>
-          <span class="icon">
-            <img src="~/assets/island_icons/Island_S_M.png" />
-            <img src="~/assets/island_icons/Island_K_M.png" />
-          </span>
-          <span class="description">
-            Medium Altitude
-          </span>
-        </li>
-        <li class="map-legend-separator"></li>
-        <li>
-          <span class="icon">
-            <img src="~/assets/island_icons/Island_S_H.png" />
-            <img src="~/assets/island_icons/Island_K_H.png" />
-          </span>
-          <span class="description">
-            High Altitude
-          </span>
-        </li>
-        <li class="map-legend-separator"></li>
-        <li>
-          <span class="header">
-            Icons
-          </span>
-        </li>
-        <li>
-          <span class="icon single">
-            <img src="~/assets/I_Frame_Databanks.png" />
-          </span>
-          <span class="description">
-            Databanks
-          </span>
-        </li>
-        <li>
-          <span class="icon single">
-            <img src="~/assets/I_Frame_Reviver.png" />
-          </span>
-          <span class="description">
-            Revival Chambers
-          </span>
-        </li>
-        <li>
-          <span class="icon single">
-            <img src="~/assets/I_Frame_Turret.png">
-          </span>
-          <span class="description">
-            Turrets
-          </span>
-        </li>
-        <li>
-          <span class="icon single culture">
-            <img src="~/assets/I_Frame_K-E.png">
-          </span>
-          <span class="description">
-            Kioki
-          </span>
-        </li>
-        <li>
-          <span class="icon single culture">
-            <img src="~/assets/I_Frame_S-E.png">
-          </span>
-          <span class="description">
-            Saborian
-          </span>
-        </li>
-      </ul>
+    <div class="map-legend" :class="{ 'fade-legend': (zoomLevel > fadeOutFromZoomlevel) , 'close-legend': !opened }">
+      <input type="checkbox" class="map-legend-toggle"  id="map-legend-toggle">
+      <label for="map-legend-toggle" @click="opened=!opened">
+        <v-icon large>chevron_right</v-icon>  
+      </label>
+      <div class="map-legend-content">
+        <div class="map-legend-title">Legend</div>
+        <div class="map-legend-separator"></div>
+        <ul class="legend-list">
+          <li>
+            <span class="header">
+              Altitudes
+            </span>
+          </li>
+          <li>
+            <span class="icon">
+              <img src="~/assets/island_icons/Island_S_L.png" />
+              <img src="~/assets/island_icons/Island_K_L.png" />
+            </span>
+            <span class="description">
+              Low Altitude
+            </span>
+          </li>
+          <li class="map-legend-separator"></li>
+          <li>
+            <span class="icon">
+              <img src="~/assets/island_icons/Island_S_M.png" />
+              <img src="~/assets/island_icons/Island_K_M.png" />
+            </span>
+            <span class="description">
+              Medium Altitude
+            </span>
+          </li>
+          <li class="map-legend-separator"></li>
+          <li>
+            <span class="icon">
+              <img src="~/assets/island_icons/Island_S_H.png" />
+              <img src="~/assets/island_icons/Island_K_H.png" />
+            </span>
+            <span class="description">
+              High Altitude
+            </span>
+          </li>
+          <li class="map-legend-separator"></li>
+          <li>
+            <span class="header">
+              Icons
+            </span>
+          </li>
+          <li>
+            <span class="icon single">
+              <img src="~/assets/I_Frame_Databanks.png" />
+            </span>
+            <span class="description">
+              Databanks
+            </span>
+          </li>
+          <li>
+            <span class="icon single">
+              <img src="~/assets/I_Frame_Reviver.png" />
+            </span>
+            <span class="description">
+              Revival Chambers
+            </span>
+          </li>
+          <li>
+            <span class="icon single">
+              <img src="~/assets/I_Frame_Turret.png">
+            </span>
+            <span class="description">
+              Turrets
+            </span>
+          </li>
+          <li>
+            <span class="icon single culture">
+              <img src="~/assets/I_Frame_K-E.png">
+            </span>
+            <span class="description">
+              Kioki
+            </span>
+          </li>
+          <li>
+            <span class="icon single culture">
+              <img src="~/assets/I_Frame_S-E.png">
+            </span>
+            <span class="description">
+              Saborian
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
   </l-control>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'MapLegend',
-  props: ['zoomLevel'],
+  computed: {
+    ...mapState(['zoomLevel'])
+  },
   data () {
     return {
-      hideLegend: false
+      opened: true
     };
   },
-  watch: {
-    zoomLevel: function (val) {
-      this.zoomLevel = val;
+  props: {
+    fadeOutFromZoomlevel: {
+      type: Number,
+      default: 80
+    }
+  },
+  mounted () {
+    if (window && window.innerWidth) {
+      if (window.innerWidth < 380) {
+        this.opened = false;
+      }
     }
   }
 };
 </script>
-
-<style lang="scss">
-#toggle-legend,
-label[for='toggle-legend'] {
-  display: none;
-}
-
+ 
+<style lang="scss" scoped>
+@import '~sass-easing/_easings';
 .map-legend {
-  z-index: 401;
-  background-color: rgba(79, 65, 65, 0.9);
-  border-top: 5px rgb(224, 176, 132) solid;
-  border-bottom: 5px rgb(224, 176, 132) solid;
   opacity: 1;
-  transition: opacity 0.3s;
-  box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.35);
-  box-sizing: border-box;
-  padding: 5px;
-  color: #ffe5c4;
-  width: max-content;
-
+  transition: opacity $easeOutExpo 0.3s, transform $easeInOutBack 0.3s;
+  display: flex;
+  margin-right: 0;
+  align-items: flex-start;
+  &.fade-legend {
+    opacity: 0.4;
+  }
+  &.close-legend {
+    transform: translateX(190px);
+    .map-legend-content {
+      box-shadow: none !important;
+    }
+    label[for='map-legend-toggle'] {
+      i {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  &:hover {
+    opacity: 1;
+  }
+  &-toggle {
+    display: none;
+  }
+  label[for='map-legend-toggle'] {
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    display: block;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    font-size: 2.5em;
+    transition: background-color $easeOutExpo 0.3s;
+    &:hover,
+    &:focus {
+      background: rgba(0, 0, 0, 0.6);
+    }
+  }
   &-title {
     font-size: 1.5em;
   }
@@ -140,12 +175,6 @@ label[for='toggle-legend'] {
     margin: 5px 0;
     height: 2px;
     width: 100%;
-  }
-  &.faded {
-    opacity: 0.2;
-  }
-  &:hover {
-    opacity: 1;
   }
   .legend-list {
     list-style-type: none;
@@ -195,6 +224,16 @@ label[for='toggle-legend'] {
         font-size: 1.25em;
       }
     }
+  }
+  &-content {
+    background-color: rgba(79, 65, 65, 0.9);
+    border-top: 5px rgb(224, 176, 132) solid;
+    border-bottom: 5px rgb(224, 176, 132) solid;
+    box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
+    padding: 5px;
+    color: #ffe5c4;
+    width: 180px;
   }
 }
 </style>
