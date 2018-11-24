@@ -13,6 +13,9 @@ export const mutations = {
     state.boundariesLoading = loading
   },
   boundaryData (state, data) {
+    if (console.log) {
+      console.log('Map boundaries loaded')
+    }
     state.boundaryData = data
   },
   updateMapOptions (state, options) {
@@ -27,7 +30,7 @@ export const actions = {
   }) {
     if (!this.state.boundaryData) {
       if (console.log) {
-        console.log('Map boundaries are loading')
+        console.log('Loading map boundaries')
       }
       commit('boundariesLoading', true)
       const data = await this.$axios.$get('https://data.cardinalguild.com/wamap.geojson')

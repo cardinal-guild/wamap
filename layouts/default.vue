@@ -33,8 +33,13 @@
       </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-     
-      <v-toolbar-side-icon @click="rightDrawer = !rightDrawer"></v-toolbar-side-icon>
+
+      <v-btn icon @click="accountDrawer = !accountDrawer">
+        <v-icon>account_circle</v-icon>
+      </v-btn>
+      <v-btn icon @click="searchDrawer = !searchDrawer">
+        <v-icon>search</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-content>
         <nuxt />
@@ -42,16 +47,22 @@
     <v-navigation-drawer
       temporary
       right
-      v-model="rightDrawer"
+      v-model="searchDrawer"
       fixed
     >
       <v-list>
-        <v-list-tile @click.native="right = !right">
-          <v-list-tile-action>
-            <v-icon light>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
+       <v-list-tile-title class="headline">Search</v-list-tile-title>
+      </v-list>
+    </v-navigation-drawer>
+
+     <v-navigation-drawer
+      temporary
+      right
+      v-model="accountDrawer"
+      fixed
+    >
+      <v-list>
+       <v-list-tile-title class="headline">Account</v-list-tile-title>
       </v-list>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app>
@@ -69,10 +80,12 @@ export default {
       items: [
         { icon: 'apps', title: 'Welcome', to: '/' },
         { icon: 'explore', title: 'PVE Map', to: '/pve' },
-        { icon: 'explore', title: 'PVP Map', to: '/pvp' }
+        { icon: 'explore', title: 'PVP Map', to: '/pvp' },
+        { icon: 'people', title: 'Credits', to: '/credits' }
       ],
       miniVariant: true,
-      rightDrawer: false,
+      searchDrawer: false,
+      accountDrawer: false,
       title: 'Worlds Adrift Map'
     };
   }

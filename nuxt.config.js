@@ -26,7 +26,7 @@ module.exports = {
     },
     {
       rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css?family=Noto+Sans|Open+Sans|Roboto:300,400,500,700|Material+Icons|Abril+Fatface'
+      href: 'https://fonts.googleapis.com/css?family=Noto+Sans|News+Cycle:400,700|Material+Icons|Abril+Fatface'
     }
     ]
   },
@@ -37,6 +37,10 @@ module.exports = {
   plugins: [{
     src: '~/plugins/vuetify.js',
     ssr: true
+  },
+  {
+    src: '~/plugins/particles.js',
+    ssr: false
   }],
   css: ['~/assets/style/app.styl'],
   /*
