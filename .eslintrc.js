@@ -5,7 +5,12 @@ module.exports = {
     browser: true,
     node: true
   },
-  extends: 'standard',
+  extends: [
+    "standard",
+    "prettier",
+    "prettier/standard",
+    "prettier/vue"
+  ],
   // required to lint *.vue files
   plugins: [
     'html'

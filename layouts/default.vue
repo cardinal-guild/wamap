@@ -1,11 +1,10 @@
 <template>
-  <v-app>
+  <v-app dark>
     <v-navigation-drawer
-      :mini-variant.sync="miniVariant"
-      :clipped="clipped"
-      v-model="drawer"
       fixed
       app
+      :mini-variant="miniVariant"
+      v-model="drawer"
     >
       <v-list>
         <v-list-tile
@@ -24,7 +23,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app :clipped-left="clipped">
+    <v-toolbar fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn
         icon
@@ -32,33 +31,17 @@
       >
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>remove</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>menu</v-icon>
-      </v-btn>
+     
+      <v-toolbar-side-icon @click="rightDrawer = !rightDrawer"></v-toolbar-side-icon>
     </v-toolbar>
     <v-content>
         <nuxt />
     </v-content>
     <v-navigation-drawer
       temporary
-      :right="right"
+      right
       v-model="rightDrawer"
       fixed
     >
@@ -81,20 +64,17 @@
 export default {
   data () {
     return {
-      clipped: false,
       drawer: true,
       fixed: false,
       items: [
         { icon: 'apps', title: 'Welcome', to: '/' },
-        { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' },
         { icon: 'explore', title: 'PVE Map', to: '/pve' },
         { icon: 'explore', title: 'PVP Map', to: '/pvp' }
       ],
-      miniVariant: false,
-      right: true,
+      miniVariant: true,
       rightDrawer: false,
       title: 'Worlds Adrift Map'
-    }
+    };
   }
-}
+};
 </script>

@@ -16,15 +16,6 @@ Vue.use(Vuetify, {
     VFooter,
     VToolbar
   },
-  theme: {
-    primary: '#594B4A',
-    secondary: '#D9B18A',
-    accent: '#FFAB40',
-    error: '#f44336',
-    warning: '#ffeb3b',
-    info: '#2196f3',
-    success: '#4caf50'
-  },
   directives: {
     Ripple
   }

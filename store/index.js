@@ -1,5 +1,5 @@
 export const state = () => ({
-  sidebar: false,
+  sidebar: true,
   loading: false,
   boundariesLoading: false,
   boundaryData: null
