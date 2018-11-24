@@ -49,13 +49,13 @@
         <td colspan="2" class="materials-info-title">PVE Metals:</td>
       </tr>
       <tr v-if="pveMetals && pveMetals.length" class="only-pve-server default-hide">
-        <td colspan="2" class="materials-info-content">{{ pveMetals.join(", ") }}</td>
+        <td colspan="2" class="materials-info-content">{{ pveMetals|metalsToString }}</td>
       </tr>
       <tr v-if="pvpMetals && pvpMetals.length" class="only-pvp-server default-hide">
         <td colspan="2" class="materials-info-title">PVP Metals:</td>
       </tr>
       <tr v-if="pvpMetals && pvpMetals.length" class="only-pvp-server default-hide">
-        <td colspan="2" class="materials-info-content">{{ pvpMetals.join(", ") }}</td>
+        <td colspan="2" class="materials-info-content">{{ pvpMetals|metalsToString }}</td>
       </tr>
     </table>
     <div class="wrap-collabsible">
@@ -93,6 +93,7 @@
 
 <script>
 import EditPencil from "../../public/assets/edit.svg";
+import _ from "lodash";
 export default {
   name: "IslandPopup",
   components: {
@@ -103,6 +104,13 @@ export default {
       if (!value) return "";
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+    metalsToString: function(metals) {
+      let metalNames = [];
+      _.forEach(metals, function(metal){
+        metalNames.push(metal.name+' Q'+metal.quality);
+      });
+      return metalNames.join(', ');
     }
   },
   props: [
