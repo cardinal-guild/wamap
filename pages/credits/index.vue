@@ -11,7 +11,7 @@
             :lineOpacity="0.1"
             />
             <article class="starwars">
-                <audio preload="auto" ref="audio" autoplay="true" @playing="startAnimation=true" play="true">
+                <audio preload="auto" ref="audio" autoplay="true" @playing="startAnimation=true" @ended="startAnimation=false" play="true">
                     <source src="https://s.cdpn.io/1202/Star_Wars_original_opening_crawl_1977.ogg" type="audio/ogg" />
                     <source src="https://s.cdpn.io/1202/Star_Wars_original_opening_crawl_1977.mp3" type="audio/mpeg" />
                 </audio>
@@ -159,7 +159,7 @@ export default {
   }
 
   .titles {
-    $titles-width: 26em;
+    $titles-width: 24em;
     width: $titles-width;
     margin: 0 0 0 (-$titles-width / 2);
     top: auto;
