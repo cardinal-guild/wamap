@@ -2,12 +2,16 @@ export const state = () => ({
   sidebar: true,
   loading: false,
   boundariesLoading: false,
-  boundaryData: null
+  boundaryData: null,
+  zoomLevel: 0
 })
 
 export const mutations = {
   toggleSidebar (state) {
     state.sidebar = !state.sidebar
+  },
+  setZoomLevel (state, value) {
+    state.zoomLevel = value
   },
   boundariesLoading (state, loading) {
     state.boundariesLoading = loading

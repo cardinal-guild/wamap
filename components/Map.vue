@@ -5,10 +5,12 @@
         :bounds="bounds" 
         :center="center"
         :crs="crs"
-        :minZoom="minZoom"
-        :maxZoom="maxZoom"
+        :minZoom="mapOptions.minZoom"
+        :maxZoom="mapOptions.maxZoom"
+        :options="mapOptions"
         :attributionControl="false"
         :attribution="false"
+        @zoom="onZoom($event, $store)"
         ref="map"
         >  
           <l-geo-json
@@ -17,8 +19,9 @@
             :geojson="$store.state.boundaryData"
             :options="boundaryOptions" 
           /> 
-
-          <MapLegend :zoom="zoom" />
+          <MapIslandCircles />
+          <MapIslands />
+          <MapLegend />
         </l-map> 
     </no-ssr>
   </div>
@@ -26,6 +29,8 @@
 
 <script>
 import MapLegend from '~/components/MapLegend.vue';
+import MapIslands from '~/components/MapIslands.vue';
+import MapIslandCircles from '~/components/MapIslandCircles.vue';
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -33,10 +38,13 @@ if (isBrowser) {
   leaflet = require('leaflet');
 }
 export default {
-  components: { MapLegend },
+  components: { MapLegend, MapIslands, MapIslandCircles },
   methods: {
-    onZoom: e => {
-      console.log(e.target._zoom);
+    onZoom: (e, s) => {
+      let zoomLevel =
+        (e.target._zoom - e.target.options.minZoom) /
+        (e.target.options.maxZoom - e.target.options.minZoom);
+      s.commit('setZoomLevel', zoomLevel);
     }
   },
   beforeMount () {
@@ -65,9 +73,17 @@ export default {
         interactive: false
       },
       crs: null,
-      zoom: -5,
+      zoom: 0,
       minZoom: -4.6,
-      maxZoom: -0.4
+      maxZoom: -0.4,
+      mapOptions: {
+        minZoom: -4.6,
+        maxZoom: -0.4,
+        zoomSnap: 0.2,
+        zoomDelta: 0.2,
+        wheelPxPerZoomLevel: 200,
+        attributionControl: true
+      }
     };
   },
   props: ['mode']
