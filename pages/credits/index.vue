@@ -23,7 +23,8 @@
                 <div class="animation" v-if="startAnimation">
                     
                     <section class="intro">
-                        A long time ago, in a adrift world far,<br> far away....
+                        A long time ago, in a adrift world,<br>
+                        far, far away....
                     </section>
                         
                     <section class="titles">
@@ -81,6 +82,11 @@ export default {
 
 <style lang="scss" scoped>
 .credits-page {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
   position: absolute;
   top: 0;
   left: 0;
@@ -88,12 +94,14 @@ export default {
   right: 0;
   display: block;
   background: #111;
+  overflow: hidden;
   .particles {
     position: absolute;
     top: 0;
     left: 0;
-    overflow: hidden;
     display: block;
+    width: 100%;
+    height: 100%;
   }
 }
 .starwars {
@@ -129,8 +137,6 @@ export default {
     justify-content: center;
     align-items: center;
     .v-icon {
-      height: 70px;
-      width: 70px;
       font-size: 1.5em;
       color: #ff6;
     }
@@ -153,17 +159,17 @@ export default {
   }
 
   .titles {
-    $titles-width: 14.65em;
+    $titles-width: 26em;
     width: $titles-width;
     margin: 0 0 0 (-$titles-width / 2);
     top: auto;
     bottom: 0;
-    height: 50em;
-    font-size: 350%;
+    height: 40em;
+    font-size: 550%;
     text-align: justify;
     overflow: hidden;
     transform-origin: 50% 100%;
-    transform: perspective(300px) rotateX(25deg);
+    transform: perspective(300px) rotateX(15deg);
 
     > div {
       position: absolute;

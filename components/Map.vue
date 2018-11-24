@@ -35,12 +35,19 @@ export default {
   },
   beforeMount () {
     this.crs = leaflet.CRS.Simple;
+    const checkMapObject = setInterval(() => {
+      if (this.$refs.map) {
+        this.map = this.$refs.map.mapObject;
+        clearInterval(checkMapObject);
+      }
+    }, 100);
   },
   mounted () {
     this.$store.dispatch('loadBoundaries');
   },
   data () {
     return {
+      map: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
