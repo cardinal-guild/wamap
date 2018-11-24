@@ -5,6 +5,7 @@ export const state = () => ({
   boundaryData: null,
   islandData: null,
   islandsLoading: false,
+  hilites: [],
   lat: -4750,
   lng: 4750,
   zoomLevel: 0

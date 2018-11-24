@@ -37,7 +37,7 @@
         <v-btn icon slot="activator" @click="copyToClipboard">
           <v-icon>link</v-icon>
         </v-btn>
-        <span>Copy the current location to clipboard</span>
+        <span>Copy the current zoomed in location to clipboard</span>
       </v-tooltip> 
       <v-tooltip bottom> 
         <v-btn icon slot="activator" @click="accountDrawer = !accountDrawer">

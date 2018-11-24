@@ -5,8 +5,7 @@
         :bounds="bounds" 
         :center="center"
         :crs="crs"
-        :minZoom="mapOptions.minZoom"
-        :maxZoom="mapOptions.maxZoom"
+        :zoom="zoom"
         :options="mapOptions"
         :attributionControl="false"
         :attribution="false"
@@ -22,6 +21,7 @@
           /> 
           <map-island-circles :fromZoomlevel="75" :toZoomlevel="100" />
           <map-island-icons :fromZoomlevel="25" :toZoomlevel="75" />
+          <map-hiliter />
           <map-legend :fadeOutFromZoomlevel="80" />
         </l-map> 
     </no-ssr>
@@ -32,6 +32,7 @@
 import MapLegend from '~/components/MapLegend.vue';
 import MapIslandIcons from '~/components/MapIslandIcons.vue';
 import MapIslandCircles from '~/components/MapIslandCircles.vue';
+import MapHiliter from '~/components/MapHiliter.vue';
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -39,7 +40,7 @@ if (isBrowser) {
   leaflet = require('leaflet');
 }
 export default {
-  components: { MapLegend, MapIslandIcons, MapIslandCircles },
+  components: { MapLegend, MapIslandIcons, MapIslandCircles, MapHiliter },
   methods: {
     onZoom: (e, r) => {
       let zoomLevel = Math.round(
@@ -47,27 +48,77 @@ export default {
           (e.target.options.maxZoom - e.target.options.minZoom)) *
           100
       );
+      if (console && console.log) {
+        console.log('Map zoom: ' + e.target._zoom);
+        console.log('Map zoomLevel: ' + zoomLevel);
+      }
       r.$store.commit('setZoomLevel', zoomLevel);
     },
     onMoveEnd: (e, r) => {
       r.$store.commit('setLatLng', e.target.getCenter());
+    },
+    zoomLevelToLocalZoom: (zoom, min, max) => {
+      let localZoom = (zoom / 100) * (max - min) + min;
+      return localZoom;
     }
   },
   beforeMount () {
     let self = this;
     this.crs = leaflet.CRS.Simple;
     const checkMapObject = setInterval(() => {
-      if (this.$refs.map && this.$refs.map.mapObject) {
+      if (
+        this.$refs.map &&
+        this.$refs.map.mapObject &&
+        this.$store.state.boundaryData &&
+        this.$store.state.islandData
+      ) {
         self.currentMap = this.$refs.map.mapObject;
         self.currentMap.getRenderer(self.currentMap).options.padding = 10;
+
+        if (
+          self.$router.currentRoute &&
+          self.$router.currentRoute.query &&
+          self.currentMap
+        ) {
+          if (
+            self.$router.currentRoute.query.lat &&
+            self.$router.currentRoute.query.lng &&
+            self.$router.currentRoute.query.zoom &&
+            self.currentMap
+          ) {
+            let lat = self.$router.currentRoute.query.lat;
+            let lng = self.$router.currentRoute.query.lng;
+            let localZoom = self.zoomLevelToLocalZoom(
+              self.$router.currentRoute.query.zoom,
+              self.currentMap.options.minZoom,
+              self.currentMap.options.maxZoom
+            );
+            self.currentMap.setView([lat, lng], localZoom);
+            self.$router.push({ name: self.$router.currentRoute.name });
+          }
+
+          if (self.$router.currentRoute.query.island && self.currentMap) {
+            let lat = self.$router.currentRoute.query.lat;
+            let lng = self.$router.currentRoute.query.lng;
+            let localZoom = self.zoomLevelToLocalZoom(
+              90,
+              self.currentMap.options.minZoom,
+              self.currentMap.options.maxZoom
+            );
+            self.currentMap.setView([lat, lng], localZoom);
+            self.$router.push({ name: self.$router.currentRoute.name });
+          }
+        }
+
         clearInterval(checkMapObject);
       }
-    }, 100);
+    }, 1000);
   },
   mounted () {
     this.$store.dispatch('loadBoundaries');
     this.$store.dispatch('loadIslands');
   },
+  updated () {},
   data () {
     return {
       currentMap: null,
@@ -80,9 +131,7 @@ export default {
         interactive: false
       },
       crs: null,
-      zoom: 0,
-      minZoom: -4.6,
-      maxZoom: -0.4,
+      zoom: -4.6,
       mapOptions: {
         minZoom: -4.6,
         maxZoom: -0.4,
