@@ -8,6 +8,7 @@
         :minZoom="minZoom"
         :maxZoom="maxZoom"
         :attributionControl="false"
+        :attribution="false"
         ref="map"
         >  
           <l-geo-json
@@ -17,6 +18,7 @@
             :options="boundaryOptions" 
           /> 
 
+          <MapLegend :zoom="zoom" />
         </l-map> 
     </no-ssr>
   </div>
