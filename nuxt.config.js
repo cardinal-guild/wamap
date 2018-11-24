@@ -31,7 +31,6 @@ module.exports = {
     ]
   },
   modules: [
-    'nuxt-leaflet',
     '@nuxtjs/axios'
   ],
   plugins: [{
@@ -41,8 +40,15 @@ module.exports = {
   {
     src: '~/plugins/particles.js',
     ssr: false
+  },
+  {
+    src: '~/plugins/nuxt-leaflet.js',
+    ssr: false
   }],
-  css: ['~/assets/style/app.styl'],
+  css: [ 
+    '~/assets/style/leaflet.css',
+    '~/assets/style/app.styl'
+  ],
   /*
    ** Customize the progress bar color
    */

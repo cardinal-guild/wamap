@@ -7,31 +7,31 @@
         :crs="crs"
         :minZoom="minZoom"
         :maxZoom="maxZoom"
-        :zoomSnap="0.2"
-        :zoomDelta="0.2"
-        :wheelPxPerZoomLevel="200"
         :attributionControl="false"
-        @zoom="onZoom"
         ref="map"
         >  
-            <l-geo-json
-              className="boundaries"
-              ref="boundaries"
-              :geojson="$store.state.boundaryData"
-              :options="boundaryOptions"
-            /> 
+          <l-geo-json
+            className="boundaries"
+            ref="boundaries"
+            :geojson="$store.state.boundaryData"
+            :options="boundaryOptions" 
+          /> 
+
         </l-map> 
     </no-ssr>
   </div>
 </template>
 
 <script>
+import MapLegend from '~/components/MapLegend.vue';
 const isBrowser = typeof window !== 'undefined';
+
 let leaflet;
 if (isBrowser) {
   leaflet = require('leaflet');
 }
 export default {
+  components: { MapLegend },
   methods: {
     onZoom: e => {
       console.log(e.target._zoom);
@@ -63,6 +63,7 @@ export default {
         interactive: false
       },
       crs: null,
+      zoom: -5,
       minZoom: -4.6,
       maxZoom: -0.4
     };
@@ -73,16 +74,6 @@ export default {
 
 <style lang="scss" scoped>
 #map-wrap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
   .leaflet-container {
     background: none;
   }
