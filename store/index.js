@@ -5,6 +5,8 @@ export const state = () => ({
   boundaryData: null,
   islandData: null,
   islandsLoading: false,
+  lat: -4750,
+  lng: 4750,
   zoomLevel: 0
 })
 
@@ -36,6 +38,11 @@ export const mutations = {
   },
   updateMapOptions (state, options) {
     state.mapOptions = options
+  },
+  setLatLng (state, latLng) {
+    let { lat, lng } = latLng;
+    state.lat = Math.round(lat);
+    state.lng = Math.round(lng);
   }
 }
 

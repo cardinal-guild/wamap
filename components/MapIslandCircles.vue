@@ -5,21 +5,30 @@
             islandData.features &&
             islandData.features.length &&
             zoomLevel >= fromZoomlevel &&
-            zoomLevel <= toZoomlevel">
-        <l-marker
-            v-for="island in islandData.features"
-            :key="island.properties.key"
-            :lat-lng="island.geometry.coordinates"
-            :icon="island.icon"
-            :author="island.properties.author"
-            :id="island.id"
-            layer-type="overlay">
-        </l-marker>
+            zoomLevel <= toZoomlevel"
+            >
+        <no-ssr>
+            <l-marker
+                v-for="island in islandData.features"
+                :key="island.properties.key"
+                :lat-lng="island.geometry.coordinates"
+                :icon="getIconImage(island.properties)"
+                :id="island.id" 
+                :data-databanks="island.properties.databanks"
+                layer-type="overlay">
+            </l-marker>
+        </no-ssr>
     </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+const isBrowser = typeof window !== 'undefined';
+
+let leaflet;
+if (isBrowser) {
+  leaflet = require('leaflet');
+}
 export default {
   computed: {
     ...mapState(['zoomLevel', 'islandData'])
@@ -27,15 +36,63 @@ export default {
   props: {
     fromZoomlevel: {
       type: Number,
-      default: 15
+      default: 80
     },
     toZoomlevel: {
       type: Number,
-      default: 80
+      default: 100
     }
   },
-  data () {
-    return {};
+  methods: {
+    getIconImage: properties => {
+      if (properties.imageIcon) {
+        let classNames = ['island-image-icon'];
+        if (properties.revivalChambers) {
+          classNames.push('revival');
+        }
+        if (properties.turrets) {
+          classNames.push('turrets');
+        }
+        if (properties.dangerous) {
+          classNames.push('turrets');
+        }
+        if (properties.type) {
+          classNames.push(properties.type);
+        }
+
+        if (properties.databanks) {
+          classNames.push('databanks-' + properties.databanks);
+        }
+        if (leaflet) {
+          return leaflet.icon({
+            properties: properties,
+            iconUrl: properties.imageIcon,
+            iconSize: [100, 100],
+            className: classNames.join(' ')
+          });
+        }
+      }
+    }
   }
 };
 </script>
+
+<style lang="scss">
+.island-image-icon {
+  border-radius: 100%;
+  border: 5px solid #ccc;
+  box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+  &.revival {
+    &:before {
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      content: 'test';
+      top: 0;
+      display: block;
+    }
+  }
+}
+</style>
+

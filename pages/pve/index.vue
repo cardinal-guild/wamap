@@ -9,6 +9,7 @@ import LoadingOverlay from '~/components/LoadingOverlay';
 import Map from '~/components/Map';
 
 export default {
+  layout: 'map',
   components: {
     Map,
     LoadingOverlay

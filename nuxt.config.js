@@ -33,6 +33,7 @@ module.exports = {
     ]
   },
   modules: [
+    'nuxt-clipboard2',
     '@nuxtjs/axios'
   ],
   plugins: [{
