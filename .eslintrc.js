@@ -19,9 +19,13 @@ module.exports = {
   rules: {
     "space-before-function-paren": 'warn',
     'no-unused-vars': 'warn',
-    'no-debugger': 'off'
+    'no-debugger': 'off',
+    'no-unused-vars': 'off'
   },
   globals: {
-    "debugger": true
+    "debugger": true,
+    "$": true,
+    "jQuery": true,
+    "_": true
   }
 }

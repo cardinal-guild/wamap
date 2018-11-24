@@ -1,3 +1,5 @@
+import { ProvidePlugin } from 'webpack'
+
 const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 module.exports = {
@@ -61,7 +63,13 @@ module.exports = {
   build: {
     transpile: [/^vuetify/],
     plugins: [
-      new VuetifyLoaderPlugin()
+      new VuetifyLoaderPlugin(),
+      new ProvidePlugin({
+        '$': 'jquery',
+        '_': 'lodash',
+        'jQuery': "jquery",
+        "window.jQuery": "jquery"
+      })
     ],
     babel: {
       plugins: [

@@ -19,9 +19,9 @@
             :geojson="$store.state.boundaryData"
             :options="boundaryOptions" 
           /> 
-          <MapIslandCircles />
-          <MapIslands />
-          <MapLegend />
+          <map-island-circles />
+          <map-island-icons />
+          <map-legend />
         </l-map> 
     </no-ssr>
   </div>
@@ -29,7 +29,7 @@
 
 <script>
 import MapLegend from '~/components/MapLegend.vue';
-import MapIslands from '~/components/MapIslands.vue';
+import MapIslandIcons from '~/components/MapIslandIcons.vue';
 import MapIslandCircles from '~/components/MapIslandCircles.vue';
 const isBrowser = typeof window !== 'undefined';
 
@@ -38,7 +38,7 @@ if (isBrowser) {
   leaflet = require('leaflet');
 }
 export default {
-  components: { MapLegend, MapIslands, MapIslandCircles },
+  components: { MapLegend, MapIslandIcons, MapIslandCircles },
   methods: {
     onZoom: (e, s) => {
       let zoomLevel = Math.round(
@@ -49,7 +49,7 @@ export default {
       s.commit('setZoomLevel', zoomLevel);
     }
   },
-  beforeMount() {
+  beforeMount () {
     let self = this;
     this.crs = leaflet.CRS.Simple;
     const checkMapObject = setInterval(() => {
@@ -60,17 +60,17 @@ export default {
       }
     }, 100);
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('loadBoundaries');
     this.$store.dispatch('loadIslands');
   },
-  data() {
+  data () {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function(feature) {
+        style: function (feature) {
           return feature.properties;
         },
         interactive: false

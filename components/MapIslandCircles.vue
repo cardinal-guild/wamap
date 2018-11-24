@@ -17,7 +17,9 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  computed: mapState(['zoomLevel', 'islandData']),
+  computed: {
+    ...mapState(['zoomLevel', 'islandData'])
+  },
   data () {
     return {};
   }
