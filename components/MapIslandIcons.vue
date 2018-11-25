@@ -4,8 +4,8 @@
         v-if="islandData &&
             islandData.features &&
             islandData.features.length &&
-            zoomLevel >= fromZoomlevel &&
-            zoomLevel < toZoomlevel"
+            zoomPercentage >= fromZoomPercentage &&
+            zoomPercentage < toZoomPercentage"
             >
         <no-ssr>
             <l-marker
@@ -38,7 +38,7 @@ export default {
     IslandPopup
   },
   computed: {
-    ...mapState(['zoomLevel', 'islandData'])
+    ...mapState(['zoomPercentage', 'islandData'])
   },
   data () {
     return {
@@ -57,11 +57,11 @@ export default {
     };
   },
   props: {
-    fromZoomlevel: {
+    fromZoomPercentage: {
       type: Number,
       default: 15
     },
-    toZoomlevel: {
+    toZoomPercentage: {
       type: Number,
       default: 80
     }

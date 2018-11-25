@@ -167,13 +167,13 @@
 </template>
 <script>
 /* eslint-disable */
-import "../../public/stylesheets/Map.scss"
-import "../../public/stylesheets/style.scss"
+import '../../public/stylesheets/Map.scss';
+import '../../public/stylesheets/style.scss';
 
-import Vue from "vue";
-import L from "leaflet";
-import _ from "lodash";
-import $ from "jquery";
+import Vue from 'vue';
+import L from 'leaflet';
+import _ from 'lodash';
+import $ from 'jquery';
 import {
   LMap,
   LImageOverlay,
@@ -182,19 +182,19 @@ import {
   LControl,
   LMarker,
   LPopup
-} from "vue2-leaflet";
-import axios from "axios";
+} from 'vue2-leaflet';
+import axios from 'axios';
 
-import IslandPopup from "./IslandPopup.vue";
-import MapLegend from "./MapLegend.vue";
-import CreatorSearch from "./CreatorSearch.vue";
-import MapMarker from "./MapMarker.vue";
-import MapFilter from "./MapFilter.vue";
-import MapToggle from "./MapToggle.vue";
-import MapFooter from "./MapFooter.vue";
+import IslandPopup from './IslandPopup.vue';
+import MapLegend from './MapLegend.vue';
+import CreatorSearch from './CreatorSearch.vue';
+import MapMarker from './MapMarker.vue';
+import MapFilter from './MapFilter.vue';
+import MapToggle from './MapToggle.vue';
+import MapFooter from './MapFooter.vue';
 
 export default {
-  name: "Map",
+  name: 'Map',
   components: {
     LMap,
     LImageOverlay,
@@ -209,7 +209,7 @@ export default {
     MapMarker,
     MapFilter,
     MapToggle,
-    MapFooter,
+    MapFooter
   },
   methods: {
     pointButtonClick: function(e) {
@@ -233,12 +233,12 @@ export default {
         }
         window.parent.postMessage(
           {
-            id: "location",
+            id: 'location',
             lat: lat.toFixed(2),
             lng: lng.toFixed(2),
             island_id: e.target.options.icon.options.id
           },
-          "*"
+          '*'
         );
       }
     },
@@ -264,11 +264,11 @@ export default {
         if (!d.moveMode) {
           window.parent.postMessage(
             {
-              id: "mapclick",
+              id: 'mapclick',
               lat: lat,
               lng: lng
             },
-            "*"
+            '*'
           );
         }
       }
@@ -290,20 +290,20 @@ export default {
         d.zonenameMaxOpacity
       ) {
         if (e.target._zoom > d.zonenameMinZoom) {
-          $(".zonenames").addClass("hidden");
+          $('.zonenames').addClass('hidden');
         } else {
           let opacity =
             ((e.target._zoom - d.zonenameMinZoom) /
               (e.target.options.minZoom - d.zonenameMinZoom)) *
             d.zonenameMaxOpacity;
-          $(".zonenames").css("opacity", opacity);
-          $(".zonenames").removeClass("hidden");
+          $('.zonenames').css('opacity', opacity);
+          $('.zonenames').removeClass('hidden');
         }
       }
     }, 600),
     onZoom: _.debounce((e, d, r) => {
       if (window.console) {
-        console.log("Current zoom: " + e.target._zoom);
+        console.log('Current zoom: ' + e.target._zoom);
       }
       // shows/hides sector names
       if (e.target._zoom > -3.7) {
@@ -335,14 +335,14 @@ export default {
   created() {
     let self = this;
 
-    if (self.$attrs.move == "true") {
+    if (self.$attrs.move == 'true') {
       self.moveMode = true;
       self.showIslandMarkers = true;
     }
-    if (self.$attrs.admin == "true") {
+    if (self.$attrs.admin == 'true') {
       self.showHeader = false;
       self.adminMode = true;
-      self.$store.commit("setAdmin", true);
+      self.$store.commit('setAdmin', true);
       self.mapOptions.attributionControl = false;
       if (self.$attrs.lat) {
         self.adminMarker.lat = self.$attrs.lat;
@@ -352,25 +352,25 @@ export default {
       }
     }
     self.loaded = false;
-    axios.get("https://data.cardinalguild.com/wamap.geojson").then(response => {
+    axios.get('https://data.cardinalguild.com/wamap.geojson').then(response => {
       self.geojson.data = response.data;
       self.loaded = true;
       self.$nextTick(() => {
         self.map = self.$refs.map.mapObject;
-        self.$store.commit("setMap", self.$refs.map.mapObject);
+        self.$store.commit('setMap', self.$refs.map.mapObject);
 
-        document.getElementsByClassName("zonenames")[0].style.opacity =
+        document.getElementsByClassName('zonenames')[0].style.opacity =
           self.zonenameMaxOpacity;
         self.map.getRenderer(self.map).options.padding = 10;
-        self.map.createPane("sectorNames");
-        self.map.createPane("turretMarkers");
-        self.map.createPane("respawnerMarkers");
-        self.map.createPane("islandMarkers");
-        self.map.createPane("glowMarkers");
-        self.map.createPane("islandImageMarkers");
-        self.map.createPane("islandBorderMarkers");
-        self.map.createPane("islandDatabankMarkers");
-        self.map.createPane("islandOverlayMarkers");
+        self.map.createPane('sectorNames');
+        self.map.createPane('turretMarkers');
+        self.map.createPane('respawnerMarkers');
+        self.map.createPane('islandMarkers');
+        self.map.createPane('glowMarkers');
+        self.map.createPane('islandImageMarkers');
+        self.map.createPane('islandBorderMarkers');
+        self.map.createPane('islandDatabankMarkers');
+        self.map.createPane('islandOverlayMarkers');
         self.paneCreated = true;
 
         if (self.$attrs.lat && self.$attrs.lng && !self.adminMode) {
@@ -378,19 +378,19 @@ export default {
           if (!self.$attrs.point) {
             let glowMarkerIcon = L.icon({
               iconUrl:
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+                'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
               iconSize: [100, 100],
-              className: "glow-icon"
+              className: 'glow-icon'
             });
             let marker = new L.Marker([self.$attrs.lat, self.$attrs.lng], {
               icon: glowMarkerIcon,
-              pane: "glowMarkers"
+              pane: 'glowMarkers'
             });
 
             marker.addTo(self.map);
 
             setTimeout(function() {
-              $(".glow-icon").addClass("stop-glow");
+              $('.glow-icon').addClass('stop-glow');
             }, 8000);
 
             setTimeout(
@@ -409,22 +409,22 @@ export default {
         //add mobile class if screen width size < 850
         if (screen.width <= 850) {
           let controls = document.getElementsByClassName(
-            "leaflet-control-container"
+            'leaflet-control-container'
           )[0].children;
           for (var i = 0; i < controls.length; i++) {
-            controls[i].classList.add("mobile");
+            controls[i].classList.add('mobile');
           }
         }
       });
 
-      let islandUrl = "https://surveyor.cardinalguild.com/api/islands.json";
+      let islandUrl = 'https://surveyor.cardinalguild.com/api/islands.json';
       if (self.adminMode) {
         islandUrl =
           islandUrl +
-          "?anticache=" +
+          '?anticache=' +
           Math.random()
             .toString(11)
-            .replace("0.", "");
+            .replace('0.', '');
       }
 
       axios.get(islandUrl).then(response => {
@@ -439,45 +439,45 @@ export default {
           );
 
           //set border markers
-          let type = "";
+          let type = '';
           if (island.properties.respawners && island.properties.turrets)
-            type = "both";
-          else if (island.properties.respawners) type = "respawn";
-          else if (island.properties.turrets) type = "turrets";
-          else type = "plain";
+            type = 'both';
+          else if (island.properties.respawners) type = 'respawn';
+          else if (island.properties.turrets) type = 'turrets';
+          else type = 'plain';
           island.borderIcon = L.icon({
             iconUrl: self.islandTypes[island.properties.type][type],
             iconSize: [150, 150],
-            className: "island-border-icon"
+            className: 'island-border-icon'
           });
 
           //set databanks number
           island.databankIcon = L.icon({
             iconUrl:
-              "/assets/island_icons/databanks/I_Frame_Data-" +
+              '/assets/island_icons/databanks/I_Frame_Data-' +
               island.properties.databanks +
-              ".png",
+              '.png',
             iconSize: [150, 150],
-            className: "island-databank-icon"
+            className: 'island-databank-icon'
           });
 
           //Set image icon icons
           island.imageIcon = L.icon({
             iconUrl: island.properties.imageIcon,
             iconSize: [100, 100],
-            className: "island-image-icon"
+            className: 'island-image-icon'
           });
 
           //Set island icons when zoomed out with height
-          let height = "";
-          if (island.properties.altitude > 2200) height = "high";
-          else if (island.properties.altitude > 1800) height = "medium";
-          else height = "low";
+          let height = '';
+          if (island.properties.altitude > 2200) height = 'high';
+          else if (island.properties.altitude > 1800) height = 'medium';
+          else height = 'low';
           island.icon = L.icon({
             iconUrl: self.islandTypes[island.properties.type][height],
             iconSize: [30, 30],
             id: island.properties.id,
-            className: "island-icon"
+            className: 'island-icon'
           });
 
           island.overlayIcon = self.transparentIcon;
@@ -504,8 +504,8 @@ export default {
             html:
               '<div class="sector-label">' +
               currentFeature.properties.name +
-              "</div>",
-            className: "sector-label-div"
+              '</div>',
+            className: 'sector-label-div'
           });
           self.sectorMarkers.push({
             name: currentFeature.properties.name,
@@ -539,7 +539,7 @@ export default {
         maxZoom: -0.4,
         zoomSnap: 0.2,
         zoomDelta: 0.2,
-        wheelPxPerZoomLevel: 200,
+        wheelPxPerZoomPercentage: 200,
         attributionControl: true
       },
       map: null,
@@ -561,32 +561,32 @@ export default {
       },
       transparentIcon: new L.Icon({
         iconUrl:
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
         iconSize: [110, 110],
-        className: "transparent-island-icon"
+        className: 'transparent-island-icon'
       }),
       islandData: [],
       sectorMarkers: [],
       searchedIslands: [],
-      author: "",
+      author: '',
       islandTypes: {
         kioki: {
-          plain: "/assets/island_icons/I_Frame_K.png",
-          respawn: "/assets/island_icons/I_Frame_K-R.png",
-          turrets: "/assets/island_icons/I_Frame_K-T.png",
-          both: "/assets/island_icons/I_Frame_K-RT.png",
-          high: "/assets/island_icons/Island_K_H.png",
-          medium: "/assets/island_icons/Island_K_M.png",
-          low: "/assets/island_icons/Island_K_L.png"
+          plain: '/assets/island_icons/I_Frame_K.png',
+          respawn: '/assets/island_icons/I_Frame_K-R.png',
+          turrets: '/assets/island_icons/I_Frame_K-T.png',
+          both: '/assets/island_icons/I_Frame_K-RT.png',
+          high: '/assets/island_icons/Island_K_H.png',
+          medium: '/assets/island_icons/Island_K_M.png',
+          low: '/assets/island_icons/Island_K_L.png'
         },
         saborian: {
-          plain: "/assets/island_icons/I_Frame_S.png",
-          respawn: "/assets/island_icons/I_Frame_S-R.png",
-          turrets: "/assets/island_icons/I_Frame_S-T.png",
-          both: "/assets/island_icons/I_Frame_S-RT.png",
-          high: "/assets/island_icons/Island_S_H.png",
-          medium: "/assets/island_icons/Island_S_M.png",
-          low: "/assets/island_icons/Island_S_L.png"
+          plain: '/assets/island_icons/I_Frame_S.png',
+          respawn: '/assets/island_icons/I_Frame_S-R.png',
+          turrets: '/assets/island_icons/I_Frame_S-T.png',
+          both: '/assets/island_icons/I_Frame_S-RT.png',
+          high: '/assets/island_icons/Island_S_H.png',
+          medium: '/assets/island_icons/Island_S_M.png',
+          low: '/assets/island_icons/Island_S_L.png'
         }
       },
       point: {

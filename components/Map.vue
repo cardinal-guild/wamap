@@ -19,11 +19,12 @@
             :geojson="$store.state.boundaryData"
             :options="boundaryOptions"
           />
-          <map-island-circles :fromZoomlevel="75" :toZoomlevel="100" />
-          <map-island-icons :fromZoomlevel="25" :toZoomlevel="75" />
+
+          <zone-name-overlay :alphaFromZoomPercentage="20" :alphaToZoomPercentage="50" />
+          <map-island-circles :fromZoomPercentage="75" :toZoomPercentage="100" />
+          <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="75" />
           <map-hiliter />
-          <map-legend :fadeOutFromZoomlevel="80" />
-          <zone-name-overlay />
+          <map-legend :fadeOutFromZoomPercentage="80" />
         </l-map>
     </no-ssr>
   </div>
@@ -34,7 +35,7 @@ import MapLegend from '~/components/MapLegend.vue';
 import MapIslandIcons from '~/components/MapIslandIcons.vue';
 import MapIslandCircles from '~/components/MapIslandCircles.vue';
 import MapHiliter from '~/components/MapHiliter.vue';
-import ZoneNameOverlay from "~/components/ZoneNameOverlay.vue";
+import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -42,24 +43,30 @@ if (isBrowser) {
   leaflet = require('leaflet');
 }
 export default {
-  components: { MapLegend, MapIslandIcons, MapIslandCircles, MapHiliter, ZoneNameOverlay },
+  components: {
+    MapLegend,
+    MapIslandIcons,
+    MapIslandCircles,
+    MapHiliter,
+    ZoneNameOverlay
+  },
   methods: {
     onZoom: (e, r) => {
-      let zoomLevel = Math.round(
+      let zoomPercentage = Math.round(
         ((e.target._zoom - e.target.options.minZoom) /
           (e.target.options.maxZoom - e.target.options.minZoom)) *
           100
       );
       if (console && console.log) {
         console.log('Map zoom: ' + e.target._zoom);
-        console.log('Map zoomLevel: ' + zoomLevel);
+        console.log('Map zoomPercentage: ' + zoomPercentage);
       }
-      r.$store.commit('setZoomLevel', zoomLevel);
+      r.$store.commit('setZoomPercentage', zoomPercentage);
     },
     onMoveEnd: (e, r) => {
       r.$store.commit('setLatLng', e.target.getCenter());
     },
-    zoomLevelToLocalZoom: (zoom, min, max) => {
+    zoomPercentageToLocalZoom: (zoom, min, max) => {
       let localZoom = (zoom / 100) * (max - min) + min;
       return localZoom;
     }
@@ -90,7 +97,7 @@ export default {
           ) {
             let lat = self.$router.currentRoute.query.lat;
             let lng = self.$router.currentRoute.query.lng;
-            let localZoom = self.zoomLevelToLocalZoom(
+            let localZoom = self.zoomPercentageToLocalZoom(
               self.$router.currentRoute.query.zoom,
               self.currentMap.options.minZoom,
               self.currentMap.options.maxZoom
@@ -102,7 +109,7 @@ export default {
           if (self.$router.currentRoute.query.island && self.currentMap) {
             let lat = self.$router.currentRoute.query.lat;
             let lng = self.$router.currentRoute.query.lng;
-            let localZoom = self.zoomLevelToLocalZoom(
+            let localZoom = self.zoomPercentageToLocalZoom(
               90,
               self.currentMap.options.minZoom,
               self.currentMap.options.maxZoom
@@ -139,7 +146,7 @@ export default {
         maxZoom: -0.4,
         zoomSnap: 0.2,
         zoomDelta: 0.2,
-        wheelPxPerZoomLevel: 200,
+        wheelPxPerZoomPercentage: 200,
         attributionControl: true
       }
     };

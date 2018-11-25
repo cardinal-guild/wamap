@@ -8,15 +8,15 @@ export const state = () => ({
   hilites: [],
   lat: -4750,
   lng: 4750,
-  zoomLevel: 0
+  zoomPercentage: 0
 })
 
 export const mutations = {
   toggleSidebar (state) {
     state.sidebar = !state.sidebar
   },
-  setZoomLevel (state, value) {
-    state.zoomLevel = value
+  setZoomPercentage (state, value) {
+    state.zoomPercentage = value
   },
   boundariesLoading (state, loading) {
     state.boundariesLoading = loading

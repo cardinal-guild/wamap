@@ -76,9 +76,6 @@
        <v-list-tile-title class="headline">Account</v-list-tile-title>
       </v-list>
     </v-navigation-drawer>
-    <v-footer :fixed="fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
      <v-snackbar
       bottom right
       v-model="clipboardSnack"
@@ -90,7 +87,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       clipboardSnack: false,
       clipboardSnackError: false,
@@ -110,7 +107,7 @@ export default {
     };
   },
   methods: {
-    async copyToClipboard (e) {
+    async copyToClipboard(e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
@@ -120,7 +117,7 @@ export default {
         '&lng=' +
         this.$store.state.lng +
         '&zoom=' +
-        this.$store.state.zoomLevel;
+        this.$store.state.zoomPercentage;
       fullUrl += qryStr;
       try {
         await this.$copyText(fullUrl);

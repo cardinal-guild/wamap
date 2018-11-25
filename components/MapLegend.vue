@@ -1,6 +1,6 @@
 <template>
   <l-control position="topright"> 
-    <div class="map-legend" :class="{ 'fade-legend': (zoomLevel > fadeOutFromZoomlevel) , 'close-legend': !opened }">
+    <div class="map-legend" :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }">
       <input type="checkbox" class="map-legend-toggle"  id="map-legend-toggle">
       <label for="map-legend-toggle" @click="opened=!opened">
         <v-icon large>chevron_right</v-icon>  
@@ -100,7 +100,7 @@ import { mapState } from 'vuex';
 export default {
   name: 'MapLegend',
   computed: {
-    ...mapState(['zoomLevel'])
+    ...mapState(['zoomPercentage'])
   },
   data () {
     return {
@@ -108,7 +108,7 @@ export default {
     };
   },
   props: {
-    fadeOutFromZoomlevel: {
+    fadeOutFromZoomPercentage: {
       type: Number,
       default: 80
     }
