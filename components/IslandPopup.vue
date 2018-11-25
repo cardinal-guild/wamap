@@ -1,92 +1,98 @@
 <template>
-  <div class="island-popup">
-    <table class="island-data-table">
-      <tr class="name">
-        <th colspan="2">
-          <div class="island-name" v-if="workshopUrl"><a target="blank" rel="nofollow,noopener" :href="workshopUrl">{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})&nbsp;</span><img src="/assets/steamicon.png"></a>
-            <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
-            </div>
-            <div class="creator-name" v-else>
-              by {{creator}}
+  <div>
+    <no-ssr>
+      <l-popup :closeOnClick="false" :autoClose="false">
+        <div class="island-popup">
+          <table class="island-data-table">
+            <tr class="name">
+              <th colspan="2">
+                <div class="island-name" v-if="workshopUrl"><a target="blank" rel="nofollow,noopener" :href="workshopUrl">{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})&nbsp;</span><img src="/assets/steamicon.png"></a>
+                  <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
+                  </div>
+                  <div class="creator-name" v-else>
+                    by {{creator}}
+                  </div>
+                </div>
+                <div class="island-name" v-else>{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span><br>
+                  <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
+                  </div>
+                  <div class="creator-name" v-else>
+                    by {{creator}}
+                  </div>
+                </div>
+              </th>
+            </tr>
+            <tr class="image">
+              <td colspan="2">
+                <a :href="imageOriginal" target="_blank">
+                  <img :src="imagePopup">
+                </a>
+              </td>
+            </tr>
+            <tr class="altitude">
+              <td>Altitude</td>
+              <td>{{ altitude }}</td>
+            </tr>
+            <tr class="databanks">
+              <td>Databanks</td>
+              <td>{{ databanks }}</td>
+            </tr>
+            <tr class="culture">
+              <td>Culture</td>
+              <td> {{ type | capitalize }}</td>
+            </tr>
+            <tr v-if="trees && trees.length">
+              <td colspan="2" class="materials-info-title">Trees:</td>
+            </tr>
+            <tr v-if="trees && trees.length">
+              <td colspan="2" class="materials-info-content">{{ trees.join(", ") }}</td>
+            </tr>
+            <tr v-if="pveMetals && pveMetals.length" class="only-pve-server default-hide">
+              <td colspan="2" class="materials-info-title">PVE Metals:</td>
+            </tr>
+            <tr v-if="pveMetals && pveMetals.length" class="only-pve-server default-hide">
+              <td colspan="2" class="materials-info-content">{{ pveMetals.join(", ") }}</td>
+            </tr>
+            <tr v-if="pvpMetals && pvpMetals.length" class="only-pvp-server default-hide">
+              <td colspan="2" class="materials-info-title">PVP Metals:</td>
+            </tr>
+            <tr v-if="pvpMetals && pvpMetals.length" class="only-pvp-server default-hide">
+              <td colspan="2" class="materials-info-content">{{ pvpMetals.join(", ") }}</td>
+            </tr>
+          </table>
+          <div class="wrap-collabsible">
+            <input id="collapsible" class="toggle" type="checkbox">
+            <label for="collapsible" class="lbl-toggle">More Info</label>
+            <div class="collapsible-content">
+              <table class="content-inner">
+                <tr v-if="surveyCreatedBy">
+                  <td>Survey created by:</td>
+                  <td>{{surveyCreatedBy}}</td>
+                </tr>
+                <tr v-if="createdAt">
+                  <td>Created at:</td>
+                  <td>{{createdAt}}</td>
+                </tr>
+                <tr><td colspan="2">&nbsp;</td></tr>
+                <tr v-if="surveyUpdatedBy">
+                  <td>Survey updated by:</td>
+                  <td>{{surveyUpdatedBy}}</td>
+                </tr>
+                <tr v-if="updatedAt">
+                  <td>Updated at:</td>
+                  <td>{{updatedAt}}</td>
+                </tr>
+                <tr class="island-toolbar">
+                  <td colspan="2"><a class="button" target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
+                  
+                  Edit island</a></td>
+                </tr>
+              </table>
             </div>
           </div>
-          <div class="island-name" v-else>{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span><br>
-            <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
-            </div>
-            <div class="creator-name" v-else>
-              by {{creator}}
-            </div>
-          </div>
-        </th>
-      </tr>
-      <tr class="image">
-        <td colspan="2">
-          <a :href="imageOriginal" target="_blank">
-            <img :src="imagePopup">
-          </a>
-        </td>
-      </tr>
-      <tr class="altitude">
-        <td>Altitude</td>
-        <td>{{ altitude }}</td>
-      </tr>
-      <tr class="databanks">
-        <td>Databanks</td>
-        <td>{{ databanks }}</td>
-      </tr>
-      <tr class="culture">
-        <td>Culture</td>
-        <td> {{ type | capitalize }}</td>
-      </tr>
-      <tr v-if="trees && trees.length">
-        <td colspan="2" class="materials-info-title">Trees:</td>
-      </tr>
-      <tr v-if="trees && trees.length">
-        <td colspan="2" class="materials-info-content">{{ trees.join(", ") }}</td>
-      </tr>
-      <tr v-if="pveMetals && pveMetals.length" class="only-pve-server default-hide">
-        <td colspan="2" class="materials-info-title">PVE Metals:</td>
-      </tr>
-      <tr v-if="pveMetals && pveMetals.length" class="only-pve-server default-hide">
-        <td colspan="2" class="materials-info-content">{{ pveMetals.join(", ") }}</td>
-      </tr>
-      <tr v-if="pvpMetals && pvpMetals.length" class="only-pvp-server default-hide">
-        <td colspan="2" class="materials-info-title">PVP Metals:</td>
-      </tr>
-      <tr v-if="pvpMetals && pvpMetals.length" class="only-pvp-server default-hide">
-        <td colspan="2" class="materials-info-content">{{ pvpMetals.join(", ") }}</td>
-      </tr>
-    </table>
-    <div class="wrap-collabsible">
-      <input id="collapsible" class="toggle" type="checkbox">
-      <label for="collapsible" class="lbl-toggle">More Info</label>
-      <div class="collapsible-content">
-        <table class="content-inner">
-          <tr v-if="surveyCreatedBy">
-            <td>Survey created by:</td>
-            <td>{{surveyCreatedBy}}</td>
-          </tr>
-          <tr v-if="createdAt">
-            <td>Created at:</td>
-            <td>{{createdAt}}</td>
-          </tr>
-          <tr><td colspan="2">&nbsp;</td></tr>
-          <tr v-if="surveyUpdatedBy">
-            <td>Survey updated by:</td>
-            <td>{{surveyUpdatedBy}}</td>
-          </tr>
-          <tr v-if="updatedAt">
-            <td>Updated at:</td>
-            <td>{{updatedAt}}</td>
-          </tr>
-          <tr class="island-toolbar">
-            <td colspan="2"><a class="button" target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
-            
-            Edit island</a></td>
-          </tr>
-        </table>
-      </div>
-    </div>
+        </div>
+      </l-popup>
+    </no-ssr>
   </div>
 </template>
 
@@ -94,7 +100,7 @@
 export default {
   name: 'IslandPopup',
   filters: {
-    capitalize: function(value) {
+    capitalize: function (value) {
       if (!value) return '';
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
@@ -130,8 +136,7 @@ export default {
     'imageOriginal',
     'createdAt',
     'updatedAt',
-    'latLng',
-    'mode'
+    'latLng'
   ]
 };
 </script>

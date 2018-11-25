@@ -17,9 +17,7 @@
                 layer-type="overlay"
                 @click="closeLegend($event, $bus)"
                 >
-                <l-popup>
-                  <island-popup :mode="mode" v-bind="island.properties" />
-                </l-popup>
+                <island-popup  v-bind="island.properties" />
             </l-marker>
         </no-ssr>
     </div>
@@ -66,10 +64,6 @@ export default {
     toZoomPercentage: {
       type: Number,
       default: 80
-    },
-    mode: {
-      type: String,
-      default: 'pve'
     }
   },
   methods: {

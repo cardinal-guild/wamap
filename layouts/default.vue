@@ -65,12 +65,12 @@
 
 <script>
 export default {
-  head() {
+  head () {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
-  data() {
+  data () {
     return {
-      drawer: true,
+      drawer: false,
       fixed: false,
       items: [
         { icon: 'apps', title: 'Welcome', to: '/' },
@@ -78,7 +78,7 @@ export default {
         { icon: 'explore', title: 'PVP Map', to: '/pvp' },
         { icon: 'people', title: 'Credits', to: '/credits' }
       ],
-      miniVariant: true,
+      miniVariant: false,
       searchDrawer: false,
       accountDrawer: false
     };

@@ -95,7 +95,7 @@ export default {
       clipboardSnack: false,
       clipboardSnackError: false,
       clipboardSnackText: 'test',
-      drawer: true,
+      drawer: false,
       fixed: false,
       items: [
         { icon: 'apps', title: 'Welcome', to: '/' },

@@ -21,8 +21,8 @@
           />
 
           <zone-name-overlay :alphaFromZoomPercentage="20" :alphaToZoomPercentage="50" />
-          <map-island-circles :mode="mode" :fromZoomPercentage="75" :toZoomPercentage="100" />
-          <map-island-icons :mode="mode" :fromZoomPercentage="25" :toZoomPercentage="75" />
+          <map-island-circles :fromZoomPercentage="75" :toZoomPercentage="100" />
+          <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="75" />
           <map-hiliter />
           <map-legend :fadeOutFromZoomPercentage="80" />
         </l-map>
@@ -74,6 +74,7 @@ export default {
   beforeMount () {
     let self = this;
     this.crs = leaflet.CRS.Simple;
+    this.$store.commit('setMapMode', this.mode);
     const checkMapObject = setInterval(() => {
       if (
         this.$refs.map &&
@@ -126,7 +127,6 @@ export default {
   mounted () {
     this.$store.dispatch('loadBoundaries');
     this.$store.dispatch('loadIslands');
-    this.$store.commit('setMapMode', this.mode);
   },
   data () {
     return {
