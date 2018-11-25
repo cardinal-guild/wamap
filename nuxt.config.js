@@ -33,7 +33,8 @@ module.exports = {
   },
   modules: [
     'nuxt-clipboard2',
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa'
   ],
   plugins: [{
     src: '~/plugins/vuetify.js',
@@ -60,6 +61,38 @@ module.exports = {
   /*
    ** Build configuration
    */
+  workbox: {
+    runtimeCaching: [
+      {
+        // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
+        urlPattern: 'https://data.cardinalguild.com/.*',
+        // Defaults to `networkFirst` if omitted
+        handler: 'cacheFirst',
+        // Defaults to `GET` if omitted
+        method: 'GET',
+        strategyOptions: {
+          cacheName: 'surveyor-cache',
+          cacheExpiration: {
+            maxAgeSeconds: 10800
+          }
+        }
+      },
+      {
+        // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
+        urlPattern: 'https://surveyor.cardinalguild.com/.*',
+        // Defaults to `networkFirst` if omitted
+        handler: 'cacheFirst',
+        // Defaults to `GET` if omitted
+        method: 'GET',
+        strategyOptions: {
+          cacheName: 'surveyor-cache',
+          cacheExpiration: {
+            maxAgeSeconds: 1800
+          }
+        }
+      }
+    ]
+  },
   build: {
     transpile: [/^vuetify/],
     plugins: [

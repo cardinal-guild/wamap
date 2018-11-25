@@ -94,7 +94,7 @@
 export default {
   name: 'IslandPopup',
   filters: {
-    capitalize: function (value) {
+    capitalize: function(value) {
       if (!value) return '';
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
@@ -130,7 +130,8 @@ export default {
     'imageOriginal',
     'createdAt',
     'updatedAt',
-    'latLng'
+    'latLng',
+    'mode'
   ]
 };
 </script>

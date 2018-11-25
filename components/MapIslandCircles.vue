@@ -17,7 +17,7 @@
                 :data-databanks="island.properties.databanks"
                 layer-type="overlay">
                 <l-popup>
-                  <island-popup v-bind="island.properties" />
+                  <island-popup :mode="mode" v-bind="island.properties" />
                 </l-popup>
             </l-marker>
         </no-ssr>
@@ -48,6 +48,10 @@ export default {
     toZoomPercentage: {
       type: Number,
       default: 100
+    },
+    mode: {
+      type: String,
+      default: 'pve'
     }
   },
   methods: {

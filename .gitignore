@@ -17,6 +17,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+sw.*
 
 # logs
 npm-debug.log

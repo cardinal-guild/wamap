@@ -1,10 +1,9 @@
 <template>
   <l-control position="topright"> 
     <div class="map-legend" :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }">
-      <input type="checkbox" class="map-legend-toggle"  id="map-legend-toggle">
-      <label for="map-legend-toggle" @click="opened=!opened">
+      <div class="map-legend-toggle" @click="opened=!opened">
         <v-icon large>chevron_right</v-icon>  
-      </label>
+      </div>
       <div class="map-legend-content">
         <div class="map-legend-title">Legend</div>
         <div class="map-legend-separator"></div>
@@ -127,7 +126,7 @@ export default {
 @import '~sass-easing/_easings';
 .map-legend {
   opacity: 1;
-  transition: opacity $easeOutExpo 0.3s, transform $easeInOutBack 0.3s;
+  transition: opacity $easeOutExpo 0.3s, transform $easeOutBack 0.6s;
   display: flex;
   margin-right: 0;
   align-items: flex-start;
@@ -136,10 +135,12 @@ export default {
   }
   &.close-legend {
     transform: translateX(190px);
+
+    transition: opacity $easeOutExpo 0.3s, transform $easeInBack 0.3s;
     .map-legend-content {
       box-shadow: none !important;
     }
-    label[for='map-legend-toggle'] {
+    .map-legend-toggle {
       i {
         transform: rotate(180deg);
       }
@@ -149,9 +150,6 @@ export default {
     opacity: 1;
   }
   &-toggle {
-    display: none;
-  }
-  label[for='map-legend-toggle'] {
     background-color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
     display: block;
@@ -165,7 +163,9 @@ export default {
     }
   }
   &-title {
-    font-size: 1.5em;
+    font-size: 1.8em;
+    font-family: 'Abril Fatface', sans-serif;
+    text-align: center;
   }
   &-separator {
     content: ' ';

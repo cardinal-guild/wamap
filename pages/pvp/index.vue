@@ -10,6 +10,9 @@ import Map from '~/components/Map';
 
 export default {
   layout: 'map',
+  mounted () {
+    this.$store.commit('setPageTitle', 'Worlds Adrift PVP Map');
+  },
   components: {
     Map,
     LoadingOverlay

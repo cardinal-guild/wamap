@@ -54,13 +54,15 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       startAnimation: false,
       title: 'Cardinal Guild Credits'
     };
   },
-  mounted () {}
+  mounted() {
+    this.$store.commit('setPageTitle', 'Credits');
+  }
 };
 </script>
 

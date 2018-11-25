@@ -31,7 +31,7 @@
       >
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
     </v-toolbar>
     <v-content>
         <nuxt />
@@ -65,7 +65,10 @@
 
 <script>
 export default {
-  data () {
+  head() {
+    return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
+  },
+  data() {
     return {
       drawer: true,
       fixed: false,
@@ -77,8 +80,7 @@ export default {
       ],
       miniVariant: true,
       searchDrawer: false,
-      accountDrawer: false,
-      title: 'Worlds Adrift Map'
+      accountDrawer: false
     };
   }
 };

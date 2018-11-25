@@ -31,7 +31,7 @@
       >
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title>{{ $store.state.pageTitle }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-tooltip bottom>
         <v-btn icon slot="activator" @click="copyToClipboard">
@@ -46,7 +46,7 @@
         <span>Create a character and checkmark locations where you been</span>
       </v-tooltip>
       <v-tooltip bottom> 
-        <v-btn icon slot="activator" @click="searchDrawer = !searchDrawer">
+        <v-btn icon slot="activator" @click="searchPopup = !searchPopup">
           <v-icon>search</v-icon>
         </v-btn>
         <span>Search for an island or metals</span>
@@ -87,7 +87,10 @@
 
 <script>
 export default {
-  data() {
+  head () {
+    return { title: 'CG - ' + this.$store.state.pageTitle };
+  },
+  data () {
     return {
       clipboardSnack: false,
       clipboardSnackError: false,
@@ -102,12 +105,11 @@ export default {
       ],
       miniVariant: true,
       searchDrawer: false,
-      accountDrawer: false,
-      title: 'Worlds Adrift Map'
+      accountDrawer: false
     };
   },
   methods: {
-    async copyToClipboard(e) {
+    async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;

@@ -5,6 +5,8 @@ export const state = () => ({
   boundaryData: null,
   islandData: null,
   islandsLoading: false,
+  mapMode: 'pve',
+  pageTitle: 'Welcome',
   hilites: [],
   lat: -4750,
   lng: 4750,
@@ -44,6 +46,12 @@ export const mutations = {
     let { lat, lng } = latLng;
     state.lat = Math.round(lat);
     state.lng = Math.round(lng);
+  },
+  setPageTitle (state, title) {
+    state.pageTitle = title;
+  },
+  setMapMode (state, mode) {
+    state.mapMode = mode;
   }
 }
 

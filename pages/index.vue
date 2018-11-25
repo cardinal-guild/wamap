@@ -32,6 +32,7 @@ export default {
   mounted () {
     this.$store.dispatch('loadBoundaries');
     this.$store.dispatch('loadIslands');
+    this.$store.commit('setPageTitle', 'Welcome');
   }
 };
 </script>
