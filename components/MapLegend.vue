@@ -1,5 +1,5 @@
 <template>
-  <l-control position="topright"> 
+  <l-control position="topright" class="map-legend-control"> 
     <div class="map-legend" :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }">
       <div class="map-legend-toggle" @click="opened=!opened">
         <v-icon large>chevron_right</v-icon>  
@@ -118,20 +118,34 @@ export default {
         this.opened = false;
       }
     }
+    this.$bus.$on('closeLegend', e => {
+      this.opened = false;
+      // let self = this;
+      // let closeTimeout;
+      // clearTimeout(closeTimeout);
+      // closeTimeout = setTimeout(() => {
+      //   self.opened = false;
+      // }, 10000);
+    });
   }
 };
 </script>
  
 <style lang="scss" scoped>
 @import '~sass-easing/_easings';
+
 .map-legend {
   opacity: 1;
   transition: opacity $easeOutExpo 0.3s, transform $easeOutBack 0.6s;
   display: flex;
   margin-right: 0;
   align-items: flex-start;
+  &-control {
+    pointer-events: inherit;
+    cursor: inherit;
+  }
   &.fade-legend {
-    opacity: 0.4;
+    opacity: 0.8;
   }
   &.close-legend {
     transform: translateX(190px);
@@ -150,6 +164,7 @@ export default {
     opacity: 1;
   }
   &-toggle {
+    pointer-events: auto;
     background-color: rgba(0, 0, 0, 0.3);
     cursor: pointer;
     display: block;
@@ -226,7 +241,8 @@ export default {
     }
   }
   &-content {
-    background-color: rgba(79, 65, 65, 0.9);
+    pointer-events: auto;
+    background-color: rgb(79, 65, 65);
     border-top: 5px rgb(224, 176, 132) solid;
     border-bottom: 5px rgb(224, 176, 132) solid;
     box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.35);
@@ -234,6 +250,7 @@ export default {
     padding: 5px;
     color: #ffe5c4;
     width: 180px;
+    cursor: default;
   }
 }
 </style>

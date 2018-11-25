@@ -14,7 +14,9 @@
                 :lat-lng="island.geometry.coordinates"
                 :icon="getIconByAltitude(island.properties.altitude, island.properties.type, $data.islandIcons)"
                 :id="island.id"
-                layer-type="overlay">
+                layer-type="overlay"
+                @click="closeLegend($event, $bus)"
+                >
                 <l-popup>
                   <island-popup :mode="mode" v-bind="island.properties" />
                 </l-popup>
@@ -71,6 +73,9 @@ export default {
     }
   },
   methods: {
+    closeLegend: (e, b) => {
+      b.$emit('closeLegend');
+    },
     getIconByAltitude: (altitude, type, islandIcons) => {
       let height = 'low';
       if (altitude > 1800) {

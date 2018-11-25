@@ -15,7 +15,8 @@
                 :icon="getIconImage(island.properties)"
                 :id="island.id" 
                 :data-databanks="island.properties.databanks"
-                layer-type="overlay">
+                layer-type="overlay"
+                @click="closeLegend($event, $bus)">
                 <l-popup>
                   <island-popup :mode="mode" v-bind="island.properties" />
                 </l-popup>
@@ -55,6 +56,9 @@ export default {
     }
   },
   methods: {
+    closeLegend: (e, b) => {
+      b.$emit('closeLegend');
+    },
     getIconImage: properties => {
       if (properties.imageIcon) {
         let classNames = ['island-image-icon'];

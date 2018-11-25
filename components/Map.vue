@@ -126,8 +126,8 @@ export default {
   mounted () {
     this.$store.dispatch('loadBoundaries');
     this.$store.dispatch('loadIslands');
+    this.$store.commit('setMapMode', this.mode);
   },
-  updated () {},
   data () {
     return {
       currentMap: null,
