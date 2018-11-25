@@ -1,8 +1,8 @@
 <template>
   <div id="map-wrap">
       <no-ssr>
-        <l-map  
-        :bounds="bounds" 
+        <l-map
+        :bounds="bounds"
         :center="center"
         :crs="crs"
         :zoom="zoom"
@@ -12,18 +12,19 @@
         @moveend="onMoveEnd($event, $root)"
         @zoom="onZoom($event, $root)"
         ref="map"
-        >  
+        >
           <l-geo-json
             className="boundaries"
             ref="boundaries"
             :geojson="$store.state.boundaryData"
-            :options="boundaryOptions" 
-          /> 
+            :options="boundaryOptions"
+          />
           <map-island-circles :fromZoomlevel="75" :toZoomlevel="100" />
           <map-island-icons :fromZoomlevel="25" :toZoomlevel="75" />
           <map-hiliter />
           <map-legend :fadeOutFromZoomlevel="80" />
-        </l-map> 
+          <zone-name-overlay />
+        </l-map>
     </no-ssr>
   </div>
 </template>
@@ -33,6 +34,7 @@ import MapLegend from '~/components/MapLegend.vue';
 import MapIslandIcons from '~/components/MapIslandIcons.vue';
 import MapIslandCircles from '~/components/MapIslandCircles.vue';
 import MapHiliter from '~/components/MapHiliter.vue';
+import ZoneNameOverlay from "~/components/ZoneNameOverlay.vue";
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -40,7 +42,7 @@ if (isBrowser) {
   leaflet = require('leaflet');
 }
 export default {
-  components: { MapLegend, MapIslandIcons, MapIslandCircles, MapHiliter },
+  components: { MapLegend, MapIslandIcons, MapIslandCircles, MapHiliter, ZoneNameOverlay },
   methods: {
     onZoom: (e, r) => {
       let zoomLevel = Math.round(

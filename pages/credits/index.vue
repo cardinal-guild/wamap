@@ -19,16 +19,16 @@
                 <div class="start" @click="$refs.audio.play()" v-show="!startAnimation">
                     <h1><v-icon>play_arrow</v-icon> Click here to play the credits</h1>
                 </div>
-                
+
                 <div class="animation" v-if="startAnimation">
-                    
+
                     <section class="intro">
                         A long time ago, in a adrift world,<br>
                         far, far away....
                     </section>
-                        
+
                     <section class="titles">
-                        <div contenteditable="true" spellcheck="false">  
+                        <div contenteditable="true" spellcheck="false">
                         <p>
                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         </p>
@@ -42,9 +42,9 @@
                         </p>
                         </div>
                     </section>
-                    
+
                     <section class="logo">
-                        <img src="~/assets/logo_credits.png" />                    
+                        <img src="~/assets/logo_credits.png" />
                     </section>
                 </div>
             </article>
@@ -54,13 +54,13 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       startAnimation: false,
       title: 'Cardinal Guild Credits'
     };
   },
-  mounted() {}
+  mounted () {}
 };
 </script>
 
