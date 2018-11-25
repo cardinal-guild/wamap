@@ -3,9 +3,7 @@
         class="islandMarkers" 
         v-if="islandData &&
             islandData.features &&
-            islandData.features.length &&
-            zoomPercentage >= fromZoomPercentage &&
-            zoomPercentage <= toZoomPercentage"
+            islandData.features.length"
             >
         <no-ssr>
             <l-marker
@@ -16,7 +14,7 @@
                 :id="island.id" 
                 :data-databanks="island.properties.databanks"
                 layer-type="overlay"
-                @click="closeLegend($event, $bus)">
+                @click="closeLegend($event, $bus)"> 
                 <island-popup v-bind="island.properties" />
             </l-marker>
         </no-ssr>
@@ -26,6 +24,7 @@
 <script>
 import { mapState } from 'vuex';
 import IslandPopup from '~/components/IslandPopup';
+import $ from 'jquery';
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -38,6 +37,18 @@ export default {
   },
   computed: {
     ...mapState(['zoomPercentage', 'islandData'])
+  },
+  watch: {
+    zoomPercentage (newZoomPercentage, oldZoomPercentage) {
+      if (
+        newZoomPercentage >= this.fromZoomPercentage &&
+        newZoomPercentage <= this.toZoomPercentage
+      ) {
+        $('.island-divicon').css('display', 'block');
+      } else {
+        $('.island-divicon').css('display', 'none');
+      }
+    }
   },
   props: {
     fromZoomPercentage: {
@@ -96,6 +107,7 @@ export default {
 
 <style lang="scss">
 .island-divicon {
+  display: none;
   &-img {
     width: 100px;
     height: 100px;

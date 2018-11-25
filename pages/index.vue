@@ -30,6 +30,7 @@
 <script>
 export default {
   mounted () {
+    this.$store.commit('setShowMapControls', false);
     this.$store.dispatch('loadBoundaries');
     this.$store.dispatch('loadIslands');
     this.$store.commit('setPageTitle', 'Welcome');

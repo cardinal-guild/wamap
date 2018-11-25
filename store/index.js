@@ -6,6 +6,7 @@ export const state = () => ({
   islandData: null,
   islandsLoading: false,
   zoneNamesLoaded: false,
+  showMapControls: false,
   mapMode: 'pve',
   pageTitle: 'Welcome',
   hilites: [],
@@ -56,6 +57,9 @@ export const mutations = {
   },
   setZoneNamesLoaded (state, loaded) {
     state.zoneNamesLoaded = loaded;
+  },
+  setShowMapControls (state, show) {
+    state.showMapControls = show;
   }
 }
 

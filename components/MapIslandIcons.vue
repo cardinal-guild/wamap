@@ -3,9 +3,7 @@
         class="islandMarkers" 
         v-if="islandData &&
             islandData.features &&
-            islandData.features.length &&
-            zoomPercentage >= fromZoomPercentage &&
-            zoomPercentage < toZoomPercentage"
+            islandData.features.length"
             >
         <no-ssr>
             <l-marker
@@ -25,6 +23,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import $ from 'jquery';
 import IslandPopup from '~/components/IslandPopup';
 
 const isBrowser = typeof window !== 'undefined';
@@ -39,6 +38,18 @@ export default {
   },
   computed: {
     ...mapState(['zoomPercentage', 'islandData'])
+  },
+  watch: {
+    zoomPercentage (newZoomPercentage, oldZoomPercentage) {
+      if (
+        newZoomPercentage >= this.fromZoomPercentage &&
+        newZoomPercentage < this.toZoomPercentage
+      ) {
+        $('.island-dot').css('display', 'block');
+      } else {
+        $('.island-dot').css('display', 'none');
+      }
+    }
   },
   data () {
     return {
@@ -81,10 +92,15 @@ export default {
         return leaflet.icon({
           iconUrl: islandIcons[type][height],
           iconSize: [30, 30],
-          className: 'island-icon'
+          className: 'island-dot'
         });
       }
     }
   }
 };
 </script>
+<style lang="scss">
+.island-dot {
+  display: none;
+}
+</style>

@@ -9,8 +9,8 @@ import LoadingOverlay from '~/components/LoadingOverlay';
 import Map from '~/components/Map';
 
 export default {
-  layout: 'map',
   mounted () {
+    this.$store.commit('setShowMapControls', true);
     this.$store.commit('setPageTitle', 'Worlds Adrift PVE Map');
   },
   components: {

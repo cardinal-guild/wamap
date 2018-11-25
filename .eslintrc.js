@@ -20,7 +20,8 @@ module.exports = {
     "space-before-function-paren": 'warn',
     'no-unused-vars': 'warn',
     'no-debugger': 'off',
-    'no-unused-vars': 'off'
+    'no-unused-vars': 'off',
+    'no-unused-expressions': 'off'
   },
   globals: {
     "debugger": true,

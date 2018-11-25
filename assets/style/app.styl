@@ -9,7 +9,7 @@ $material-dark.background = $brown.darken1
 $body-font-family = 'Noto Sans', sans-serif;
  
 $theme := {
-  primary: $teal.lighten1,
+  primary: $teal.darken4,
   secondary: $brown.lighten1,
   accent: $orange.darken4,
   error: $red.base,
@@ -19,8 +19,8 @@ $theme := {
 }
  
 // Import Vuetify styling
-@require '~vuetify/src/stylus/main'
- 
+@require '~vuetify/src/stylus/app'
+  
 .page
   @extend .fade-transition
  

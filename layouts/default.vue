@@ -4,7 +4,7 @@
       fixed
       app
       :mini-variant="miniVariant"
-      v-model="drawer"
+      v-model="drawer" 
     >
       <v-list>
         <v-list-tile
@@ -32,6 +32,27 @@
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
       <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
+        <v-spacer />
+      <div v-if="$store.state.showMapControls">
+        <v-tooltip bottom>
+          <v-btn icon slot="activator" @click="copyToClipboard">
+            <v-icon>link</v-icon>
+          </v-btn>
+          <span>Copy the current zoomed in location to clipboard</span>
+        </v-tooltip> 
+        <v-tooltip bottom> 
+          <v-btn icon slot="activator" @click="accountDrawer = !accountDrawer">
+            <v-icon>account_circle</v-icon>
+          </v-btn>
+          <span>Create a character and checkmark locations where you been</span>
+        </v-tooltip>
+        <v-tooltip bottom> 
+          <v-btn icon slot="activator" @click="searchPopup = !searchPopup">
+            <v-icon>search</v-icon>
+          </v-btn>
+          <span>Search for an island or metals</span>
+        </v-tooltip>
+      </div>
     </v-toolbar>
     <v-content>
         <nuxt />
@@ -57,19 +78,29 @@
        <v-list-tile-title class="headline">Account</v-list-tile-title>
       </v-list>
     </v-navigation-drawer>
-    <v-footer :fixed="fixed" app>
+    <v-footer :fixed="fixed" app v-if="!$store.state.showMapControls">
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+
+     <v-snackbar
+      bottom right
+      v-model="clipboardSnack"
+      :color="clipboardSnackError ? 'error' : 'success'"
+      :timeout="6000"
+    >{{ clipboardSnackText }}</v-snackbar>
   </v-app>
 </template>
 
 <script>
 export default {
-  head () {
+  head() {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
-  data () {
+  data() {
     return {
+      clipboardSnack: false,
+      clipboardSnackError: false,
+      clipboardSnackText: 'test',
       drawer: false,
       fixed: false,
       items: [
@@ -82,6 +113,32 @@ export default {
       searchDrawer: false,
       accountDrawer: false
     };
+  },
+  methods: {
+    async copyToClipboard(e) {
+      const a = document.createElement('a');
+      a.href = this.$router.resolve(location).href;
+      let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
+      let qryStr =
+        '?lat=' +
+        this.$store.state.lat +
+        '&lng=' +
+        this.$store.state.lng +
+        '&zoom=' +
+        this.$store.state.zoomPercentage;
+      fullUrl += qryStr;
+      try {
+        await this.$copyText(fullUrl);
+        this.clipboardSnackText = 'Url copied to clipboard';
+        this.clipboardSnackError = false;
+        this.clipboardSnack = true;
+      } catch (e) {
+        this.clipboardSnackText =
+          'There was an error copying the link to your clipboard';
+        this.clipboardSnackError = true;
+        this.clipboardSnack = true;
+      }
+    }
   }
 };
 </script>
