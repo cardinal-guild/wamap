@@ -80,6 +80,7 @@ export default {
         this.$refs.map &&
         this.$refs.map.mapObject &&
         this.$store.state.boundaryData &&
+        this.$store.state.zoneNamesLoaded &&
         this.$store.state.islandData
       ) {
         self.currentMap = this.$refs.map.mapObject;

@@ -5,6 +5,7 @@ export const state = () => ({
   boundaryData: null,
   islandData: null,
   islandsLoading: false,
+  zoneNamesLoaded: false,
   mapMode: 'pve',
   pageTitle: 'Welcome',
   hilites: [],
@@ -52,6 +53,9 @@ export const mutations = {
   },
   setMapMode (state, mode) {
     state.mapMode = mode;
+  },
+  setZoneNamesLoaded (state, loaded) {
+    state.zoneNamesLoaded = loaded;
   }
 }
 

@@ -6,6 +6,7 @@
         :attribution="attribution"
         :bounds="bounds"
         :z-index="1000"
+        @load="$store.commit('setZoneNamesLoaded', true)"
         className="map-zone-overlay"
         ref="zonenames"
       />
