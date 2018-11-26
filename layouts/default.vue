@@ -23,7 +23,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app>
+    <v-toolbar fixed app color="#504141" class="cg-toolbar" :dense="$store.state.showMapControls">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn
         icon
@@ -93,10 +93,10 @@
 
 <script>
 export default {
-  head() {
+  head () {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
-  data() {
+  data () {
     return {
       clipboardSnack: false,
       clipboardSnackError: false,
@@ -115,7 +115,7 @@ export default {
     };
   },
   methods: {
-    async copyToClipboard(e) {
+    async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
@@ -142,3 +142,25 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.theme--dark.v-navigation-drawer {
+  background-color: #504141;
+}
+.v-navigation-drawer {
+  border-right: 5px #e0af84 solid;
+  .v-list {
+    padding: 0;
+  }
+}
+.cg-toolbar {
+  .v-toolbar__content {
+    font-family: 'News Cycle', sans-serif;
+    border-bottom: 5px #e0af84 solid;
+    color: #ffe5c4;
+  }
+  .v-btn {
+    color: #ffe5c4;
+  }
+}
+</style>
+

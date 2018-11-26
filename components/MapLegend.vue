@@ -101,7 +101,7 @@ export default {
   computed: {
     ...mapState(['zoomPercentage'])
   },
-  data () {
+  data() {
     return {
       opened: true
     };
@@ -112,7 +112,7 @@ export default {
       default: 80
     }
   },
-  mounted () {
+  mounted() {
     if (window && window.innerWidth) {
       if (window.innerWidth < 380) {
         this.opened = false;
@@ -179,7 +179,7 @@ export default {
   }
   &-title {
     font-size: 1.8em;
-    font-family: 'Abril Fatface', sans-serif;
+    font-family: 'News Cycle', sans-serif;
     text-align: center;
   }
   &-separator {

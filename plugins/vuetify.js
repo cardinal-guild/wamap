@@ -18,5 +18,14 @@ Vue.use(Vuetify, {
   },
   directives: {
     Ripple
+  },
+  theme: {
+    primary: "#E0AF84",
+    secondary: "#FFD180",
+    accent: "#FFC107",
+    error: "#f44336",
+    warning: "#ffeb3b",
+    info: "#2196f3",
+    success: "#4caf50"
   }
 })

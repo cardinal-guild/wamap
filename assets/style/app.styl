@@ -3,20 +3,11 @@
 // https://vuetifyjs.com/en/style/colors
 @require '~vuetify/src/stylus/settings/_colors'
 @require '~vuetify/src/stylus/settings/_variables'
+@require '~vuetify/src/stylus/settings/_theme'
 
  
-$material-dark.background = $brown.darken1
+$material-dark.background = $brown.darken1 
 $body-font-family = 'Noto Sans', sans-serif;
- 
-$theme := {
-  primary: $teal.darken4,
-  secondary: $brown.lighten1,
-  accent: $orange.darken4,
-  error: $red.base,
-  warning: $yellow.base,
-  info: $blue.base,
-  success: $green.base 
-}
  
 // Import Vuetify styling
 @require '~vuetify/src/stylus/app'
