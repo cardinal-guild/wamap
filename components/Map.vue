@@ -22,10 +22,10 @@
           />
           <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70" />
           <sector-names-overlay :fromZoomPercentage="25" />
+          <map-highlighter />
           <map-island-circles :fromZoomPercentage="70" :toZoomPercentage="100" />
           <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="70" />
           <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
-          <map-highlighter />
           <map-legend :fadeOutFromZoomPercentage="80" />
         </l-map>
     </no-ssr>
