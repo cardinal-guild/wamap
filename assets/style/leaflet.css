@@ -245,7 +245,8 @@
 /* visual tweaks */
 
 .leaflet-container {
-	background: #ddd;
+	background-color: transparent;
+	background: none;
 	outline: 0;
 	}
 .leaflet-container a {
@@ -256,7 +257,6 @@
 	}
 .leaflet-zoom-box {
 	border: 2px dotted #38f;
-	background: rgba(255,255,255,0.5);
 	}
 
 
@@ -339,7 +339,6 @@
 
 .leaflet-control-layers {
 	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-	background: #fff;
 	border-radius: 5px;
 	}
 .leaflet-control-layers-toggle {
@@ -366,7 +365,6 @@
 .leaflet-control-layers-expanded {
 	padding: 6px 10px 6px 6px;
 	color: #333;
-	background: #fff;
 	}
 .leaflet-control-layers-scrollbar {
 	overflow-y: scroll;
@@ -396,8 +394,7 @@
 /* attribution and scale controls */
 
 .leaflet-container .leaflet-control-attribution {
-	background: #fff;
-	background: rgba(255, 255, 255, 0.7);
+	background: none;
 	margin: 0;
 	}
 .leaflet-control-attribution,
@@ -432,8 +429,6 @@
 	-moz-box-sizing: border-box;
 	     box-sizing: border-box;
 
-	background: #fff;
-	background: rgba(255, 255, 255, 0.5);
 	}
 .leaflet-control-scale-line:not(:first-child) {
 	border-top: 2px solid #777;
@@ -551,7 +546,6 @@
 /* div icon */
 
 .leaflet-div-icon {
-	background: #fff;
 	border: 1px solid #666;
 	}
 

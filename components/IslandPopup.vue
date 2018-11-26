@@ -1,7 +1,7 @@
 <template>
   <div>
     <no-ssr>
-      <l-popup :closeOnClick="false" :autoClose="false">
+      <l-popup>
         <div class="island-popup">
           <table class="island-data-table">
             <tr class="name">
@@ -60,10 +60,9 @@
               <td colspan="2" class="materials-info-content">{{ pvpMetals.join(", ") }}</td>
             </tr>
           </table>
-          <div class="wrap-collabsible">
-            <input id="collapsible" class="toggle" type="checkbox">
-            <label for="collapsible" class="lbl-toggle">More Info</label>
-            <div class="collapsible-content">
+          <div class="more-info-block" :class="{'opened': showMore}">
+            <div class="more-info-block-toggle" @click="showMore = !showMore">More Info</div>
+            <div class="more-info-block-content">
               <table class="content-inner">
                 <tr v-if="surveyCreatedBy">
                   <td>Survey created by:</td>
@@ -83,9 +82,12 @@
                   <td>{{updatedAt}}</td>
                 </tr>
                 <tr class="island-toolbar">
-                  <td colspan="2"><a class="button" target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
-                  
-                  Edit island</a></td>
+                  <td colspan="2">
+                    <v-btn flat target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
+                      <v-icon>create</v-icon>
+                      <span>Edit</span>
+                    </v-btn>
+                  </td>
                 </tr>
               </table>
             </div>
@@ -104,6 +106,11 @@ export default {
       if (!value) return '';
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+  },
+  data () {
+    return {
+      showMore: false
     }
   },
   props: [
@@ -142,6 +149,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~sass-easing/_easings';
 .island-link {
   position: absolute;
   top: 4px;
@@ -181,13 +189,10 @@ export default {
     }
   }
 }
-.wrap-collabsible {
+.more-info-block {
   margin-top: 10px;
   margin-bottom: 1.2rem 0;
-  input[type='checkbox'] {
-    display: none;
-  }
-  .lbl-toggle {
+  &-toggle {
     display: block;
 
     padding-left: 5px;
@@ -200,14 +205,14 @@ export default {
 
     cursor: pointer;
 
-    transition: all 0.25s ease-out;
+    transition: color 0.25s ease-out;
   }
 
-  .lbl-toggle:hover {
+  &-toggle:hover {
     color: #7c5a0b;
   }
 
-  .lbl-toggle::before {
+  &-toggle::before {
     content: ' ';
     display: inline-block;
 
@@ -217,38 +222,56 @@ export default {
     vertical-align: middle;
     margin-right: 0.7rem;
     transform: translateY(-2px);
-
-    transition: transform 0.2s ease-out;
+    transition: transform 0.2s $easeOutBack;
   }
-
-  .toggle:checked + .lbl-toggle::before {
-    transform: rotate(90deg) translateX(-3px);
-  }
-
-  .collapsible-content {
+  &-content {
     max-height: 0px;
     overflow: hidden;
-    transition: max-height 0.25s ease-in-out;
-  }
-
-  .toggle:checked + .lbl-toggle + .collapsible-content {
-    max-height: 350px;
-  }
-
-  .toggle:checked + .lbl-toggle {
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  .content-inner {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    background: rgba(0, 0, 0, 0.2);
-    .island-toolbar {
-      td {
-        padding-top: 10px;
-        padding-bottom: 10px;
+    transition: max-height 0.25s $easeOutExpo;
+    .content-inner {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      .island-toolbar {
+        a {
+          margin: 0;
+          padding: 5px  !important;
+          font-size: 1rem;
+          line-height: 1rem;
+          min-width: auto !important;
+          min-height: auto !important;
+          background-color: rgba(#D6A277, 0.5);
+          text-transform: initial !important;
+          height: auto;
+          color: #E5CBAB;
+          .v-icon {
+            font-size: 1rem !important;
+            margin-right: 5px;
+          }
+          .v-btn__content {
+            margin: 0 !important;
+          }
+        }
+        td {
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
       }
     }
+  }
+  &.opened {
+    .more-info-block {
+      &-toggle:before {
+        transform: rotate(90deg) translateX(-3px);
+      }
+      &-content {
+        max-height: 350px;
+        transition: max-height 0.25s $easeInExpo;
+      }
+    }
+
   }
 }
 </style>

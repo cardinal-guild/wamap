@@ -14,6 +14,7 @@
                 :id="island.id" 
                 :data-databanks="island.properties.databanks"
                 layer-type="overlay"
+                :closePopupOnClick="false"
                 @click="closeLegend($event, $bus)"> 
                 <island-popup v-bind="island.properties" />
             </l-marker>

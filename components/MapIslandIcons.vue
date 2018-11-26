@@ -13,6 +13,7 @@
                 :icon="getIconByAltitude(island.properties.altitude, island.properties.type, $data.islandIcons)"
                 :id="island.id"
                 layer-type="overlay"
+                :closePopupOnClick="false"
                 @click="closeLegend($event, $bus)"
                 >
                 <island-popup  v-bind="island.properties" />

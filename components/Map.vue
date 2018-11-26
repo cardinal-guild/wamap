@@ -9,6 +9,7 @@
         :options="mapOptions"
         :attributionControl="false"
         :attribution="false"
+        :closePopupOnClick="false"
         @moveend="onMoveEnd($event, $root)"
         @zoom="onZoom($event, $root)"
         ref="map"
@@ -19,6 +20,7 @@
             :geojson="$store.state.boundaryData"
             :options="boundaryOptions"
           />
+          <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70" />
           <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70" />
           <map-island-circles :fromZoomPercentage="70" :toZoomPercentage="100" />
           <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="70" />
@@ -36,6 +38,7 @@ import MapIslandIcons from '~/components/MapIslandIcons.vue';
 import MapIslandCircles from '~/components/MapIslandCircles.vue';
 import MapHiliter from '~/components/MapHiliter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
+import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -48,7 +51,8 @@ export default {
     MapIslandIcons,
     MapIslandCircles,
     MapHiliter,
-    ZoneNameOverlay
+    ZoneNameOverlay,
+    SectorNamesOverlay
   },
   methods: {
     onZoom: (e, r) => {
@@ -163,8 +167,9 @@ export default {
 
 <style lang="scss" scoped>
 #map-wrap {
-  .leaflet-container {
+
     background: none;
+  .leaflet-container {
     &.leaflet-control-container {
       .leaflet-control-zoom {
         background: #4f4141;

@@ -11,7 +11,7 @@ import Map from '~/components/Map';
 export default {
   mounted () {
     this.$store.commit('setShowMapControls', true);
-    this.$store.commit('setPageTitle', 'Worlds Adrift PVP Map');
+    this.$store.commit('setPageTitle', 'PVP Map');
   },
   components: {
     Map,
