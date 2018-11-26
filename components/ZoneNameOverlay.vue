@@ -1,17 +1,13 @@
 <template>
-  <div v-if="islandData">
-    <no-ssr>
-      <l-image-overlay
-        url="https://data.cardinalguild.com/zonenames.svg"
-        :attribution="attribution"
-        :bounds="bounds"
-        :z-index="1000"
-        @load="$store.commit('setZoneNamesLoaded', true)"
-        className="map-zone-overlay"
-        ref="zonenames"
-      />
-    </no-ssr>
-  </div>
+  <l-image-overlay
+    url="https://data.cardinalguild.com/zonenames.svg"
+    :attribution="attribution"
+    :bounds="bounds"
+    :z-index="1000"
+    @load="$store.commit('setZoneNamesLoaded', true)"
+    className="map-zone-overlay"
+    ref="zonenames"
+  />
 </template>
 <script>
 import { mapState } from 'vuex';
@@ -58,3 +54,8 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.map-zone-overlay {
+  transition: opacity 0.2s;
+}
+</style>

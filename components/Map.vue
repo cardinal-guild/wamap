@@ -21,13 +21,12 @@
             :options="boundaryOptions"
           />
           <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70" />
-          <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70" />
           <map-island-circles :fromZoomPercentage="70" :toZoomPercentage="100" />
           <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="70" />
           <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
           <map-hiliter />
           <map-legend :fadeOutFromZoomPercentage="80" />
-        </l-map> 
+        </l-map>
     </no-ssr>
   </div>
 </template>
