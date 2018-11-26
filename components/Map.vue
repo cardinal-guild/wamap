@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import MapLegend from '~/components/MapLegend.vue';
 import MapIslandIcons from '~/components/MapIslandIcons.vue';
 import MapIslandCircles from '~/components/MapIslandCircles.vue';
@@ -96,6 +97,27 @@ export default {
           self.currentMap
         ) {
           if (
+          self.$router.currentRoute.query.island &&
+          self.currentMap
+          ) {
+            let islands = this.$store.state.islandData.features;
+            let islandId = parseInt(self.$router.currentRoute.query.island);
+            let filteredIslands = _.filter(islands, {id: islandId});
+            if(filteredIslands.length) {
+              let foundIsland = filteredIslands[0];
+              let coords = foundIsland.geometry.coordinates;
+              let localZoom = self.zoomPercentageToLocalZoom(
+                90,
+                self.currentMap.options.minZoom,
+                self.currentMap.options.maxZoom
+              );
+              self.currentMap.setView(coords, localZoom);
+            }
+            self.$router.push({ name: self.$router.currentRoute.name });
+            return true;
+          }
+
+          if (
             self.$router.currentRoute.query.lat &&
             self.$router.currentRoute.query.lng &&
             self.$router.currentRoute.query.zoom &&
@@ -110,19 +132,9 @@ export default {
             );
             self.currentMap.setView([lat, lng], localZoom);
             self.$router.push({ name: self.$router.currentRoute.name });
+            return true;
           }
 
-          if (self.$router.currentRoute.query.island && self.currentMap) {
-            let lat = self.$router.currentRoute.query.lat;
-            let lng = self.$router.currentRoute.query.lng;
-            let localZoom = self.zoomPercentageToLocalZoom(
-              90,
-              self.currentMap.options.minZoom,
-              self.currentMap.options.maxZoom
-            );
-            self.currentMap.setView([lat, lng], localZoom);
-            self.$router.push({ name: self.$router.currentRoute.name });
-          }
         }
 
         clearInterval(checkMapObject);

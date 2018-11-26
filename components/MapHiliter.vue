@@ -4,12 +4,12 @@
         v-if="hilites && hilites.length">
         <no-ssr>
             <l-marker
-                v-for="hilite in hilites"
-                :key="hilites.findIndex(hilite)"
-                :lat-lng="hilite.latLng"
+                v-for="hiliteCoord in hilitedCoords"
+                :key="hilitedCoords.findIndex(hiliteCoord)"
+                :lat-lng="hiliteCoord.latLng"
                 layer-type="overlay">
             </l-marker>
-        </no-ssr>
+        </no-ssr> 
     </div>
 </template>
 
@@ -23,7 +23,7 @@ if (isBrowser) {
 }
 export default {
   computed: {
-    ...mapState(['hilites'])
+    ...mapState(['hilitedCoords'])
   },
   data () {
     return {

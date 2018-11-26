@@ -7,7 +7,10 @@ export const state = () => ({
   islandsLoading: false,
   zoneNamesLoaded: false,
   showMapControls: false,
+  hilitedCoords: [],
   mapMode: 'pve',
+  snackColor: 'info',
+  snackText: '',
   pageTitle: 'Welcome',
   hilites: [],
   lat: -4750,
@@ -60,6 +63,15 @@ export const mutations = {
   },
   setShowMapControls (state, show) {
     state.showMapControls = show;
+  },
+  setSnack (state, payload) {
+    state.snackText = payload.text;
+    state.snackColor = payload.color;
+  },
+  addHilite (state, ...hilites) {
+    if(hilites && hilites.constructor === Array) {
+      // state.hilitedCoords.push()
+    }
   }
 }
 

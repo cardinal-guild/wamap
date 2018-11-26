@@ -23,22 +23,27 @@
                 <div class="animation" v-if="startAnimation">
 
                     <section class="intro">
-                        A long time ago, in a adrift world,<br>
-                        far, far away....
+                        <span>
+                          A long time ago, in a adrift world,<br>
+                          far, far away....
+                        </span>
                     </section>
 
                     <section class="titles">
                         <div contenteditable="true" spellcheck="false">
                         <p>
-                           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                           Lead programming: FearlessJake and Machine_Maker
                         </p>
 
                         <p>
-                            Sed posuere consectetur est at lobortis. Curabitur blandit tempus porttitor.
+                            Additional styling and programming: JeremyKerman
                         </p>
 
                         <p>
-                            Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                            Island surveyors: SquinkyDinky, JC, Davemane42, JeremyKerman, lavayar, Wise_Mule
+                        </p>
+                        <p>
+                            And all the people that i forgot to mention in the discord group :-)
                         </p>
                         </div>
                     </section>
@@ -96,16 +101,25 @@ export default {
   color: #ff6;
   overflow: hidden;
   margin: 0;
-  display: block;
+  display: flex;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-
+  .animation {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
   section {
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     z-index: 1;
   }
@@ -129,14 +143,19 @@ export default {
   }
 
   .intro {
-    $intro-width: 18em;
-    width: $intro-width;
-    margin: 0 0 0 (-$intro-width / 2);
-    font-size: 200%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-size: 2rem;
     font-weight: 400;
     color: rgb(75, 213, 238);
     opacity: 0;
     animation: intro 6s ease-out 1s;
+    justify-content: center;
+    align-items: center;
   }
 
   .logo {
@@ -145,14 +164,14 @@ export default {
   }
 
   .titles {
-    $titles-width: 24em;
+    $titles-width: 75vw;
     width: $titles-width;
     margin: 0 0 0 (-$titles-width / 2);
     top: auto;
     bottom: 0;
     height: 40em;
-    font-size: 550%;
-    text-align: justify;
+    font-size: 3rem;
+    text-align: center;
     overflow: hidden;
     transform-origin: 50% 100%;
     transform: perspective(300px) rotateX(15deg);

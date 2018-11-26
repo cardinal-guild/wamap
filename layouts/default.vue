@@ -52,7 +52,7 @@
       </v-btn>
       <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
         <v-spacer />
-      <div v-if="$store.state.showMapControls">
+      <template v-if="$store.state.showMapControls">
         <v-tooltip bottom>
           <v-btn icon slot="activator" @click="copyToClipboard">
             <CopyPasteLink />
@@ -71,7 +71,7 @@
           </v-btn>
           <span>Search for an island or metals</span>
         </v-tooltip>
-      </div>
+      </template>
     </v-toolbar>
     <v-content>
         <nuxt />
@@ -103,10 +103,10 @@
 
      <v-snackbar
       bottom right
-      v-model="clipboardSnack"
-      :color="clipboardSnackError ? 'error' : 'success'"
+      v-model="showSnack"
+      :color="snackColor"
       :timeout="6000"
-    >{{ clipboardSnackText }}</v-snackbar>
+    >{{ snackText }}</v-snackbar>
   </v-app>
 </template>
 
@@ -123,11 +123,26 @@ export default {
   head () {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
+  created: function () {
+    this.$store.watch(state => state.snackText, () => {
+      const msg = this.$store.state.snackText;
+      const color = this.$store.state.snackColor;
+      if (msg !== '' && color !== '') {
+        this.snackText = msg;
+        this.snackColor = color;
+        this.showSnack = true;
+        this.$store.commit('setSnack', {
+          text: '',
+          color:'info'
+        });
+      }
+    })
+  },
   data () {
     return {
-      clipboardSnack: false,
-      clipboardSnackError: false,
-      clipboardSnackText: 'test',
+      showSnack: false,
+      snackColor: 'info',
+      snackText: 'test',
       drawer: false,
       fixed: false,
       items: [
@@ -156,14 +171,15 @@ export default {
       fullUrl += qryStr;
       try {
         await this.$copyText(fullUrl);
-        this.clipboardSnackText = 'Url copied to clipboard';
-        this.clipboardSnackError = false;
-        this.clipboardSnack = true;
+        this.$store.commit('setSnack', {
+          text: 'Url copied to clipboard',
+          color: 'success'
+        });
       } catch (e) {
-        this.clipboardSnackText =
-          'There was an error copying the link to your clipboard';
-        this.clipboardSnackError = true;
-        this.clipboardSnack = true;
+        this.$store.commit('setSnack', {
+          text: 'There was an error copying the link to your clipboard',
+          color:'error'
+        });
       }
     }
   }
