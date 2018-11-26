@@ -109,7 +109,6 @@ module.exports = {
     },
     extractCSS: true,
     extend (config, ctx) {
-      // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
@@ -125,6 +124,21 @@ module.exports = {
           })
         ]
       }
+      config.module.rules
+        .filter(r => r.test.toString().includes("svg"))
+        .forEach(r => {
+          r.test = /\.(png|jpe?g|gif)$/;
+       });
+       config.module.rules.push({
+        test: /\.svg$/,
+        loader: 'vue-svg-loader', // `vue-svg` for webpack 1.x
+        options: {
+          // optional [svgo](https://github.com/svg/svgo) options
+          svgo: {
+            plugins: [{ removeDoctype: true }, { removeComments: true }]
+          }
+        }
+      })
     }
   }
 }

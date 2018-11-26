@@ -22,8 +22,6 @@ export default {
 
 <style lang="stylus" scoped>
 #pve-map-page {
-  background-image: url('~assets/wood_background.jpg');
-  background-repeat: repeat;
   position: absolute;
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);

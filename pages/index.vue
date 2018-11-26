@@ -1,5 +1,5 @@
 <template>
-  <div class="wooden-background">
+  <div class="welcome-page">
     <v-container>
       <v-layout column justify-center align-center>
         <v-flex xs12 sm8 md6>
@@ -16,9 +16,15 @@
               <p>This all said, please choose the map on which you are currently playing:</p>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="primary" nuxt to="/pve">PVE Map (Kubo)</v-btn>
+              <v-btn class="welcome-btn" nuxt to="/pve">
+                <PVEIcon />
+                <span>PVE Map (Kubo)</span>
+              </v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="primary" nuxt to="/pvp">PVP Map (Driss)</v-btn>
+              <v-btn class="welcome-btn" nuxt to="/pvp">
+                <PVPIcon />
+                <span>PVE Map (Kubo)</span>
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -28,7 +34,13 @@
 </template>
 
 <script>
+import PVEIcon from '~/assets/svg/pve_icon.svg';
+import PVPIcon from '~/assets/svg/pvp_icon.svg';
 export default {
+  components: {
+    PVEIcon,
+    PVPIcon
+  },
   mounted () {
     this.$store.commit('setShowMapControls', false);
     this.$store.dispatch('loadBoundaries');
@@ -38,11 +50,34 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-.wooden-background {
-  background-image: url('~assets/wood_background.jpg');
-  background-repeat: repeat;
-  height: 100%;
+<style lang="scss">
+@import '~sass-easing/_easings';
+
+.welcome-btn {
+  height: auto;
+  transition: background-color $easeOutExpo 0.6s;
+  background-color: #e0af84 !important;
+  .v-btn__content {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    svg {
+      transition: fill $easeOutExpo 0.6s;
+      width: auto;
+      height: 80px;
+      display: block;
+      fill: black;
+    }
+  }
+  &:hover {
+  background-color: #463939 !important;
+    .v-btn__content {
+      color: white;
+      svg {
+        fill: white;
+      }
+    }
+  }
 }
 </style>
 

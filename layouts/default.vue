@@ -7,18 +7,37 @@
       v-model="drawer" 
     >
       <v-list>
-        <v-list-tile
-          router
-          :to="item.to"
-          :key="i"
-          v-for="(item, i) in items"
-          exact
-        >
-          <v-list-tile-action>
-            <v-icon v-html="item.icon"></v-icon>
+         <v-list-tile router exact @click="drawer=false" to="/">
+           <v-list-tile-action>
+            <v-icon>apps</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+            <v-list-tile-title>Welcome</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile router exact @click="drawer=false" to="/pve">
+          <v-list-tile-action class="svg-tile">
+            <PVEIcon />
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>PVE Map</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile router exact @click="drawer=false" to="/pvp">
+          <v-list-tile-action class="svg-tile">
+            <PVPIcon />
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>PVP Map</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile router exact @click="drawer=false" to="/credits">
+          <v-list-tile-action>
+            <v-icon>people</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Credits</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -36,7 +55,7 @@
       <div v-if="$store.state.showMapControls">
         <v-tooltip bottom>
           <v-btn icon slot="activator" @click="copyToClipboard">
-            <v-icon>link</v-icon>
+            <CopyPasteLink />
           </v-btn>
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip> 
@@ -47,7 +66,7 @@
           <span>Create a character and checkmark locations where you been</span>
         </v-tooltip>
         <v-tooltip bottom> 
-          <v-btn icon slot="activator" @click="searchPopup = !searchPopup">
+          <v-btn icon slot="activator" @click="searchPopup = !searchPopup"> 
             <v-icon>search</v-icon>
           </v-btn>
           <span>Search for an island or metals</span>
@@ -92,7 +111,15 @@
 </template>
 
 <script>
+import CopyPasteLink from '~/assets/svg/copy_paste_link_icon.svg';
+import PVEIcon from '~/assets/svg/pve_icon.svg';
+import PVPIcon from '~/assets/svg/pvp_icon.svg';
 export default {
+  components: {
+    CopyPasteLink,
+    PVEIcon,
+    PVPIcon
+  },
   head () {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
@@ -105,8 +132,8 @@ export default {
       fixed: false,
       items: [
         { icon: 'apps', title: 'Welcome', to: '/' },
-        { icon: 'explore', title: 'PVE Map', to: '/pve' },
-        { icon: 'explore', title: 'PVP Map', to: '/pvp' },
+        { icon: PVEIcon, title: 'PVE Map', to: '/pve' },
+        { icon: PVPIcon, title: 'PVP Map', to: '/pvp' },
         { icon: 'people', title: 'Credits', to: '/credits' }
       ],
       miniVariant: false,
@@ -143,8 +170,37 @@ export default {
 };
 </script>
 <style lang="scss">
-.theme--dark.v-navigation-drawer {
-  background-color: #504141;
+body,
+html {
+  background-image: url('/assets/wood_background.jpg');
+  background-repeat: repeat;
+}
+.svg-tile {
+  svg {
+    fill: white;
+    width: 24px;
+    height: 24px;
+  }
+}
+.theme--dark {
+  &.application {
+    background-color: transparent;
+    background: none !important;
+  }
+  .v-navigation-drawer {
+    background-color: #504141;
+  }
+  &.v-toolbar__content,
+  &.v-btn,
+  &.v-btn--icon {
+    color: #ffe5c4;
+  }
+}
+.v-btn__content {
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 }
 .v-navigation-drawer {
   border-right: 5px #e0af84 solid;
@@ -158,7 +214,9 @@ export default {
     border-bottom: 5px #e0af84 solid;
     color: #ffe5c4;
   }
-  .v-btn {
+  .v-toolbar__content,
+  .v-btn,
+  .v-btn--icon {
     color: #ffe5c4;
   }
 }

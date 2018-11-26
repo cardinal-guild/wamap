@@ -3,7 +3,9 @@ import Vuetify, {
   VApp, // required
   VNavigationDrawer,
   VFooter,
-  VToolbar
+  VToolbar,
+  VTooltip,
+  VSnackbar
 } from 'vuetify/lib'
 import {
   Ripple
@@ -14,7 +16,9 @@ Vue.use(Vuetify, {
     VApp,
     VNavigationDrawer,
     VFooter,
-    VToolbar
+    VToolbar,
+    VTooltip,
+    VSnackbar
   },
   directives: {
     Ripple

@@ -9,7 +9,7 @@ import LoadingOverlay from '~/components/LoadingOverlay';
 import Map from '~/components/Map';
 
 export default {
-  mounted() {
+  mounted () {
     this.$store.commit('setShowMapControls', true);
     this.$store.commit('setPageTitle', 'Worlds Adrift PVP Map');
   },
@@ -22,8 +22,6 @@ export default {
 
 <style lang="stylus" scoped>
 #pvp-map-page {
-  background-image: url('~assets/wood_background.jpg');
-  background-repeat: repeat;
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
   -ms-transform: translateZ(0);
