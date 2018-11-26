@@ -29,9 +29,15 @@ export default {
       highlightIcon: leaflet.divIcon({
         html: '<img src="/assets/highlight_arrow.png" />',
         iconSize: [60, 240],
+        clickable: false,
         className: 'highlight-icon'
       })
     };
   }
 };
 </script>
+<style lang="scss">
+.highlight-icon {
+  pointer-events: none !important; 
+}
+</style>
