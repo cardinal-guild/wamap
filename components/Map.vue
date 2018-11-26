@@ -25,7 +25,7 @@
           <map-island-circles :fromZoomPercentage="70" :toZoomPercentage="100" />
           <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="70" />
           <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
-          <map-hiliter />
+          <map-highlighter />
           <map-legend :fadeOutFromZoomPercentage="80" />
         </l-map>
     </no-ssr>
@@ -37,7 +37,7 @@ import _ from 'lodash';
 import MapLegend from '~/components/MapLegend.vue';
 import MapIslandIcons from '~/components/MapIslandIcons.vue';
 import MapIslandCircles from '~/components/MapIslandCircles.vue';
-import MapHiliter from '~/components/MapHiliter.vue';
+import MapHighlighter from '~/components/MapHighlighter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
 const isBrowser = typeof window !== 'undefined';
@@ -51,7 +51,7 @@ export default {
     MapLegend,
     MapIslandIcons,
     MapIslandCircles,
-    MapHiliter,
+    MapHighlighter,
     ZoneNameOverlay,
     SectorNamesOverlay
   },
@@ -111,6 +111,7 @@ export default {
                 self.currentMap.options.minZoom,
                 self.currentMap.options.maxZoom
               );
+              self.$store.commit('addHighlight', coords);
               self.currentMap.setView(coords, localZoom);
             }
             self.$router.push({ name: self.$router.currentRoute.name });

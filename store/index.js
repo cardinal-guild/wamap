@@ -7,7 +7,7 @@ export const state = () => ({
   islandsLoading: false,
   zoneNamesLoaded: false,
   showMapControls: false,
-  hilitedCoords: [],
+  highlightedCoords: [],
   mapMode: 'pve',
   snackColor: 'info',
   snackText: '',
@@ -68,10 +68,18 @@ export const mutations = {
     state.snackText = payload.text;
     state.snackColor = payload.color;
   },
-  addHilite (state, ...hilites) {
-    if(hilites && hilites.constructor === Array) {
-      // state.hilitedCoords.push()
+  clearHighlights (state) {
+    state.highlightedCoords = [];
+  },
+  setHighlights (state, payload) {
+    if(payload && payload.coords && payload.coords.constructor === Array) {
+      state.highlightedCoords = payload;
     }
+  },
+  addHighlight (state, payload) {
+      if(payload && payload.constructor === Array) {
+        state.highlightedCoords.push(payload);
+      }
   }
 }
 
@@ -88,6 +96,17 @@ export const actions = {
       const data = await this.$axios.$get('https://surveyor.cardinalguild.com/api/islands.json')
       commit('islandData', data)
       commit('islandsLoading', false)
+    }
+  },
+  async clearHighlights ({
+    commit,
+    app
+  }) {
+    if (this.state.highlightedCoords) {
+      if (console.log) {
+        console.log('Clearing map highlights')
+      }
+      commit('clearHighlights')
     }
   },
   async loadBoundaries ({
