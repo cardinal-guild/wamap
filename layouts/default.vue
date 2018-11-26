@@ -4,7 +4,7 @@
       fixed
       app
       :mini-variant="miniVariant"
-      v-model="drawer" 
+      v-model="drawer"
     >
       <v-list>
          <v-list-tile router exact @click="drawer=false" to="/">
@@ -58,18 +58,24 @@
             <CopyPasteLink />
           </v-btn>
           <span>Copy the current zoomed in location to clipboard</span>
-        </v-tooltip> 
-        <v-tooltip bottom> 
+        </v-tooltip>
+        <v-tooltip bottom>
           <v-btn icon slot="activator" @click="accountDrawer = !accountDrawer">
             <v-icon>account_circle</v-icon>
           </v-btn>
           <span>Create a character and checkmark locations where you been</span>
         </v-tooltip>
-        <v-tooltip bottom> 
-          <v-btn icon slot="activator" @click="searchPopup = !searchPopup"> 
+        <v-tooltip>
+          <v-btn icon slot="activator" @click="filterPopup = !filterPopup">
+            <v-icon>filter_list</v-icon>
+          </v-btn>
+          <span>Filter islands by materials or databanks</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <v-btn icon slot="activator" @click="searchPopup = !searchPopup">
             <v-icon>search</v-icon>
           </v-btn>
-          <span>Search for an island or metals</span>
+          <span>Search for an island</span>
         </v-tooltip>
       </template>
     </v-toolbar>
