@@ -7,19 +7,17 @@
           <table class="island-data-table">
             <tr class="name">
               <th colspan="2">
-                <div class="island-name" v-if="workshopUrl"><a target="blank" rel="nofollow,noopener" :href="workshopUrl">{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})&nbsp;</span><img src="/assets/steamicon.png"></a>
-                  <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
-                  </div>
-                  <div class="creator-name" v-else>
-                    by {{creator}}
-                  </div>
-                </div>
-                <div class="island-name" v-else>{{ name }}&nbsp;<span class="nickname" v-if="nickName">({{nickName}})</span><br>
-                  <div class="creator-name" v-if="creatorWorkshopUrl">by&nbsp;<a target="blank" rel="nofollow,noopener" :href="creatorWorkshopUrl">{{creator}}&nbsp;<img src="/assets/steamicon.png"></a>
-                  </div>
-                  <div class="creator-name" v-else>
-                    by {{creator}}
-                  </div>
+                <div class="island-title">
+                  <component class="island-name" :is="workshopUrl?'a':'div'" :href="workshopUrl || ''" target="_blank" rel="nofollow,noopener">
+                    <span class="nickname">{{nickName?nickName:name}}</span>
+                    <span v-if="nickName" class="name">({{name}})</span>
+                    <img src="/assets/steamicon.png" v-if="workshopUrl">
+                  </component>
+                  <span class="by-author">by</span>
+                  <component class="creator-name" :is="creatorWorkshopUrl?'a':'div'" :href="creatorWorkshopUrl || ''" target="_blank" rel="nofollow,noopener">
+                    <span class="username">{{creator}}&nbsp;</span>
+                    <img src="/assets/steamicon.png" v-if="creatorWorkshopUrl">
+                  </component>
                 </div>
               </th>
             </tr>
@@ -32,7 +30,7 @@
                       <CopyPasteLink />
                     </v-btn>
                     <span>Copy the current island location to clipboard</span>
-                  </v-tooltip> 
+                  </v-tooltip>
                 </div>
               </td>
             </tr>
@@ -252,8 +250,8 @@ export default {
       }
       }
     }
-    
-    
+
+
   }
   &-report-btn {
     margin: 0 !important;
@@ -284,10 +282,9 @@ export default {
     border-collapse: collapse;
 
     .materials-info-title {
-      padding-top: 10px;
       font-size: 1rem;
     }
-    .name {
+    tr.name {
       th {
         line-height: 22px;
         display: flex;
@@ -298,15 +295,23 @@ export default {
         text-decoration: none;
         color: #e0b084;
 
+        &.island-name {
+          display: block;
+        }
+
         img {
           position: relative;
           top: 2px;
         }
       }
-      .island-name {
+      .by-author {
+        font-size: 12px;
+      }
+
+      .island-title {
         font-size: 16px;
       }
-      .nickname {
+      span.name {
         font-size: 12px;
       }
       .creator-name {
