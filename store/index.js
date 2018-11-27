@@ -7,7 +7,6 @@ export const state = () => ({
   islandsLoading: false,
   zoneNamesLoaded: false,
   showMapControls: false,
-  showAuthorSearch: false,
   highlightedCoords: [],
   mapMode: 'pve',
   snackColor: 'info',
@@ -20,10 +19,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-  toggleSearch (state) {
-    console.log("toggled");
-    state.showAuthorSearch = !state.showAuthorSearch;
-  },
   toggleSidebar (state) {
     state.sidebar = !state.sidebar
   },
@@ -76,14 +71,10 @@ export const mutations = {
     state.highlightedCoords = [];
   },
   setHighlights (state, payload) {
-    if(payload && payload.coords && payload.coords.constructor === Array) {
-      state.highlightedCoords = payload;
-    }
+    state.highlightedCoords = payload;
   },
   addHighlight (state, payload) {
-      if(payload && payload.constructor === Array) {
-        state.highlightedCoords.push(payload);
-      }
+    state.highlightedCoords.push(payload);
   },
   addHighlights (state, payload) {
     if(payload && payload.coords && payload.coords.constructor === Array) {

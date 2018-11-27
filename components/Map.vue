@@ -1,7 +1,7 @@
 <template>
   <div id="map-wrap">
-      <no-ssr>
-        <l-map
+    <no-ssr>
+      <l-map
         :bounds="bounds"
         :center="center"
         :crs="crs"
@@ -13,22 +13,26 @@
         @moveend="onMoveEnd($event, $root)"
         @zoom="onZoom($event, $root)"
         ref="map"
-        >
-          <l-geo-json
-            className="boundaries"
-            ref="boundaries"
-            :geojson="$store.state.boundaryData"
-            :options="boundaryOptions"
-          />
-          <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70" />
-          <sector-names-overlay :fromZoomPercentage="25" />
-          <map-highlighter :bigIconfromZoomPercentage="70" :showFromZoomPercentage="25" :iconHeightSmall="100" :iconHeightBig="240" />
-          <map-island-circles :fromZoomPercentage="70" :toZoomPercentage="100" />
-          <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="70" />
-          <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
-          <map-legend :fadeOutFromZoomPercentage="80" />
-          <author-search />
-        </l-map>
+      >
+        <l-geo-json
+          class="boundaries"
+          ref="boundaries"
+          :geojson="$store.state.boundaryData"
+          :options="boundaryOptions"
+        />
+        <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70"/>
+        <sector-names-overlay :fromZoomPercentage="25"/>
+        <map-highlighter
+          :bigIconfromZoomPercentage="70"
+          :showFromZoomPercentage="25"
+          :iconHeightSmall="100"
+          :iconHeightBig="240"
+        />
+        <map-island-circles :fromZoomPercentage="70" :toZoomPercentage="100"/>
+        <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="70"/>
+        <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
+        <map-legend :fadeOutFromZoomPercentage="80"/>
+      </l-map>
     </no-ssr>
   </div>
 </template>
@@ -41,7 +45,6 @@ import MapIslandCircles from '~/components/MapIslandCircles.vue';
 import MapHighlighter from '~/components/MapHighlighter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
-import AuthorSearch from "~/components/AuthorSearch.vue";
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -55,8 +58,7 @@ export default {
     MapIslandCircles,
     MapHighlighter,
     ZoneNameOverlay,
-    SectorNamesOverlay,
-    AuthorSearch
+    SectorNamesOverlay
   },
   methods: {
     onZoom: (e, r) => {
@@ -99,14 +101,11 @@ export default {
           self.$router.currentRoute.query &&
           self.currentMap
         ) {
-          if (
-          self.$router.currentRoute.query.island &&
-          self.currentMap
-          ) {
+          if (self.$router.currentRoute.query.island && self.currentMap) {
             let islands = this.$store.state.islandData.features;
             let islandId = parseInt(self.$router.currentRoute.query.island);
-            let filteredIslands = _.filter(islands, {id: islandId});
-            if(filteredIslands.length) {
+            let filteredIslands = _.filter(islands, { id: islandId });
+            if (filteredIslands.length) {
               let foundIsland = filteredIslands[0];
               let coords = foundIsland.geometry.coordinates;
               let localZoom = self.zoomPercentageToLocalZoom(
@@ -136,7 +135,6 @@ export default {
             self.currentMap.setView([lat, lng], localZoom);
             // self.$router.push({ name: self.$router.currentRoute.name });
           }
-
         }
 
         clearInterval(checkMapObject);
@@ -146,6 +144,17 @@ export default {
   mounted () {
     this.$store.dispatch('loadBoundaries');
     this.$store.dispatch('loadIslands');
+    this.$store.commit('setHighlights', []);
+    this.$bus.$on('zoomToIsland', coords => {
+      let localZoom = this.zoomPercentageToLocalZoom(
+        80,
+        this.currentMap.options.minZoom,
+        this.currentMap.options.maxZoom
+      );
+      this.$store.commit('setHighlights', [coords]);
+      this.currentMap.setView(coords, localZoom);
+      this.$bus.$emit('closeLegend');
+    });
   },
   data () {
     return {
@@ -181,8 +190,7 @@ export default {
 
 <style lang="scss" scoped>
 #map-wrap {
-
-    background: none;
+  background: none;
   .leaflet-container {
     &.leaflet-control-container {
       .leaflet-control-zoom {

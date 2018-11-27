@@ -52,19 +52,27 @@
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="accountDrawer = !accountDrawer">
+          <v-btn icon slot="activator" @click="$bus.$emit('openAccountDrawer')">
             <v-icon>account_circle</v-icon>
           </v-btn>
           <span>Create a character and checkmark locations where you been</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="openFilterDrawer">
+          <v-btn
+            icon
+            slot="activator"
+            @click="$bus.$emit('openFilterDrawer');$bus.$emit('closeLegend');"
+          >
             <v-icon>filter_list</v-icon>
           </v-btn>
           <span>Filter islands by materials or databanks</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="openSearchDrawer">
+          <v-btn
+            icon
+            slot="activator"
+            @click="$bus.$emit('openSearchDrawer');$bus.$emit('closeLegend');"
+          >
             <v-icon>search</v-icon>
           </v-btn>
           <span>Search for an island</span>
@@ -75,15 +83,9 @@
       <nuxt/>
     </v-content>
 
-    <v-navigation-drawer right v-model="searchFilterDrawer" fixed app>
-      <map-search-drawer v-if="searchDrawer"></map-search-drawer>
-      <map-filter-drawer v-if="filterDrawer"></map-filter-drawer>
-    </v-navigation-drawer>
-    <v-navigation-drawer temporary right v-model="accountDrawer" fixed>
-      <v-list>
-        <v-list-tile-title class="headline">Account</v-list-tile-title>
-      </v-list>
-    </v-navigation-drawer>
+    <map-search-drawer></map-search-drawer>
+    <map-filter-drawer></map-filter-drawer>
+    <account-drawer/>
     <v-footer :fixed="fixed" app v-if="!$store.state.showMapControls">
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -98,13 +100,15 @@ import PVEIcon from '~/assets/svg/pve_icon.svg';
 import PVPIcon from '~/assets/svg/pvp_icon.svg';
 import MapSearchDrawer from '~/components/MapSearchDrawer';
 import MapFilterDrawer from '~/components/MapFilterDrawer';
+import AccountDrawer from '~/components/AccountDrawer';
 export default {
   components: {
     CopyPasteLink,
     PVEIcon,
     PVPIcon,
     MapSearchDrawer,
-    MapFilterDrawer
+    MapFilterDrawer,
+    AccountDrawer
   },
   head () {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
@@ -238,8 +242,10 @@ html {
   }
   .v-toolbar__content,
   .v-btn,
-  .v-btn--icon {
+  .v-btn--icon,
+  .v-toolbar__content svg {
     color: #ffe5c4;
+    fill: #ffe5c4;
   }
 }
 </style>
