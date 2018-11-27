@@ -8,15 +8,17 @@
             <tr class="name">
               <th colspan="2">
                 <div class="island-title">
-                  <component class="island-name" :is="workshopUrl?'a':'div'" :href="workshopUrl || ''" target="_blank" rel="nofollow,noopener">
-                    <span class="nickname">{{nickName?nickName:name}}</span>
-                    <span v-if="nickName" class="name">({{name}})</span>
-                    <img src="/assets/steamicon.png" v-if="workshopUrl">
-                  </component>
+                  <div class="island-name">
+                    <component class="island-name" :is="workshopUrl?'a':'div'" :href="workshopUrl || ''" target="_blank" rel="nofollow,noopener">
+                      <span class="nickname">{{nickName?nickName:name}}</span>
+                      <span v-if="nickName" class="name">({{name}})</span>
+                      <img src="/assets/steam_icon.png" v-if="workshopUrl">
+                    </component>
+                  </div>
                   <span class="by-author">by</span>
                   <component class="creator-name" :is="creatorWorkshopUrl?'a':'div'" :href="creatorWorkshopUrl || ''" target="_blank" rel="nofollow,noopener">
-                    <span class="username">{{creator}}&nbsp;</span>
-                    <img src="/assets/steamicon.png" v-if="creatorWorkshopUrl">
+                    <span class="username">{{creator}}</span>
+                    <img src="/assets/steam_icon.png" v-if="creatorWorkshopUrl">
                   </component>
                 </div>
               </th>
@@ -34,15 +36,18 @@
                 </div>
               </td>
             </tr>
-            <tr class="altitude">
+            <tr class="island-info-header">
+              <th colspan="2">Island Info</th>
+            </tr>
+            <tr class="altitude island-info">
               <td>Altitude</td>
               <td>{{ altitude }}</td>
             </tr>
-            <tr class="databanks">
+            <tr class="databanks island-info">
               <td>Databanks</td>
               <td>{{ databanks }}</td>
             </tr>
-            <tr class="culture">
+            <tr class="culture island-info">
               <td>Culture</td>
               <td> {{ type | capitalize }}</td>
             </tr>
@@ -114,7 +119,7 @@
 
 <script>
 import _ from 'lodash'
-import CopyPasteLink from '~/assets/svg/copy_paste_link_icon.svg'
+import CopyPasteLink from '~/assets/svg/copy_paste_link_icon.svg';
 export default {
   components: {
     CopyPasteLink
@@ -284,38 +289,88 @@ export default {
     .materials-info-title {
       font-size: 1rem;
     }
-    tr.name {
+    tr {
+      td,th {
+        width: 50%;
+
+        &.island-popup-image {
+          background: #232323;
+          border: 1px #ffe5c4 inset;
+          border-top: none;
+
+          img {
+            margin: 4px;
+            width: calc(100% - 8px);
+          }
+        }
+      }
       th {
-        line-height: 22px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
+        width: 100%;
       }
-      a {
-        text-decoration: none;
-        color: #e0b084;
-
-        &.island-name {
-          display: block;
+      &.name {
+        th {
+          line-height: 22px;
+          text-align: center;
+          border: 1px #ffe5c4 inset;
+          border-bottom: none;
+          background: #232323;
+          padding-top: 2px;
+          font-size: 12px;
         }
+        a {
+          text-decoration: none;
+          color: #e0b084;
 
-        img {
-          position: relative;
-          top: 2px;
+          &:hover {
+            text-decoration: underline;
+          }
+
+          &.island-name {
+            img {
+              height: 20px;
+              width: 20px;
+              top: 3px;
+            }
+
+            .nickname {
+              font-size: 18px;
+            }
+          }
+
+          &.creator-name {
+            img {
+              height: 17px;
+              width: 17px;
+              top: 4px;
+            }
+          }
+
+          img {
+            position: relative;
+          }
         }
       }
-      .by-author {
-        font-size: 12px;
+
+      &.island-info-header {
+        th {
+          text-align: center;
+          font-size: 17px;
+          margin-top: 5px;
+          padding: 3px 0;
+          // background: #23232388;
+        }
       }
 
-      .island-title {
-        font-size: 16px;
-      }
-      span.name {
-        font-size: 12px;
-      }
-      .creator-name {
-        font-size: 12px;
+      &.island-info {
+        // background: #23232388;
+        line-height: 16px;
+        td:first-child {
+          text-align: right;
+          padding-right: 10px;
+        }
+        td:last-child {
+          padding-left: 10px;
+        }
       }
     }
   }
