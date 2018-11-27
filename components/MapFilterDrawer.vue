@@ -25,6 +25,9 @@ export default {
       this.$bus.$emit('closeSearchFilterDrawer');
     }
   },
+  created () {
+    this.$bus.$emit('closeLegend');
+  },
   props: {
     searchFilterDrawer: {
       type: Boolean,

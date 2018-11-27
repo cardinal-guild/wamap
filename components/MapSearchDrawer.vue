@@ -21,9 +21,12 @@
 import { mapState } from 'vuex';
 export default {
   methods: {
-    closeDrawer () {
+    closeDrawer() {
       this.$bus.$emit('closeSearchFilterDrawer');
     }
+  },
+  created() {
+    this.$bus.$emit('closeLegend');
   },
   props: {
     searchFilterDrawer: {
