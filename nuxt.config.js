@@ -42,7 +42,7 @@ module.exports = {
     {
       hid: 'og:image',
       name: 'og:image',
-      content: '/opengraph.png'
+      content: 'https://dev.cardinalguild.com/opengraph.png'
     }],
     link: [{
       rel: 'icon',
