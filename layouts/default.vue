@@ -72,7 +72,7 @@
           <span>Filter islands by materials or databanks</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="searchPopup = !searchPopup">
+          <v-btn icon slot="activator" @click="$store.commit('toggleSearch');">
             <v-icon>search</v-icon>
           </v-btn>
           <span>Search for an island</span>

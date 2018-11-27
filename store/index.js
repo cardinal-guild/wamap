@@ -7,6 +7,7 @@ export const state = () => ({
   islandsLoading: false,
   zoneNamesLoaded: false,
   showMapControls: false,
+  showAuthorSearch: false,
   highlightedCoords: [],
   mapMode: 'pve',
   snackColor: 'info',
@@ -19,6 +20,10 @@ export const state = () => ({
 })
 
 export const mutations = {
+  toggleSearch (state) {
+    console.log("toggled");
+    state.showAuthorSearch = !state.showAuthorSearch;
+  },
   toggleSidebar (state) {
     state.sidebar = !state.sidebar
   },
@@ -28,7 +33,6 @@ export const mutations = {
   boundariesLoading (state, loading) {
     state.boundariesLoading = loading
   },
-
   islandsLoading (state, loading) {
     state.islandsLoading = loading
   },

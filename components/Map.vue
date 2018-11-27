@@ -27,6 +27,7 @@
           <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="70" />
           <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
           <map-legend :fadeOutFromZoomPercentage="80" />
+          <author-search />
         </l-map>
     </no-ssr>
   </div>
@@ -40,6 +41,7 @@ import MapIslandCircles from '~/components/MapIslandCircles.vue';
 import MapHighlighter from '~/components/MapHighlighter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
+import AuthorSearch from "~/components/AuthorSearch.vue";
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -53,7 +55,8 @@ export default {
     MapIslandCircles,
     MapHighlighter,
     ZoneNameOverlay,
-    SectorNamesOverlay
+    SectorNamesOverlay,
+    AuthorSearch
   },
   methods: {
     onZoom: (e, r) => {

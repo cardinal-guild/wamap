@@ -1,14 +1,14 @@
 <template>
     <div class="highlight-markers" >
         <no-ssr>
-            <l-marker 
+            <l-marker
                 v-for="(highlightedCoord, index) in highlightedCoords"
                 :key="index"
                 :lat-lng="highlightedCoord"
                 :icon="highlightIcon"
                 layer-type="overlay">
             </l-marker>
-        </no-ssr> 
+        </no-ssr>
     </div>
 </template>
 
@@ -67,7 +67,7 @@ export default {
       default: 120
     }
   },
-  mounted() {
+  mounted () {
     this.highlightIcon = leaflet.divIcon({
       html: '<img src="/assets/highlight_arrow.png" />',
       iconSize: [60, this.currentIconHeight],
@@ -85,6 +85,6 @@ export default {
 </script>
 <style lang="scss">
 .highlight-icon {
-  pointer-events: none !important; 
+  pointer-events: none !important;
 }
 </style>
