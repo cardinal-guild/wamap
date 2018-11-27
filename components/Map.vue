@@ -22,7 +22,7 @@
           />
           <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70" />
           <sector-names-overlay :fromZoomPercentage="25" />
-          <map-highlighter />
+          <map-highlighter :bigIconfromZoomPercentage="70" :showFromZoomPercentage="25" :iconHeightSmall="100" :iconHeightBig="240" />
           <map-island-circles :fromZoomPercentage="70" :toZoomPercentage="100" />
           <map-island-icons :fromZoomPercentage="25" :toZoomPercentage="70" />
           <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
@@ -114,8 +114,7 @@ export default {
               self.$store.commit('addHighlight', coords);
               self.currentMap.setView(coords, localZoom);
             }
-            self.$router.push({ name: self.$router.currentRoute.name });
-            return true;
+            // self.$router.push({ name: self.$router.currentRoute.name });
           }
 
           if (
@@ -132,8 +131,7 @@ export default {
               self.currentMap.options.maxZoom
             );
             self.currentMap.setView([lat, lng], localZoom);
-            self.$router.push({ name: self.$router.currentRoute.name });
-            return true;
+            // self.$router.push({ name: self.$router.currentRoute.name });
           }
 
         }

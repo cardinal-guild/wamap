@@ -18,7 +18,7 @@
               <v-spacer></v-spacer>
               <v-btn class="welcome-btn" nuxt to="/pvp">
                 <PVPIcon />
-                <span>PVE Map (Kubo)</span>
+                <span>PVP Map (Driss)</span>
               </v-btn>
             </v-card-actions>
             <v-card-text >
