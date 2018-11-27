@@ -42,7 +42,7 @@ module.exports = {
     {
       hid: 'og:image',
       name: 'og:image',
-      content: '/logo.png'
+      content: '/opengraph.png'
     }],
     link: [{
       rel: 'icon',
@@ -108,21 +108,35 @@ module.exports = {
         strategyOptions: {
           cacheName: 'surveyor-cache',
           cacheExpiration: {
-            maxAgeSeconds: 28800
+            maxAgeSeconds: 14400
           }
         }
       },
       {
         // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
-        urlPattern: 'https://surveyor.cardinalguild.com/.*',
+        urlPattern: 'https://surveyor.cardinalguild.com/media/.*',
         // Defaults to `networkFirst` if omitted
         handler: 'cacheFirst',
         // Defaults to `GET` if omitted
         method: 'GET',
         strategyOptions: {
-          cacheName: 'surveyor-cache',
+          cacheName: 'surveyor-media-cache',
           cacheExpiration: {
-            maxAgeSeconds: 28800
+            maxAgeSeconds: 86400
+          }
+        }
+      },
+      {
+        // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
+        urlPattern: 'https://surveyor.cardinalguild.com/images/.*',
+        // Defaults to `networkFirst` if omitted
+        handler: 'cacheFirst',
+        // Defaults to `GET` if omitted
+        method: 'GET',
+        strategyOptions: {
+          cacheName: 'surveyor-image-cache',
+          cacheExpiration: {
+            maxAgeSeconds: 86400
           }
         }
       }
