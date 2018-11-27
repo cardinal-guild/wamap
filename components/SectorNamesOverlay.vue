@@ -27,33 +27,34 @@ export default {
     ...mapState(['zoomPercentage', 'boundaryData'])
   },
   watch: {
-    zoomPercentage(newZoomPercentage, oldZoomPercentage) {
-      if (
-        newZoomPercentage >= this.fromZoomPercentage &&
-        newZoomPercentage <= this.toZoomPercentage
-      ) {
+    zoomPercentage (newZoomPercentage, oldZoomPercentage) {
+      if (newZoomPercentage >= this.fromZoomPercentage) {
         let opacity =
           (newZoomPercentage - this.fromZoomPercentage) /
           (this.toZoomPercentage - this.fromZoomPercentage);
-        $('.sector-label').css('opacity', 1 - opacity);
+        opacity = 1 - opacity;
+        console.log('New between opacity: ' + opacity);
+        $('.sector-label').css('opacity', opacity);
       } else {
-        $('.sector-label').css('opacity', 1);
+        let opacity = newZoomPercentage / this.fromZoomPercentage;
+        console.log('New opacity: ' + opacity);
+        $('.sector-label').css('opacity', opacity);
       }
-      if (newZoomPercentage <= this.toZoomPercentage) {
-        $('.sector-label').css('display', 'block');
-      } else {
+      if (newZoomPercentage > this.toZoomPercentage) {
         $('.sector-label').css('display', 'none');
+      } else {
+        $('.sector-label').css('display', 'block');
       }
     },
-    boundaryData(newVal, oldVal) {
+    boundaryData (newVal, oldVal) {
       this.createSectors();
     }
   },
-  mounted() {
+  mounted () {
     this.createSectors();
   },
   methods: {
-    createSectors() {
+    createSectors () {
       if (
         this.boundaryData &&
         this.boundaryData.features &&
@@ -102,7 +103,7 @@ export default {
       default: 70
     }
   },
-  data() {
+  data () {
     return {
       sectorMarkers: []
     };
@@ -115,7 +116,7 @@ export default {
   text-align: center;
   font-size: 35px;
   font-family: 'Noto Sans', 'Roboto', sans-serif;
-  color: #291a08;
+  color: rgba(black, 0.75);
   pointer-events: none !important;
 }
 </style>
