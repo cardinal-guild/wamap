@@ -9,7 +9,7 @@ import LoadingOverlay from '~/components/LoadingOverlay';
 import Map from '~/components/Map';
 
 export default {
-  mounted() {
+  mounted () {
     this.$store.commit('setShowMapControls', true);
     this.$store.commit('setPageTitle', 'PVP Map');
   },
