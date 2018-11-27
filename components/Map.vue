@@ -20,8 +20,8 @@
           :geojson="$store.state.boundaryData"
           :options="boundaryOptions"
         />
-        <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70"/>
-        <sector-names-overlay :fromZoomPercentage="10" :toZoomPercentage="70"/>
+        <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="50"/>
+        <sector-names-overlay :fromZoomPercentage="30" :toZoomPercentage="70"/>
         <map-highlighter
           :bigIconfromZoomPercentage="70"
           :showFromZoomPercentage="25"
@@ -81,7 +81,7 @@ export default {
       return localZoom;
     }
   },
-  beforeMount () {
+  beforeMount() {
     let self = this;
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
@@ -141,7 +141,7 @@ export default {
       }
     }, 1000);
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('loadBoundaries');
     this.$store.dispatch('loadIslands');
     this.$store.commit('setHighlights', []);
@@ -156,13 +156,13 @@ export default {
       this.$bus.$emit('closeLegend');
     });
   },
-  data () {
+  data() {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function (feature) {
+        style: function(feature) {
           return feature.properties;
         },
         interactive: false

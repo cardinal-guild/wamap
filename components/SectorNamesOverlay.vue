@@ -27,7 +27,7 @@ export default {
     ...mapState(['zoomPercentage', 'boundaryData'])
   },
   watch: {
-    zoomPercentage (newZoomPercentage, oldZoomPercentage) {
+    zoomPercentage(newZoomPercentage, oldZoomPercentage) {
       if (
         newZoomPercentage >= this.fromZoomPercentage &&
         newZoomPercentage <= this.toZoomPercentage
@@ -36,20 +36,24 @@ export default {
           (newZoomPercentage - this.fromZoomPercentage) /
           (this.toZoomPercentage - this.fromZoomPercentage);
         $('.sector-label').css('opacity', 1 - opacity);
+      } else {
+        $('.sector-label').css('opacity', 1);
+      }
+      if (newZoomPercentage <= this.toZoomPercentage) {
         $('.sector-label').css('display', 'block');
       } else {
         $('.sector-label').css('display', 'none');
       }
     },
-    boundaryData (newVal, oldVal) {
+    boundaryData(newVal, oldVal) {
       this.createSectors();
     }
   },
-  mounted () {
+  mounted() {
     this.createSectors();
   },
   methods: {
-    createSectors () {
+    createSectors() {
       if (
         this.boundaryData &&
         this.boundaryData.features &&
@@ -98,7 +102,7 @@ export default {
       default: 70
     }
   },
-  data () {
+  data() {
     return {
       sectorMarkers: []
     };
