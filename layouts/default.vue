@@ -65,7 +65,7 @@
           </v-btn>
           <span>Create a character and checkmark locations where you been</span>
         </v-tooltip>
-        <v-tooltip>
+        <v-tooltip bottom>
           <v-btn icon slot="activator" @click="filterPopup = !filterPopup">
             <v-icon>filter_list</v-icon>
           </v-btn>
