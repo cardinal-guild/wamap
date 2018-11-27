@@ -36,6 +36,7 @@
                 </div>
               </td>
             </tr>
+            <tr class="spacing"></tr>
             <tr class="island-info-header">
               <th colspan="2">Island Info</th>
             </tr>
@@ -351,18 +352,22 @@ export default {
         }
       }
 
+      &.spacing {
+        height: 10px;
+      }
+
       &.island-info-header {
         th {
           text-align: center;
           font-size: 17px;
           margin-top: 5px;
           padding: 3px 0;
-          // background: #23232388;
+          background: #23232388;
         }
       }
 
       &.island-info {
-        // background: #23232388;
+        background: #23232388;
         line-height: 16px;
         td:first-child {
           text-align: right;
