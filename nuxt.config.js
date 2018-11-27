@@ -108,7 +108,7 @@ module.exports = {
         strategyOptions: {
           cacheName: 'surveyor-cache',
           cacheExpiration: {
-            maxAgeSeconds: 10800
+            maxAgeSeconds: 28800
           }
         }
       },
@@ -122,7 +122,7 @@ module.exports = {
         strategyOptions: {
           cacheName: 'surveyor-cache',
           cacheExpiration: {
-            maxAgeSeconds: 1800
+            maxAgeSeconds: 28800
           }
         }
       }

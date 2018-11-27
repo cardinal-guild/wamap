@@ -1,15 +1,15 @@
 <template>
-    <div id="pvp-map-page">
-      <LoadingOverlay />
-      <Map mode="pvp" />
-    </div>
+  <div id="pvp-map-page">
+    <LoadingOverlay/>
+    <Map mode="pvp"/>
+  </div>
 </template>
 <script>
 import LoadingOverlay from '~/components/LoadingOverlay';
 import Map from '~/components/Map';
 
 export default {
-  mounted () {
+  mounted() {
     this.$store.commit('setShowMapControls', true);
     this.$store.commit('setPageTitle', 'PVP Map');
   },

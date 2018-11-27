@@ -4,29 +4,33 @@
       <v-layout column justify-center align-center>
         <v-flex xs12 sm8 md6>
           <div class="text-xs-center">
-            <img src="~/assets/logo_badge.png" alt="Cardinal guild logo" class="mb-5" />
-          </div><v-card >
-            <v-card-text class="headline text-xs-center">Welcome to the Cardinal Guild Worlds Adrift Map</v-card-text>
+            <img src="~/assets/logo_badge.png" alt="Cardinal guild logo" class="mb-5">
+          </div>
+          <v-card>
+            <v-card-text
+              class="headline text-xs-center"
+            >Welcome to the Cardinal Guild Worlds Adrift Map</v-card-text>
             <v-card-text class="text-xs-center">
               <p>Please choose the server map you are playing on:</p>
             </v-card-text>
             <v-card-actions>
-               <v-btn class="welcome-btn" nuxt to="/pve">
-                <PVEIcon />
+              <v-btn class="welcome-btn" nuxt to="/pve">
+                <PVEIcon/>
                 <span>PVE Map (Kubo)</span>
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn class="welcome-btn" nuxt to="/pvp">
-                <PVPIcon />
+                <PVPIcon/>
                 <span>PVP Map (Driss)</span>
               </v-btn>
             </v-card-actions>
-            <v-card-text >
-              <p><strong>Map info:</strong></p>
-              <p>Trees on islands are placed by creators, the quality is random defined by the region.  Because of this, we do not map tree qualities, only the types placed.</p>
+            <v-card-text>
+              <p>
+                <strong>Map info:</strong>
+              </p>
+              <p>Trees on islands are placed by creators, the quality is random defined by the region. Because of this, we do not map tree qualities, only the types placed.</p>
               <p>Metals on the PVE and PVP server are for each islands fixed defined with a certain quality, so choose the correct map.</p>
             </v-card-text>
-             
           </v-card>
         </v-flex>
       </v-layout>
@@ -44,8 +48,7 @@ export default {
   },
   mounted () {
     this.$store.commit('setShowMapControls', false);
-    this.$store.dispatch('loadBoundaries');
-    this.$store.dispatch('loadIslands');
+    this.$store.dispatch('loadAll');
     this.$store.commit('setPageTitle', 'Welcome');
   }
 };
@@ -71,7 +74,7 @@ export default {
     }
   }
   &:hover {
-  background-color: #463939 !important;
+    background-color: #463939 !important;
     .v-btn__content {
       color: white;
       svg {

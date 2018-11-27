@@ -1,11 +1,11 @@
 <template>
   <l-image-overlay
-    url="https://data.cardinalguild.com/zonenames.svg"
+    v-if="zonenamesData"
+    :url="zonenamesData"
     :attribution="attribution"
     :bounds="bounds"
     :z-index="1000"
-    @load="$store.commit('setZoneNamesLoaded', true)"
-    className="map-zone-overlay"
+    :options="{className: 'map-zone-overlay', interactive: false}"
     ref="zonenames"
   />
 </template>
@@ -15,7 +15,7 @@ import $ from 'jquery';
 export default {
   name: 'ZoneNameOverlay',
   computed: {
-    ...mapState(['zoomPercentage', 'islandData'])
+    ...mapState(['zonenamesData', 'zoomPercentage'])
   },
   props: {
     alphaFromZoomPercentage: {
@@ -29,20 +29,29 @@ export default {
   },
   watch: {
     zoomPercentage (newZoomPercentage, oldZoomPercentage) {
-      if (newZoomPercentage > this.alphaFromZoomPercentage) {
-        let opacity =
-          (newZoomPercentage - this.alphaFromZoomPercentage) /
-          (this.alphaToZoomPercentage - this.alphaFromZoomPercentage);
-        $('.map-zone-overlay').css('opacity', 1 - opacity);
-      } else {
-        $('.map-zone-overlay').css('opacity', 1);
+      if (
+        this.$refs &&
+        this.$refs.zonenames &&
+        this.$refs.zonenames.getElement()
+      ) {
+        let elem = this.$refs.zonenames.getElement();
+        if (elem) {
+          let $elem = $(elem);
+          if (newZoomPercentage > this.alphaFromZoomPercentage) {
+            let opacity =
+              (newZoomPercentage - this.alphaFromZoomPercentage) /
+              (this.alphaToZoomPercentage - this.alphaFromZoomPercentage);
+            $elem.css('opacity', 1 - opacity);
+          } else {
+            $elem.css('opacity', 1);
+          }
+          if (newZoomPercentage > this.alphaToZoomPercentage) {
+            $elem.css('display', 'none');
+          } else {
+            $elem.css('display', 'block');
+          }
+        }
       }
-      if (newZoomPercentage > this.alphaToZoomPercentage) {
-        $('.map-zone-overlay').css('display', 'none');
-      } else {
-        $('.map-zone-overlay').css('display', 'block');
-      }
-      //
     }
   },
   data () {

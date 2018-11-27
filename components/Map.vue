@@ -1,5 +1,5 @@
 <template>
-  <div id="map-wrap">
+  <div id="map-wrap" v-if="islandData && boundaryData">
     <no-ssr>
       <l-map
         :bounds="bounds"
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import _ from 'lodash';
 import MapLegend from '~/components/MapLegend.vue';
 import MapIslandIcons from '~/components/MapIslandIcons.vue';
@@ -59,6 +60,9 @@ export default {
     MapHighlighter,
     ZoneNameOverlay,
     SectorNamesOverlay
+  },
+  computed: {
+    ...mapState(['islandData', 'boundaryData'])
   },
   methods: {
     onZoom: (e, r) => {
@@ -142,8 +146,7 @@ export default {
     }, 1000);
   },
   mounted () {
-    this.$store.dispatch('loadBoundaries');
-    this.$store.dispatch('loadIslands');
+    this.$store.dispatch('loadAll');
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
       let localZoom = this.zoomPercentageToLocalZoom(

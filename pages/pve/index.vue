@@ -1,8 +1,8 @@
 <template>
-    <div id="pve-map-page">
-        <LoadingOverlay />
-        <Map mode="pve" />
-    </div>
+  <div id="pve-map-page">
+    <LoadingOverlay/>
+    <Map mode="pve"/>
+  </div>
 </template>
 <script>
 import LoadingOverlay from '~/components/LoadingOverlay';

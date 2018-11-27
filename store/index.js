@@ -1,11 +1,20 @@
+const svgToDataURL = svgStr => {
+  const encoded = encodeURIComponent(svgStr)
+    .replace(/'/g, '%27')
+    .replace(/"/g, '%22');
+
+  const header = 'data:image/svg+xml,';
+  const dataUrl = header + encoded;
+
+  return dataUrl;
+}
+
 export const state = () => ({
   sidebar: true,
-  loading: false,
-  boundariesLoading: false,
+  loading: true,
   boundaryData: null,
   islandData: null,
-  islandsLoading: false,
-  zoneNamesLoaded: false,
+  zonenamesData: null,
   showMapControls: false,
   highlightedCoords: [],
   mapMode: 'pve',
@@ -25,11 +34,8 @@ export const mutations = {
   setZoomPercentage (state, value) {
     state.zoomPercentage = value
   },
-  boundariesLoading (state, loading) {
-    state.boundariesLoading = loading
-  },
-  islandsLoading (state, loading) {
-    state.islandsLoading = loading
+  loading (state, loading) {
+    state.loading = loading
   },
   boundaryData (state, data) {
     if (console.log) {
@@ -43,8 +49,11 @@ export const mutations = {
     }
     state.islandData = data
   },
-  updateMapOptions (state, options) {
-    state.mapOptions = options
+  zonenamesData (state, data) {
+    if (console.log) {
+      console.log('Zone names data loaded')
+    }
+    state.zonenamesData = data
   },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;
@@ -84,43 +93,29 @@ export const mutations = {
 }
 
 export const actions = {
-  async loadIslands ({
+  async loadAll ({
     commit,
     app
   }) {
-    if (!this.state.islandData) {
+    if (!this.state.islandData || !this.state.boundaryData) {
       if (console.log) {
         console.log('Loading islands from surveyor.cardinalguild')
       }
-      commit('islandsLoading', true)
-      const data = await this.$axios.$get('https://surveyor.cardinalguild.com/api/islands.json')
-      commit('islandData', data)
-      commit('islandsLoading', false)
-    }
-  },
-  async clearHighlights ({
-    commit,
-    app
-  }) {
-    if (this.state.highlightedCoords) {
-      if (console.log) {
-        console.log('Clearing map highlights')
-      }
-      commit('clearHighlights')
-    }
-  },
-  async loadBoundaries ({
-    commit,
-    app
-  }) {
-    if (!this.state.boundaryData) {
+      commit('loading', true)
+      const islandData = await this.$axios.$get('https://surveyor.cardinalguild.com/api/islands.json')
+      commit('islandData', islandData)
       if (console.log) {
         console.log('Loading map boundaries')
       }
-      commit('boundariesLoading', true)
-      const data = await this.$axios.$get('https://data.cardinalguild.com/wamap.geojson')
-      commit('boundaryData', data)
-      commit('boundariesLoading', false)
+      const boundaryData = await this.$axios.$get('https://data.cardinalguild.com/wamap.geojson')
+      commit('boundaryData', boundaryData)
+      if (console.log) {
+        console.log('Loading zone name overlay')
+      }
+      const zonenamesData = await this.$axios.$get('https://data.cardinalguild.com/zonenames.svg')
+      commit('zonenamesData', svgToDataURL(zonenamesData))
+      
+      commit('loading', false)
     }
   }
 }
