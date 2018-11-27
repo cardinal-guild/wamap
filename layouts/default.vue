@@ -1,14 +1,9 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      fixed
-      app
-      :mini-variant="miniVariant"
-      v-model="drawer"
-    >
+    <v-navigation-drawer fixed app :mini-variant="miniVariant" v-model="drawer">
       <v-list>
-         <v-list-tile router exact @click="drawer=false" to="/">
-           <v-list-tile-action>
+        <v-list-tile router exact @click="drawer=false" to="/">
+          <v-list-tile-action>
             <v-icon>apps</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
@@ -17,7 +12,7 @@
         </v-list-tile>
         <v-list-tile router exact @click="drawer=false" to="/pve">
           <v-list-tile-action class="svg-tile">
-            <PVEIcon />
+            <PVEIcon/>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>PVE Map</v-list-tile-title>
@@ -26,7 +21,7 @@
 
         <v-list-tile router exact @click="drawer=false" to="/pvp">
           <v-list-tile-action class="svg-tile">
-            <PVPIcon />
+            <PVPIcon/>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>PVP Map</v-list-tile-title>
@@ -44,18 +39,15 @@
     </v-navigation-drawer>
     <v-toolbar fixed app color="#504141" class="cg-toolbar" :dense="$store.state.showMapControls">
       <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
+      <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
       <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
-        <v-spacer />
+      <v-spacer/>
       <template v-if="$store.state.showMapControls">
         <v-tooltip bottom>
           <v-btn icon slot="activator" @click="copyToClipboard">
-            <CopyPasteLink />
+            <CopyPasteLink/>
           </v-btn>
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
@@ -66,13 +58,13 @@
           <span>Create a character and checkmark locations where you been</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="filterPopup = !filterPopup">
+          <v-btn icon slot="activator" @click="openFilterDrawer">
             <v-icon>filter_list</v-icon>
           </v-btn>
           <span>Filter islands by materials or databanks</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="$store.commit('toggleSearch');">
+          <v-btn icon slot="activator" @click="openSearchDrawer">
             <v-icon>search</v-icon>
           </v-btn>
           <span>Search for an island</span>
@@ -80,39 +72,23 @@
       </template>
     </v-toolbar>
     <v-content>
-        <nuxt />
+      <nuxt/>
     </v-content>
-    <v-navigation-drawer
-      temporary
-      right
-      v-model="searchDrawer"
-      fixed
-    >
-      <v-list>
-       <v-list-tile-title class="headline">Search</v-list-tile-title>
-      </v-list>
-    </v-navigation-drawer>
 
-     <v-navigation-drawer
-      temporary
-      right
-      v-model="accountDrawer"
-      fixed
-    >
+    <v-navigation-drawer right v-model="searchFilterDrawer" fixed app>
+      <map-search-drawer v-if="searchDrawer"></map-search-drawer>
+      <map-filter-drawer v-if="filterDrawer"></map-filter-drawer>
+    </v-navigation-drawer>
+    <v-navigation-drawer temporary right v-model="accountDrawer" fixed>
       <v-list>
-       <v-list-tile-title class="headline">Account</v-list-tile-title>
+        <v-list-tile-title class="headline">Account</v-list-tile-title>
       </v-list>
     </v-navigation-drawer>
     <v-footer :fixed="fixed" app v-if="!$store.state.showMapControls">
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
 
-     <v-snackbar
-      bottom right
-      v-model="showSnack"
-      :color="snackColor"
-      :timeout="6000"
-    >{{ snackText }}</v-snackbar>
+    <v-snackbar bottom right v-model="showSnack" :color="snackColor" :timeout="6000">{{ snackText }}</v-snackbar>
   </v-app>
 </template>
 
@@ -120,29 +96,41 @@
 import CopyPasteLink from '~/assets/svg/copy_paste_link_icon.svg';
 import PVEIcon from '~/assets/svg/pve_icon.svg';
 import PVPIcon from '~/assets/svg/pvp_icon.svg';
+import MapSearchDrawer from '~/components/MapSearchDrawer';
+import MapFilterDrawer from '~/components/MapFilterDrawer';
 export default {
   components: {
     CopyPasteLink,
     PVEIcon,
-    PVPIcon
+    PVPIcon,
+    MapSearchDrawer,
+    MapFilterDrawer
   },
   head () {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
   created: function () {
-    this.$store.watch(state => state.snackText, () => {
-      const msg = this.$store.state.snackText;
-      const color = this.$store.state.snackColor;
-      if (msg !== '' && color !== '') {
-        this.snackText = msg;
-        this.snackColor = color;
-        this.showSnack = true;
-        this.$store.commit('setSnack', {
-          text: '',
-          color:'info'
-        });
+    this.$store.watch(
+      state => state.snackText,
+      () => {
+        const msg = this.$store.state.snackText;
+        const color = this.$store.state.snackColor;
+        if (msg !== '' && color !== '') {
+          this.snackText = msg;
+          this.snackColor = color;
+          this.showSnack = true;
+          this.$store.commit('setSnack', {
+            text: '',
+            color: 'info'
+          });
+        }
       }
-    })
+    );
+  },
+  mounted () {
+    this.$bus.$on('closeSearchFilterDrawer', e => {
+      this.searchFilterDrawer = false;
+    });
   },
   data () {
     return {
@@ -159,10 +147,22 @@ export default {
       ],
       miniVariant: false,
       searchDrawer: false,
+      filterDrawer: false,
+      searchFilterDrawer: false,
       accountDrawer: false
     };
   },
   methods: {
+    openSearchDrawer () {
+      this.searchDrawer = true;
+      this.filterDrawer = false;
+      this.searchFilterDrawer = true;
+    },
+    openFilterDrawer () {
+      this.filterDrawer = true;
+      this.searchDrawer = false;
+      this.searchFilterDrawer = true;
+    },
     async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
@@ -184,7 +184,7 @@ export default {
       } catch (e) {
         this.$store.commit('setSnack', {
           text: 'There was an error copying the link to your clipboard',
-          color:'error'
+          color: 'error'
         });
       }
     }
