@@ -15,6 +15,7 @@ export const state = () => ({
   boundaryData: null,
   islandData: null,
   zonenamesData: null,
+  metalTypes: null,
   showMapControls: false,
   highlightedCoords: [],
   mapMode: 'pve',
@@ -54,6 +55,12 @@ export const mutations = {
       console.log('Zone names data loaded')
     }
     state.zonenamesData = data
+  },
+  metalTypes (state, data) {
+    if (console.log) {
+      console.log("Metal types loaded")
+    }
+    state.metalTypes = data
   },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;
@@ -114,7 +121,9 @@ export const actions = {
       }
       const zonenamesData = await this.$axios.$get('https://data.cardinalguild.com/zonenames.svg')
       commit('zonenamesData', svgToDataURL(zonenamesData))
-      
+      const metalTypes = await this.$axios.$get("https://surveyor.cardinalguild.com/api/metaltypes.json")
+      commit("metalTypes", metalTypes)
+
       commit('loading', false)
     }
   }

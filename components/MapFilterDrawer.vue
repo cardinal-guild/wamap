@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer right v-model="opened" :mini-variant="false" :width="360" fixed app>
+  <v-navigation-drawer right v-model="opened" :mini-variant="false" :width="320" fixed app>
     <v-toolbar flat dense>
       <v-list>
         <v-list-tile>
@@ -13,16 +13,46 @@
     </v-toolbar>
 
     <v-divider></v-divider>
-    <v-text-field hide-details prepend-icon="search" single-line/>
+
+
+    <v-layout row wrap>
+      <v-flex xs9>
+        <v-select
+          hide-details
+          prepend-icon="filter_list"
+          :items="metalTypes"
+          item-text="name"
+          item-value="id"
+          return-object
+          label="Select metal"
+          single-line
+        />
+      </v-flex>
+      <v-flex xs3>
+        <v-select
+          hide-details
+          :items="range"
+          single-line
+          prepend-icon="Q"
+        />
+      </v-flex>
+    </v-layout>
   </v-navigation-drawer>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import _ from "lodash";
 export default {
   methods: {
     closeDrawer () {
       this.$bus.$emit('closeSearchFilterDrawer');
+    }
+  },
+  computed: {
+    ...mapState(["islandData", "metalTypes"]),
+    range: () => {
+      return _.range(1,11);
     }
   },
   mounted () {

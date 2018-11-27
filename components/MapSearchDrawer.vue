@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer right v-model="opened" :mini-variant="false" :width="360" fixed app>
+  <v-navigation-drawer right v-model="opened" :mini-variant="false" :width="320" fixed app>
     <v-toolbar flat dense>
       <v-list>
         <v-list-tile>
@@ -39,11 +39,6 @@
             </td>
             <td class="search-drawer-row-text">{{ props.item.properties.fullName }}</td>
             <td class="search-drawer-row-text text-xs-right">{{ props.item.properties.creator }}</td>
-            <!-- <td class="text-xs-right">{{ props.item.calories }}</td>
-          <td class="text-xs-right">{{ props.item.fat }}</td>
-          <td class="text-xs-right">{{ props.item.carbs }}</td>
-          <td class="text-xs-right">{{ props.item.protein }}</td>
-            <td class="text-xs-right">{{ props.item.iron }}</td>-->
           </tr>
         </template>
         <v-alert
