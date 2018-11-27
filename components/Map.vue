@@ -94,11 +94,10 @@ export default {
         this.$refs.map &&
         this.$refs.map.mapObject &&
         this.$store.state.boundaryData &&
-        this.$store.state.zoneNamesLoaded &&
         this.$store.state.islandData
       ) {
         self.currentMap = this.$refs.map.mapObject;
-        self.currentMap.getRenderer(self.currentMap).options.padding = 10;
+        self.currentMap.getRenderer(self.currentMap).options.padding = 2;
 
         if (
           self.$router.currentRoute &&
