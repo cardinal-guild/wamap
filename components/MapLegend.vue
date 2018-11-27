@@ -1,8 +1,8 @@
 <template>
-  <l-control position="topright" class="map-legend-control"> 
+  <l-control position="topright" class="map-legend-control">
     <div class="map-legend" :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }">
       <div class="map-legend-toggle" @click="opened=!opened">
-        <v-icon large>chevron_right</v-icon>  
+        <v-icon large>chevron_right</v-icon>
       </div>
       <div class="map-legend-content">
         <div class="map-legend-title">Legend</div>
@@ -101,7 +101,7 @@ export default {
   computed: {
     ...mapState(['zoomPercentage'])
   },
-  data() {
+  data () {
     return {
       opened: true
     };
@@ -112,7 +112,7 @@ export default {
       default: 80
     }
   },
-  mounted() {
+  mounted () {
     if (window && window.innerWidth) {
       if (window.innerWidth < 380) {
         this.opened = false;
@@ -130,7 +130,7 @@ export default {
   }
 };
 </script>
- 
+
 <style lang="scss" scoped>
 @import '~sass-easing/_easings';
 

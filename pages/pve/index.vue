@@ -18,7 +18,7 @@ export default {
     LoadingOverlay
   }
 };
-</script> 
+</script>
 
 <style lang="stylus" scoped>
 #pve-map-page {

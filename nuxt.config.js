@@ -17,13 +17,44 @@ module.exports = {
     {
       hid: 'description',
       name: 'description',
-      content: 'Worlds Adrift Map'
-    }
-    ],
+      content: 'Worlds Adrift Interactive Map'
+    },
+    {
+      hid: 'title',
+      name: 'title',
+      content: 'Cardinal Guild Interactive Map'
+    },
+    {
+      hid: 'og:title',
+      name: 'og:title',
+      content: 'Cardinal Guild Interactive Map'
+    },
+    {
+      hid: 'og:site_name',
+      name: 'og:site_name',
+      content: 'Cardinal Guild'
+    },
+    {
+      hid: 'og:descripion',
+      name: 'og:description',
+      content: 'An interactive map for Worlds Adrift'
+    },
+    {
+      hid: 'og:image',
+      name: 'og:image',
+      content: '/logo.png'
+    }],
     link: [{
       rel: 'icon',
-      type: 'image/x-icon',
-      href: '/favicon.ico'
+      type: 'image/png',
+      href: '/favicon-16x16.png',
+      sizes: '16x16'
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: '/favicon-32x32.png',
+      sizes: '32x32'
     },
     {
       rel: 'stylesheet',
@@ -52,7 +83,7 @@ module.exports = {
     src: '~/plugins/nuxt-leaflet.js',
     ssr: false
   }],
-  css: [ 
+  css: [
     '~/assets/style/leaflet.css',
     '~/assets/style/app.styl'
   ],

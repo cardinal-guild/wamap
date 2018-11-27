@@ -1,8 +1,8 @@
 {
   "name": "wamap",
   "version": "1.0.0",
-  "description": "Worlds Adrift Map",
-  "author": "fearjake82@gmail.com",
+  "description": "Worlds Adrift Interactive Map",
+  "author": "Cardinal Guild",
   "private": true,
   "scripts": {
     "dev": "nuxt",

@@ -129,9 +129,9 @@ export default {
     upper: function (value) {
       return value.toUpperCase();
     },
-    metalsToString: function(metals) {
+    metalsToString: function (metals) {
       let metalNames = [];
-      _.forEach(metals, function(metal){
+      _.forEach(metals, function (metal) {
         metalNames.push(metal.name+' Q'+metal.quality);
       });
       return metalNames.join(', ');

@@ -80,6 +80,11 @@ export const mutations = {
       if(payload && payload.constructor === Array) {
         state.highlightedCoords.push(payload);
       }
+  },
+  addHighlights (state, payload) {
+    if(payload && payload.coords && payload.coords.constructor === Array) {
+      state.highlightedCoords.push(...payload);
+    }
   }
 }
 
