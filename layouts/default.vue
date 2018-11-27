@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer fixed app :mini-variant="miniVariant" v-model="drawer">
+    <v-navigation-drawer class="main-drawer" fixed app :mini-variant="miniVariant" v-model="drawer">
       <v-list>
         <v-list-tile router exact @click="drawer=false" to="/">
           <v-list-tile-action>
@@ -228,7 +228,7 @@ html {
     height: 24px;
   }
 }
-.v-navigation-drawer {
+.main-drawer {
   border-right: 5px #e0af84 solid;
   .v-list {
     padding: 0;

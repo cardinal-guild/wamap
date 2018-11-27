@@ -21,7 +21,7 @@
           :options="boundaryOptions"
         />
         <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="70"/>
-        <sector-names-overlay :fromZoomPercentage="25"/>
+        <sector-names-overlay :fromZoomPercentage="10" :toZoomPercentage="70"/>
         <map-highlighter
           :bigIconfromZoomPercentage="70"
           :showFromZoomPercentage="25"

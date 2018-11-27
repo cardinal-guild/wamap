@@ -24,45 +24,66 @@ if (isBrowser) {
 }
 export default {
   computed: {
-    ...mapState(['zoomPercentage', 'islandData', 'boundaryData', 'boundariesLoading'])
+    ...mapState(['zoomPercentage', 'boundaryData'])
   },
   watch: {
     zoomPercentage (newZoomPercentage, oldZoomPercentage) {
       if (
-        newZoomPercentage >= this.fromZoomPercentage
+        newZoomPercentage >= this.fromZoomPercentage &&
+        newZoomPercentage <= this.toZoomPercentage
       ) {
+        let opacity =
+          (newZoomPercentage - this.fromZoomPercentage) /
+          (this.toZoomPercentage - this.fromZoomPercentage);
+        $('.sector-label').css('opacity', 1 - opacity);
         $('.sector-label').css('display', 'block');
       } else {
         $('.sector-label').css('display', 'none');
       }
     },
-    boundariesLoading (newVal, oldVal) {
-      let curFeature;
-      for (var i = 0; i < this.boundaryData.features.length; i++) {
-        curFeature = this.boundaryData.features[i];
-        if (/\D\d/.exec(curFeature.properties.name) != null) {
-          let lat = 0;
-          let lng = 0;
-          let j;
-          for (j = 0; j < curFeature.geometry.coordinates[0].length; j++) {
-            lng += curFeature.geometry.coordinates[0][j][0];
-            lat += curFeature.geometry.coordinates[0][j][1];
-
+    boundaryData (newVal, oldVal) {
+      this.createSectors();
+    }
+  },
+  mounted () {
+    this.createSectors();
+  },
+  methods: {
+    createSectors () {
+      if (
+        this.boundaryData &&
+        this.boundaryData.features &&
+        this.boundaryData.features.length
+      ) {
+        this.sectorMarkers = [];
+        let curFeature;
+        for (var i = 0; i < this.boundaryData.features.length; i++) {
+          curFeature = this.boundaryData.features[i];
+          if (/\D\d/.exec(curFeature.properties.name) != null) {
+            let lat = 0;
+            let lng = 0;
+            let j;
+            for (
+              j = 0;
+              j < curFeature.geometry.coordinates[0].length - 1;
+              j++
+            ) {
+              lng += curFeature.geometry.coordinates[0][j][0];
+              lat += curFeature.geometry.coordinates[0][j][1];
+            }
+            lat /= j;
+            lng /= j;
+            let marker = leaflet.divIcon({
+              html: curFeature.properties.name,
+              className: 'sector-label',
+              iconSize: [80, 40]
+            });
+            this.sectorMarkers.push({
+              name: curFeature.properties.name,
+              latLng: leaflet.latLng(lat, lng),
+              icon: marker
+            });
           }
-          lat /= j;
-          lng /= j;
-          let marker = leaflet.divIcon({
-            html:
-              '<div class="sector-label">' +
-              curFeature.properties.name +
-              '</div>',
-            className: 'sector-label-div'
-          });
-          this.sectorMarkers.push({
-            name: curFeature.properties.name,
-            latLng: leaflet.latLng(lat, lng),
-            icon: marker
-          });
         }
       }
     }
@@ -71,23 +92,26 @@ export default {
     fromZoomPercentage: {
       type: Number,
       default: 10
+    },
+    toZoomPercentage: {
+      type: Number,
+      default: 70
     }
   },
   data () {
     return {
-      sectorMarkers: [],
-    }
+      sectorMarkers: []
+    };
   }
 };
 </script>
 <style lang="scss">
-.island-dot {
-  display: none;
-}
-
 .sector-label {
+  display: none;
+  text-align: center;
   font-size: 35px;
-  font-family: "Noto Sans", "Roboto", sans-serif;
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
   color: #291a08;
+  pointer-events: none !important;
 }
 </style>

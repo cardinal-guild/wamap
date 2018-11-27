@@ -1,15 +1,16 @@
 <template>
-    <div class="highlight-markers" >
-        <no-ssr>
-            <l-marker
-                v-for="(highlightedCoord, index) in highlightedCoords"
-                :key="index"
-                :lat-lng="highlightedCoord"
-                :icon="highlightIcon"
-                layer-type="overlay">
-            </l-marker>
-        </no-ssr>
-    </div>
+  <div class="highlight-markers">
+    <no-ssr>
+      <l-marker
+        v-for="(highlightedCoord, index) in highlightedCoords"
+        :key="index"
+        :lat-lng="highlightedCoord"
+        :icon="highlightIcon"
+        :options="{interactive: false}"
+        layer-type="overlay"
+      ></l-marker>
+    </no-ssr>
+  </div>
 </template>
 
 <script>
@@ -23,28 +24,28 @@ if (isBrowser) {
 }
 export default {
   computed: {
-    ...mapState(['highlightedCoords','zoomPercentage'])
+    ...mapState(['highlightedCoords', 'zoomPercentage'])
   },
 
   watch: {
     zoomPercentage (newZoomPercentage, oldZoomPercentage) {
-      if(newZoomPercentage < this.showFromZoomPercentage) {
-        $('.highlight-icon').css('display','none');
+      if (newZoomPercentage < this.showFromZoomPercentage) {
+        $('.highlight-icon').css('display', 'none');
       } else {
-        $('.highlight-icon').css('display','block');
+        $('.highlight-icon').css('display', 'block');
       }
       let setIconHeight = this.iconHeightBig;
-      if(newZoomPercentage <= this.bigIconfromZoomPercentage) {
-        setIconHeight = this.iconHeightSmall
+      if (newZoomPercentage <= this.bigIconfromZoomPercentage) {
+        setIconHeight = this.iconHeightSmall;
       }
-      if(setIconHeight !== this.currentIconHeight) {
+      if (setIconHeight !== this.currentIconHeight) {
         this.currentIconHeight = setIconHeight;
         this.highlightIcon = leaflet.divIcon({
           html: '<img src="/assets/highlight_arrow.png" />',
           iconSize: [60, this.currentIconHeight],
           clickable: false,
           className: 'highlight-icon'
-        })
+        });
       }
     }
   },
@@ -72,8 +73,9 @@ export default {
       html: '<img src="/assets/highlight_arrow.png" />',
       iconSize: [60, this.currentIconHeight],
       clickable: false,
+      interactive: false,
       className: 'highlight-icon'
-    })
+    });
   },
   data () {
     return {
