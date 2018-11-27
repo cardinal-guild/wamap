@@ -36,15 +36,18 @@
                 </div>
               </td>
             </tr>
-            <tr class="altitude">
+            <tr class="island-info-header">
+              <th colspan="2">Island Info</th>
+            </tr>
+            <tr class="altitude island-info">
               <td>Altitude</td>
               <td>{{ altitude }}</td>
             </tr>
-            <tr class="databanks">
+            <tr class="databanks island-info">
               <td>Databanks</td>
               <td>{{ databanks }}</td>
             </tr>
-            <tr class="culture">
+            <tr class="culture island-info">
               <td>Culture</td>
               <td> {{ type | capitalize }}</td>
             </tr>
@@ -288,7 +291,7 @@ export default {
     }
     tr {
       td,th {
-        width: 100%;
+        width: 50%;
 
         &.island-popup-image {
           background: #232323;
@@ -300,6 +303,9 @@ export default {
             width: calc(100% - 8px);
           }
         }
+      }
+      th {
+        width: 100%;
       }
       &.name {
         th {
@@ -342,10 +348,28 @@ export default {
           img {
             position: relative;
           }
+        }
+      }
 
-          &.creator-name {
+      &.island-info-header {
+        th {
+          text-align: center;
+          font-size: 17px;
+          margin-top: 5px;
+          padding: 3px 0;
+          // background: #23232388;
+        }
+      }
 
-          }
+      &.island-info {
+        // background: #23232388;
+        line-height: 16px;
+        td:first-child {
+          text-align: right;
+          padding-right: 10px;
+        }
+        td:last-child {
+          padding-left: 10px;
         }
       }
     }
