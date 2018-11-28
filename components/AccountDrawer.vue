@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer temporary right v-model="opened" fixed>
+  <v-navigation-drawer right v-model="opened" :mini-variant="false" :width="320" fixed app>
     <v-toolbar flat dense>
       <v-list>
         <v-list-tile>
@@ -7,23 +7,78 @@
           <v-spacer/>
         </v-list-tile>
       </v-list>
-      <v-btn icon @click="closeDrawer">
+      <v-btn icon @click="opened = false">
         <v-icon>cancel</v-icon>
       </v-btn>
     </v-toolbar>
 
     <v-divider></v-divider>
-    <p>Under construction ...</p>
+
+    <v-list>
+      <v-list-tile>
+        <v-layout row>
+          <v-flex xs10>
+            <v-text-field
+              placeholder="Add a new character"
+              single-line
+              hide-details
+              v-model="characterName"
+            />
+          </v-flex>
+          <v-flex xs2>
+            <v-btn fab small @click="addCharacter">Add</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-list-tile>
+      <v-data-table
+        v-if="$store.state.characters"
+        :headers="headers"
+        :items="$store.state.characters"
+      >
+        <template slot="items" slot-scope="props">
+          <tr @click="$store.commit('setSelectedChar', props.item.name)" :class="{ selected: $store.state.selectedChar === props.item.name }">
+            <td>{{ props.item.name }}</td>
+            <td>{{ props.item.created }}</td>
+            <td class="pl-0">
+              <v-btn left fab small @click="$store.commit('delCharacter', props.item.name)">
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
+    </v-list>
+    <v-snackbar bottom right v-model="snackbar" :color="snackColor" :timeout="3000">{{ snackText }}</v-snackbar>
   </v-navigation-drawer>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import _ from "lodash";
 export default {
   methods: {
-    closeDrawer () {
-      this.opened = false;
-      this.$bus.$emit('closeSearchFilterDrawer');
+    addCharacter () {
+      if (this.characterName) {
+        if(!_.find(this.$store.state.characters, {name: this.characterName})) {
+          let date = new Date();
+          this.$store.commit("addCharacter", {
+            name: this.characterName,
+            visited: [],
+            created: date.getMonth()+1+"/"+date.getDate()+"/"+date.getFullYear()
+          });
+        }
+        else {
+          this.showBar("There is already a character with this name!")
+        }
+        this.characterName = "";
+      }
+      else {
+        this.showBar("You must input a name!")
+      }
+    },
+    showBar (text) {
+      this.snackText = text;
+      this.snackbar = true;
     }
   },
   mounted () {
@@ -31,12 +86,43 @@ export default {
       this.opened = true;
     });
   },
-  created () {},
-  props: {
-    opened: {
-      type: Boolean,
-      default: false
+  computed: {
+    ...mapState(["characters"])
+  },
+  data () {
+    return {
+      characterName: "",
+      opened: false,
+      snackbar: false,
+      snackColor: '#FF4F4F',
+      snackText: '',
+      headers: [
+        {
+          text: 'Name',
+          align: 'center',
+          value: 'name'
+        },
+        {
+          text: 'Created',
+          align: 'center',
+          value: 'created',
+          sortable: false,
+        },
+        {
+          text: ' ',
+          sortable: false,
+        }
+      ]
     }
   }
 };
 </script>
+<style lang="scss">
+tr.selected {
+  background: #bbff9955;
+
+  &:hover {
+    background: #bbff99aa !important;
+  }
+}
+</style>

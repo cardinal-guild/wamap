@@ -16,6 +16,8 @@ export const state = () => ({
   islandData: null,
   zonenamesData: null,
   metalTypes: null,
+  characters: null,
+  selectedChar: null,
   showMapControls: false,
   highlightedCoords: [],
   mapMode: 'pve',
@@ -61,6 +63,28 @@ export const mutations = {
       console.log("Metal types loaded")
     }
     state.metalTypes = data
+  },
+  characters (state, data) {
+    state.characters = data;
+    window.localStorage.setItem("characters", JSON.stringify(data));
+    if (console.log) {
+      console.log("Loaded character data")
+      console.log(state.characters)
+    }
+  },
+  addCharacter (state, char) {
+    state.characters.push(char);
+    window.localStorage.setItem("characters", JSON.stringify(state.characters));
+  },
+  delCharacter (state, name) {
+    state.characters = state.characters.filter(o => o.name !== name)
+    window.localStorage.setItem("characters", JSON.stringify(state.characters));
+  },
+  setSelectedChar (state, name) {
+    if (state.selectedChar === name) {
+      state.selectedChar = null
+    }
+    else state.selectedChar = name
   },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;
@@ -123,6 +147,13 @@ export const actions = {
       commit('zonenamesData', svgToDataURL(zonenamesData))
       const metalTypes = await this.$axios.$get("https://surveyor.cardinalguild.com/api/metaltypes.json")
       commit("metalTypes", metalTypes)
+
+      if (window.localStorage.getItem("characters")) {
+        commit("characters", JSON.parse(window.localStorage.getItem("characters")))
+      }
+      else {
+        commit("characters", [])
+      }
 
       commit('loading', false)
     }

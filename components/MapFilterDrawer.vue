@@ -82,10 +82,9 @@ export default {
     },
     change () {
       if (this.quality && this.metal) {
-        let metal = this.metal
-        let quality = this.quality
+        let self = this;
         this.filteredIslands = _.filter(this.islandData.features, function (o) {
-          let metals = _.filter(o.properties.pveMetals, { type_id: metal.id, quality: quality })
+          let metals = _.filter(o.properties[self.$store.state.mapMode+"Metals"], { type_id: self.metal.id, quality: self.quality });
           return metals.length > 0;
         });
         let filteredCoords = this.filteredIslands.map(function (o) {

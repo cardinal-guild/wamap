@@ -52,7 +52,7 @@
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="$bus.$emit('openAccountDrawer')">
+          <v-btn icon slot="activator" @click="$bus.$emit('openAccountDrawer');$bus.$emit('closeLegend');">
             <v-icon>account_circle</v-icon>
           </v-btn>
           <span>Create a character and checkmark locations where you been</span>
