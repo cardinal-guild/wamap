@@ -96,11 +96,11 @@
                 <v-expansion-panel-content class="island-extras" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
                   <v-card>
-                    <v-card-text>
+                    <v-card-text class="py-2">
                       <table class="island-materials-table" v-if="thisMetals.length > 0">
-                        <tr class="mat-header">
+                        <!-- <tr class="mat-header">
                           <th colspan="2">Metals</th>
-                        </tr>
+                        </tr> -->
                         <tr v-for="metal in thisMetals">
                           <td>{{ metal.name }}</td>
                           <td>{{ metal.quality }}</td>
@@ -108,9 +108,9 @@
                       </table>
                       <div class="island-materials-table" v-else>No metals data</div>
                       <table class="island-materials-table" v-if="trees.length > 0">
-                        <tr class="mat-header">
+                        <!-- <tr class="mat-header">
                           <th>Wood</th>
-                        </tr>
+                        </tr> -->
                         <tr v-for="tree in trees">
                           <td>{{ tree }}</td>
                         </tr>
@@ -120,27 +120,30 @@
                       <div class="table-divider" />
                       <table class="island-extras-table">
                         <tr v-if="surveyCreatedBy">
-                          <td>Survey created by:</td>
+                          <td>Created by:</td>
                           <td>{{surveyCreatedBy}}</td>
                         </tr>
                         <tr v-if="createdAt">
-                          <td>Created at:</td>
-                          <td>{{createdAt}}</td>
+                          <td colspan="2">{{createdAt}}</td>
                         </tr>
                         <tr><td colspan="2"><div class="table-divider" /></td></tr>
                         <tr v-if="surveyUpdatedBy">
-                          <td>Survey updated by:</td>
+                          <td>Updated by:</td>
                           <td>{{surveyUpdatedBy}}</td>
                         </tr>
                         <tr v-if="updatedAt">
-                          <td>Updated at:</td>
-                          <td>{{updatedAt}}</td>
+                          <td colspan="2">{{updatedAt}}</td>
                         </tr>
                       </table>
                     </v-card-text>
                   </v-card>
                 </v-expansion-panel-content>
               </v-expansion-panel>
+            </tr>
+            <tr class="character-check">
+              <td colspan="2">
+                <v-checkbox v-model="visited" label="Visted" color="green" :disabled="!!$store.state.selectedChar" />
+              </td>
             </tr>
           </table>
           <v-btn color="green" class="island-popups-button" flat target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
@@ -212,6 +215,9 @@ export default {
     thisMetals () {
       if (this.$store.state.mapMode === "pve") return this.pveMetals;
       return this.pvpMetals;
+    },
+    visited: function () {
+      return true;
     }
   },
   data () {
@@ -457,6 +463,27 @@ export default {
           .island-extras-table {
             font-size: 12px;
             border-collapse: collapse;
+            width: 100%;
+
+            td:first-child {
+              text-align: right;
+              padding-right: 5px;
+            }
+
+            td:last-child {
+              text-align: left;
+              padding-left: 5px;
+            }
+
+            // div.table-divider {
+            //   width: 80%;
+            //   margin: auto;
+            // }
+
+            td:first-child:last-child {
+              text-align: center;
+              padding: 0;
+            }
           }
 
           .island-materials-table {

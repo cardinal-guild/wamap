@@ -37,9 +37,9 @@
       >
         <template slot="items" slot-scope="props">
           <tr @click="$store.commit('setSelectedChar', props.item.name)" :class="{ selected: $store.state.selectedChar === props.item.name }">
-            <td>{{ props.item.name }}</td>
-            <td>{{ props.item.created }}</td>
-            <td class="pl-0">
+            <td class="character character-name">{{ props.item.name }}</td>
+            <td class="character character-created">{{ props.item.created }}</td>
+            <td class="pl-0 character character-delete">
               <v-btn left fab small @click="$store.commit('delCharacter', props.item.name)">
                 <v-icon>delete</v-icon>
               </v-btn>
@@ -82,6 +82,13 @@ export default {
     }
   },
   mounted () {
+
+    this.$bus.$on('openFilterDrawer', e => {
+      this.opened = false;
+    });
+    this.$bus.$on('openSearchDrawer', e => {
+      this.opened = false;
+    });
     this.$bus.$on('openAccountDrawer', e => {
       this.opened = true;
     });
@@ -100,13 +107,15 @@ export default {
         {
           text: 'Name',
           align: 'center',
-          value: 'name'
+          value: 'name',
+          width: "140px"
         },
         {
           text: 'Created',
           align: 'center',
           value: 'created',
           sortable: false,
+          width: "80px"
         },
         {
           text: ' ',
@@ -123,6 +132,38 @@ tr.selected {
 
   &:hover {
     background: #bbff99aa !important;
+  }
+}
+
+table.v-table {
+  thead {
+    th.column {
+      padding: 0 12px;
+    }
+
+    tr {
+      height: 40px;
+    }
+  }
+  tbody td.character {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+    &.character-name {
+      width: 140px;
+    }
+
+    &.character-created {
+      width: 80px;
+    }
+
+    &.character-delete {
+      width: 100px;
+      button {
+        margin: auto;
+      }
+    }
   }
 }
 </style>

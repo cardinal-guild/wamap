@@ -58,17 +58,14 @@ export default {
   computed: {
     ...mapState(['islandData'])
   },
-  props: {
-    searchFilterDrawer: {
-      type: Boolean,
-      default: false
-    }
-  },
   mounted () {
     this.$bus.$on('openFilterDrawer', e => {
       this.opened = false;
     });
-    this.$bus.$on('openSearchDrawer', e => {
+    this.$bus.$on("openAccountDrawer", e => {
+      this.opened = false;
+    });
+     this.$bus.$on('openSearchDrawer', e => {
       this.opened = true;
     });
   },

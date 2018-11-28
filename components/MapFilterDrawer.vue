@@ -71,9 +71,6 @@ import { mapState } from 'vuex';
 import _ from "lodash";
 export default {
   methods: {
-    closeDrawer () {
-      this.$bus.$emit('closeSearchFilterDrawer');
-    },
     clear () {
       this.$store.commit("clearHighlights");
       this.filteredIslands = [];
@@ -101,22 +98,16 @@ export default {
     }
   },
   mounted () {
-    this.$bus.$on('openFilterDrawer', e => {
-      this.opened = true;
-    });
+
     this.$bus.$on('openSearchDrawer', e => {
       this.opened = false;
     });
-  },
-  props: {
-    searchFilterDrawer: {
-      type: Boolean,
-      default: false
-    },
-    filterDrawer: {
-      type: Boolean,
-      default: false
-    }
+    this.$bus.$on("openAccountDrawer", e => {
+      this.opened = false;
+    });
+    this.$bus.$on('openFilterDrawer', e => {
+      this.opened = true;
+    });
   },
   data () {
     return {

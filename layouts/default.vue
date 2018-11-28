@@ -52,7 +52,11 @@
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="$bus.$emit('openAccountDrawer');$bus.$emit('closeLegend');">
+          <v-btn
+            icon
+            slot="activator"
+            @click="$bus.$emit('openAccountDrawer')"
+          >
             <v-icon>account_circle</v-icon>
           </v-btn>
           <span>Create a character and checkmark locations where you been</span>
@@ -61,7 +65,7 @@
           <v-btn
             icon
             slot="activator"
-            @click="$bus.$emit('openFilterDrawer');$bus.$emit('closeLegend');"
+            @click="$bus.$emit('openFilterDrawer')"
           >
             <v-icon>filter_list</v-icon>
           </v-btn>
@@ -71,7 +75,7 @@
           <v-btn
             icon
             slot="activator"
-            @click="$bus.$emit('openSearchDrawer');$bus.$emit('closeLegend');"
+            @click="$bus.$emit('openSearchDrawer')"
           >
             <v-icon>search</v-icon>
           </v-btn>
@@ -83,9 +87,9 @@
       <nuxt/>
     </v-content>
 
-    <map-search-drawer></map-search-drawer>
-    <map-filter-drawer></map-filter-drawer>
-    <account-drawer/>
+    <map-search-drawer />
+    <map-filter-drawer />
+    <account-drawer />
     <v-footer :fixed="fixed" app v-if="!$store.state.showMapControls">
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -150,23 +154,27 @@ export default {
         { icon: 'people', title: 'Credits', to: '/credits' }
       ],
       miniVariant: false,
-      searchDrawer: false,
-      filterDrawer: false,
-      searchFilterDrawer: false,
-      accountDrawer: false
+      // searchDrawer: false,
+      // filterDrawer: false,
+      // accountDrawer: false
     };
   },
   methods: {
-    openSearchDrawer () {
-      this.searchDrawer = true;
-      this.filterDrawer = false;
-      this.searchFilterDrawer = true;
-    },
-    openFilterDrawer () {
-      this.filterDrawer = true;
-      this.searchDrawer = false;
-      this.searchFilterDrawer = true;
-    },
+    // openSearchDrawer () {
+    //   this.searchDrawer = true;
+    //   this.filterDrawer = false;
+    //   this.accountDrawer = false;
+    // },
+    // openFilterDrawer () {
+    //   this.searchDrawer = false;
+    //   this.filterDrawer = true;
+    //   this.accountDrawer = false;
+    // },
+    // openAccountDrawer () {
+    //   this.searchDrawer = false;
+    //   this.filterDrawer = false;
+    //   this.accountDrawer = true
+    // }
     async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
