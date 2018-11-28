@@ -3,7 +3,6 @@
     <no-ssr>
       <l-popup>
         <div class="island-popup">
-
           <table class="island-data-table">
             <tr class="name">
               <th colspan="2">
@@ -16,7 +15,7 @@
                     </component>
                   </div>
                   <span class="by-author">by</span>
-                  <component class="creator-name" :is="creatorWorkshopUrl?'a':'div'" :href="creatorWorkshopUrl || ''" target="_blank" rel="nofollow,noopener">
+                  <component class="creator-name" :is="creatorWorkshopUrl?'a':'span'" :href="creatorWorkshopUrl || ''" target="_blank" rel="nofollow,noopener">
                     <span class="username">{{creator}}</span>
                     <img src="/assets/steam_icon.png" v-if="creatorWorkshopUrl">
                   </component>
@@ -36,82 +35,89 @@
                 </div>
               </td>
             </tr>
-            <tr class="spacing"></tr>
-            <tr class="island-info-header">
-              <th colspan="2">Island Info</th>
-            </tr>
-            <tr class="altitude island-info">
-              <td>Altitude</td>
-              <td>{{ altitude }}</td>
-            </tr>
-            <tr class="databanks island-info">
-              <td>Databanks</td>
-              <td>{{ databanks }}</td>
-            </tr>
-            <tr class="culture island-info">
-              <td>Culture</td>
-              <td> {{ type | capitalize }}</td>
-            </tr>
-            <tr v-if="trees && trees.length">
-              <td colspan="2" class="materials-info-title"><strong>Trees:</strong></td>
-            </tr>
-            <tr v-if="trees && trees.length">
-              <td colspan="2" class="materials-info-content">{{ trees.join(", ") }}</td>
-            </tr>
-            <template v-if="metals && metals.length">
-              <tr>
-                <td colspan="2" class="materials-info-title"><strong>{{$store.state.mapMode|upper}} Metals:</strong></td>
-              </tr>
-              <tr>
-                <td colspan="2" class="materials-info-content">{{ metals|metalsToString }}</td>
-              </tr>
-            </template>
-            <template v-else>
-              <tr>
-                <td colspan="2" class="materials-info-title"><strong>No {{$store.state.mapMode|upper}} metals reported yet</strong></td>
-              </tr>
-            </template>
-            <tr>
-              <td colspan="2" class="island-popup-toolbar">
-                <v-btn flat class="island-popup-report-btn">
-                  <v-icon>insert_comment</v-icon>
-                  <span>Report metals</span>
-                </v-btn>
-              </td>
+            <tr class="expansion-panels">
+              <v-expansion-panel class="mt-2" expand v-model="panel">
+                <v-expansion-panel-content class="island-info" :ripple="true">
+                  <div slot="header" class="text-xs-center expansion-header subheading">Island Info</div>
+                  <v-card>
+                    <v-card-text class="pa-2">
+                      <table class="island-info-table">
+                        <tr>
+                          <td>Altitude</td>
+                          <td>{{ altitude }}</td>
+                        </tr>
+                        <tr>
+                          <td>Databanks</td>
+                          <td>{{ databanks }}</td>
+                        </tr>
+                      </table>
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+                <v-expansion-panel-content class="island-materials" :ripple="true">
+                  <div slot="header" class="text-xs-center expansion-header subheading">Materials</div>
+                  <v-card>
+                    <v-card-text>
+                      <table class="island-materials-table" v-if="thisMetals.length > 0">
+                        <tr class="mat-header">
+                          <th colspan="2">Metals</th>
+                        </tr>
+                        <tr v-for="metal in thisMetals">
+                          <td>{{ metal.name }}</td>
+                          <td>{{ metal.quality }}</td>
+                        </tr>
+                      </table>
+                      <div class="island-materials-table" v-else>No metals data</div>
+                      <table class="island-materials-table" v-if="trees.length > 0">
+                        <tr class="mat-header">
+                          <th>Wood</th>
+                        </tr>
+                        <tr v-for="tree in trees">
+                          <td>{{ tree }}</td>
+                        </tr>
+                      </table>
+                      <div class="island-materials-table" v-else>No tree data</div>
+
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+                <v-expansion-panel-content class="island-extras" :ripple="true">
+                  <div slot="header" class="text-xs-center expansion-header subheading">Extras</div>
+                  <v-card>
+                    <v-card-text>
+                      <table class="island-extras-table">
+                        <tr v-if="surveyCreatedBy">
+                          <td>Survey created by:</td>
+                          <td>{{surveyCreatedBy}}</td>
+                        </tr>
+                        <tr v-if="createdAt">
+                          <td>Created at:</td>
+                          <td>{{createdAt}}</td>
+                        </tr>
+                        <tr class="table-divider"><td colspan="2"><div /></td></tr>
+                        <tr v-if="surveyUpdatedBy">
+                          <td>Survey updated by:</td>
+                          <td>{{surveyUpdatedBy}}</td>
+                        </tr>
+                        <tr v-if="updatedAt">
+                          <td>Updated at:</td>
+                          <td>{{updatedAt}}</td>
+                        </tr>
+                      </table>
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
             </tr>
           </table>
-          <div class="more-info-block" :class="{'opened': showMore}">
-            <div class="more-info-block-toggle" @click="showMore = !showMore">More Info</div>
-            <div class="more-info-block-content">
-              <table class="content-inner">
-                <tr v-if="surveyCreatedBy">
-                  <td>Survey created by:</td>
-                  <td>{{surveyCreatedBy}}</td>
-                </tr>
-                <tr v-if="createdAt">
-                  <td>Created at:</td>
-                  <td>{{createdAt}}</td>
-                </tr>
-                <tr><td colspan="2">&nbsp;</td></tr>
-                <tr v-if="surveyUpdatedBy">
-                  <td>Survey updated by:</td>
-                  <td>{{surveyUpdatedBy}}</td>
-                </tr>
-                <tr v-if="updatedAt">
-                  <td>Updated at:</td>
-                  <td>{{updatedAt}}</td>
-                </tr>
-                <tr class="island-toolbar">
-                  <td colspan="2">
-                    <v-btn flat target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
-                      <v-icon>create</v-icon>
-                      <span>Edit</span>
-                    </v-btn>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
+          <v-btn color="green" class="island-popups-button" flat target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
+            <v-icon>create</v-icon>
+            <span>Edit</span>
+          </v-btn>
+          <v-btn flat color="red" class="island-popup-button">
+            <v-icon>insert_comment</v-icon>
+            <span>Report metals</span>
+          </v-btn>
         </div>
       </l-popup>
     </no-ssr>
@@ -169,10 +175,17 @@ export default {
         this.metals = this.pveMetals;
       }
   },
+  computed: {
+    thisMetals () {
+      if (this.$store.state.mapMode === "pve") return this.pveMetals;
+      return this.pvpMetals;
+    }
+  },
   data () {
     return {
       showMore: false,
-      metals: null
+      metals: null,
+      panel: [true, false, false]
     }
   },
   props: [
@@ -213,6 +226,8 @@ export default {
 <style lang="scss">
 @import '~sass-easing/_easings';
 .island-popup {
+  min-width: 280px;
+
   &-toolbar {
     padding: 0;
     margin: 0;
@@ -295,7 +310,7 @@ export default {
         width: 50%;
 
         &.island-popup-image {
-          background: #232323;
+          background: #3a312b;
           border: 1px #ffe5c4 inset;
           border-top: none;
 
@@ -314,7 +329,7 @@ export default {
           text-align: center;
           border: 1px #ffe5c4 inset;
           border-bottom: none;
-          background: #232323;
+          background: #3a312b;
           padding-top: 2px;
           font-size: 12px;
         }
@@ -332,10 +347,6 @@ export default {
               width: 20px;
               top: 3px;
             }
-
-            .nickname {
-              font-size: 18px;
-            }
           }
 
           &.creator-name {
@@ -350,118 +361,92 @@ export default {
             position: relative;
           }
         }
-      }
-
-      &.spacing {
-        height: 10px;
-      }
-
-      &.island-info-header {
-        th {
-          text-align: center;
-          font-size: 17px;
-          margin-top: 5px;
-          padding: 3px 0;
-          background: #23232388;
+        .nickname {
+          font-size: 18px;
         }
       }
 
-      &.island-info {
-        background: #23232388;
-        line-height: 16px;
-        td:first-child {
-          text-align: right;
-          padding-right: 10px;
-        }
-        td:last-child {
-          padding-left: 10px;
-        }
-      }
-    }
-  }
-  .more-info-block {
-    margin-top: 10px;
-    margin-bottom: 1.2rem 0;
-    &-toggle {
-      display: block;
+      &.expansion-panels {
+        .v-expansion-panel {
+          .v-expansion-panel__header {
+            background-color: #e0b084;
+            color: #232323;
+            font-size: 14px;
 
-      padding-left: 5px;
-      font-weight: bold;
-      font-size: 14px;
-      text-align: left;
-
-      color: black;
-      background: #dbac82;
-
-      cursor: pointer;
-
-      transition: color 0.25s ease-out;
-    }
-
-    &-toggle:hover {
-      color: #7c5a0b;
-    }
-
-    &-toggle::before {
-      content: ' ';
-      display: inline-block;
-
-      border-top: 5px solid transparent;
-      border-bottom: 5px solid transparent;
-      border-left: 5px solid currentColor;
-      vertical-align: middle;
-      margin-right: 0.7rem;
-      transform: translateY(-2px);
-      transition: transform 0.2s $easeOutBack;
-    }
-    &-content {
-      max-height: 0px;
-      overflow: hidden;
-      transition: max-height 0.25s $easeOutExpo;
-      .content-inner {
-        width: 100%;
-        padding: 0.5rem 1rem;
-        background: rgba(0, 0, 0, 0.2);
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-        .island-toolbar {
-          a {
-            margin: 0;
-            padding: 5px  !important;
-            font-size: 1rem;
-            line-height: 1rem;
-            min-width: auto !important;
-            min-height: auto !important;
-            background-color: rgba(#D6A277, 0.5);
-            text-transform: initial !important;
-            height: auto;
-            color: #E5CBAB;
-            .v-icon {
-              font-size: 1rem !important;
-              margin-right: 5px;
-            }
-            .v-btn__content {
-              margin: 0 !important;
+            .v-expansion-panel__header__icon .material-icons.v-icon {
+              color: #232323;
             }
           }
-          td {
-            padding-top: 10px;
-            padding-bottom: 10px;
+          .v-expansion-panel__body {
+            background: transparent;
+          }
+          .v-expansion-panel__body .v-card {
+            background: #3a312b;
+            color: #ffe5c4;
+            font-size: 16px;
+          }
+
+          .island-info-table {
+            border-collapse: collapse;
+            line-height: 20px;
+            width: 100%;
+            td:first-child {
+              text-align: right;
+              padding-right: 10px;
+            }
+            td:last-child {
+              padding-left: 10px;
+              color: #e89020;
+            }
+          }
+          .island-extras-table {
+            font-size: 12px;
+            border-collapse: collapse;
+            .table-divider td div {
+              background: #e0b084;
+              height: 2px;
+              margin: 3px 0 4px 0;
+            }
+          }
+
+          .island-materials-table {
+            width: 50%;
+            font-size: 12px;
+            line-height: 20px;
+            float: left;
+            text-align: center;
+
+            &:last-child {
+              float: right;
+            }
+
+            th {
+              font-size: 16px;
+              text-align: center;
+            }
+            td {
+              text-align: center;
+            }
+            td:first-child:not(:last-child) {
+              text-align: right;
+              padding-right: 5px;
+            }
+            td:last-child:not(:first-child) {
+              text-align: left;
+              padding-left: 10px;
+              color: #e89020;
+            }
+          }
+
+          div.island-materials-table {
+            font-size: 16px;
+            color: #fd5050;
           }
         }
-      }
-    }
-    &.opened {
-      .more-info-block {
-        &-toggle:before {
-          transform: rotate(90deg) translateX(-3px);
-        }
-        &-content {
-          max-height: 350px;
-          transition: max-height 0.25s $easeInExpo;
+        .v-expansion-panel__container {
+          background: #3a312b;
         }
       }
-
     }
   }
 }

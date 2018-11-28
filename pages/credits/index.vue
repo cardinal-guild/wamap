@@ -7,7 +7,7 @@
             :particlesNumber="120"
             shapeType="star"
             :particleSize="4"
-            :moveSpeed=".6"
+            :moveSpeed=".8"
             :lineOpacity="0.1"
             />
             <article class="starwars">
