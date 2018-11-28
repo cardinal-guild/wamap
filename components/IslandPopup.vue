@@ -35,9 +35,21 @@
                 </div>
               </td>
             </tr>
+            <tr>
+              <table class="island-info-table mt-2">
+                <tr>
+                  <td>Altitude</td>
+                  <td>{{ altitude }}</td>
+                </tr>
+                <tr>
+                  <td>Databanks</td>
+                  <td>{{ databanks }}</td>
+                </tr>
+              </table>
+            </tr>
             <tr class="expansion-panels">
-              <v-expansion-panel class="mt-2" expand v-model="panel">
-                <v-expansion-panel-content class="island-info" :ripple="true">
+              <v-expansion-panel expand v-model="panel">
+                <!-- <v-expansion-panel-content class="island-info" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">Island Info</div>
                   <v-card>
                     <v-card-text class="pa-2">
@@ -53,8 +65,8 @@
                       </table>
                     </v-card-text>
                   </v-card>
-                </v-expansion-panel-content>
-                <v-expansion-panel-content class="island-materials" :ripple="true">
+                </v-expansion-panel-content> -->
+                <!-- <v-expansion-panel-content class="island-materials" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">Materials</div>
                   <v-card>
                     <v-card-text>
@@ -80,11 +92,32 @@
 
                     </v-card-text>
                   </v-card>
-                </v-expansion-panel-content>
+                </v-expansion-panel-content> -->
                 <v-expansion-panel-content class="island-extras" :ripple="true">
-                  <div slot="header" class="text-xs-center expansion-header subheading">Extras</div>
+                  <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
                   <v-card>
                     <v-card-text>
+                      <table class="island-materials-table" v-if="thisMetals.length > 0">
+                        <tr class="mat-header">
+                          <th colspan="2">Metals</th>
+                        </tr>
+                        <tr v-for="metal in thisMetals">
+                          <td>{{ metal.name }}</td>
+                          <td>{{ metal.quality }}</td>
+                        </tr>
+                      </table>
+                      <div class="island-materials-table" v-else>No metals data</div>
+                      <table class="island-materials-table" v-if="trees.length > 0">
+                        <tr class="mat-header">
+                          <th>Wood</th>
+                        </tr>
+                        <tr v-for="tree in trees">
+                          <td>{{ tree }}</td>
+                        </tr>
+                      </table>
+                      <div class="island-materials-table" v-else>No tree data</div>
+                      <div style="clear: both;" />
+                      <div class="table-divider" />
                       <table class="island-extras-table">
                         <tr v-if="surveyCreatedBy">
                           <td>Survey created by:</td>
@@ -94,7 +127,7 @@
                           <td>Created at:</td>
                           <td>{{createdAt}}</td>
                         </tr>
-                        <tr class="table-divider"><td colspan="2"><div /></td></tr>
+                        <tr><td colspan="2"><div class="table-divider" /></td></tr>
                         <tr v-if="surveyUpdatedBy">
                           <td>Survey updated by:</td>
                           <td>{{surveyUpdatedBy}}</td>
@@ -185,7 +218,7 @@ export default {
     return {
       showMore: false,
       metals: null,
-      panel: [true, false, false]
+      panel: [false, false, false]
     }
   },
   props: [
@@ -366,12 +399,46 @@ export default {
         }
       }
 
+      .island-info-table {
+        background: #3a312b;
+        border-collapse: collapse;
+        line-height: 20px;
+        width: 100%;
+        color: #ffe5c4;
+        font-size: 16px;
+
+        tr:first-child td {
+          padding-top: 5px;
+        }
+
+        tr:last-child td {
+          padding-bottom: 5px;
+        }
+
+        td:first-child {
+          text-align: right;
+          padding-right: 10px;
+        }
+        td:last-child {
+          padding-left: 10px;
+          color: #e89020;
+        }
+      }
+
+      .table-divider {
+        background: #e0b084;
+        height: 2px;
+        margin: 3px 0 4px 0;
+      }
+
       &.expansion-panels {
         .v-expansion-panel {
           .v-expansion-panel__header {
             background-color: #e0b084;
             color: #232323;
             font-size: 14px;
+            padding: 0 24px;
+            min-height: 30px;
 
             .v-expansion-panel__header__icon .material-icons.v-icon {
               color: #232323;
@@ -386,27 +453,10 @@ export default {
             font-size: 16px;
           }
 
-          .island-info-table {
-            border-collapse: collapse;
-            line-height: 20px;
-            width: 100%;
-            td:first-child {
-              text-align: right;
-              padding-right: 10px;
-            }
-            td:last-child {
-              padding-left: 10px;
-              color: #e89020;
-            }
-          }
+
           .island-extras-table {
             font-size: 12px;
             border-collapse: collapse;
-            .table-divider td div {
-              background: #e0b084;
-              height: 2px;
-              margin: 3px 0 4px 0;
-            }
           }
 
           .island-materials-table {
