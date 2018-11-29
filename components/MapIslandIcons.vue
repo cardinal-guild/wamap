@@ -1,6 +1,6 @@
 <template>
-    <div 
-        class="islandMarkers" 
+    <div
+        class="islandMarkers"
         v-if="islandData &&
             islandData.features &&
             islandData.features.length"
@@ -56,14 +56,14 @@ export default {
     return {
       islandIcons: {
         kioki: {
-          high: '/assets/island_icons/Island_K_H.png',
-          medium: '/assets/island_icons/Island_K_M.png',
-          low: '/assets/island_icons/Island_K_L.png'
+          high: '/island_icons/Island_K_H.png',
+          medium: '/island_icons/Island_K_M.png',
+          low: '/island_icons/Island_K_L.png'
         },
         saborian: {
-          high: '/assets/island_icons/Island_S_H.png',
-          medium: '/assets/island_icons/Island_S_M.png',
-          low: '/assets/island_icons/Island_S_L.png'
+          high: '/island_icons/Island_S_H.png',
+          medium: '/island_icons/Island_S_M.png',
+          low: '/island_icons/Island_S_L.png'
         }
       }
     };

@@ -15,8 +15,8 @@
           </li>
           <li>
             <span class="icon">
-              <img src="~/assets/island_icons/Island_S_L.png" />
-              <img src="~/assets/island_icons/Island_K_L.png" />
+              <img src="~/static/island_icons/Island_S_L.png" />
+              <img src="~/static/island_icons/Island_K_L.png" />
             </span>
             <span class="description">
               Low Altitude
@@ -25,8 +25,8 @@
           <li class="map-legend-separator"></li>
           <li>
             <span class="icon">
-              <img src="~/assets/island_icons/Island_S_M.png" />
-              <img src="~/assets/island_icons/Island_K_M.png" />
+              <img src="~/static/island_icons/Island_S_M.png" />
+              <img src="~/static/island_icons/Island_K_M.png" />
             </span>
             <span class="description">
               Medium Altitude
@@ -35,8 +35,8 @@
           <li class="map-legend-separator"></li>
           <li>
             <span class="icon">
-              <img src="~/assets/island_icons/Island_S_H.png" />
-              <img src="~/assets/island_icons/Island_K_H.png" />
+              <img src="~/static/island_icons/Island_S_H.png" />
+              <img src="~/static/island_icons/Island_K_H.png" />
             </span>
             <span class="description">
               High Altitude
@@ -49,40 +49,50 @@
             </span>
           </li>
           <li>
-            <span class="icon single">
-              <img src="~/assets/I_Frame_Databanks.png" />
+            <span class="icon single background">
+              <div class="databank">
+                <img src="~/static/island_icons/knowledge_icon.png" />
+              </div>
             </span>
             <span class="description">
               Databanks
             </span>
           </li>
           <li>
-            <span class="icon single">
-              <img src="~/assets/I_Frame_Reviver.png" />
+            <span class="icon single background">
+              <div class="green">
+                <img src="~/static/island_icons/revival_icon.png" />
+              </div>
             </span>
             <span class="description">
               Revival Chambers
             </span>
           </li>
           <li>
-            <span class="icon single">
-              <img src="~/assets/I_Frame_Turret.png">
+            <span class="icon single background">
+              <div class="red">
+                <img src="~/static/island_icons/turret_icon.png">
+              </div>
             </span>
             <span class="description">
               Turrets
             </span>
           </li>
           <li>
-            <span class="icon single culture">
-              <img src="~/assets/I_Frame_K-E.png">
+            <span class="icon single culture background">
+              <div class="kioki">
+                <img src="~/static/island_icons/kioki_icon.png">
+              </div>
             </span>
             <span class="description">
               Kioki
             </span>
           </li>
           <li>
-            <span class="icon single culture">
-              <img src="~/assets/I_Frame_S-E.png">
+            <span class="icon single culture background">
+              <div class="sabor">
+                <img src="~/static/island_icons/saborian_icon.png">
+              </div>
             </span>
             <span class="description">
               Saborian
@@ -226,6 +236,60 @@ export default {
           img {
             width: 40px;
             height: auto;
+
+            &.databank {
+              width: auto;
+            }
+          }
+
+          &.background {
+            width: 40px;
+            div {
+              width: 28px;
+              height: 28px;
+              display: flex;
+              align-items: center;
+              border-radius: 50%;
+
+              &.databank {
+                width: auto;
+                height: auto;
+              }
+
+              &.green {
+                background: #14a014;
+              }
+
+              &.red {
+                background: #a01414;
+              }
+
+              &.sabor {
+                background: #f0f0ff;
+                width: 28px;
+                height: 28px;
+                border-radius: 0;
+                transform: rotateZ(45deg);
+
+                img {
+                  transform: rotateZ(-45deg);
+                  position: relative;
+                  top: 1px;
+                  left: 1px;
+                }
+              }
+
+              &.kioki {
+                background: #fff0dc;
+                width: 32px;
+                height: 32px;
+              }
+
+              img {
+                width: auto;
+                margin: auto;
+              }
+            }
           }
         }
       }

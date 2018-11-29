@@ -4,7 +4,7 @@
       <v-layout column justify-center align-center>
         <v-flex xs12 sm8 md6>
           <div class="text-xs-center">
-            <img src="~/assets/logo_badge.png" alt="Cardinal guild logo" class="mb-5">
+            <img src="~/static/assets/logo_badge.png" alt="Cardinal guild logo" class="mb-5">
           </div>
           <v-card>
             <v-card-text

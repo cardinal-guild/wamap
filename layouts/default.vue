@@ -87,9 +87,9 @@
 </template>
 
 <script>
-import CopyPasteLink from '~/assets/svg/copy_paste_link_icon.svg';
-import PVEIcon from '~/assets/svg/pve_icon.svg';
-import PVPIcon from '~/assets/svg/pvp_icon.svg';
+import CopyPasteLink from '~/static/assets/svg/copy_paste_link_icon.svg';
+import PVEIcon from '~/static/assets/svg/pve_icon.svg';
+import PVPIcon from '~/static/assets/svg/pvp_icon.svg';
 import MapSearchDrawer from '~/components/MapSearchDrawer';
 import MapFilterDrawer from '~/components/MapFilterDrawer';
 import AccountDrawer from '~/components/AccountDrawer';

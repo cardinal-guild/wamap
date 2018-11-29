@@ -49,7 +49,7 @@
                     </section>
 
                     <section class="logo">
-                        <img src="~/assets/logo_credits.png" />
+                        <img src="~/static/assets/logo_credits.png" />
                     </section>
                 </div>
             </article>

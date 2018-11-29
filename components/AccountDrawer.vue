@@ -92,8 +92,6 @@ export default {
     }
   },
   mounted () {
-
-    console.log("test")
     if (window.localStorage.getItem("selectedChar")) {
       this.selectedChar = window.localStorage.getItem("selectedChar");
       this.$store.commit("setSelected", window.localStorage.getItem("selectedChar"));

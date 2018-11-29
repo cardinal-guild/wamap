@@ -42,7 +42,7 @@ module.exports = {
     {
       hid: 'og:image',
       name: 'og:image',
-      content: '/opengraph.jpg'
+      content: '/assets/opengraph.jpg'
     }],
     link: [{
       rel: 'icon',

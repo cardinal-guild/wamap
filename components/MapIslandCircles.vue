@@ -1,6 +1,6 @@
 <template>
-    <div 
-        class="islandMarkers" 
+    <div
+        class="islandMarkers"
         v-if="islandData &&
             islandData.features &&
             islandData.features.length"
@@ -11,11 +11,11 @@
                 :key="island.properties.key"
                 :lat-lng="island.geometry.coordinates"
                 :icon="getIconImage(island.properties)"
-                :id="island.id" 
+                :id="island.id"
                 :data-databanks="island.properties.databanks"
                 layer-type="overlay"
                 :closePopupOnClick="false"
-                @click="closeLegend($event, $bus)"> 
+                @click="closeLegend($event, $bus)">
                 <island-popup v-bind="island.properties" />
             </l-marker>
         </no-ssr>
@@ -118,7 +118,7 @@ export default {
   }
   &.kioki {
     .island-divicon-type:after {
-      background-image: url('/assets/kioki_icon.png');
+      background-image: url('/island_icons/kioki_icon.png');
     }
   }
   &.saborian {
@@ -148,7 +148,7 @@ export default {
         transform: rotateZ(45deg);
       }
       &:after {
-        background-image: url('/assets/saborian_icon.png');
+        background-image: url('/island_icons/saborian_icon.png');
       }
     }
   }
@@ -170,7 +170,7 @@ export default {
     height: 36px;
     top: -15px;
     left: 32px;
-    background-image: url('/assets/knowledge_icon.png');
+    background-image: url('/island_icons/knowledge_icon.png');
     color: black;
     text-align: center;
     padding: 7px;
@@ -199,7 +199,7 @@ export default {
     }
     &:after {
       content: ' ';
-      background-image: url('/assets/revival_icon.png');
+      background-image: url('/island_icons/revival_icon.png');
       width: 20px;
       height: 20px;
       display: block;
@@ -230,7 +230,7 @@ export default {
     }
     &:after {
       content: ' ';
-      background-image: url('/assets/turret_icon.png');
+      background-image: url('/island_icons/turret_icon.png');
       width: 20px;
       height: 20px;
       display: block;
