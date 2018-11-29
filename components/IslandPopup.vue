@@ -57,7 +57,7 @@
                         <tr v-for="char in characters">
                           <td>{{ char.name }}</td>
                           <td>
-                            <v-checkbox :input-value="char.visited.includes(id)" @change="change(char.name, id)"/>
+                            <v-checkbox :input-value="getInitialValue(char.name)" @change="change(char.name)"/>
                           </td>
                         </tr>
                       </table>
@@ -191,10 +191,25 @@ export default {
     }
   },
   methods: {
-    change (name, id) {
-      console.log(name);
-      console.log(id);
-      this.$store.commit("toggleIslandChar", { name, id });
+    change (name) {
+      if (window.localStorage.getItem(name)) {
+        let ids = JSON.parse(window.localStorage.getItem(name));
+        if (!ids.includes(this.id)) {
+          ids.push(this.id);
+          window.localStorage.setItem(name, JSON.stringify(ids));
+        }
+      }
+      else {
+        window.localStorage.setItem(name, JSON.stringify([this.id]));
+      }
+    },
+    getInitialValue (name) {
+      if (window.localStorage.getItem(name)) {
+        if (JSON.parse(window.localStorage.getItem(name)).includes(this.id)) {
+          return true;
+        }
+      }
+      return false;
     },
     async copyToClipboard (e) {
       const a = document.createElement('a');
@@ -215,11 +230,12 @@ export default {
     }
   },
   mounted () {
-      if(this.$store.state.mapMode === 'pvp') {
-        this.metals = this.pvpMetals;
-      } else {
-        this.metals = this.pveMetals;
-      }
+    // window.localStorage.clear();
+    if(this.$store.state.mapMode === 'pvp') {
+      this.metals = this.pvpMetals;
+    } else {
+      this.metals = this.pveMetals;
+    }
   },
   computed: {
     ...mapState(["characters"]),

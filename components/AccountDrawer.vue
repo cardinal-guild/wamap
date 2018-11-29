@@ -63,7 +63,6 @@ export default {
           let date = new Date();
           this.$store.commit("addCharacter", {
             name: this.characterName,
-            visited: [],
             created: date.getMonth()+1+"/"+date.getDate()+"/"+date.getFullYear()
           });
         }
