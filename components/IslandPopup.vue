@@ -49,6 +49,21 @@
             </tr>
             <tr class="expansion-panels">
               <v-expansion-panel expand v-model="panel">
+                <v-expansion-panel-content class="character-info" :ripple="true" v-if="characters && characters.length > 0">
+                  <div slot="header" class="text-xs-center expansion-header subheading">Characters</div>
+                  <v-card>
+                    <v-card-text>
+                      <table class="char-info-table">
+                        <tr v-for="char in characters">
+                          <td>{{ char.name }}</td>
+                          <td>
+                            <v-checkbox :input-value="char.visited.includes(id)" @change="change(char.name, id)"/>
+                          </td>
+                        </tr>
+                      </table>
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
                 <!-- <v-expansion-panel-content class="island-info" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">Island Info</div>
                   <v-card>
@@ -98,9 +113,6 @@
                   <v-card>
                     <v-card-text class="py-2">
                       <table class="island-materials-table" v-if="thisMetals.length > 0">
-                        <!-- <tr class="mat-header">
-                          <th colspan="2">Metals</th>
-                        </tr> -->
                         <tr v-for="metal in thisMetals">
                           <td>{{ metal.name }}</td>
                           <td>{{ metal.quality }}</td>
@@ -108,9 +120,6 @@
                       </table>
                       <div class="island-materials-table" v-else>No metals data</div>
                       <table class="island-materials-table" v-if="trees.length > 0">
-                        <!-- <tr class="mat-header">
-                          <th>Wood</th>
-                        </tr> -->
                         <tr v-for="tree in trees">
                           <td>{{ tree }}</td>
                         </tr>
@@ -140,11 +149,6 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </tr>
-            <tr class="character-check">
-              <td colspan="2">
-                <v-checkbox v-model="visited" label="Visted" color="green" :disabled="!!$store.state.selectedChar" />
-              </td>
-            </tr>
           </table>
           <v-btn color="green" class="island-popups-button" flat target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
             <v-icon>create</v-icon>
@@ -161,6 +165,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import _ from 'lodash'
 import CopyPasteLink from '~/assets/svg/copy_paste_link_icon.svg';
 export default {
@@ -186,6 +191,11 @@ export default {
     }
   },
   methods: {
+    change (name, id) {
+      console.log(name);
+      console.log(id);
+      this.$store.commit("toggleIslandChar", { name, id });
+    },
     async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
@@ -212,19 +222,46 @@ export default {
       }
   },
   computed: {
+    ...mapState(["characters"]),
     thisMetals () {
       if (this.$store.state.mapMode === "pve") return this.pveMetals;
       return this.pvpMetals;
     },
-    visited: function () {
-      return true;
-    }
+    // visited: {
+    //   get () {
+    //     console.log("get")
+    //     return char => {
+    //       console.log(char.visited.includes(this.id))
+    //       return char.visited.includes(this.id)
+    //     }
+    //   },
+    //   set (value) {
+    //     console.log(value);
+    //   }
+    // },
+    // visitArray: {
+    //   get () {
+    //     let arr = [];
+    //     for (var i = 0; i < this.characters.length; i++) {
+    //       if (this.characters[i].visited.includes(this.id)) {
+    //         arr.push(true);
+    //       }
+    //       else arr.push(false);
+    //     }
+    //     console.log("visitArray");
+    //     console.log(arr);
+    //     return arr;
+    //   },
+    //   set (value) {
+    //     console.log(value);
+    //   }
+    // }
   },
   data () {
     return {
       showMore: false,
       metals: null,
-      panel: [false, false, false]
+      panel: [false, false, false],
     }
   },
   props: [

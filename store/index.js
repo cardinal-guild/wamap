@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 const svgToDataURL = svgStr => {
   const encoded = encodeURIComponent(svgStr)
     .replace(/'/g, '%27')
@@ -79,12 +81,28 @@ export const mutations = {
   delCharacter (state, name) {
     state.characters = state.characters.filter(o => o.name !== name)
     window.localStorage.setItem("characters", JSON.stringify(state.characters));
+    // if (state.selectedChar && state.selectedChar.name === name) {
+    //   state.selectedChar = null
+    // }
   },
-  setSelectedChar (state, name) {
-    if (state.selectedChar === name) {
-      state.selectedChar = null
+  // setSelectedChar (state, char) {
+  //   if (state.selectedChar && state.selectedChar.name === char.name) {
+  //     state.selectedChar = null
+  //   }
+  //   else state.selectedChar = char
+  // },
+  toggleIslandChar (state, {name, id}) {
+    let char = _.find(state.characters, {name: name})
+    if (char) {
+      if (!char.visited.includes(id))
+        char.visited.push(id);
+      else
+        _.remove(char.visited, o => {
+          return o === id;
+        });
     }
-    else state.selectedChar = name
+    console.log(state.characters);
+    window.localStorage.setItem("characters", JSON.stringify(state.characters));
   },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;

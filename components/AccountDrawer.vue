@@ -36,11 +36,11 @@
         :items="$store.state.characters"
       >
         <template slot="items" slot-scope="props">
-          <tr @click="$store.commit('setSelectedChar', props.item.name)" :class="{ selected: $store.state.selectedChar === props.item.name }">
+          <tr @click="$store.commit('setSelectedChar', props.item)":class="{ selected: $store.state.selectedChar && $store.state.selectedChar.name === props.item.name }">
             <td class="character character-name">{{ props.item.name }}</td>
             <td class="character character-created">{{ props.item.created }}</td>
             <td class="pl-0 character character-delete">
-              <v-btn left fab small @click="$store.commit('delCharacter', props.item.name)">
+              <v-btn center fab small @click="$store.commit('delCharacter', props.item.name)">
                 <v-icon>delete</v-icon>
               </v-btn>
             </td>
@@ -146,20 +146,28 @@ table.v-table {
     }
   }
   tbody td.character {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    cursor: pointer;
     &.character-name {
-      width: 140px;
+      width: 150px;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      cursor: pointer;
     }
 
     &.character-created {
       width: 80px;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      cursor: pointer;
     }
 
     &.character-delete {
-      width: 100px;
+      width: 50px;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      cursor: pointer;
       button {
         margin: auto;
       }
