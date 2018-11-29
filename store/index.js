@@ -14,6 +14,7 @@ const svgToDataURL = svgStr => {
 export const state = () => ({
   sidebar: true,
   loading: true,
+  overlayLoaded: false,
   boundaryData: null,
   islandData: null,
   zonenamesData: null,
@@ -106,6 +107,9 @@ export const mutations = {
   },
   setZoneNamesLoaded (state, loaded) {
     state.zoneNamesLoaded = loaded;
+  },
+  setOverlayLoaded (state, loaded) {
+    state.overlayLoaded = loaded;
   },
   setShowMapControls (state, show) {
     state.showMapControls = show;

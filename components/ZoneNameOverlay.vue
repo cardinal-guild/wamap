@@ -5,6 +5,7 @@
     :attribution="attribution"
     :bounds="bounds"
     :z-index="1000"
+    @load="setOverlayLoaded"
     :options="{className: 'map-zone-overlay', interactive: false}"
     ref="zonenames"
   />
@@ -15,7 +16,12 @@ import $ from 'jquery';
 export default {
   name: 'ZoneNameOverlay',
   computed: {
-    ...mapState(['zonenamesData', 'zoomPercentage'])
+    ...mapState(['zonenamesData', 'zoomPercentage', 'overlayLoaded'])
+  },
+  methods: {
+    setOverlayLoaded () {
+      this.$store.commit('setOverlayLoaded', true);
+    }
   },
   props: {
     alphaFromZoomPercentage: {

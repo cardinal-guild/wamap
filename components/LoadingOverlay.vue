@@ -1,5 +1,5 @@
 <template>
-  <div class="fullscreen-loader text-xs-center" v-if="loading">
+  <div class="fullscreen-loader text-xs-center" v-if="loading && !overlayLoaded">
     <v-container bg fill-height grid-list-md text-xs-center>
       <v-layout row wrap align-center>
         <v-flex>
@@ -14,7 +14,7 @@
 import { mapState } from 'vuex';
 export default {
   computed: {
-    ...mapState(['loading'])
+    ...mapState(['loading', 'overlayLoaded'])
   }
 };
 </script>

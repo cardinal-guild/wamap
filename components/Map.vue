@@ -102,6 +102,7 @@ export default {
         if (
           self.$router.currentRoute &&
           self.$router.currentRoute.query &&
+          self.$store.state.overlayLoaded &&
           self.currentMap
         ) {
           if (self.$router.currentRoute.query.island && self.currentMap) {
