@@ -71,7 +71,6 @@ export const mutations = {
     window.localStorage.setItem("characters", JSON.stringify(data));
     if (console.log) {
       console.log("Loaded character data")
-      console.log(state.characters)
     }
   },
   addCharacter (state, char) {
