@@ -149,7 +149,8 @@ module.exports = {
     ],
     babel: {
       plugins: [
-        ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }]
+        ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
+        ["@babel/transform-runtime"]
       ]
     },
     extractCSS: true,

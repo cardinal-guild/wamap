@@ -52,31 +52,19 @@
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn
-            icon
-            slot="activator"
-            @click="$bus.$emit('openAccountDrawer')"
-          >
+          <v-btn icon slot="activator" @click="$bus.$emit('openAccountDrawer')">
             <v-icon>account_circle</v-icon>
           </v-btn>
           <span>Create a character and checkmark locations where you been</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn
-            icon
-            slot="activator"
-            @click="$bus.$emit('openFilterDrawer')"
-          >
+          <v-btn icon slot="activator" @click="$bus.$emit('openFilterDrawer')">
             <v-icon>filter_list</v-icon>
           </v-btn>
           <span>Filter islands by materials or databanks</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn
-            icon
-            slot="activator"
-            @click="$bus.$emit('openSearchDrawer')"
-          >
+          <v-btn icon slot="activator" @click="$bus.$emit('openSearchDrawer')">
             <v-icon>search</v-icon>
           </v-btn>
           <span>Search for an island</span>
@@ -87,9 +75,9 @@
       <nuxt/>
     </v-content>
 
-    <map-search-drawer />
-    <map-filter-drawer />
-    <account-drawer />
+    <map-search-drawer/>
+    <map-filter-drawer/>
+    <account-drawer/>
     <v-footer :fixed="fixed" app v-if="!$store.state.showMapControls">
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -114,10 +102,10 @@ export default {
     MapFilterDrawer,
     AccountDrawer
   },
-  head () {
+  head() {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
-  created: function () {
+  created: function() {
     this.$store.watch(
       state => state.snackText,
       () => {
@@ -135,12 +123,12 @@ export default {
       }
     );
   },
-  mounted () {
+  mounted() {
     this.$bus.$on('closeSearchFilterDrawer', e => {
       this.searchFilterDrawer = false;
     });
   },
-  data () {
+  data() {
     return {
       showSnack: false,
       snackColor: 'info',
@@ -153,7 +141,7 @@ export default {
         { icon: PVPIcon, title: 'PVP Map', to: '/pvp' },
         { icon: 'people', title: 'Credits', to: '/credits' }
       ],
-      miniVariant: false,
+      miniVariant: false
       // searchDrawer: false,
       // filterDrawer: false,
       // accountDrawer: false
@@ -175,7 +163,7 @@ export default {
     //   this.filterDrawer = false;
     //   this.accountDrawer = true
     // }
-    async copyToClipboard (e) {
+    async copyToClipboard(e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
