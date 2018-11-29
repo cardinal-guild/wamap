@@ -49,7 +49,7 @@
             </tr>
             <tr class="expansion-panels">
               <v-expansion-panel expand v-model="panel">
-                <v-expansion-panel-content class="character-info" :ripple="true" v-if="characters && characters.length > 0">
+                <!-- <v-expansion-panel-content class="character-info" :ripple="true" v-if="characters && characters.length > 0">
                   <div slot="header" class="text-xs-center expansion-header subheading">Characters</div>
                   <v-card>
                     <v-card-text class="py-2">
@@ -68,7 +68,7 @@
                       </table>
                     </v-card-text>
                   </v-card>
-                </v-expansion-panel-content>
+                </v-expansion-panel-content> -->
                 <!-- <v-expansion-panel-content class="island-info" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">Island Info</div>
                   <v-card>
@@ -154,6 +154,9 @@
                 </v-expansion-panel-content>
               </v-expansion-panel>
             </tr>
+            <tr v-if="$store.state.selectedChar">
+              <td><v-checkbox color="green" :input-value="initialValue" :label="$store.state.selectedChar" @change="setVisited" /></td>
+            </tr>
           </table>
           <v-btn color="green" class="island-popups-button" flat target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
             <v-icon>create</v-icon>
@@ -196,6 +199,30 @@ export default {
     }
   },
   methods: {
+    setVisited () {
+      let selectedChar = this.$store.state.selectedChar;
+      if (selectedChar && window.localStorage.getItem(selectedChar)) {
+        let ids = JSON.parse(window.localStorage.getItem(selectedChar));
+        if (!ids.includes(this.id)) {
+          ids.push(this.id)
+        }
+        else {
+          _.remove(ids, (o) => {
+            return o === this.id;
+          });
+        }
+        window.localStorage.setItem(selectedChar, JSON.stringify(ids));
+      }
+      else {
+        window.localStorage.setItem(selectedChar, JSON.stringify([this.id]));
+      }
+    },
+    // selectedChar () {
+    //   if (window.localStorage.getItem("selectedChar")) {
+    //     return window.localStorage.getItem("selectedChar");
+    //   }
+    //   else return null;
+    // },
     change (name) {
       if (window.localStorage.getItem(name)) {
         let ids = JSON.parse(window.localStorage.getItem(name));
@@ -253,6 +280,13 @@ export default {
       if (this.$store.state.mapMode === "pve") return this.pveMetals;
       return this.pvpMetals;
     },
+    initialValue () {
+      if (this.$store.state.selectedChar && window.localStorage.getItem(this.$store.state.selectedChar)) {
+        let ids = JSON.parse(window.localStorage.getItem(this.$store.state.selectedChar));
+        if (ids.includes(this.id)) return true;
+      }
+      return false;
+    }
     // visited: {
     //   get () {
     //     console.log("get")

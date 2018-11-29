@@ -36,7 +36,7 @@
         :items="$store.state.characters"
       >
         <template slot="items" slot-scope="props">
-          <tr>
+          <tr @click="selectChar(props.item.name)" :class="{selected: selectedChar === props.item.name}">
             <td class="character character-name">{{ props.item.name }}</td>
             <td class="character character-created">{{ props.item.created }}</td>
             <td class="pl-0 character character-delete">
@@ -57,9 +57,20 @@ import { mapState } from 'vuex';
 import _ from "lodash";
 export default {
   methods: {
+    selectChar (name) {
+      this.$store.commit("setSelected", name);
+      if (this.selectedChar === name) {
+        this.selectedChar = '';
+        window.localStorage.removeItem("selectedChar");
+      }
+      else {
+        this.selectedChar = name;
+        window.localStorage.setItem("selectedChar", name);
+      }
+    },
     addCharacter () {
       if (this.characterName) {
-        if(!_.find(this.$store.state.characters, {name: this.characterName})) {
+        if(!_.find(this.$store.state.characters, {name: this.characterName}) || this.characterName === "characters" || this.characterName === "selectedChar") {
           let date = new Date();
           this.$store.commit("addCharacter", {
             name: this.characterName,
@@ -82,6 +93,11 @@ export default {
   },
   mounted () {
 
+    if (window.localStorage.getItem("selectedChar")) {
+      this.selectedChar = window.localStorage.getItem("selectedChar");
+      this.$store.commit("setSelected", window.localStorage.getItem("selectedChar"));
+    }
+
     this.$bus.$on('openFilterDrawer', e => {
       this.opened = false;
     });
@@ -101,6 +117,7 @@ export default {
       opened: false,
       snackbar: false,
       snackColor: '#FF4F4F',
+      selectedChar: '',
       snackText: '',
       headers: [
         {

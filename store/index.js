@@ -84,6 +84,15 @@ export const mutations = {
     if (window.localStorage.getItem(name)) {
       window.localStorage.removeItem(name);
     }
+    if (state.selectedChar === name) {
+      state.selectedChar = null;
+    }
+  },
+  setSelected (state, name) {
+    if (state.selectedChar === name) {
+      state.selectedChar = null;
+    }
+    else state.selectedChar = name;
   },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;
