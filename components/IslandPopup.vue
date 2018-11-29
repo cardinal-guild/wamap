@@ -8,14 +8,26 @@
               <th colspan="2">
                 <div class="island-title">
                   <div class="island-name">
-                    <component class="island-name" :is="workshopUrl?'a':'div'" :href="workshopUrl || ''" target="_blank" rel="nofollow,noopener">
+                    <component
+                      class="island-name"
+                      :is="workshopUrl?'a':'div'"
+                      :href="workshopUrl || ''"
+                      target="_blank"
+                      rel="nofollow,noopener"
+                    >
                       <span class="nickname">{{nickName?nickName:name}}</span>
                       <span v-if="nickName" class="name">({{name}})</span>
                       <img src="/assets/steam_icon.png" v-if="workshopUrl">
                     </component>
                   </div>
                   <span class="by-author">by</span>
-                  <component class="creator-name" :is="creatorWorkshopUrl?'a':'span'" :href="creatorWorkshopUrl || ''" target="_blank" rel="nofollow,noopener">
+                  <component
+                    class="creator-name"
+                    :is="creatorWorkshopUrl?'a':'span'"
+                    :href="creatorWorkshopUrl || ''"
+                    target="_blank"
+                    rel="nofollow,noopener"
+                  >
                     <span class="username">{{creator}}</span>
                     <img src="/assets/steam_icon.png" v-if="creatorWorkshopUrl">
                   </component>
@@ -24,11 +36,13 @@
             </tr>
             <tr>
               <td colspan="2" class="island-popup-image">
-                <a :href="imageOriginal" target="_blank"><img :src="imagePopup" /></a>
+                <a :href="imageOriginal" target="_blank">
+                  <img :src="imagePopup">
+                </a>
                 <div class="island-popup-copy-paste">
                   <v-tooltip bottom>
                     <v-btn icon slot="activator" @click="copyToClipboard">
-                      <CopyPasteLink />
+                      <CopyPasteLink/>
                     </v-btn>
                     <span>Copy the current island location to clipboard</span>
                   </v-tooltip>
@@ -68,7 +82,7 @@
                       </table>
                     </v-card-text>
                   </v-card>
-                </v-expansion-panel-content> -->
+                </v-expansion-panel-content>-->
                 <!-- <v-expansion-panel-content class="island-info" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">Island Info</div>
                   <v-card>
@@ -85,7 +99,7 @@
                       </table>
                     </v-card-text>
                   </v-card>
-                </v-expansion-panel-content> -->
+                </v-expansion-panel-content>-->
                 <!-- <v-expansion-panel-content class="island-materials" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">Materials</div>
                   <v-card>
@@ -112,26 +126,26 @@
 
                     </v-card-text>
                   </v-card>
-                </v-expansion-panel-content> -->
+                </v-expansion-panel-content>-->
                 <v-expansion-panel-content class="island-extras" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
                   <v-card>
                     <v-card-text class="py-2">
-                      <table class="island-materials-table" v-if="thisMetals.length > 0">
-                        <tr v-for="metal in thisMetals">
+                      <table class="island-materials-table" v-if="metals && metals.length > 0">
+                        <tr v-for="(metal, index) in metals" :key="index">
                           <td>{{ metal.name }}</td>
                           <td>{{ metal.quality }}</td>
                         </tr>
                       </table>
                       <div class="island-materials-table" v-else>No metals data</div>
                       <table class="island-materials-table" v-if="trees.length > 0">
-                        <tr v-for="tree in trees">
+                        <tr v-for="(tree, index) in trees" :key="index">
                           <td>{{ tree }}</td>
                         </tr>
                       </table>
                       <div class="island-materials-table" v-else>No tree data</div>
-                      <div style="clear: both;" />
-                      <div class="table-divider" />
+                      <div style="clear: both;"/>
+                      <div class="table-divider"/>
                       <table class="island-extras-table">
                         <tr v-if="surveyCreatedBy">
                           <td>Created by:</td>
@@ -140,7 +154,11 @@
                         <tr v-if="createdAt">
                           <td colspan="2">{{createdAt}}</td>
                         </tr>
-                        <tr><td colspan="2"><div class="table-divider" /></td></tr>
+                        <tr>
+                          <td colspan="2">
+                            <div class="table-divider"/>
+                          </td>
+                        </tr>
                         <tr v-if="surveyUpdatedBy">
                           <td>Updated by:</td>
                           <td>{{surveyUpdatedBy}}</td>
@@ -155,10 +173,24 @@
               </v-expansion-panel>
             </tr>
             <tr v-if="$store.state.selectedChar">
-              <td><v-checkbox color="green" :input-value="initialValue" :label="$store.state.selectedChar" @change="setVisited" /></td>
+              <td>
+                <v-checkbox
+                  color="green"
+                  :input-value="initialValue"
+                  :label="$store.state.selectedChar"
+                  @change="setVisited"
+                />
+              </td>
             </tr>
           </table>
-          <v-btn color="green" class="island-popups-button" flat target="_blank" rel="noopener,nofollow" :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'">
+          <v-btn
+            color="green"
+            class="island-popups-button"
+            flat
+            target="_blank"
+            rel="noopener,nofollow"
+            :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
+          >
             <v-icon>create</v-icon>
             <span>Edit</span>
           </v-btn>
@@ -173,8 +205,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import _ from 'lodash'
+import { mapState } from 'vuex';
+import _ from 'lodash';
 import CopyPasteLink from '~/assets/svg/copy_paste_link_icon.svg';
 export default {
   components: {
@@ -193,7 +225,7 @@ export default {
     metalsToString: function (metals) {
       let metalNames = [];
       _.forEach(metals, function (metal) {
-        metalNames.push(metal.name+' Q'+metal.quality);
+        metalNames.push(metal.name + ' Q' + metal.quality);
       });
       return metalNames.join(', ');
     }
@@ -204,16 +236,14 @@ export default {
       if (selectedChar && window.localStorage.getItem(selectedChar)) {
         let ids = JSON.parse(window.localStorage.getItem(selectedChar));
         if (!ids.includes(this.id)) {
-          ids.push(this.id)
-        }
-        else {
-          _.remove(ids, (o) => {
+          ids.push(this.id);
+        } else {
+          _.remove(ids, o => {
             return o === this.id;
           });
         }
         window.localStorage.setItem(selectedChar, JSON.stringify(ids));
-      }
-      else {
+      } else {
         window.localStorage.setItem(selectedChar, JSON.stringify([this.id]));
       }
     },
@@ -228,15 +258,13 @@ export default {
         let ids = JSON.parse(window.localStorage.getItem(name));
         if (!ids.includes(this.id)) {
           ids.push(this.id);
-        }
-        else {
-          _.remove(ids, (o) => {
+        } else {
+          _.remove(ids, o => {
             return o === this.id;
-          })
+          });
         }
         window.localStorage.setItem(name, JSON.stringify(ids));
-      }
-      else {
+      } else {
         window.localStorage.setItem(name, JSON.stringify([this.id]));
       }
     },
@@ -251,7 +279,15 @@ export default {
     async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
-      let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash + '?island=' + this.id
+      let fullUrl =
+        a.protocol +
+        '//' +
+        a.host +
+        a.pathname +
+        a.search +
+        a.hash +
+        '?island=' +
+        this.id;
       try {
         await this.$copyText(fullUrl);
         this.$store.commit('setSnack', {
@@ -261,28 +297,29 @@ export default {
       } catch (e) {
         this.$store.commit('setSnack', {
           text: 'There was an error copying the link to your clipboard',
-          color:'error'
+          color: 'error'
         });
       }
     }
   },
   mounted () {
     // window.localStorage.clear();
-    if(this.$store.state.mapMode === 'pvp') {
+    if (this.$store.state.mapMode === 'pvp') {
       this.metals = this.pvpMetals;
     } else {
       this.metals = this.pveMetals;
     }
   },
   computed: {
-    ...mapState(["characters"]),
-    thisMetals () {
-      if (this.$store.state.mapMode === "pve") return this.pveMetals;
-      return this.pvpMetals;
-    },
+    ...mapState(['characters']),
     initialValue () {
-      if (this.$store.state.selectedChar && window.localStorage.getItem(this.$store.state.selectedChar)) {
-        let ids = JSON.parse(window.localStorage.getItem(this.$store.state.selectedChar));
+      if (
+        this.$store.state.selectedChar &&
+        window.localStorage.getItem(this.$store.state.selectedChar)
+      ) {
+        let ids = JSON.parse(
+          window.localStorage.getItem(this.$store.state.selectedChar)
+        );
         if (ids.includes(this.id)) return true;
       }
       return false;
@@ -321,8 +358,8 @@ export default {
     return {
       showMore: false,
       metals: null,
-      panel: [false, false, false],
-    }
+      panel: [false, false, false]
+    };
   },
   props: [
     'id',
@@ -375,8 +412,8 @@ export default {
     margin: 0;
     padding: 0;
     img {
-    margin: 0;
-    padding: 0;
+      margin: 0;
+      padding: 0;
       display: block;
       width: 100%;
       height: auto;
@@ -394,21 +431,18 @@ export default {
         opacity: 1;
         border-radius: 0 !important;
         border-top-right-radius: 10px !important;
-        background-color: rgba(0,0,0,0.3) !important;
+        background-color: rgba(0, 0, 0, 0.3) !important;
       }
       .v-ripple__container {
-
         border-radius: 0 !important;
         border-top-right-radius: 10px !important;
-        background-color: rgba(0,0,0,0.3) !important;
-      .v-ripple__animation {
-        border-radius: 0 !important;
-        border-top-right-radius: 10px !important;
-      }
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        .v-ripple__animation {
+          border-radius: 0 !important;
+          border-top-right-radius: 10px !important;
+        }
       }
     }
-
-
   }
   &-report-btn {
     margin: 0 !important;
@@ -426,7 +460,6 @@ export default {
     }
     .v-btn__content {
       text-transform: initial !important;
-
     }
   }
   .island-link {
@@ -442,7 +475,8 @@ export default {
       font-size: 1rem;
     }
     tr {
-      td,th {
+      td,
+      th {
         width: 50%;
 
         &.island-popup-image {
@@ -568,7 +602,6 @@ export default {
               padding-top: 0 !important;
             }
           }
-
 
           .island-extras-table {
             font-size: 12px;

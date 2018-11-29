@@ -84,7 +84,7 @@ module.exports = {
     ssr: false
   }],
   css: [
-    '~/assets/style/leaflet.css',
+    '~/assets/style/leaflet.scss',
     '~/assets/style/app.styl'
   ],
   /*

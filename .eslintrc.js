@@ -21,7 +21,8 @@ module.exports = {
     'no-unused-vars': 'warn',
     'no-debugger': 'off',
     'no-unused-vars': 'off',
-    'no-unused-expressions': 'off'
+    'no-unused-expressions': 'off',
+    'vue/require-v-for-keys': 'off' 
   },
   globals: {
     "debugger": true,
