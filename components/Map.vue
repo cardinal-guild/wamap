@@ -118,6 +118,7 @@ export default {
               );
               self.$store.commit('addHighlight', coords);
               self.currentMap.setView(coords, localZoom);
+              clearInterval(checkMapObject);
             }
             // self.$router.push({ name: self.$router.currentRoute.name });
           }
@@ -137,10 +138,9 @@ export default {
             );
             self.currentMap.setView([lat, lng], localZoom);
             // self.$router.push({ name: self.$router.currentRoute.name });
+            clearInterval(checkMapObject);
           }
         }
-
-        clearInterval(checkMapObject);
       }
     }, 1000);
   },
