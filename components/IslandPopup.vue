@@ -52,12 +52,17 @@
                 <v-expansion-panel-content class="character-info" :ripple="true" v-if="characters && characters.length > 0">
                   <div slot="header" class="text-xs-center expansion-header subheading">Characters</div>
                   <v-card>
-                    <v-card-text>
+                    <v-card-text class="py-2">
                       <table class="char-info-table">
                         <tr v-for="char in characters">
                           <td>{{ char.name }}</td>
                           <td>
-                            <v-checkbox :input-value="getInitialValue(char.name)" @change="change(char.name)"/>
+                            <v-checkbox
+                              :input-value="getInitialValue(char.name)"
+                              @change="change(char.name)"
+                              label="Visited"
+                              color="green"
+                            />
                           </td>
                         </tr>
                       </table>
@@ -196,8 +201,13 @@ export default {
         let ids = JSON.parse(window.localStorage.getItem(name));
         if (!ids.includes(this.id)) {
           ids.push(this.id);
-          window.localStorage.setItem(name, JSON.stringify(ids));
         }
+        else {
+          _.remove(ids, (o) => {
+            return o === this.id;
+          })
+        }
+        window.localStorage.setItem(name, JSON.stringify(ids));
       }
       else {
         window.localStorage.setItem(name, JSON.stringify([this.id]));
@@ -510,6 +520,19 @@ export default {
             background: #3a312b;
             color: #ffe5c4;
             font-size: 16px;
+          }
+
+          .char-info-table {
+            width: 100%;
+
+            .v-input.v-input--checkbox {
+              height: 24px !important;
+            }
+
+            .v-input--selection-controls {
+              margin-top: 0 !important;
+              padding-top: 0 !important;
+            }
           }
 
 

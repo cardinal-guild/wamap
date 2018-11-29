@@ -36,7 +36,7 @@
         :items="$store.state.characters"
       >
         <template slot="items" slot-scope="props">
-          <tr @click="$store.commit('setSelectedChar', props.item)":class="{ selected: $store.state.selectedChar && $store.state.selectedChar.name === props.item.name }">
+          <tr>
             <td class="character character-name">{{ props.item.name }}</td>
             <td class="character character-created">{{ props.item.created }}</td>
             <td class="pl-0 character character-delete">

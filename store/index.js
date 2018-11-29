@@ -81,6 +81,9 @@ export const mutations = {
   delCharacter (state, name) {
     state.characters = state.characters.filter(o => o.name !== name)
     window.localStorage.setItem("characters", JSON.stringify(state.characters));
+    if (window.localStorage.getItem(name)) {
+      window.localStorage.removeItem(name);
+    }
   },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;
