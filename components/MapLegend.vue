@@ -1,97 +1,101 @@
 <template>
-  <l-control position="topright" class="map-legend-control">
-    <div class="map-legend" :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }">
-      <div class="map-legend-toggle" @click="opened=!opened">
-        <v-icon large>chevron_right</v-icon>
-      </div>
-      <div class="map-legend-content">
-        <div class="map-legend-title">Legend</div>
-        <div class="map-legend-separator"></div>
-        <ul class="legend-list">
-          <li>
-            <span class="header">
-              Altitudes
-            </span>
-          </li>
-          <li>
-            <span class="icon">
-              <img src="~/assets/island_icons/Island_S_L.png" />
-              <img src="~/assets/island_icons/Island_K_L.png" />
-            </span>
-            <span class="description">
-              Low Altitude
-            </span>
-          </li>
-          <li class="map-legend-separator"></li>
-          <li>
-            <span class="icon">
-              <img src="~/assets/island_icons/Island_S_M.png" />
-              <img src="~/assets/island_icons/Island_K_M.png" />
-            </span>
-            <span class="description">
-              Medium Altitude
-            </span>
-          </li>
-          <li class="map-legend-separator"></li>
-          <li>
-            <span class="icon">
-              <img src="~/assets/island_icons/Island_S_H.png" />
-              <img src="~/assets/island_icons/Island_K_H.png" />
-            </span>
-            <span class="description">
-              High Altitude
-            </span>
-          </li>
-          <li class="map-legend-separator"></li>
-          <li>
-            <span class="header">
-              Icons
-            </span>
-          </li>
-          <li>
-            <span class="icon single">
-              <img src="~/assets/I_Frame_Databanks.png" />
-            </span>
-            <span class="description">
-              Databanks
-            </span>
-          </li>
-          <li>
-            <span class="icon single">
-              <img src="~/assets/I_Frame_Reviver.png" />
-            </span>
-            <span class="description">
-              Revival Chambers
-            </span>
-          </li>
-          <li>
-            <span class="icon single">
-              <img src="~/assets/I_Frame_Turret.png">
-            </span>
-            <span class="description">
-              Turrets
-            </span>
-          </li>
-          <li>
-            <span class="icon single culture">
-              <img src="~/assets/I_Frame_K-E.png">
-            </span>
-            <span class="description">
-              Kioki
-            </span>
-          </li>
-          <li>
-            <span class="icon single culture">
-              <img src="~/assets/I_Frame_S-E.png">
-            </span>
-            <span class="description">
-              Saborian
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </l-control>
+  <div>
+    <no-ssr>
+      <l-control position="topright" class="map-legend-control">
+        <div class="map-legend" :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }">
+          <div class="map-legend-toggle" @click="opened=!opened">
+            <v-icon large>chevron_right</v-icon>
+          </div>
+          <div class="map-legend-content">
+            <div class="map-legend-title">Legend</div>
+            <div class="map-legend-separator"></div>
+            <ul class="legend-list">
+              <li>
+                <span class="header">
+                  Altitudes
+                </span>
+              </li>
+              <li>
+                <span class="icon">
+                  <img src="~/static/assets/island_icons/Island_S_L.png" />
+                  <img src="~/static/assets/island_icons/Island_K_L.png" />
+                </span>
+                <span class="description">
+                  Low Altitude
+                </span>
+              </li>
+              <li class="map-legend-separator"></li>
+              <li>
+                <span class="icon">
+                  <img src="~/static/assets/island_icons/Island_S_M.png" />
+                  <img src="~/static/assets/island_icons/Island_K_M.png" />
+                </span>
+                <span class="description">
+                  Medium Altitude
+                </span>
+              </li>
+              <li class="map-legend-separator"></li>
+              <li>
+                <span class="icon">
+                  <img src="~/static/assets/island_icons/Island_S_H.png" />
+                  <img src="~/static/assets/island_icons/Island_K_H.png" />
+                </span>
+                <span class="description">
+                  High Altitude
+                </span>
+              </li>
+              <li class="map-legend-separator"></li>
+              <li>
+                <span class="header">
+                  Icons
+                </span>
+              </li>
+              <li>
+                <span class="icon single">
+                  <img src="~/static/assets/I_Frame_Databanks.png" />
+                </span>
+                <span class="description">
+                  Databanks
+                </span>
+              </li>
+              <li>
+                <span class="icon single">
+                  <img src="~/static/assets/I_Frame_Reviver.png" />
+                </span>
+                <span class="description">
+                  Revival Chambers
+                </span>
+              </li>
+              <li>
+                <span class="icon single">
+                  <img src="~/static/assets/I_Frame_Turret.png">
+                </span>
+                <span class="description">
+                  Turrets
+                </span>
+              </li>
+              <li>
+                <span class="icon single culture">
+                  <img src="~/static/assets/I_Frame_K-E.png">
+                </span>
+                <span class="description">
+                  Kioki
+                </span>
+              </li>
+              <li>
+                <span class="icon single culture">
+                  <img src="~/static/assets/I_Frame_S-E.png">
+                </span>
+                <span class="description">
+                  Saborian
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </l-control>
+    </no-ssr>
+  </div>
 </template>
 
 <script>
