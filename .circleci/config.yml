@@ -11,9 +11,9 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      - GIT_COMMITTER_NAME: "Cardinal Guild CircleCI"
-      - GIT_AUTHOR_NAME: "Cardinal Guild CircleCI"
-      - EMAIL: "fearjake82@gmail.com"
+      - GIT_COMMITTER_NAME: 'Cardinal Guild CircleCI'
+      - GIT_AUTHOR_NAME: 'Cardinal Guild CircleCI'
+      - EMAIL: 'fearjake82@gmail.com'
 
     steps:
       - checkout
@@ -34,13 +34,13 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - "f1:35:9e:25:f2:cd:ef:e8:6a:f3:9a:4b:66:6e:2f:27"
+            - 'f1:35:9e:25:f2:cd:ef:e8:6a:f3:9a:4b:66:6e:2f:27'
 
       - deploy:
           name: Deploy
           command: |
             rm -rf dist || true
-            yarn build
+            yarn generate
             cp -R .circleci dist/
             cd dist
             git init
@@ -48,11 +48,59 @@ jobs:
             git commit -am "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
             git push --force --quiet $CIRCLE_REPOSITORY_URL master:gh-pages
 
+  build_nuxt:
+    docker:
+      - image: circleci/node:8
+
+    working_directory: ~/repo
+
+    environment:
+      - GIT_COMMITTER_NAME: 'Cardinal Guild CircleCI'
+      - GIT_AUTHOR_NAME: 'Cardinal Guild CircleCI'
+      - EMAIL: 'fearjake82@gmail.com'
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - add_ssh_keys:
+          fingerprints:
+            - '55:a5:de:84:e9:d6:6a:75:bc:bd:0d:80:83:2f:ed:e6'
+
+      - deploy:
+          name: Deploy
+          command: |
+            rm -rf dist || true
+            yarn generate
+            cp -R .circleci dist/
+            cd dist
+            git init
+            git add .
+            git commit -am "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
+            git push --force --quiet git@github.com:fearlessjake/wamap_dev.git master:gh-pages
+
 workflows:
   version: 2
-  buildy:
+  build:
     jobs:
       - build:
           filters:
             branches:
               only: master
+      - build_nuxt:
+          filters:
+            branches:
+              only: nuxt-rework
