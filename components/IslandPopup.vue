@@ -173,14 +173,20 @@
               </v-expansion-panel>
             </tr>
             <tr v-if="$store.state.selectedChar">
-              <td>
-                <v-checkbox
-                  color="green"
-                  :input-value="initialValue"
-                  :label="$store.state.selectedChar"
-                  @change="setVisited"
-                />
-              </td>
+              <v-container fluid pa-0>
+                <v-layout justify-center>
+                  <v-flex shrink>
+                    <v-card color="brown" class="pa-2 mt-2">
+                      <v-checkbox
+                      color="green"
+                      :input-value="initialValue"
+                      :label="$store.state.selectedChar"
+                      @change="setVisited"
+                    />
+                    </v-card>
+                  </v-flex>
+                </v-layout>
+              </v-container>
             </tr>
           </table>
           <v-btn
@@ -600,19 +606,6 @@ export default {
             font-size: 16px;
           }
 
-          .char-info-table {
-            width: 100%;
-
-            .v-input.v-input--checkbox {
-              height: 24px !important;
-            }
-
-            .v-input--selection-controls {
-              margin-top: 0 !important;
-              padding-top: 0 !important;
-            }
-          }
-
           .island-extras-table {
             font-size: 12px;
             border-collapse: collapse;
@@ -676,6 +669,17 @@ export default {
         .v-expansion-panel__container {
           background: #3a312b;
         }
+
+
+      }
+
+      .v-input.v-input--checkbox {
+        height: 24px !important;
+      }
+
+      .v-input--selection-controls {
+        margin-top: 0px !important;
+        padding-top: 0 !important;
       }
     }
   }

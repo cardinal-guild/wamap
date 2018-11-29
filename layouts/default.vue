@@ -102,10 +102,10 @@ export default {
     MapFilterDrawer,
     AccountDrawer
   },
-  head() {
+  head () {
     return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
-  created: function() {
+  created: function () {
     this.$store.watch(
       state => state.snackText,
       () => {
@@ -123,12 +123,12 @@ export default {
       }
     );
   },
-  mounted() {
+  mounted () {
     this.$bus.$on('closeSearchFilterDrawer', e => {
       this.searchFilterDrawer = false;
     });
   },
-  data() {
+  data () {
     return {
       showSnack: false,
       snackColor: 'info',
@@ -163,7 +163,7 @@ export default {
     //   this.filterDrawer = false;
     //   this.accountDrawer = true
     // }
-    async copyToClipboard(e) {
+    async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
