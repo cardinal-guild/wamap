@@ -10,6 +10,7 @@ import Vuetify, {
 import {
   Ripple
 } from 'vuetify/lib/directives'
+import '../assets/style/app.styl'
 
 Vue.use(Vuetify, {
   components: {

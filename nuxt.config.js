@@ -84,7 +84,7 @@ module.exports = {
     ssr: false
   }],
   css: [
-    '~/assets/style/leaflet.css',
+    '~/assets/style/leaflet.scss',
     '~/assets/style/app.styl'
   ],
   /*
@@ -149,7 +149,8 @@ module.exports = {
     ],
     babel: {
       plugins: [
-        ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }]
+        ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
+        ["@babel/transform-runtime"]
       ]
     },
     extractCSS: true,

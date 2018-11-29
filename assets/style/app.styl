@@ -5,12 +5,12 @@
 @require '~vuetify/src/stylus/settings/_variables'
 @require '~vuetify/src/stylus/settings/_theme'
 
- 
-$material-dark.background = $brown.darken1 
+$material-dark.background = none
+$body-bg-dark = none
 $body-font-family = 'Noto Sans', sans-serif;
- 
 // Import Vuetify styling
-@require '~vuetify/src/stylus/app'
+@import '~vuetify/src/stylus/main'
+  
   
 .page
   @extend .fade-transition
