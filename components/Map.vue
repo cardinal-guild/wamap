@@ -261,3 +261,30 @@ export default {
   }
 }
 </style>
+<style lang="scss">
+.leaflet-overlay-pane svg g {
+  path[fill="#339933"] {
+    fill: #b1deab;
+  }
+
+  path[fill="#009999"] {
+    fill: #aecbf5;
+  }
+
+  path[fill="#999999"] {
+    fill: #e3c9f9;
+  }
+
+  path[fill="#996633"] {
+    fill: #f7c38f;
+  }
+
+  path[fill="#ffffff"] {
+    fill: #bbbbbb;
+  }
+
+  path[fill="#333333"] {
+    fill: #403d84;
+  }
+}
+</style>
