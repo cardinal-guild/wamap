@@ -147,18 +147,18 @@ export const actions = {
 
       const metalTypes = await this.$axios.$get("https://surveyor.cardinalguild.com/api/metaltypes.json")
       commit("metalTypes", metalTypes)
-      
+
       const islandData = await this.$axios.$get('https://surveyor.cardinalguild.com/api/islands.json')
       commit('islandData', islandData)
       if (console.log) {
         console.log('Loading map boundaries')
       }
-      const boundaryData = await this.$axios.$get('/data/wamap.geojson')
+      const boundaryData = await this.$axios.$get('https://map.cardinalguild.com/data/wamap.geojson')
       commit('boundaryData', boundaryData)
       if (console.log) {
         console.log('Loading zone name overlay')
       }
-      const zonenamesData = await this.$axios.$get('/data/zonenames.svg')
+      const zonenamesData = await this.$axios.$get('https://map.cardinalguild.com/data/zonenames.svg')
       commit('zonenamesData', svgToDataURL(zonenamesData))
 
       if (window.localStorage.getItem("characters")) {
