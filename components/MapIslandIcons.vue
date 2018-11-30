@@ -1,25 +1,23 @@
 <template>
-    <div
-        class="islandMarkers"
-        v-if="islandData &&
-            islandData.features &&
-            islandData.features.length"
-            >
-        <no-ssr>
-            <l-marker
-                v-for="island in islandData.features"
-                :key="island.properties.key"
-                :lat-lng="island.geometry.coordinates"
-                :icon="getIconByAltitude(island.properties.altitude, island.properties.type, island.properties.tier)"
-                :id="island.id"
-                layer-type="overlay"
-                :closePopupOnClick="false"
-                @click="closeLegend($event, $bus)"
-                >
-                <island-popup  v-bind="island.properties" />
-            </l-marker>
-        </no-ssr>
-    </div>
+  <div
+    class="islandMarkers"
+    v-if="islandData && islandData.features && islandData.features.length"
+  >
+    <no-ssr>
+      <l-marker
+        v-for="island in islandData.features"
+        :key="island.properties.key"
+        :lat-lng="island.geometry.coordinates"
+        :icon="getIconByAltitude(island.properties.altitude, island.properties.type, island.properties.tier)"
+        :id="island.id"
+        layer-type="overlay"
+        :closePopupOnClick="false"
+        @click="closeLegend($event, $bus)"
+      >
+        <island-popup  v-bind="island.properties" />
+      </l-marker>
+    </no-ssr>
+  </div>
 </template>
 
 <script>
@@ -91,14 +89,14 @@ export default {
       else if (tier === 3) tierClass = "three";
       else if (tier === 4) tierClass = "four";
       let icon;
-      if (type === "saborian") {
+      if (type === "kioki") {
         icon = leaflet.divIcon({
           html: '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle class="'+altClass+' '+tierClass+'"cx="50" cy="50" r="40" /></svg>',
           iconAnchor: [15, 15],
           className: "island-dot"
         });
       }
-      else if (type === "kioki") {
+      else if (type === "saborian") {
         icon = leaflet.divIcon({
           html: '<svg style="transform: rotateZ(45deg);" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><rect class="'+altClass+' '+tierClass+'" width="100" height="100" /></svg>',
           iconAnchor: [12, 12],
@@ -106,19 +104,6 @@ export default {
         });
       }
       return icon;
-      // let height = 'low';
-      // if (altitude > 1800) {
-      //   height = 'medium';
-      // } else if (altitude > 2200) {
-      //   height = 'high';
-      // }
-      // if (leaflet) {
-      //   return leaflet.icon({
-      //     iconUrl: islandIcons[type][height],
-      //     iconSize: [30, 30],
-      //     className: 'island-dot'
-      //   });
-      // }
     }
   }
 };

@@ -85,7 +85,7 @@ export default {
       return localZoom;
     }
   },
-  beforeMount() {
+  beforeMount () {
     let self = this;
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
@@ -145,7 +145,7 @@ export default {
       }
     }, 1000);
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('loadAll');
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
@@ -168,13 +168,13 @@ export default {
       this.$bus.$emit('closeLegend');
     });
   },
-  data() {
+  data () {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function(feature) {
+        style: function (feature) {
           return feature.properties;
         },
         interactive: false
