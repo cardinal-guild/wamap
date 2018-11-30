@@ -1,60 +1,65 @@
 <template>
-    <div class="credits-page">
-        <no-ssr>
-            <vue-particles
-            class="particles"
-            color="#668"
-            :particlesNumber="120"
-            shapeType="star"
-            :particleSize="4"
-            :moveSpeed=".8"
-            :lineOpacity="0.1"
-            />
-            <article class="starwars">
-                <audio preload="auto" ref="audio" autoplay="true" @playing="startAnimation=true" @ended="startAnimation=false" play="true">
-                    <source src="https://s.cdpn.io/1202/Star_Wars_original_opening_crawl_1977.ogg" type="audio/ogg" />
-                    <source src="https://s.cdpn.io/1202/Star_Wars_original_opening_crawl_1977.mp3" type="audio/mpeg" />
-                </audio>
+  <div class="credits-page">
+    <no-ssr>
+      <vue-particles
+        class="particles"
+        color="#668"
+        :particlesNumber="120"
+        shapeType="star"
+        :particleSize="4"
+        :moveSpeed=".8"
+        :lineOpacity="0.1"
+      />
+      <article class="starwars">
+        <audio
+          preload="auto"
+          ref="audio"
+          autoplay="true"
+          @playing="startAnimation=true"
+          @ended="startAnimation=false"
+          play="true"
+        >
+          <source
+            src="https://s.cdpn.io/1202/Star_Wars_original_opening_crawl_1977.ogg"
+            type="audio/ogg"
+          >
+          <source
+            src="https://s.cdpn.io/1202/Star_Wars_original_opening_crawl_1977.mp3"
+            type="audio/mpeg"
+          >
+        </audio>
 
-                <div class="start" @click="$refs.audio.play()" v-show="!startAnimation">
-                    <h1><v-icon>play_arrow</v-icon> Click here to play the credits</h1>
-                </div>
+        <div class="start" @click="$refs.audio.play()" v-show="!startAnimation">
+          <h1>
+            <v-icon>play_arrow</v-icon>Click here to play the credits
+          </h1>
+        </div>
 
-                <div class="animation" v-if="startAnimation">
+        <div class="animation" v-if="startAnimation">
+          <section class="intro">
+            <span>A long time ago, in a adrift world,
+              <br>far, far away....
+            </span>
+          </section>
 
-                    <section class="intro">
-                        <span>
-                          A long time ago, in a adrift world,<br>
-                          far, far away....
-                        </span>
-                    </section>
+          <section class="titles">
+            <div contenteditable="true" spellcheck="false">
+              <p>Lead programming: FearlessJake and Machine_Maker</p>
 
-                    <section class="titles">
-                        <div contenteditable="true" spellcheck="false">
-                        <p>
-                           Lead programming: FearlessJake and Machine_Maker
-                        </p>
+              <p>Additional styling and programming: JeremyKerman</p>
 
-                        <p>
-                            Additional styling and programming: JeremyKerman
-                        </p>
+              <p>Island surveyors: SquinkyDinky, JC, Davemane42, JeremyKerman, lavayar, Wise_Mule</p>
+              <p>And all the people that i forgot to mention in the discord group :-)</p>
+            </div>
+          </section>
 
-                        <p>
-                            Island surveyors: SquinkyDinky, JC, Davemane42, JeremyKerman, lavayar, Wise_Mule
-                        </p>
-                        <p>
-                            And all the people that i forgot to mention in the discord group :-)
-                        </p>
-                        </div>
-                    </section>
-
-                    <section class="logo">
-                        <img src="~/static/assets/logo_credits.png" />
-                    </section>
-                </div>
-            </article>
-        </no-ssr>
-    </div>
+          <section class="logo">
+            <img src="~/static/assets/logo_credits.png">
+          </section>
+        </div>
+      </article>
+    </no-ssr>
+  </div>
 </template>
 
 <script>
@@ -66,6 +71,7 @@ export default {
     };
   },
   mounted () {
+    this.$store.commit('setShowMapControls', false);
     this.$store.commit('setPageTitle', 'Credits');
   }
 };

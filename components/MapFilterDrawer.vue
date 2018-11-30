@@ -12,67 +12,64 @@
       </v-btn>
     </v-toolbar>
     <v-divider></v-divider>
-    <v-select class="pr-2"
-      v-model="metal"
-      prepend-icon="filter_list"
-      :items="metalTypes"
-      item-text="name"
-      item-value="id"
-      return-object
-      label="Select metal"
-      single-line
-      @change="change"
-    />
-    <v-slider class="pr-2"
-      v-model="quality"
-      prepend-icon="Q"
-      thumb-label
-      ticks="always"
-      tick-size="4"
-      :min="0"
-      :max="10"
-      @change="change"
-    />
+    <v-container grid-list-xs text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-select
+            class="pr-2"
+            v-model="metal"
+            prepend-icon="filter_list"
+            :items="metalTypes"
+            item-text="name"
+            item-value="id"
+            return-object
+            label="Select metal"
+            single-line
+            @change="change"
+          />
+        </v-flex>
+        <v-flex xs12>
+          <v-slider
+            class="pr-2"
+            v-model="quality"
+            thumb-label
+            label="Min. Q"
+            :min="1"
+            :max="10"
+            @change="change"
+          />
+        </v-flex>
+      </v-layout>
+    </v-container>
     <div class="text-xs-center">
       <v-btn large @click="clear">Clear</v-btn>
     </div>
-    <v-divider />
-    <v-data-table class="filter-drawer-datatable"
-      :headers="headers"
-      :items="filteredIslands"
-    >
+    <v-divider/>
+    <v-data-table class="filter-drawer-datatable" :headers="headers" :items="filteredIslands">
       <template slot="items" slot-scope="props">
-        <tr class="filter-drawer-row"
+        <tr
+          class="filter-drawer-row"
           @click="$bus.$emit('zoomToIsland', props.item.geometry.coordinates);"
         >
           <td class="filter-drawer-img">
             <img :src="props.item.properties.imageIcon">
           </td>
-          <td class="filter-drawer-row-text">
-            {{ props.item.properties.fullName }}
-          </td>
-          <td class="filter-drawer-row-text text-xs-right">
-            {{ props.item.properties.creator }}
-          </td>
+          <td class="filter-drawer-row-text">{{ props.item.properties.fullName }}</td>
+          <td class="filter-drawer-row-text text-xs-right">{{ props.item.properties.creator }}</td>
         </tr>
       </template>
-      <v-alert
-        slot="no-results"
-        :value="true"
-        color="error"
-        icon="warning"
-      >No islands found!</v-alert>
+      <v-alert slot="no-results" :value="true" color="error" icon="warning">No islands found!</v-alert>
     </v-data-table>
   </v-navigation-drawer>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import _ from "lodash";
+import _ from 'lodash';
 export default {
   methods: {
     clear () {
-      this.$store.commit("clearHighlights");
+      this.$store.commit('clearHighlights');
       this.filteredIslands = [];
       this.metal = null;
       this.quality = 0;
@@ -81,28 +78,37 @@ export default {
       if (this.quality && this.metal) {
         let self = this;
         this.filteredIslands = _.filter(this.islandData.features, function (o) {
-          let metals = _.filter(o.properties[self.$store.state.mapMode+"Metals"], { type_id: self.metal.id, quality: self.quality });
-          return metals.length > 0;
+          let combinedMetals = [];
+          let i;
+          for (i = self.quality; i <= 10; i++) {
+            combinedMetals = _.union(
+              combinedMetals,
+              _.filter(o.properties[self.$store.state.mapMode + 'Metals'], {
+                type_id: self.metal.id,
+                quality: i
+              })
+            );
+          }
+          return combinedMetals.length > 0;
         });
         let filteredCoords = this.filteredIslands.map(function (o) {
           return o.geometry.coordinates;
-        })
-        this.$store.commit("setHighlights", filteredCoords);
+        });
+        this.$store.commit('setHighlights', filteredCoords);
       }
     }
   },
   computed: {
-    ...mapState(["islandData", "metalTypes"]),
+    ...mapState(['islandData', 'metalTypes']),
     range: () => {
-      return _.range(1,11);
+      return _.range(1, 11);
     }
   },
   mounted () {
-
     this.$bus.$on('openSearchDrawer', e => {
       this.opened = false;
     });
-    this.$bus.$on("openAccountDrawer", e => {
+    this.$bus.$on('openAccountDrawer', e => {
       this.opened = false;
     });
     this.$bus.$on('openFilterDrawer', e => {
