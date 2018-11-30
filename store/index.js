@@ -144,20 +144,22 @@ export const actions = {
         console.log('Loading islands from surveyor.cardinalguild')
       }
       commit('loading', true)
+
+      const metalTypes = await this.$axios.$get("https://surveyor.cardinalguild.com/api/metaltypes.json")
+      commit("metalTypes", metalTypes)
+      
       const islandData = await this.$axios.$get('https://surveyor.cardinalguild.com/api/islands.json')
       commit('islandData', islandData)
       if (console.log) {
         console.log('Loading map boundaries')
       }
-      const boundaryData = await this.$axios.$get('https://data.cardinalguild.com/wamap.geojson')
+      const boundaryData = await this.$axios.$get('/data/wamap.geojson')
       commit('boundaryData', boundaryData)
       if (console.log) {
         console.log('Loading zone name overlay')
       }
-      const zonenamesData = await this.$axios.$get('https://data.cardinalguild.com/zonenames.svg')
+      const zonenamesData = await this.$axios.$get('/data/zonenames.svg')
       commit('zonenamesData', svgToDataURL(zonenamesData))
-      const metalTypes = await this.$axios.$get("https://surveyor.cardinalguild.com/api/metaltypes.json")
-      commit("metalTypes", metalTypes)
 
       if (window.localStorage.getItem("characters")) {
         commit("characters", JSON.parse(window.localStorage.getItem("characters")))
