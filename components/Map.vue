@@ -85,7 +85,7 @@ export default {
       return localZoom;
     }
   },
-  beforeMount () {
+  beforeMount() {
     let self = this;
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
@@ -145,7 +145,7 @@ export default {
       }
     }, 1000);
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('loadAll');
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
@@ -158,14 +158,23 @@ export default {
       this.currentMap.setView(coords, localZoom);
       this.$bus.$emit('closeLegend');
     });
+    this.$bus.$on('zoomToIslandWithoutHighlight', coords => {
+      let localZoom = this.zoomPercentageToLocalZoom(
+        80,
+        this.currentMap.options.minZoom,
+        this.currentMap.options.maxZoom
+      );
+      this.currentMap.setView(coords, localZoom);
+      this.$bus.$emit('closeLegend');
+    });
   },
-  data () {
+  data() {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function (feature) {
+        style: function(feature) {
           return feature.properties;
         },
         interactive: false
@@ -263,27 +272,27 @@ export default {
 </style>
 <style lang="scss">
 .leaflet-overlay-pane svg g {
-  path[fill="#339933"] {
+  path[fill='#339933'] {
     fill: #b1deab;
   }
 
-  path[fill="#009999"] {
+  path[fill='#009999'] {
     fill: #aecbf5;
   }
 
-  path[fill="#999999"] {
+  path[fill='#999999'] {
     fill: #e3c9f9;
   }
 
-  path[fill="#996633"] {
+  path[fill='#996633'] {
     fill: #f7c38f;
   }
 
-  path[fill="#ffffff"] {
+  path[fill='#ffffff'] {
     fill: #bbbbbb;
   }
 
-  path[fill="#333333"] {
+  path[fill='#333333'] {
     fill: #403d84;
   }
 }

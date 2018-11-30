@@ -1,5 +1,13 @@
 <template>
-  <v-navigation-drawer right v-model="opened" :mini-variant="false" :width="320" fixed app>
+  <v-navigation-drawer
+    class="filter-drawer"
+    right
+    v-model="opened"
+    :mini-variant="false"
+    :width="320"
+    fixed
+    app
+  >
     <v-toolbar flat dense>
       <v-list>
         <v-list-tile>
@@ -12,44 +20,53 @@
       </v-btn>
     </v-toolbar>
     <v-divider></v-divider>
-    <v-container grid-list-xs text-xs-center>
-      <v-layout row wrap>
-        <v-flex xs12>
-          <v-select
-            class="pr-2"
-            v-model="metal"
-            prepend-icon="filter_list"
-            :items="metalTypes"
-            item-text="name"
-            item-value="id"
-            return-object
-            label="Select metal"
-            single-line
-            @change="change"
-          />
-        </v-flex>
-        <v-flex xs12>
-          <v-slider
-            class="pr-2"
-            v-model="quality"
-            thumb-label
-            label="Min. Q"
-            :min="1"
-            :max="10"
-            @change="change"
-          />
-        </v-flex>
-      </v-layout>
-    </v-container>
-    <div class="text-xs-center">
-      <v-btn large @click="clear">Clear</v-btn>
-    </div>
+    <v-card>
+      <v-card-actions>
+        <v-layout grid-list-xs text-xs-center row wrap>
+          <v-flex xs12>
+            <v-select
+              class="pr-2"
+              v-model="metal"
+              prepend-icon="filter_list"
+              :items="metalTypes"
+              item-text="name"
+              item-value="id"
+              return-object
+              label="Select metal"
+              single-line
+              @change="change"
+            />
+          </v-flex>
+          <v-flex xs12>
+            <v-layout row no-wrap>
+              <v-flex>
+                <v-slider
+                  class="pr-2"
+                  v-model="quality"
+                  thumb-label
+                  label="Min. Q"
+                  :min="1"
+                  :max="10"
+                  @change="change"
+                />
+              </v-flex>
+              <v-flex shrink>
+                <h3 class="quality-label">{{ quality }}</h3>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <v-flex xs12>
+            <v-btn large @click="clear" block small>Clear</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-card-actions>
+    </v-card>
     <v-divider/>
     <v-data-table class="filter-drawer-datatable" :headers="headers" :items="filteredIslands">
       <template slot="items" slot-scope="props">
         <tr
           class="filter-drawer-row"
-          @click="$bus.$emit('zoomToIsland', props.item.geometry.coordinates);"
+          @click="$bus.$emit('zoomToIslandWithoutHighlight', props.item.geometry.coordinates);"
         >
           <td class="filter-drawer-img">
             <img :src="props.item.properties.imageIcon">
@@ -120,7 +137,7 @@ export default {
       opened: false,
       islands: null,
       metal: null,
-      quality: 0,
+      quality: 1,
       filteredIslands: [],
       headers: [
         {
@@ -146,6 +163,9 @@ export default {
 </script>
 <style lang="scss">
 .filter-drawer {
+  .quality-label {
+    line-height: 60px;
+  }
   &-img {
     margin: 0 !important;
     padding: 5px !important;
