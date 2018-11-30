@@ -87,6 +87,10 @@ module.exports = {
     '~/assets/style/leaflet.scss',
     '~/assets/style/app.styl'
   ],
+  axios: {
+    retry: { retries: 5 },
+    baseURL: ''
+  },
   /*
    ** Customize the progress bar color
    */
@@ -106,9 +110,23 @@ module.exports = {
         // Defaults to `GET` if omitted
         method: 'GET',
         strategyOptions: {
-          cacheName: 'surveyor-cache',
+          cacheName: 'surveyor-geo-cache',
           cacheExpiration: {
-            maxAgeSeconds: 14400
+            maxAgeSeconds: 86400
+          }
+        }
+      },
+      {
+        // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
+        urlPattern: '/data/.*',
+        // Defaults to `networkFirst` if omitted
+        handler: 'cacheFirst',
+        // Defaults to `GET` if omitted
+        method: 'GET',
+        strategyOptions: {
+          cacheName: 'surveyor-geo-cache-data',
+          cacheExpiration: {
+            maxAgeSeconds: 86400
           }
         }
       },
@@ -141,6 +159,10 @@ module.exports = {
         }
       }
     ]
+  },
+  manifest: {
+    name: 'Cardinal Guild- Worlds Adrift Interactive Map',
+    lang: 'en'
   },
   build: {
     transpile: [/^vuetify/],

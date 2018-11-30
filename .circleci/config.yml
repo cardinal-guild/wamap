@@ -55,6 +55,7 @@ jobs:
     working_directory: ~/repo
 
     environment:
+      - API_URL: ''
       - GIT_COMMITTER_NAME: 'Cardinal Guild CircleCI'
       - GIT_AUTHOR_NAME: 'Cardinal Guild CircleCI'
       - EMAIL: 'fearjake82@gmail.com'

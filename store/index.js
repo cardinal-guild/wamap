@@ -153,12 +153,12 @@ export const actions = {
       if (console.log) {
         console.log('Loading map boundaries')
       }
-      const boundaryData = await this.$axios.$get('https://map.cardinalguild.com/data/wamap.geojson')
+      const boundaryData = await this.$axios.$get('/data/wamap.geojson')
       commit('boundaryData', boundaryData)
       if (console.log) {
-        console.log('Loading zone name overlay')
+        console.log('Loading zone name overlay') 
       }
-      const zonenamesData = await this.$axios.$get('https://map.cardinalguild.com/data/zonenames.svg')
+      const zonenamesData = await this.$axios.$get('/data/zonenames.svg')
       commit('zonenamesData', svgToDataURL(zonenamesData))
 
       if (window.localStorage.getItem("characters")) {
