@@ -32,6 +32,7 @@
         <map-island-icons :fromZoomPercentage="30" :toZoomPercentage="70"/>
         <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
         <map-legend :fadeOutFromZoomPercentage="70"/>
+        <map-location-marker />
       </l-map>
     </no-ssr>
   </div>
@@ -46,6 +47,7 @@ import MapIslandCircles from '~/components/MapIslandCircles.vue';
 import MapHighlighter from '~/components/MapHighlighter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
+import MapLocationMarker from '~/components/MapLocationMarker.vue'
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -59,7 +61,8 @@ export default {
     MapIslandCircles,
     MapHighlighter,
     ZoneNameOverlay,
-    SectorNamesOverlay
+    SectorNamesOverlay,
+    MapLocationMarker
   },
   computed: {
     ...mapState(['islandData', 'boundaryData'])

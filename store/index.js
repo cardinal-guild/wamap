@@ -21,6 +21,7 @@ export const state = () => ({
   metalTypes: null,
   characters: null,
   selectedChar: null,
+  showMarker: false,
   showMapControls: false,
   highlightedCoords: [],
   mapMode: 'pve',
@@ -94,6 +95,9 @@ export const mutations = {
     }
     else state.selectedChar = name;
   },
+  toggleMarker (state) {
+    state.showMarker = !state.showMarker;
+  },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;
     state.lat = Math.round(lat);
@@ -156,7 +160,7 @@ export const actions = {
       const boundaryData = await this.$axios.$get('/data/wamap.geojson')
       commit('boundaryData', boundaryData)
       if (console.log) {
-        console.log('Loading zone name overlay') 
+        console.log('Loading zone name overlay')
       }
       const zonenamesData = await this.$axios.$get('/data/zonenames.svg')
       commit('zonenamesData', svgToDataURL(zonenamesData))

@@ -52,6 +52,12 @@
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
         <v-tooltip bottom>
+          <v-btn icon slot="activator" @click="$store.commit('toggleMarker'); $bus.$emit('toggleMarker')" :class="{visible: $store.state.showMarker}">
+            <v-icon>add_location</v-icon>
+          </v-btn>
+          <span>Place a marker</span>
+        </v-tooltip>
+        <v-tooltip bottom>
           <v-btn icon slot="activator" @click="$bus.$emit('openAccountDrawer')">
             <v-icon>account_circle</v-icon>
           </v-btn>
@@ -142,27 +148,9 @@ export default {
         { icon: 'people', title: 'Credits', to: '/credits' }
       ],
       miniVariant: false
-      // searchDrawer: false,
-      // filterDrawer: false,
-      // accountDrawer: false
     };
   },
   methods: {
-    // openSearchDrawer () {
-    //   this.searchDrawer = true;
-    //   this.filterDrawer = false;
-    //   this.accountDrawer = false;
-    // },
-    // openFilterDrawer () {
-    //   this.searchDrawer = false;
-    //   this.filterDrawer = true;
-    //   this.accountDrawer = false;
-    // },
-    // openAccountDrawer () {
-    //   this.searchDrawer = false;
-    //   this.filterDrawer = false;
-    //   this.accountDrawer = true
-    // }
     async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
