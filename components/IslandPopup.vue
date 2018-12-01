@@ -204,7 +204,7 @@
             </v-btn>
             <v-spacer v-if="showEdit"/>
             <v-tooltip v-model="showReportNotImplemented" color="error" top>
-              <v-btn slot="activator" flat block class="island-popup-button">
+              <v-btn slot="activator" flat block grow class="island-popup-button">
                 <v-icon>insert_comment</v-icon>
                 <span>Report metals</span>
               </v-btn>
