@@ -9,9 +9,17 @@ import LoadingOverlay from '~/components/LoadingOverlay';
 import Map from '~/components/Map';
 
 export default {
-  mounted () {
+  mounted() {
     this.$store.commit('setShowMapControls', true);
-    this.$store.commit('setPageTitle', 'PVE Map');
+    this.$store.commit('setPageTitle', this.title);
+  },
+  head() {
+    return { title: 'Cardinal Guild - ' + this.title };
+  },
+  data() {
+    return {
+      title: 'PVE Map'
+    };
   },
   components: {
     Map,

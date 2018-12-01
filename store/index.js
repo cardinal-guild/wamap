@@ -27,7 +27,7 @@ export const state = () => ({
   mapMode: 'pve',
   snackColor: 'info',
   snackText: '',
-  pageTitle: 'Welcome',
+  pageTitle: '',
   hilites: [],
   lat: -4750,
   lng: 4750,

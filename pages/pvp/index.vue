@@ -11,7 +11,15 @@ import Map from '~/components/Map';
 export default {
   mounted () {
     this.$store.commit('setShowMapControls', true);
-    this.$store.commit('setPageTitle', 'PVP Map');
+    this.$store.commit('setPageTitle', this.title);
+  },
+  head () {
+    return { title: 'Cardinal Guild - ' + this.title };
+  },
+  data () {
+    return {
+      title: 'PVP Map'
+    };
   },
   components: {
     Map,

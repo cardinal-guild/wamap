@@ -52,7 +52,12 @@
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="$store.commit('toggleMarker'); $bus.$emit('toggleMarker')" :class="{visible: $store.state.showMarker}">
+          <v-btn
+            icon
+            slot="activator"
+            @click="$store.commit('toggleMarker'); $bus.$emit('toggleMarker')"
+            :class="{visible: $store.state.showMarker}"
+          >
             <v-icon>add_location</v-icon>
           </v-btn>
           <span>Place a marker</span>
@@ -107,9 +112,6 @@ export default {
     MapSearchDrawer,
     MapFilterDrawer,
     AccountDrawer
-  },
-  head () {
-    return { title: 'Cardinal Guild - ' + this.$store.state.pageTitle };
   },
   created: function () {
     this.$store.watch(

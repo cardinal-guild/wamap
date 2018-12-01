@@ -67,12 +67,15 @@ export default {
   data () {
     return {
       startAnimation: false,
-      title: 'Cardinal Guild Credits'
+      title: 'Credits'
     };
+  },
+  head () {
+    return { title: 'Cardinal Guild - ' + this.title };
   },
   mounted () {
     this.$store.commit('setShowMapControls', false);
-    this.$store.commit('setPageTitle', 'Credits');
+    this.$store.commit('setPageTitle', this.title);
   }
 };
 </script>
