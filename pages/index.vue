@@ -14,6 +14,7 @@
               <p>Please choose the server map you are playing on:</p>
             </v-card-text>
             <v-card-actions>
+              <v-spacer></v-spacer>
               <v-btn class="welcome-btn" nuxt to="/pve">
                 <PVEIcon/>
                 <span>PVE Map (Kubo)</span>
@@ -23,6 +24,7 @@
                 <PVPIcon/>
                 <span>PVP Map (Driss)</span>
               </v-btn>
+              <v-spacer></v-spacer>
             </v-card-actions>
             <v-card-text>
               <p>
@@ -59,6 +61,7 @@ export default {
 
 .welcome-btn {
   height: auto;
+  min-height: 100px;
   transition: background-color $easeOutExpo 0.6s;
   background-color: #e0af84 !important;
   .v-btn__content {
