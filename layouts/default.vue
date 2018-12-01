@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app dark class="cg-app">
     <v-navigation-drawer class="main-drawer" fixed app :mini-variant="miniVariant" v-model="drawer">
       <v-list>
         <v-list-tile router exact @click="drawer=false" to="/">
@@ -89,9 +89,6 @@
     <map-search-drawer/>
     <map-filter-drawer/>
     <account-drawer/>
-    <v-footer :fixed="fixed" app v-if="!$store.state.showMapControls">
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
 
     <v-snackbar bottom right v-model="showSnack" :color="snackColor" :timeout="6000">{{ snackText }}</v-snackbar>
   </v-app>
@@ -113,7 +110,7 @@ export default {
     MapFilterDrawer,
     AccountDrawer
   },
-  created: function () {
+  created: function() {
     this.$store.watch(
       state => state.snackText,
       () => {
@@ -131,12 +128,12 @@ export default {
       }
     );
   },
-  mounted () {
+  mounted() {
     this.$bus.$on('closeSearchFilterDrawer', e => {
       this.searchFilterDrawer = false;
     });
   },
-  data () {
+  data() {
     return {
       showSnack: false,
       snackColor: 'info',
@@ -153,7 +150,7 @@ export default {
     };
   },
   methods: {
-    async copyToClipboard (e) {
+    async copyToClipboard(e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
@@ -187,18 +184,17 @@ html {
   background-image: url('/assets/wood_background.jpg');
   background-repeat: repeat;
 }
-.svg-tile {
-  svg {
-    fill: white;
-    width: 24px;
-    height: 24px;
+.cg-app.theme--dark.application {
+  background-color: transparent;
+  background: none;
+  .svg-tile {
+    svg {
+      fill: white;
+      width: 24px;
+      height: 24px;
+    }
   }
-}
-.theme--dark {
-  &.application {
-    background-color: transparent;
-    background: none !important;
-  }
+
   .v-navigation-drawer {
     background-color: #504141;
   }
@@ -207,31 +203,31 @@ html {
   &.v-btn--icon {
     color: #ffe5c4;
   }
-}
-.v-btn__content {
-  svg {
-    width: 24px;
-    height: 24px;
+  .v-btn__content {
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
-}
-.main-drawer {
-  border-right: 5px #e0af84 solid;
-  .v-list {
-    padding: 0;
+  .main-drawer {
+    border-right: 5px #e0af84 solid;
+    .v-list {
+      padding: 0;
+    }
   }
-}
-.cg-toolbar {
-  .v-toolbar__content {
-    font-family: 'News Cycle', sans-serif;
-    border-bottom: 5px #e0af84 solid;
-    color: #ffe5c4;
-  }
-  .v-toolbar__content,
-  .v-btn,
-  .v-btn--icon,
-  .v-toolbar__content svg {
-    color: #ffe5c4;
-    fill: #ffe5c4;
+  .cg-toolbar {
+    .v-toolbar__content {
+      font-family: 'News Cycle', sans-serif;
+      border-bottom: 5px #e0af84 solid;
+      color: #ffe5c4;
+    }
+    .v-toolbar__content,
+    .v-btn,
+    .v-btn--icon,
+    .v-toolbar__content svg {
+      color: #ffe5c4;
+      fill: #ffe5c4;
+    }
   }
 }
 </style>

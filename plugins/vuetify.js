@@ -5,6 +5,7 @@ import Vuetify, {
   VFooter,
   VToolbar,
   VTooltip,
+  VBtn,
   VSnackbar
 } from 'vuetify/lib'
 import {
@@ -19,6 +20,7 @@ Vue.use(Vuetify, {
     VFooter,
     VToolbar,
     VTooltip,
+    VBtn,
     VSnackbar
   },
   directives: {

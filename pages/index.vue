@@ -67,11 +67,11 @@ export default {
 <style lang="scss">
 @import '~sass-easing/_easings';
 
-.welcome-btn {
+.welcome-btn.theme--dark.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
   height: auto;
   min-height: 100px;
   transition: background-color $easeOutExpo 0.6s;
-  background-color: #e0af84 !important;
+  background-color: #e0af84;
   .v-btn__content {
     display: flex;
     flex-direction: column;
@@ -85,7 +85,7 @@ export default {
     }
   }
   &:hover {
-    background-color: #463939 !important;
+    background-color: #463939;
     .v-btn__content {
       color: white;
       svg {
