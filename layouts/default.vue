@@ -137,13 +137,16 @@ export default {
     );
   },
   beforeMount () {
-    let showEditCookie = this.$cookies.get('show-edit');
+    let showEditCookie = this.$cookies.get('showEdit');
     if (typeof showEditCookie !== 'undefined') {
-      this.$store.commit('setShowEdit', Boolean(showEditCookie));
+      this.$store.commit('setConfigOption', { option: 'showEdit', value: Boolean(showEditCookie) });
+    }
+    let showMetalsCookie = this.$cookies.get('showAllMetals');
+    if (typeof showMetalsCookie !== 'undefined') {
+      this.$store.commit('setConfigOption', { option: 'showAllMetals', value: Boolean(showMetalsCookie) })
     }
   },
   mounted () {
-    this.$cookies.get('');
     this.$bus.$on('closeSearchFilterDrawer', e => {
       this.searchFilterDrawer = false;
     });

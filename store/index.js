@@ -14,7 +14,10 @@ const svgToDataURL = svgStr => {
 export const state = () => ({
   sidebar: true,
   loading: true,
-  showEdit: false,
+  config: {
+    showEdit: false,
+    showAllMetals: false,
+  },
   overlayLoaded: false,
   boundaryData: null,
   islandData: null,
@@ -129,9 +132,10 @@ export const mutations = {
   setHighlights (state, payload) {
     state.highlightedCoords = payload;
   },
-  setShowEdit (state, payload) {
-    this.$cookies.set('show-edit', payload);
-    state.showEdit = payload;
+  setConfigOption (state, obj) {
+    state.config[obj.option] = obj.value;
+    this.$cookies.set(obj.option, obj.value);
+    // make sure the cookie option matches the config object property
   },
   addHighlight (state, payload) {
     state.highlightedCoords.push(payload);

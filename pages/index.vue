@@ -48,15 +48,15 @@ export default {
     PVEIcon,
     PVPIcon
   },
-  head() {
+  head () {
     return { title: 'Cardinal Guild - ' + this.title };
   },
-  data() {
+  data () {
     return {
       title: 'Welcome'
     };
   },
-  mounted() {
+  mounted () {
     this.$store.commit('setShowMapControls', false);
     this.$store.dispatch('loadAll');
     this.$store.commit('setPageTitle', this.title);

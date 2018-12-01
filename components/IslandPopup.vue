@@ -63,78 +63,14 @@
             </tr>
             <tr class="expansion-panels">
               <v-expansion-panel expand v-model="panel">
-                <!-- <v-expansion-panel-content class="character-info" :ripple="true" v-if="characters && characters.length > 0">
-                  <div slot="header" class="text-xs-center expansion-header subheading">Characters</div>
-                  <v-card>
-                    <v-card-text class="py-2">
-                      <table class="char-info-table">
-                        <tr v-for="char in characters">
-                          <td>{{ char.name }}</td>
-                          <td>
-                            <v-checkbox
-                              :input-value="getInitialValue(char.name)"
-                              @change="change(char.name)"
-                              label="Visited"
-                              color="green"
-                            />
-                          </td>
-                        </tr>
-                      </table>
-                    </v-card-text>
-                  </v-card>
-                </v-expansion-panel-content>-->
-                <!-- <v-expansion-panel-content class="island-info" :ripple="true">
-                  <div slot="header" class="text-xs-center expansion-header subheading">Island Info</div>
-                  <v-card>
-                    <v-card-text class="pa-2">
-                      <table class="island-info-table">
-                        <tr>
-                          <td>Altitude</td>
-                          <td>{{ altitude }}</td>
-                        </tr>
-                        <tr>
-                          <td>Databanks</td>
-                          <td>{{ databanks }}</td>
-                        </tr>
-                      </table>
-                    </v-card-text>
-                  </v-card>
-                </v-expansion-panel-content>-->
-                <!-- <v-expansion-panel-content class="island-materials" :ripple="true">
-                  <div slot="header" class="text-xs-center expansion-header subheading">Materials</div>
-                  <v-card>
-                    <v-card-text>
-                      <table class="island-materials-table" v-if="thisMetals.length > 0">
-                        <tr class="mat-header">
-                          <th colspan="2">Metals</th>
-                        </tr>
-                        <tr v-for="metal in thisMetals">
-                          <td>{{ metal.name }}</td>
-                          <td>{{ metal.quality }}</td>
-                        </tr>
-                      </table>
-                      <div class="island-materials-table" v-else>No metals data</div>
-                      <table class="island-materials-table" v-if="trees.length > 0">
-                        <tr class="mat-header">
-                          <th>Wood</th>
-                        </tr>
-                        <tr v-for="tree in trees">
-                          <td>{{ tree }}</td>
-                        </tr>
-                      </table>
-                      <div class="island-materials-table" v-else>No tree data</div>
-
-                    </v-card-text>
-                  </v-card>
-                </v-expansion-panel-content>-->
                 <v-expansion-panel-content class="island-extras" :ripple="true">
                   <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
                   <v-card>
                     <v-card-text class="py-2">
-                      <table class="island-materials-table" v-if="metals && metals.length > 0">
-                        <tr v-for="(metal, index) in metals" :key="index">
+                      <table class="island-materials-table" v-if="(metals && metals.length > 0) || $store.state.config.showAllMetals">
+                        <tr v-for="(metal, index) in activeMetals" :key="index">
                           <td>{{ metal.name }}</td>
-                          <td>{{ metal.quality }}</td>
+                          <td>{{ getQuality(metal) }}</td>
                         </tr>
                       </table>
                       <div class="island-materials-table" v-else>No metals data</div>
@@ -259,12 +195,6 @@ export default {
         window.localStorage.setItem(selectedChar, JSON.stringify([this.id]));
       }
     },
-    // selectedChar () {
-    //   if (window.localStorage.getItem("selectedChar")) {
-    //     return window.localStorage.getItem("selectedChar");
-    //   }
-    //   else return null;
-    // },
     change (name) {
       if (window.localStorage.getItem(name)) {
         let ids = JSON.parse(window.localStorage.getItem(name));
@@ -312,7 +242,14 @@ export default {
           color: 'error'
         });
       }
-    }
+    },
+    getQuality (metal) {
+      if (!metal.quality) {
+        let foundMetal = _.find(this.metals, o => o.name === metal.name);
+        return foundMetal ? foundMetal.quality : "N/A";
+      }
+      return metal.quality
+    },
   },
   mounted () {
     // window.localStorage.clear();
@@ -335,36 +272,11 @@ export default {
         if (ids.includes(this.id)) return true;
       }
       return false;
+    },
+    activeMetals () {
+      if (this.$cookies.get('showAllMetals')) return this.$store.state.metalTypes;
+      return this.metals;
     }
-    // visited: {
-    //   get () {
-    //     console.log("get")
-    //     return char => {
-    //       console.log(char.visited.includes(this.id))
-    //       return char.visited.includes(this.id)
-    //     }
-    //   },
-    //   set (value) {
-    //     console.log(value);
-    //   }
-    // },
-    // visitArray: {
-    //   get () {
-    //     let arr = [];
-    //     for (var i = 0; i < this.characters.length; i++) {
-    //       if (this.characters[i].visited.includes(this.id)) {
-    //         arr.push(true);
-    //       }
-    //       else arr.push(false);
-    //     }
-    //     console.log("visitArray");
-    //     console.log(arr);
-    //     return arr;
-    //   },
-    //   set (value) {
-    //     console.log(value);
-    //   }
-    // }
   },
   data () {
     return {

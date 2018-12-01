@@ -5,6 +5,7 @@
         <v-card>
           <v-card-actions>
             <v-checkbox label="Show edit button in each island popup" v-model="showEdit"></v-checkbox>
+            <v-checkbox label="Show all metals in island popups" v-model="showAllMetals"></v-checkbox>
           </v-card-actions>
         </v-card>
       </v-layout>
@@ -14,24 +15,32 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  mounted() {
+  mounted () {
     this.$store.commit('setShowMapControls', false);
     this.$store.commit('setPageTitle', this.title);
   },
   computed: {
     showEdit: {
-      get() {
-        return this.$store.state.showEdit;
+      get () {
+        return this.$store.state.config.showEdit;
       },
-      set(value) {
-        this.$store.commit('setShowEdit', value);
+      set (value) {
+        this.$store.commit('setConfigOption', { option: 'showEdit', value: value });
+      }
+    },
+    showAllMetals: {
+      get () {
+        return this.$store.state.config.showAllMetals;
+      },
+      set (value) {
+        this.$store.commit('setConfigOption', { option: 'showAllMetals', value: value })
       }
     }
   },
-  head() {
+  head () {
     return { title: 'Cardinal Guild - ' + this.title };
   },
-  data() {
+  data () {
     return {
       title: 'Configuration'
     };
