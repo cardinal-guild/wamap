@@ -65,7 +65,8 @@ module.exports = {
   modules: [
     'nuxt-clipboard2',
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'cookie-universal-nuxt'
   ],
   plugins: [{
     src: '~/plugins/vuetify.js',

@@ -35,6 +35,14 @@
             <v-list-tile-title>Credits</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile router exact @click="drawer=false" to="/config">
+          <v-list-tile-action>
+            <v-icon>settings</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Configuration</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed app color="#504141" class="cg-toolbar" :dense="$store.state.showMapControls">
@@ -110,7 +118,7 @@ export default {
     MapFilterDrawer,
     AccountDrawer
   },
-  created: function() {
+  created: function () {
     this.$store.watch(
       state => state.snackText,
       () => {
@@ -128,12 +136,19 @@ export default {
       }
     );
   },
-  mounted() {
+  beforeMount () {
+    let showEditCookie = this.$cookies.get('show-edit');
+    if (typeof showEditCookie !== 'undefined') {
+      this.$store.commit('setShowEdit', Boolean(showEditCookie));
+    }
+  },
+  mounted () {
+    this.$cookies.get('');
     this.$bus.$on('closeSearchFilterDrawer', e => {
       this.searchFilterDrawer = false;
     });
   },
-  data() {
+  data () {
     return {
       showSnack: false,
       snackColor: 'info',
@@ -150,7 +165,7 @@ export default {
     };
   },
   methods: {
-    async copyToClipboard(e) {
+    async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;

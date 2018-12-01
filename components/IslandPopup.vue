@@ -178,41 +178,39 @@
                   <v-flex shrink>
                     <v-card color="brown" class="pa-2 mt-2">
                       <v-checkbox
-                      color="green"
-                      :input-value="initialValue"
-                      :label="$store.state.selectedChar"
-                      @change="setVisited"
-                    />
+                        color="green"
+                        :input-value="initialValue"
+                        :label="$store.state.selectedChar"
+                        @change="setVisited"
+                      />
                     </v-card>
                   </v-flex>
                 </v-layout>
               </v-container>
             </tr>
           </table>
-          <v-btn
-            color="green"
-            class="island-popups-button"
-            flat
-            target="_blank"
-            rel="noopener,nofollow"
-            :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
-          >
-            <v-icon>create</v-icon>
-            <span>Edit</span>
-          </v-btn>
-          <v-tooltip v-model="showReportNotImplemented" color="error" top>
+          <v-layout justify-center row>
             <v-btn
-              slot="activator"
-              @click="showReportNotImplemented = !showReportNotImplemented"
-              flat
-              color="red"
+              color="green"
               class="island-popup-button"
+              flat
+              target="_blank"
+              rel="noopener,nofollow"
+              v-if="showEdit"
+              :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
             >
-              <v-icon>insert_comment</v-icon>
-              <span>Report metals</span>
+              <v-icon>create</v-icon>
+              <span>Edit</span>
             </v-btn>
-            <span>Not yet implemented, sorry!</span>
-          </v-tooltip>
+            <v-spacer v-if="showEdit"/>
+            <v-tooltip v-model="showReportNotImplemented" color="error" top>
+              <v-btn slot="activator" flat block class="island-popup-button">
+                <v-icon>insert_comment</v-icon>
+                <span>Report metals</span>
+              </v-btn>
+              <span>Not yet implemented, sorry!</span>
+            </v-tooltip>
+          </v-layout>
         </div>
       </l-popup>
     </no-ssr>
@@ -326,7 +324,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['characters']),
+    ...mapState(['characters', 'showEdit']),
     initialValue () {
       if (
         this.$store.state.selectedChar &&
@@ -433,6 +431,15 @@ export default {
       display: block;
       width: 100%;
       height: auto;
+    }
+  }
+  .island-popup-button.theme--dark.v-btn {
+    margin: 0;
+    padding: 5px;
+    &.v-btn:not(.v-btn--disabled):not(.v-btn--floating):not(.v-btn--icon)
+      .v-btn__content
+      .v-icon {
+      padding-right: 10px;
     }
   }
   &-copy-paste {
@@ -669,8 +676,6 @@ export default {
         .v-expansion-panel__container {
           background: #3a312b;
         }
-
-
       }
 
       .v-input.v-input--checkbox {
