@@ -182,21 +182,6 @@ export default {
         }
       }
     }
-
-    // circle.high {
-    //   fill: rgb(196, 216, 247);
-    //   stroke: rgb(117, 129, 148);
-    // }
-
-    // circle.medium {
-    //   stroke: rgb(65, 94, 141);
-    //   fill: rgb(109, 158, 235);
-    // }
-
-    // circle.low {
-    //   stroke: rgb(39, 56, 84);
-    //   fill: rgb(65, 94, 141);
-    // }
   }
 }
 </style>

@@ -1,13 +1,20 @@
 <template>
-  <l-marker v-if="$store.state.showMarker"
-    :lat-lng="latLng"
-    :icon="icon"
-    :draggable="true"
-  >
-    <l-popup>
-      Heyo
-    </l-popup>
-  </l-marker>
+  <div>
+    <l-marker v-if="$store.state.showMarker"
+      :lat-lng="latLng"
+      :icon="icon"
+      :draggable="true"
+      ref="customMarker"
+    >
+      <l-popup>
+        <v-btn color="#232323" @click="copyLink">Copy Link</v-btn>
+      </l-popup>
+    </l-marker>
+    <l-marker v-if="$router.currentRoute.query.pointer"
+      :lat-lng="[$router.currentRoute.query.lat, $router.currentRoute.query.lng]"
+      :icon="icon"
+    />
+  </div>
 </template>
 <script>
 const isBrowser = typeof window !== 'undefined';
@@ -24,6 +31,15 @@ export default {
       this.latLng = leaflet.latLng(this.$store.state.lat, this.$store.state.lng);
     });
     this.latLng = leaflet.latLng(this.$store.state.lat, this.$store.state.lng);
+  },
+  methods: {
+    copyLink () {
+      let pos = this.$refs.customMarker.mapObject.getLatLng();
+      let baseUrl = location.protocol + "//" + location.host + location.pathname
+      let params = "?lat=" + pos.lat + "&lng=" + pos.lng + "&pointer=true";
+      console.log(baseUrl + params);
+      console.log(this.$router);
+    }
   },
   computed: {
     icon () {
