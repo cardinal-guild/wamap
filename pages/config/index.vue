@@ -2,10 +2,21 @@
   <div class="configuration-page">
     <v-container>
       <v-layout column justify-center align-center>
-        <v-card>
+        <v-card color="#4f4141">
           <v-card-actions>
-            <v-checkbox label="Show edit button in each island popup" v-model="showEdit"></v-checkbox>
-            <v-checkbox label="Show all metals in island popups" v-model="showAllMetals"></v-checkbox>
+            <table>
+              <tr>
+                <th style="align-text:center">
+                  Island Popup Options
+                </th>
+              </tr>
+              <tr>
+                <v-checkbox hide-details color="#ffe5c4" label="Show edit button" v-model="showEdit" class="ma-0 pa-0"/>
+              </tr>
+              <tr>
+                <v-checkbox hide-details color="#ffe5c4" label="Show all metals" v-model="showAllMetals" class="ma-0 pa-0"/>
+              </tr>
+            </table>
           </v-card-actions>
         </v-card>
       </v-layout>
@@ -42,7 +53,7 @@ export default {
   },
   data () {
     return {
-      title: 'Configuration'
+      title: 'Settings'
     };
   }
 };

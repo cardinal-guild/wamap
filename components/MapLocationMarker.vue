@@ -13,7 +13,12 @@
     <l-marker v-if="$router.currentRoute.query.pointer"
       :lat-lng="[$router.currentRoute.query.lat, $router.currentRoute.query.lng]"
       :icon="icon"
-    />
+      ref="customPointer"
+    >
+      <l-popup>
+        <v-btn color="red" @click="$parent.$parent.$refs.map.mapObject.removeLayer($refs.customPointer.mapObject);">Delete Marker</v-btn>
+      </l-popup>
+    </l-marker>
   </div>
 </template>
 <script>
@@ -37,8 +42,7 @@ export default {
       let pos = this.$refs.customMarker.mapObject.getLatLng();
       let baseUrl = location.protocol + "//" + location.host + location.pathname
       let params = "?lat=" + pos.lat + "&lng=" + pos.lng + "&pointer=true";
-      console.log(baseUrl + params);
-      console.log(this.$router);
+      this.$copyText(baseUrl + params);
     }
   },
   computed: {
