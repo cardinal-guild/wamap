@@ -81,10 +81,6 @@ module.exports = {
     ssr: false
   },
   {
-    src: '~/plugins/veevalidate.js',
-    ssr: false
-  },
-  {
     src: '~/plugins/nuxt-leaflet.js',
     ssr: false
   }],

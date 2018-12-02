@@ -18,7 +18,6 @@ export const state = () => ({
     showEdit: false,
     showAllMetals: false,
   },
-  recaptchaKey: '6LcmV34UAAAAACdcLHdYx9jFa7Bgzf4QNEa-1UUd',
   overlayLoaded: false,
   boundaryData: null,
   islandData: null,
@@ -102,6 +101,9 @@ export const mutations = {
   },
   toggleMarker (state) {
     state.showMarker = !state.showMarker;
+  },
+  setShowReportMessage (state, payload) {
+     state.showReportMessage = payload;
   },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;
