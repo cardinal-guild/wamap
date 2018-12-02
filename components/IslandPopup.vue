@@ -132,7 +132,7 @@
               flat
               target="_blank"
               rel="noopener,nofollow"
-              v-if="showEdit"
+              v-if="config.showEdit"
               :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
             >
               <v-icon>create</v-icon>
@@ -260,7 +260,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['characters', 'showEdit']),
+    ...mapState(['characters', 'config']),
     initialValue () {
       if (
         this.$store.state.selectedChar &&

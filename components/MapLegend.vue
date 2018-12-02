@@ -60,7 +60,7 @@
           </li>
           <li>
             <span class="icon single background">
-              <div class="green">
+              <div class="revival">
                 <img src="~/static/island_icons/revival_icon.png" />
               </div>
             </span>
@@ -70,7 +70,7 @@
           </li>
           <li>
             <span class="icon single background">
-              <div class="red">
+              <div class="turret">
                 <img src="~/static/island_icons/turret_icon.png">
               </div>
             </span>
@@ -256,11 +256,11 @@ export default {
                 height: auto;
               }
 
-              &.green {
+              &.revival {
                 background: #14a014;
               }
 
-              &.red {
+              &.turret {
                 background: #a01414;
               }
 
