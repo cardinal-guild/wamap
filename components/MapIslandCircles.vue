@@ -45,9 +45,9 @@ export default {
         newZoomPercentage >= this.fromZoomPercentage &&
         newZoomPercentage <= this.toZoomPercentage
       ) {
-        $('.island-divicon').css('display', 'block');
+        $('.island-divicon').css('opacity', '1');
       } else {
-        $('.island-divicon').css('display', 'none');
+        $('.island-divicon').css('opacity', '0');
       }
     }
   },
@@ -108,7 +108,8 @@ export default {
 
 <style lang="scss">
 .island-divicon {
-  display: none;
+  opacity: 0;
+  transition: opacity 0.2s;
   &-img {
     width: 100px;
     height: 100px;

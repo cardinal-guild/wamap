@@ -44,9 +44,9 @@ export default {
         newZoomPercentage >= this.fromZoomPercentage &&
         newZoomPercentage < this.toZoomPercentage
       ) {
-        $('.island-dot').css('display', 'block');
+        $('.island-dot').css('opacity', '1');
       } else {
-        $('.island-dot').css('display', 'none');
+        $('.island-dot').css('opacity', '0');
       }
     }
   },
@@ -110,6 +110,8 @@ export default {
 </script>
 <style lang="scss">
 .island-dot {
+  opacity: 0;
+  transition: opacity 0.2s;
   > svg {
 
     circle {
