@@ -45,8 +45,10 @@ export default {
         newZoomPercentage < this.toZoomPercentage
       ) {
         $('.island-dot').css('opacity', '1');
+        $('.island-dot').css('pointer-events', 'auto');
       } else {
         $('.island-dot').css('opacity', '0');
+        $('.island-dot').css('pointer-events', 'none', 'important');
       }
     }
   },

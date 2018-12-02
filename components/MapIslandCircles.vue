@@ -46,8 +46,10 @@ export default {
         newZoomPercentage <= this.toZoomPercentage
       ) {
         $('.island-divicon').css('opacity', '1');
+        $('.island-divicon').css('pointer-events', 'auto');
       } else {
         $('.island-divicon').css('opacity', '0');
+        $('.island-divicon').css('pointer-events', 'none', 'important');
       }
     }
   },
