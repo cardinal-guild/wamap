@@ -20,8 +20,8 @@
           :geojson="$store.state.boundaryData"
           :options="boundaryOptions"
         />
-        <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="35"/>
-        <sector-names-overlay :fromZoomPercentage="35" :toZoomPercentage="70"/>
+        <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="60"/>
+        <sector-names-overlay :fromZoomPercentage="35" :toZoomPercentage="90"/>
         <map-highlighter
           :bigIconfromZoomPercentage="70"
           :showFromZoomPercentage="30"

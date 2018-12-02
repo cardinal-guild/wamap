@@ -5,6 +5,7 @@
     :attribution="attribution"
     :bounds="bounds"
     :z-index="1000"
+    className="map-zone-overlay"
     @load="setOverlayLoaded"
     :options="{className: 'map-zone-overlay', interactive: false}"
     ref="zonenames"
@@ -71,6 +72,6 @@ export default {
 </script>
 <style lang="scss">
 .map-zone-overlay {
-  transition: opacity 0.2s;
+  transition: opacity 0.5s;
 }
 </style>
