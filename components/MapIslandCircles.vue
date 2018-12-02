@@ -82,6 +82,9 @@ export default {
         if (properties.type) {
           classNames.push(properties.type);
         }
+        if (properties.dangerous) {
+          classNames.push('dangerous');
+        }
         if (leaflet) {
           return leaflet.divIcon({
             properties: properties,
@@ -118,6 +121,9 @@ export default {
     border-radius: 100%;
     border: 5px solid #ccc;
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+  }
+  &.dangerous .island-divicon-img {
+    border-color: #ea6d6d;
   }
   &.kioki {
     .island-divicon-type:after {

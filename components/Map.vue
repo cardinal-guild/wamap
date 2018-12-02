@@ -189,7 +189,7 @@ export default {
         maxZoom: -0.4,
         zoomSnap: 0.2,
         zoomDelta: 0.2,
-        // wheelPxPerZoomPercentage: 200,
+        wheelPxPerZoomPercentage: 400,
         attributionControl: true
       }
     };
