@@ -67,7 +67,10 @@
                   <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
                   <v-card>
                     <v-card-text class="py-2">
-                      <table class="island-materials-table" v-if="(metals && metals.length > 0) || $store.state.config.showAllMetals">
+                      <table
+                        class="island-materials-table"
+                        v-if="(metals && metals.length > 0) || $store.state.config.showAllMetals"
+                      >
                         <tr v-for="(metal, index) in activeMetals" :key="index">
                           <td>{{ metal.name }}</td>
                           <td>{{ getQuality(metal) }}</td>
@@ -125,27 +128,30 @@
               </v-container>
             </tr>
           </table>
-          <v-layout justify-center row>
-            <v-btn
-              color="green"
-              class="island-popup-button"
-              flat
-              target="_blank"
-              rel="noopener,nofollow"
-              v-if="config.showEdit"
-              :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
-            >
-              <v-icon>create</v-icon>
-              <span>Edit</span>
-            </v-btn>
-            <v-tooltip v-model="showReportNotImplemented" grow color="error" top>
-              <v-btn slot="activator" flat block class="island-popup-button">
-                <v-icon>insert_comment</v-icon>
-                <span>Report metals</span>
-              </v-btn>
-              <span>Not yet implemented, sorry!</span>
-            </v-tooltip>
-          </v-layout>
+          <v-btn
+            @click="$bus.$emit('reportInformation', $data, $props)"
+            flat
+            grow
+            block
+            class="island-popup-button"
+          >
+            <v-icon>insert_comment</v-icon>
+            <span>Report metals</span>
+          </v-btn>
+          <v-btn
+            color="green"
+            class="island-popup-button"
+            flat
+            grow
+            block
+            target="_blank"
+            rel="noopener,nofollow"
+            v-if="config.showEdit"
+            :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
+          >
+            <v-icon>create</v-icon>
+            <span>Edit</span>
+          </v-btn>
         </div>
       </l-popup>
     </no-ssr>
@@ -246,10 +252,10 @@ export default {
     getQuality (metal) {
       if (!metal.quality) {
         let foundMetal = _.find(this.metals, o => o.name === metal.name);
-        return foundMetal ? foundMetal.quality : "N/A";
+        return foundMetal ? foundMetal.quality : 'N/A';
       }
-      return metal.quality
-    },
+      return metal.quality;
+    }
   },
   mounted () {
     // window.localStorage.clear();
@@ -274,7 +280,8 @@ export default {
       return false;
     },
     activeMetals () {
-      if (this.$cookies.get('showAllMetals')) return this.$store.state.metalTypes;
+      if (this.$cookies.get('showAllMetals'))
+        return this.$store.state.metalTypes;
       return this.metals;
     }
   },

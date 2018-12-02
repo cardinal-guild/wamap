@@ -1,5 +1,6 @@
 <template>
   <v-app dark class="cg-app">
+    <report-window/>
     <v-navigation-drawer class="main-drawer" fixed app :mini-variant="miniVariant" v-model="drawer">
       <v-list>
         <v-list-tile router exact @click="drawer=false" to="/">
@@ -109,6 +110,7 @@ import PVPIcon from '~/assets/svg/pvp_icon.svg';
 import MapSearchDrawer from '~/components/MapSearchDrawer';
 import MapFilterDrawer from '~/components/MapFilterDrawer';
 import AccountDrawer from '~/components/AccountDrawer';
+import ReportWindow from '~/components/ReportWindow';
 export default {
   components: {
     CopyPasteLink,
@@ -116,7 +118,8 @@ export default {
     PVPIcon,
     MapSearchDrawer,
     MapFilterDrawer,
-    AccountDrawer
+    AccountDrawer,
+    ReportWindow
   },
   created: function () {
     this.$store.watch(
@@ -139,11 +142,17 @@ export default {
   beforeMount () {
     let showEditCookie = this.$cookies.get('showEdit');
     if (typeof showEditCookie !== 'undefined') {
-      this.$store.commit('setConfigOption', { option: 'showEdit', value: Boolean(showEditCookie) });
+      this.$store.commit('setConfigOption', {
+        option: 'showEdit',
+        value: Boolean(showEditCookie)
+      });
     }
     let showMetalsCookie = this.$cookies.get('showAllMetals');
     if (typeof showMetalsCookie !== 'undefined') {
-      this.$store.commit('setConfigOption', { option: 'showAllMetals', value: Boolean(showMetalsCookie) })
+      this.$store.commit('setConfigOption', {
+        option: 'showAllMetals',
+        value: Boolean(showMetalsCookie)
+      });
     }
   },
   mounted () {

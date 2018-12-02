@@ -18,6 +18,7 @@ export const state = () => ({
     showEdit: false,
     showAllMetals: false,
   },
+  recaptchaKey: '6LcmV34UAAAAACdcLHdYx9jFa7Bgzf4QNEa-1UUd',
   overlayLoaded: false,
   boundaryData: null,
   islandData: null,
