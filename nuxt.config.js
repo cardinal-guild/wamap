@@ -62,7 +62,10 @@ module.exports = {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css?family=Noto+Sans|News+Cycle:400,700|Material+Icons|Abril+Fatface'
     }
-    ]
+    ],
+    script: [
+      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js' }
+    ],
   },
   modules: [
     'nuxt-clipboard2',
@@ -180,7 +183,7 @@ module.exports = {
     },
     presets: [
       [ '@nuxtjs/babel-preset-app', {
-          targets: { ie: 11 }
+          targets: { ie: 10 }
         }
       ]
     ],
