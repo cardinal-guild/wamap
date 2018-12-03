@@ -61,7 +61,7 @@ module.exports = {
     }
     ],
     script: [
-      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js' }
+      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js?features=default,fetch,Object.entries' }
     ],
   },
   modules: [
