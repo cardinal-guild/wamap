@@ -1,4 +1,6 @@
 
+import 'core-js/es7/array'
+import 'core-js/es7/object'
 const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 module.exports = {
@@ -176,6 +178,18 @@ module.exports = {
         ["@babel/transform-runtime"]
       ]
     },
+    presets: [
+      [ '@nuxtjs/babel-preset-app', {
+          targets: { ie: 11 }
+        }
+      ]
+    ],
+    vendor: [
+      'babel-polyfill',
+      'eventsource-polyfill',
+      'swiper',
+      'axios'
+    ],
     extractCSS: true,
     extend (config, ctx) {
       if (ctx.isDev && ctx.isClient) {
