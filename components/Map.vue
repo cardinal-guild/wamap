@@ -112,6 +112,8 @@ export default {
       await wait(100);
       this.buildIslandCircles = true;
       await wait(100);
+      this.currentMap.setView(this.center);
+      await wait(10);
       if (
         this.$router.currentRoute &&
         this.$router.currentRoute.query &&
