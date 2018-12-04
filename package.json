@@ -11,7 +11,9 @@
     "generate": "nuxt generate"
   },
   "browserslist": [
-    "last 2 versions"
+    "last 2 versions",
+    "> 1%",
+    "IE 10"
   ],
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",

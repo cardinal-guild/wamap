@@ -61,7 +61,7 @@ module.exports = {
     }
     ],
     script: [
-      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js?features=default,fetch,Object.entries' }
+      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js?features=default,fetch,Object.entries' },
     ],
   },
   modules: [
@@ -181,16 +181,21 @@ module.exports = {
     babel: {
       plugins: [
         ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
-        ["@babel/transform-runtime"]
+        ['@babel/plugin-syntax-dynamic-import'],
+        ['@babel/plugin-transform-typeof-symbol'],
+        ['@babel/plugin-transform-runtime']
       ]
     },
     presets: [
-      [ '@nuxtjs/babel-preset-app', {
-          targets: { ie: 10 }
+      ['@babel/preset-env', {
+        'useBuiltIns': 'usage',
+        // 'debug': true,
+        'shippedProposals': true,
+        'targets': {
+          "browsers": ["> 1%", "last 2 versions", "ie >= 11", "not ie <= 8"],
+          "ie": 11
         }
-      ],
-      'es2015',
-      'stage-0'
+      }]
     ],
     extractCSS: true,
     extend (config, ctx) {
