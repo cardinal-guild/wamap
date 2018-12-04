@@ -83,10 +83,10 @@ module.exports = {
       src: '~/plugins/bus-inject.js',
       ssr: false
     },
-    // {
-    //   src: '~/plugins/particles.js',
-    //   ssr: false
-    // },
+    {
+      src: '~/plugins/particles.js',
+      ssr: false
+    },
     {
       src: '~/plugins/nuxt-leaflet.js',
       ssr: false

@@ -1,7 +1,7 @@
 <template>
   <div class="credits-page">
     <no-ssr>
-      <!-- <vue-particles
+      <vue-particles
         class="particles"
         color="#668"
         :particlesNumber="120"
@@ -9,7 +9,7 @@
         :particleSize="4"
         :moveSpeed=".8"
         :lineOpacity="0.1"
-      /> -->
+      />
       <article class="starwars">
         <audio
           preload="auto"
