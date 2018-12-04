@@ -70,22 +70,28 @@ module.exports = {
     '@nuxtjs/pwa',
     'cookie-universal-nuxt'
   ],
-  plugins: [{
-    src: '~/plugins/vuetify.js',
-    ssr: true
-  },
-  {
-    src: '~/plugins/bus-inject.js',
-    ssr: false
-  },
-  {
-    src: '~/plugins/particles.js',
-    ssr: false
-  },
-  {
-    src: '~/plugins/nuxt-leaflet.js',
-    ssr: false
-  }],
+  plugins: [
+    {
+      src: '~/plugins/polyfill.js',
+      ssr: false
+    },
+    {
+      src: '~/plugins/vuetify.js',
+      ssr: true
+    },
+    {
+      src: '~/plugins/bus-inject.js',
+      ssr: false
+    },
+    // {
+    //   src: '~/plugins/particles.js',
+    //   ssr: false
+    // },
+    {
+      src: '~/plugins/nuxt-leaflet.js',
+      ssr: false
+    }
+  ],
   css: [
     '~/assets/style/leaflet.scss',
     '~/assets/style/app.styl'

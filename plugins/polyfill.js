@@ -1,0 +1,5 @@
+require("core-js/modules/es6.promise")
+require("core-js/modules/es6.array.iterator")
+require("core-js/modules/es6.array.from")
+require("whatwg-fetch/fetch")
+require("es6-map/implement")
