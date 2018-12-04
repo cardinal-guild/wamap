@@ -71,12 +71,12 @@
           </v-btn>
           <span>Place a marker</span>
         </v-tooltip>
-        <v-tooltip bottom>
+        <!-- <v-tooltip bottom>
           <v-btn icon slot="activator" @click="$bus.$emit('openAccountDrawer')">
             <v-icon>account_circle</v-icon>
           </v-btn>
           <span>Create a character and checkmark locations where you been</span>
-        </v-tooltip>
+        </v-tooltip>-->
         <v-tooltip bottom>
           <v-btn icon slot="activator" @click="$bus.$emit('openFilterDrawer')">
             <v-icon>filter_list</v-icon>
@@ -97,8 +97,7 @@
 
     <map-search-drawer/>
     <map-filter-drawer/>
-    <account-drawer/>
-
+    <!-- <account-drawer/> -->
     <v-snackbar bottom right v-model="showSnack" :color="snackColor" :timeout="6000">{{ snackText }}</v-snackbar>
   </v-app>
 </template>
@@ -109,7 +108,7 @@ import PVEIcon from '~/assets/svg/pve_icon.svg';
 import PVPIcon from '~/assets/svg/pvp_icon.svg';
 import MapSearchDrawer from '~/components/MapSearchDrawer';
 import MapFilterDrawer from '~/components/MapFilterDrawer';
-import AccountDrawer from '~/components/AccountDrawer';
+// import AccountDrawer from '~/components/AccountDrawer';
 import ReportWindow from '~/components/ReportWindow';
 export default {
   components: {
@@ -118,7 +117,7 @@ export default {
     PVPIcon,
     MapSearchDrawer,
     MapFilterDrawer,
-    AccountDrawer,
+    // AccountDrawer,
     ReportWindow
   },
   created: function () {

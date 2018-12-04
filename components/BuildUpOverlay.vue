@@ -7,7 +7,7 @@
             <v-progress-circular indeterminate color="primary" aria-setsize="20"></v-progress-circular>Please wait while we hang your browser :-P
           </p>
           <p>
-            <small>(building up the map is cpu intensive)</small>
+            <small>(building the map up first time, is CPU intensive)</small>
           </p>
         </v-flex>
       </v-layout>

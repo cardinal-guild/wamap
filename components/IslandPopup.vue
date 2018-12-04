@@ -185,45 +185,6 @@ export default {
     }
   },
   methods: {
-    setVisited () {
-      let selectedChar = this.$store.state.selectedChar;
-      if (selectedChar && window.localStorage.getItem(selectedChar)) {
-        let ids = JSON.parse(window.localStorage.getItem(selectedChar));
-        if (!ids.includes(this.id)) {
-          ids.push(this.id);
-        } else {
-          _.remove(ids, o => {
-            return o === this.id;
-          });
-        }
-        window.localStorage.setItem(selectedChar, JSON.stringify(ids));
-      } else {
-        window.localStorage.setItem(selectedChar, JSON.stringify([this.id]));
-      }
-    },
-    change (name) {
-      if (window.localStorage.getItem(name)) {
-        let ids = JSON.parse(window.localStorage.getItem(name));
-        if (!ids.includes(this.id)) {
-          ids.push(this.id);
-        } else {
-          _.remove(ids, o => {
-            return o === this.id;
-          });
-        }
-        window.localStorage.setItem(name, JSON.stringify(ids));
-      } else {
-        window.localStorage.setItem(name, JSON.stringify([this.id]));
-      }
-    },
-    getInitialValue (name) {
-      if (window.localStorage.getItem(name)) {
-        if (JSON.parse(window.localStorage.getItem(name)).includes(this.id)) {
-          return true;
-        }
-      }
-      return false;
-    },
     async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
@@ -258,7 +219,6 @@ export default {
     }
   },
   mounted () {
-    // window.localStorage.clear();
     if (this.$store.state.mapMode === 'pvp') {
       this.metals = this.pvpMetals;
     } else {
@@ -267,18 +227,6 @@ export default {
   },
   computed: {
     ...mapState(['characters', 'config']),
-    initialValue () {
-      if (
-        this.$store.state.selectedChar &&
-        window.localStorage.getItem(this.$store.state.selectedChar)
-      ) {
-        let ids = JSON.parse(
-          window.localStorage.getItem(this.$store.state.selectedChar)
-        );
-        if (ids.includes(this.id)) return true;
-      }
-      return false;
-    },
     activeMetals () {
       if (this.$cookies.get('showAllMetals'))
         return this.$store.state.metalTypes;
