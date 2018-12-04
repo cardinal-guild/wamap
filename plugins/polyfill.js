@@ -7,7 +7,8 @@ require('babel-polyfill')
 
 if (!Math.cbrt) {
   Math.cbrt = (function (pow) {
-    return function cbrt (){ 
+    return function cbrt () { 
+      var x;
       // ensure negative numbers remain negative:
       return x < 0 ? -pow(-x, 1/3) : pow(x, 1/3);
     };

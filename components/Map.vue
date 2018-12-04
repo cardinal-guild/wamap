@@ -1,6 +1,7 @@
 <template>
   <div id="map-wrap" v-if="islandData && boundaryData">
     <no-ssr>
+      <BuildUpOverlay v-if="buildUpSequence"/>
       <l-map
         :bounds="bounds"
         :center="center"
@@ -20,17 +21,26 @@
           ref="boundaries"
           :geojson="$store.state.boundaryData"
           :options="boundaryOptions"
+          v-if="buildGeoJson"
         />
-        <zone-name-overlay :alphaFromZoomPercentage="0" :alphaToZoomPercentage="60"/>
-        <sector-names-overlay :fromZoomPercentage="35" :toZoomPercentage="90"/>
+        <zone-name-overlay
+          v-if="buildIslandCircles"
+          :alphaFromZoomPercentage="0"
+          :alphaToZoomPercentage="60"
+        />
+        <sector-names-overlay v-if="buildGeoJson" :fromZoomPercentage="35" :toZoomPercentage="90"/>
         <map-highlighter
           :bigIconfromZoomPercentage="70"
           :showFromZoomPercentage="30"
           :iconHeightSmall="100"
           :iconHeightBig="240"
         />
-        <map-island-circles :fromZoomPercentage="70" :toZoomPercentage="100"/>
-        <map-island-icons :fromZoomPercentage="30" :toZoomPercentage="70"/>
+        <map-island-circles
+          v-if="buildIslandCircles"
+          :fromZoomPercentage="70"
+          :toZoomPercentage="100"
+        />
+        <map-island-icons v-if="buildIslandIcons" :fromZoomPercentage="30" :toZoomPercentage="70"/>
         <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
         <map-legend :fadeOutFromZoomPercentage="70"/>
         <map-location-marker/>
@@ -49,6 +59,7 @@ import MapHighlighter from '~/components/MapHighlighter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
 import MapLocationMarker from '~/components/MapLocationMarker.vue';
+import BuildUpOverlay from '~/components/BuildUpOverlay.vue';
 const isBrowser = typeof window !== 'undefined';
 
 let leaflet;
@@ -63,7 +74,8 @@ export default {
     MapHighlighter,
     ZoneNameOverlay,
     SectorNamesOverlay,
-    MapLocationMarker
+    MapLocationMarker,
+    BuildUpOverlay
   },
   computed: {
     ...mapState(['islandData', 'boundaryData'])
@@ -87,65 +99,77 @@ export default {
     zoomPercentageToLocalZoom: (zoom, min, max) => {
       let localZoom = (zoom / 100) * (max - min) + min;
       return localZoom;
+    },
+    async startBuildUpSequence () {
+      let wait = ms =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => resolve(), ms);
+        });
+      await wait(100);
+      this.buildGeoJson = true;
+      await wait(100);
+      this.buildIslandIcons = true;
+      await wait(100);
+      this.buildIslandCircles = true;
+      await wait(100);
+      if (
+        this.$router.currentRoute &&
+        this.$router.currentRoute.query &&
+        this.$store.state.overlayLoaded &&
+        this.currentMap
+      ) {
+        if (this.$router.currentRoute.query.island && this.currentMap) {
+          let islands = this.$store.state.islandData.features;
+          let islandId = parseInt(this.$router.currentRoute.query.island);
+          let filteredIslands = _.filter(islands, { id: islandId });
+          if (filteredIslands.length) {
+            let foundIsland = filteredIslands[0];
+            let coords = foundIsland.geometry.coordinates;
+            let localZoom = this.zoomPercentageToLocalZoom(
+              90,
+              this.currentMap.options.minZoom,
+              this.currentMap.options.maxZoom
+            );
+            this.$store.commit('addHighlight', coords);
+            this.currentMap.setView(coords, localZoom);
+          }
+          // this.$router.push({ name: this.$router.currentRoute.name });
+        }
+
+        if (
+          this.$router.currentRoute.query.lat &&
+          this.$router.currentRoute.query.lng &&
+          this.$router.currentRoute.query.zoom &&
+          this.currentMap
+        ) {
+          let lat = this.$router.currentRoute.query.lat;
+          let lng = this.$router.currentRoute.query.lng;
+          let localZoom = this.zoomPercentageToLocalZoom(
+            this.$router.currentRoute.query.zoom,
+            this.currentMap.options.minZoom,
+            this.currentMap.options.maxZoom
+          );
+          this.currentMap.setView([lat, lng], localZoom);
+          // this.$router.push({ name: this.$router.currentRoute.name });
+        }
+      }
+      this.buildUpSequence = false;
     }
   },
   beforeMount () {
-    let self = this;
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
-    const checkMapObject = setInterval(() => {
+    const checkMapObject = setInterval(async () => {
       if (
         this.$refs.map &&
         this.$refs.map.mapObject &&
         this.$store.state.boundaryData &&
         this.$store.state.islandData
       ) {
-        self.currentMap = this.$refs.map.mapObject;
-        self.currentMap.getRenderer(self.currentMap).options.padding = 0.5;
-
-        if (
-          self.$router.currentRoute &&
-          self.$router.currentRoute.query &&
-          self.$store.state.overlayLoaded &&
-          self.currentMap
-        ) {
-          if (self.$router.currentRoute.query.island && self.currentMap) {
-            let islands = this.$store.state.islandData.features;
-            let islandId = parseInt(self.$router.currentRoute.query.island);
-            let filteredIslands = _.filter(islands, { id: islandId });
-            if (filteredIslands.length) {
-              let foundIsland = filteredIslands[0];
-              let coords = foundIsland.geometry.coordinates;
-              let localZoom = self.zoomPercentageToLocalZoom(
-                90,
-                self.currentMap.options.minZoom,
-                self.currentMap.options.maxZoom
-              );
-              self.$store.commit('addHighlight', coords);
-              self.currentMap.setView(coords, localZoom);
-              clearInterval(checkMapObject);
-            }
-            // self.$router.push({ name: self.$router.currentRoute.name });
-          }
-
-          if (
-            self.$router.currentRoute.query.lat &&
-            self.$router.currentRoute.query.lng &&
-            self.$router.currentRoute.query.zoom &&
-            self.currentMap
-          ) {
-            let lat = self.$router.currentRoute.query.lat;
-            let lng = self.$router.currentRoute.query.lng;
-            let localZoom = self.zoomPercentageToLocalZoom(
-              self.$router.currentRoute.query.zoom,
-              self.currentMap.options.minZoom,
-              self.currentMap.options.maxZoom
-            );
-            self.currentMap.setView([lat, lng], localZoom);
-            // self.$router.push({ name: self.$router.currentRoute.name });
-            clearInterval(checkMapObject);
-          }
-        }
+        clearInterval(checkMapObject);
+        this.currentMap = this.$refs.map.mapObject;
+        this.currentMap.getRenderer(this.currentMap).options.padding = 0.5;
+        await this.startBuildUpSequence();
       }
     }, 1000);
   },
@@ -183,6 +207,10 @@ export default {
         },
         interactive: false
       },
+      buildUpSequence: true,
+      buildGeoJson: false,
+      buildIslandIcons: false,
+      buildIslandCircles: false,
       crs: null,
       zoom: -4.6,
       mapOptions: {
