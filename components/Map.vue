@@ -81,7 +81,7 @@ export default {
     ...mapState(['islandData', 'boundaryData'])
   },
   methods: {
-    onZoom: (e, r) => {
+    onZoom: _.debounce((e, r) => {
       let zoomPercentage = Math.round(
         ((e.target._zoom - e.target.options.minZoom) /
           (e.target.options.maxZoom - e.target.options.minZoom)) *
@@ -92,7 +92,7 @@ export default {
         console.log('Map zoomPercentage: ' + zoomPercentage);
       }
       r.$store.commit('setZoomPercentage', zoomPercentage);
-    },
+    }, 600),
     onMoveEnd: (e, r) => {
       r.$store.commit('setLatLng', e.target.getCenter());
     },
