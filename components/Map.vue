@@ -92,7 +92,7 @@ export default {
         console.log('Map zoomPercentage: ' + zoomPercentage);
       }
       r.$store.commit('setZoomPercentage', zoomPercentage);
-    }, 600),
+    }, 250),
     onMoveEnd: (e, r) => {
       r.$store.commit('setLatLng', e.target.getCenter());
     },
