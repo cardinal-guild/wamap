@@ -41,7 +41,7 @@ export default {
     ...mapState(['zoomPercentage', 'islandData'])
   },
   watch: {
-    zoomPercentage (newZoomPercentage, oldZoomPercentage) {
+    zoomPercentage(newZoomPercentage, oldZoomPercentage) {
       if (
         newZoomPercentage >= this.fromZoomPercentage &&
         newZoomPercentage <= this.toZoomPercentage
@@ -116,11 +116,24 @@ export default {
 .island-divicon {
   opacity: 0;
   transition: opacity 0.2s;
+  &:before {
+    border-radius: 100%;
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
   &-img {
+    position: relative;
     width: 100px;
     height: 100px;
     border-radius: 100%;
     border: 5px solid #ccc;
+
     // box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
   }
   &.dangerous .island-divicon-img {
