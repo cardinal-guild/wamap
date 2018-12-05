@@ -3,12 +3,7 @@
     <v-container bg fill-height grid-list-md text-xs-center>
       <v-layout row wrap align-center>
         <v-flex>
-          <p>
-            <v-progress-circular indeterminate color="primary" aria-setsize="20"></v-progress-circular>Please wait while we hang your browser :-P
-          </p>
-          <p>
-            <small>(building the map up first time, is CPU intensive)</small>
-          </p>
+          <v-progress-circular indeterminate color="primary" aria-setsize="20"></v-progress-circular>Building up the map, standby ...
         </v-flex>
       </v-layout>
     </v-container>
