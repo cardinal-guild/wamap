@@ -99,7 +99,7 @@ export default {
       let localZoom = (zoom / 100) * (max - min) + min;
       return localZoom;
     },
-    async startBuildUpSequence() {
+    async startBuildUpSequence () {
       let wait = ms =>
         new Promise((resolve, reject) => {
           setTimeout(() => resolve(), ms);
@@ -138,7 +138,7 @@ export default {
             this.$store.commit('addHighlight', coords);
             this.currentMap.setView(coords, localZoom);
           }
-          this.$router.push({ name: this.$router.currentRoute.name });
+          // this.$router.push({ name: this.$router.currentRoute.name });
         }
 
         if (
@@ -155,13 +155,13 @@ export default {
             this.currentMap.options.maxZoom
           );
           this.currentMap.setView([lat, lng], localZoom);
-          this.$router.push({ name: this.$router.currentRoute.name });
+          // this.$router.push({ name: this.$router.currentRoute.name });
         }
       }
       this.buildUpSequence = false;
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
     const checkMapObject = setInterval(async () => {
@@ -178,7 +178,7 @@ export default {
       }
     }, 100);
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('loadAll');
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
@@ -201,13 +201,13 @@ export default {
       this.$bus.$emit('closeLegend');
     });
   },
-  data() {
+  data () {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function(feature) {
+        style: function (feature) {
           return feature.properties;
         },
         interactive: false
