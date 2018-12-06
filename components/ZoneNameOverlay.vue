@@ -5,7 +5,7 @@
     :attribution="attribution"
     :bounds="bounds"
     :z-index="1000"
-    className="map-zone-overlay"
+    class="map-zone-overlay"
     @load="setOverlayLoaded"
     :options="{className: 'map-zone-overlay', interactive: false}"
     ref="zonenames"
@@ -53,9 +53,9 @@ export default {
             $elem.css('opacity', 1);
           }
           if (newZoomPercentage > this.alphaToZoomPercentage) {
-            $elem.css('display', 'none');
+            $elem.hide();
           } else {
-            $elem.css('display', 'block');
+            $elem.show();
           }
         }
       }
@@ -72,6 +72,6 @@ export default {
 </script>
 <style lang="scss">
 .map-zone-overlay {
-  transition: opacity 0.5s;
+  // transition: opacity 0.5s;
 }
 </style>

@@ -41,7 +41,6 @@
           :toZoomPercentage="100"
         />
         <map-island-icons v-if="buildIslandIcons" :fromZoomPercentage="30" :toZoomPercentage="70"/>
-        <l-layer-group ref="grid" :bounds="bounds"></l-layer-group>
         <map-legend :fadeOutFromZoomPercentage="70"/>
         <map-location-marker/>
       </l-map>
@@ -92,7 +91,7 @@ export default {
         console.log('Map zoomPercentage: ' + zoomPercentage);
       }
       r.$store.commit('setZoomPercentage', zoomPercentage);
-    }, 250),
+    }, 200),
     onMoveEnd: (e, r) => {
       r.$store.commit('setLatLng', e.target.getCenter());
     },
@@ -100,19 +99,17 @@ export default {
       let localZoom = (zoom / 100) * (max - min) + min;
       return localZoom;
     },
-    async startBuildUpSequence () {
+    async startBuildUpSequence() {
       let wait = ms =>
         new Promise((resolve, reject) => {
           setTimeout(() => resolve(), ms);
         });
-      await wait(100);
+      await wait(10);
       this.buildGeoJson = true;
-      await wait(100);
+      await wait(10);
       this.buildIslandIcons = true;
-      await wait(100);
+      await wait(10);
       this.buildIslandCircles = true;
-      await wait(100);
-      this.currentMap.setView(this.center);
       await wait(10);
       if (
         this.$router.currentRoute &&
@@ -120,6 +117,12 @@ export default {
         this.$store.state.overlayLoaded &&
         this.currentMap
       ) {
+        let zoomPercentage = Math.round(
+          ((this.currentMap._zoom - this.currentMap.minZoom) /
+            (this.currentMap.maxZoom - this.currentMap.minZoom)) *
+            100
+        );
+        this.$store.commit('setZoomPercentage', zoomPercentage);
         if (this.$router.currentRoute.query.island && this.currentMap) {
           let islands = this.$store.state.islandData.features;
           let islandId = parseInt(this.$router.currentRoute.query.island);
@@ -135,7 +138,7 @@ export default {
             this.$store.commit('addHighlight', coords);
             this.currentMap.setView(coords, localZoom);
           }
-          // this.$router.push({ name: this.$router.currentRoute.name });
+          this.$router.push({ name: this.$router.currentRoute.name });
         }
 
         if (
@@ -152,13 +155,13 @@ export default {
             this.currentMap.options.maxZoom
           );
           this.currentMap.setView([lat, lng], localZoom);
-          // this.$router.push({ name: this.$router.currentRoute.name });
+          this.$router.push({ name: this.$router.currentRoute.name });
         }
       }
       this.buildUpSequence = false;
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
     const checkMapObject = setInterval(async () => {
@@ -173,9 +176,9 @@ export default {
         this.currentMap.getRenderer(this.currentMap).options.padding = 0.5;
         await this.startBuildUpSequence();
       }
-    }, 1000);
+    }, 100);
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('loadAll');
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
@@ -198,13 +201,13 @@ export default {
       this.$bus.$emit('closeLegend');
     });
   },
-  data () {
+  data() {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function (feature) {
+        style: function(feature) {
           return feature.properties;
         },
         interactive: false

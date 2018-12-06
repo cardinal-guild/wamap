@@ -41,9 +41,9 @@ export default {
         $('.sector-label').css('opacity', opacity);
       }
       if (newZoomPercentage > this.toZoomPercentage) {
-        $('.sector-label').css('display', 'none');
+        $('.sector-label').hide();
       } else {
-        $('.sector-label').css('display', 'block');
+        $('.sector-label').show();
       }
     },
     boundaryData (newVal, oldVal) {
@@ -118,6 +118,5 @@ export default {
   font-family: 'Noto Sans', 'Roboto', sans-serif;
   color: rgba(black, 0.75);
   pointer-events: none !important;
-  transition: opacity 0.3s;
 }
 </style>
