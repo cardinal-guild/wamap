@@ -28,6 +28,7 @@ export default {
   },
   watch: {
     zoomPercentage (newZoomPercentage, oldZoomPercentage) {
+      $('.sector-label').css('z-index', 1000);
       if (newZoomPercentage >= this.fromZoomPercentage) {
         let opacity =
           (newZoomPercentage - this.fromZoomPercentage) /
@@ -81,6 +82,8 @@ export default {
             let marker = leaflet.divIcon({
               html: curFeature.properties.name,
               className: 'sector-label',
+              clickable: false,
+              interactive: false,
               iconSize: [80, 40]
             });
             this.sectorMarkers.push({

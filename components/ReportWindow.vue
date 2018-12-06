@@ -176,6 +176,7 @@ export default {
 <style lang="scss" scoped>
 .report-window {
   &-container {
+    z-index: 2000;
     position: absolute;
     top: 0;
     left: 0;

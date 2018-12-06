@@ -5,7 +5,7 @@
         v-for="island in islandData.features"
         :key="island.properties.key"
         :lat-lng="island.geometry.coordinates"
-        :icon="getIconByAltitude(island.properties.altitude, island.properties.type, island.properties.tier)"
+        :icon="getIconByProperties(island.properties)"
         :id="island.id"
         layer-type="overlay"
         :closePopupOnClick="false"
@@ -48,20 +48,7 @@ export default {
     }
   },
   data () {
-    return {
-      islandIcons: {
-        kioki: {
-          high: '/island_icons/Island_K_H.png',
-          medium: '/island_icons/Island_K_M.png',
-          low: '/island_icons/Island_K_L.png'
-        },
-        saborian: {
-          high: '/island_icons/Island_S_H.png',
-          medium: '/island_icons/Island_S_M.png',
-          low: '/island_icons/Island_S_L.png'
-        }
-      }
-    };
+    return {};
   },
   props: {
     fromZoomPercentage: {

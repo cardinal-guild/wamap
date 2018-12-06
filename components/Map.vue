@@ -12,6 +12,7 @@
         :attribution="false"
         :closePopupOnClick="false"
         :preferCanvas="true"
+        :z-index="0"
         @moveend="onMoveEnd($event, $root)"
         @zoom="onZoom($event, $root)"
         ref="map"
@@ -23,26 +24,21 @@
           :options="boundaryOptions"
           v-if="buildGeoJson"
         />
+        <sector-names-overlay v-if="buildGeoJson" :fromZoomPercentage="15" :toZoomPercentage="65"/>
         <zone-name-overlay
-          v-if="buildIslandCircles"
+          v-if="buildGeoJson"
           :alphaFromZoomPercentage="0"
-          :alphaToZoomPercentage="60"
+          :alphaToZoomPercentage="40"
         />
-        <sector-names-overlay v-if="buildGeoJson" :fromZoomPercentage="35" :toZoomPercentage="90"/>
-        <map-highlighter
-          :bigIconfromZoomPercentage="70"
-          :showFromZoomPercentage="30"
-          :iconHeightSmall="100"
-          :iconHeightBig="240"
+        <map-islands
+          v-if="buildIslandIcons"
+          :showIconsFromPercentage="35"
+          :alphaIconsToPercentage="30"
+          :showCirclesFromPercentage="75"
         />
-        <map-island-circles
-          v-if="buildIslandCircles"
-          :fromZoomPercentage="70"
-          :toZoomPercentage="100"
-        />
-        <map-island-icons v-if="buildIslandIcons" :fromZoomPercentage="30" :toZoomPercentage="70"/>
-        <map-legend :fadeOutFromZoomPercentage="70"/>
+        <map-highlighter :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75"/>
         <map-location-marker/>
+        <map-legend :fadeOutFromZoomPercentage="75"/>
       </l-map>
     </no-ssr>
   </div>
@@ -52,8 +48,7 @@
 import { mapState } from 'vuex';
 import _ from 'lodash';
 import MapLegend from '~/components/MapLegend.vue';
-import MapIslandIcons from '~/components/MapIslandIcons.vue';
-import MapIslandCircles from '~/components/MapIslandCircles.vue';
+import MapIslands from '~/components/MapIslands.vue';
 import MapHighlighter from '~/components/MapHighlighter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
@@ -68,8 +63,7 @@ if (isBrowser) {
 export default {
   components: {
     MapLegend,
-    MapIslandIcons,
-    MapIslandCircles,
+    MapIslands,
     MapHighlighter,
     ZoneNameOverlay,
     SectorNamesOverlay,
@@ -108,8 +102,6 @@ export default {
       this.buildGeoJson = true;
       await wait(10);
       this.buildIslandIcons = true;
-      await wait(10);
-      this.buildIslandCircles = true;
       await wait(10);
       if (
         this.$router.currentRoute &&
@@ -171,6 +163,7 @@ export default {
         this.$store.state.boundaryData &&
         this.$store.state.islandData
       ) {
+        this.$store.commit('loading', false);
         clearInterval(checkMapObject);
         this.currentMap = this.$refs.map.mapObject;
         this.currentMap.getRenderer(this.currentMap).options.padding = 0.5;

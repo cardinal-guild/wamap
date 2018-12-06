@@ -4,10 +4,11 @@
     :url="zonenamesData"
     :attribution="attribution"
     :bounds="bounds"
-    :z-index="1000"
-    class="map-zone-overlay"
+    :className="map-zone-overlay"
+    :clickable="false"
+    :interactive="false"
     @load="setOverlayLoaded"
-    :options="{className: 'map-zone-overlay', interactive: false}"
+    :options="{class: 'map-zone-overlay', className: 'map-zone-overlay', interactive: false}"
     ref="zonenames"
   />
 </template>
@@ -44,6 +45,7 @@ export default {
         let elem = this.$refs.zonenames.getElement();
         if (elem) {
           let $elem = $(elem);
+          $elem.css('z-index', 1001);
           if (newZoomPercentage > this.alphaFromZoomPercentage) {
             let opacity =
               (newZoomPercentage - this.alphaFromZoomPercentage) /
@@ -70,8 +72,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.map-zone-overlay {
-  // transition: opacity 0.5s;
-}
-</style>

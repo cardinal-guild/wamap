@@ -29,49 +29,62 @@ export default {
 
   watch: {
     zoomPercentage (newZoomPercentage, oldZoomPercentage) {
-      if (newZoomPercentage < this.showFromZoomPercentage) {
-        $('.highlight-icon').css('display', 'none');
-      } else {
-        $('.highlight-icon').css('display', 'block');
-      }
-      let setIconHeight = this.iconHeightBig;
-      if (newZoomPercentage <= this.bigIconfromZoomPercentage) {
-        setIconHeight = this.iconHeightSmall;
-      }
-      if (setIconHeight !== this.currentIconHeight) {
-        this.currentIconHeight = setIconHeight;
+      if (newZoomPercentage <= this.normalIconFromZoomPercentage) {
+        this.highlightIcon = leaflet.divIcon({
+          html:
+            '<img style="width:30px;height:30px;" src="/assets/highlight_arrow.png" />',
+          iconSize: [30, 50],
+          iconAnchor: [15, 25],
+          clickable: false,
+          interactive: false,
+          className: 'highlight-icon'
+        });
+      } else if (newZoomPercentage <= this.bigIconfromZoomPercentage) {
         this.highlightIcon = leaflet.divIcon({
           html: '<img src="/assets/highlight_arrow.png" />',
-          iconSize: [60, this.currentIconHeight],
+          iconSize: [60, 100],
+          iconAnchor: [30, 50],
           clickable: false,
+          interactive: false,
+          className: 'highlight-icon'
+        });
+      } else {
+        this.highlightIcon = leaflet.divIcon({
+          html: '<img src="/assets/highlight_arrow.png" />',
+          iconSize: [60, 230],
+          iconAnchor: [30, 120],
+          clickable: false,
+          interactive: false,
           className: 'highlight-icon'
         });
       }
+
+      // let setIconHeight = this.iconHeightBig;
+
+      // if (newZoomPercentage <= this.bigIconfromZoomPercentage) {
+      //   setIconHeight = this.iconHeightSmall;
+      // }
+      // if (setIconHeight !== this.currentIconHeight) {
+      //   this.currentIconHeight = setIconHeight;
+      //
+      // }
     }
   },
 
   props: {
-    showFromZoomPercentage: {
+    normalIconFromZoomPercentage: {
       type: Number,
-      default: 15
+      default: 35
     },
     bigIconfromZoomPercentage: {
       type: Number,
       default: 70
-    },
-    iconHeightBig: {
-      type: Number,
-      default: 240
-    },
-    iconHeightSmall: {
-      type: Number,
-      default: 120
     }
   },
   mounted () {
     this.highlightIcon = leaflet.divIcon({
       html: '<img src="/assets/highlight_arrow.png" />',
-      iconSize: [60, this.currentIconHeight],
+      iconSize: [60, 120],
       clickable: false,
       interactive: false,
       className: 'highlight-icon'
