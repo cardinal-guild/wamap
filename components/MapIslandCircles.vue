@@ -41,16 +41,14 @@ export default {
     ...mapState(['zoomPercentage', 'islandData'])
   },
   watch: {
-    zoomPercentage(newZoomPercentage, oldZoomPercentage) {
+    zoomPercentage (newZoomPercentage, oldZoomPercentage) {
       if (
         newZoomPercentage >= this.fromZoomPercentage &&
         newZoomPercentage <= this.toZoomPercentage
       ) {
-        $('.island-divicon').css('opacity', '1');
-        $('.island-divicon').css('pointer-events', 'auto');
+        $('.island-divicon').show();
       } else {
-        $('.island-divicon').css('opacity', '0');
-        $('.island-divicon').css('pointer-events', 'none', 'important');
+        $('.island-divicon').hide();
       }
     }
   },
@@ -114,8 +112,7 @@ export default {
 
 <style lang="scss">
 .island-divicon {
-  opacity: 0;
-  transition: opacity 0.2s;
+  display: none;
   &:before {
     border-radius: 100%;
     content: ' ';

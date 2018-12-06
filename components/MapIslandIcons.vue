@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="islandMarkers"
-    v-if="islandData && islandData.features && islandData.features.length"
-  >
+  <div class="islandMarkers" v-if="islandData && islandData.features && islandData.features.length">
     <no-ssr>
       <l-marker
         v-for="island in islandData.features"
@@ -14,7 +11,7 @@
         :closePopupOnClick="false"
         @click="closeLegend($event, $bus)"
       >
-        <island-popup  v-bind="island.properties" />
+        <island-popup v-bind="island.properties"/>
       </l-marker>
     </no-ssr>
   </div>
@@ -44,11 +41,9 @@ export default {
         newZoomPercentage >= this.fromZoomPercentage &&
         newZoomPercentage < this.toZoomPercentage
       ) {
-        $('.island-dot').css('opacity', '1');
-        $('.island-dot').css('pointer-events', 'auto');
+        $('.island-dot').show();
       } else {
-        $('.island-dot').css('opacity', '0');
-        $('.island-dot').css('pointer-events', 'none', 'important');
+        $('.island-dot').hide();
       }
     }
   },
@@ -86,23 +81,32 @@ export default {
       let altClass = 'low';
       if (altitude > 2200) altClass = 'high';
       else if (altitude > 1800) altClass = 'medium';
-      let tierClass = "one";
-      if (tier === 2) tierClass = "two";
-      else if (tier === 3) tierClass = "three";
-      else if (tier === 4) tierClass = "four";
+      let tierClass = 'one';
+      if (tier === 2) tierClass = 'two';
+      else if (tier === 3) tierClass = 'three';
+      else if (tier === 4) tierClass = 'four';
       let icon;
-      if (type === "kioki") {
+      if (type === 'kioki') {
         icon = leaflet.divIcon({
-          html: '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle class="'+altClass+' '+tierClass+'"cx="50" cy="50" r="40" /></svg>',
+          html:
+            '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><circle class="' +
+            altClass +
+            ' ' +
+            tierClass +
+            '"cx="50" cy="50" r="40" /></svg>',
           iconAnchor: [15, 15],
-          className: "island-dot"
+          className: 'island-dot'
         });
-      }
-      else if (type === "saborian") {
+      } else if (type === 'saborian') {
         icon = leaflet.divIcon({
-          html: '<svg style="transform: rotateZ(45deg);" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><rect class="'+altClass+' '+tierClass+'" width="100" height="100" /></svg>',
+          html:
+            '<svg style="transform: rotateZ(45deg);" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 100 100"><rect class="' +
+            altClass +
+            ' ' +
+            tierClass +
+            '" width="100" height="100" /></svg>',
           iconAnchor: [12, 12],
-          className: "island-dot"
+          className: 'island-dot'
         });
       }
       return icon;
@@ -112,10 +116,8 @@ export default {
 </script>
 <style lang="scss">
 .island-dot {
-  opacity: 0;
-  transition: opacity 0.2s;
+  display: none;
   > svg {
-
     circle {
       stroke-width: 8px;
     }
@@ -124,8 +126,8 @@ export default {
       stroke-width: 20px;
     }
 
-    circle, rect {
-
+    circle,
+    rect {
       &.four {
         &.high {
           stroke: rgb(150, 134, 117);
