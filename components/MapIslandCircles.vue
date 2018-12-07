@@ -130,8 +130,7 @@ export default {
     height: 100px;
     border-radius: 100%;
     border: 5px solid #ccc;
-
-    // box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
   }
   &.dangerous .island-divicon-img {
     border-color: #ea6d6d;
@@ -208,7 +207,7 @@ export default {
     &:before {
       content: ' ';
       background: rgb(20, 160, 20);
-      // box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
       border-radius: 100%;
       width: 100%;
       height: 100%;
@@ -239,7 +238,7 @@ export default {
     &:before {
       content: ' ';
       background: rgb(160, 20, 20);
-      // box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
       border-radius: 100%;
       width: 100%;
       height: 100%;
@@ -263,7 +262,7 @@ export default {
     &:before {
       content: ' ';
       background: rgb(255, 240, 220);
-      // box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
       border-radius: 100%;
       width: 100%;
       height: 100%;

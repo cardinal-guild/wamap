@@ -1,6 +1,9 @@
 <template>
   <l-control position="topright" class="map-legend-control">
-    <div class="map-legend" :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }">
+    <div
+      class="map-legend"
+      :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }"
+    >
       <div class="map-legend-toggle" @click="opened=!opened">
         <v-icon large>chevron_right</v-icon>
       </div>
@@ -9,64 +12,50 @@
         <div class="map-legend-separator"></div>
         <ul class="legend-list">
           <li>
-            <span class="header">
-              Altitudes
-            </span>
+            <span class="header">Altitudes</span>
           </li>
           <li>
             <span class="icon">
-              <img src="~/static/island_icons/Island_S_L.png" />
-              <img src="~/static/island_icons/Island_K_L.png" />
+              <div class="island saborian low"></div>
+              <div class="island kioki low"></div>
             </span>
-            <span class="description">
-              Low Altitude
-            </span>
+            <span class="description">Low Altitude</span>
           </li>
           <li class="map-legend-separator"></li>
           <li>
             <span class="icon">
-              <img src="~/static/island_icons/Island_S_M.png" />
-              <img src="~/static/island_icons/Island_K_M.png" />
+              <div class="island saborian medium"></div>
+              <div class="island kioki medium"></div>
             </span>
-            <span class="description">
-              Medium Altitude
-            </span>
+            <span class="description">Medium Altitude</span>
           </li>
           <li class="map-legend-separator"></li>
           <li>
             <span class="icon">
-              <img src="~/static/island_icons/Island_S_H.png" />
-              <img src="~/static/island_icons/Island_K_H.png" />
+              <div class="island saborian high"></div>
+              <div class="island kioki high"></div>
             </span>
-            <span class="description">
-              High Altitude
-            </span>
+            <span class="description">High Altitude</span>
           </li>
           <li class="map-legend-separator"></li>
           <li>
-            <span class="header">
-              Icons
-            </span>
+            <span class="header">Icons</span>
           </li>
           <li>
             <span class="icon single background">
               <div class="databank">
-                <img src="~/static/island_icons/knowledge_icon.png" />
+                <img src="~/static/island_icons/knowledge_icon.png">
               </div>
             </span>
-            <span class="description">
-              Databanks
-            </span>
+            <span class="description">Databanks</span>
           </li>
           <li>
             <span class="icon single background">
               <div class="revival">
-                <img src="~/static/island_icons/revival_icon.png" />
+                <img src="~/static/island_icons/revival_icon.png">
               </div>
             </span>
-            <span class="description">
-              Revival Chambers
-            </span>
+            <span class="description">Revival Chambers</span>
           </li>
           <li>
             <span class="icon single background">
@@ -74,9 +63,7 @@
                 <img src="~/static/island_icons/turret_icon.png">
               </div>
             </span>
-            <span class="description">
-              Turrets
-            </span>
+            <span class="description">Turrets</span>
           </li>
           <li>
             <span class="icon single culture background">
@@ -84,9 +71,7 @@
                 <img src="~/static/island_icons/kioki_icon.png">
               </div>
             </span>
-            <span class="description">
-              Kioki
-            </span>
+            <span class="description">Kioki</span>
           </li>
           <li>
             <span class="icon single culture background">
@@ -94,9 +79,7 @@
                 <img src="~/static/island_icons/saborian_icon.png">
               </div>
             </span>
-            <span class="description">
-              Saborian
-            </span>
+            <span class="description">Saborian</span>
           </li>
         </ul>
       </div>
@@ -145,6 +128,56 @@ export default {
 @import '~sass-easing/_easings';
 
 .map-legend {
+  .island {
+    margin: 5px;
+    &:first-child {
+      margin-left: 15px;
+      margin-right: 10px;
+    }
+
+    &.low {
+      &:before {
+        border: 2px solid #222;
+        background-color: #666;
+      }
+    }
+    &.medium {
+      &:before {
+        border: 2px solid #666;
+        background-color: #bbb;
+      }
+    }
+
+    &.high {
+      &:before {
+        border: 2px solid #999;
+        background-color: #ddd;
+      }
+    }
+    &.kioki {
+      &:before {
+        display: block;
+        content: ' ';
+        border-radius: 100%;
+        width: 16px;
+        height: 16px;
+        box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+      }
+    }
+
+    &.saborian {
+      &:before {
+        display: block;
+        content: ' ';
+        width: 14px;
+        height: 14px;
+        top: -2.5%;
+        left: 2.5%;
+        transform: rotateZ(45deg);
+        box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.75);
+      }
+    }
+  }
   opacity: 1;
   transition: opacity $easeOutExpo 0.3s, transform $easeOutBack 0.6s;
   display: flex;

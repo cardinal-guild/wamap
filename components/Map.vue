@@ -93,7 +93,7 @@ export default {
       let localZoom = (zoom / 100) * (max - min) + min;
       return localZoom;
     },
-    async startBuildUpSequence () {
+    async startBuildUpSequence() {
       let wait = ms =>
         new Promise((resolve, reject) => {
           setTimeout(() => resolve(), ms);
@@ -153,7 +153,7 @@ export default {
       this.buildUpSequence = false;
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
     const checkMapObject = setInterval(async () => {
@@ -171,7 +171,7 @@ export default {
       }
     }, 100);
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('loadAll');
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
@@ -194,13 +194,13 @@ export default {
       this.$bus.$emit('closeLegend');
     });
   },
-  data () {
+  data() {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function (feature) {
+        style: function(feature) {
           return feature.properties;
         },
         interactive: false
@@ -232,7 +232,25 @@ export default {
 
 <style lang="scss" scoped>
 #map-wrap {
+  position: absolute;
   background: none;
+  display: block;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -ms-perspective: 1000;
+  perspective: 1000;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   .leaflet-container {
     &.leaflet-control-container {
       .leaflet-control-zoom {
@@ -297,6 +315,8 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
+    display: block;
+    z-index: 0;
   }
 }
 </style>
