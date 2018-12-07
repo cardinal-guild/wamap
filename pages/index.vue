@@ -1,5 +1,6 @@
 <template>
   <div class="welcome-page">
+    <HelpCardinalguild/>
     <v-container>
       <v-layout column justify-center align-center>
         <v-flex xs12 sm8 md6>
@@ -43,10 +44,12 @@
 <script>
 import PVEIcon from '~/assets/svg/pve_icon.svg';
 import PVPIcon from '~/assets/svg/pvp_icon.svg';
+import HelpCardinalguild from '~/components/HelpCardinalguild';
 export default {
   components: {
     PVEIcon,
-    PVPIcon
+    PVPIcon,
+    HelpCardinalguild
   },
   head () {
     return { title: 'Cardinal Guild - ' + this.title };
