@@ -38,13 +38,10 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  created() {
+  mounted() {
     let hideWelcome = this.$cookies.get('hide-welcome');
     if(typeof hideWelcome === 'undefined' || hideWelcome === null) {
       this.welcomeDialog = true;
-    } else {
-
-      this.welcomeDialog = false;
     }
   },
   computed: {
@@ -65,7 +62,7 @@ export default {
   },
   data() {
     return {
-      welcomeDialog: true,
+      welcomeDialog: false,
     };
   }
 };
