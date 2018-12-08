@@ -130,7 +130,6 @@ export default {
             this.$store.commit('addHighlight', coords);
             this.currentMap.setView(coords, localZoom);
           }
-          this.$router.replace({ name: this.$router.currentRoute.name });
         }
 
         if (
@@ -147,7 +146,6 @@ export default {
             this.currentMap.options.maxZoom
           );
           this.currentMap.setView([lat, lng], localZoom);
-          this.$router.replace({ name: this.$router.currentRoute.name });
         }
       }
       this.buildUpSequence = false;

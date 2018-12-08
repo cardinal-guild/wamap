@@ -37,7 +37,7 @@
             <tr>
               <td colspan="2" class="island-popup-image">
                 <a :href="imageOriginal" target="_blank">
-                  <img :src="imagePopup">
+                  <v-img :src="imagePopup"></v-img>
                 </a>
                 <div class="island-popup-copy-paste">
                   <v-tooltip bottom>

@@ -129,7 +129,7 @@ export default {
       loggedIn: 'loggedIn'
     })
   },
-  created: function() {
+  created: function () {
     this.$store.watch(
       state => state.snackText,
       () => {
@@ -147,7 +147,7 @@ export default {
       }
     );
   },
-  beforeMount() {
+  beforeMount () {
     let showEditCookie = this.$cookies.get('showEdit');
     if (typeof showEditCookie !== 'undefined') {
       this.$store.commit('setConfigOption', {
@@ -163,7 +163,7 @@ export default {
       });
     }
   },
-  mounted() {
+  mounted () {
     // let showMetalsCookie = this.$cookies.get('showAllMetals');
     // if (typeof showMetalsCookie !== 'undefined') {
     //   this.$store.commit('setConfigOption', {
@@ -184,10 +184,12 @@ export default {
         this.$router.currentRoute.query.charkey
       );
       this.$store.commit('account/showAccountDialog', true);
-      this.$router.replace({ name: this.$router.currentRoute.name });
+      setTimeout(() => {
+        this.$router.replace({ name: this.$router.currentRoute.name });
+      }, 5000).bind(this);
     }
   },
-  data() {
+  data () {
     return {
       showSnack: false,
       snackColor: 'info',
@@ -204,7 +206,7 @@ export default {
     };
   },
   methods: {
-    async copyToClipboard(e) {
+    async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
