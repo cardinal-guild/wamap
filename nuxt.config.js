@@ -170,8 +170,14 @@ module.exports = {
     ]
   },
   manifest: {
-    name: 'Cardinal Guild- Worlds Adrift Interactive Map',
-    lang: 'en'
+    name: 'WA Interactive Map',
+    lang: 'en',
+    description: 'Worlds Adrift interactive map, created by the Cardinal Guild'
+  },
+  meta: {
+    name: 'WA Interactive Map',
+    lang: 'en',
+    description: 'Worlds Adrift interactive map, created by the Cardinal Guild'
   },
   build: {
     transpile: [/^vuetify/],
