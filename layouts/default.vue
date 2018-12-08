@@ -56,7 +56,7 @@
       <v-spacer/>
       <v-tooltip bottom>
         <v-btn icon slot="activator" @click="$store.commit('account/showAccountDialog', true)">
-          <v-icon>account_circle</v-icon>
+          <v-icon :color="loggedIn ? 'green': 'red'">account_circle</v-icon>
         </v-btn>
         <span>Create a character and checkmark locations where you been</span>
       </v-tooltip>
@@ -112,6 +112,7 @@ import MapFilterDrawer from '~/components/MapFilterDrawer';
 // import AccountDrawer from '~/components/AccountDrawer';
 import ReportWindow from '~/components/ReportWindow';
 import AccountWindow from '~/components/AccountWindow';
+import { mapState } from 'vuex';
 export default {
   components: {
     CopyPasteLink,
@@ -123,7 +124,12 @@ export default {
     ReportWindow,
     AccountWindow
   },
-  created: function () {
+  computed: {
+    ...mapState('account', {
+      loggedIn: 'loggedIn'
+    })
+  },
+  created: function() {
     this.$store.watch(
       state => state.snackText,
       () => {
@@ -141,7 +147,7 @@ export default {
       }
     );
   },
-  beforeMount () {
+  beforeMount() {
     let showEditCookie = this.$cookies.get('showEdit');
     if (typeof showEditCookie !== 'undefined') {
       this.$store.commit('setConfigOption', {
@@ -157,7 +163,7 @@ export default {
       });
     }
   },
-  mounted () {
+  mounted() {
     // let showMetalsCookie = this.$cookies.get('showAllMetals');
     // if (typeof showMetalsCookie !== 'undefined') {
     //   this.$store.commit('setConfigOption', {
@@ -181,7 +187,7 @@ export default {
       this.$router.replace({ name: this.$router.currentRoute.name });
     }
   },
-  data () {
+  data() {
     return {
       showSnack: false,
       snackColor: 'info',
@@ -198,7 +204,7 @@ export default {
     };
   },
   methods: {
-    async copyToClipboard (e) {
+    async copyToClipboard(e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
