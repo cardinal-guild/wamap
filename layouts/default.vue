@@ -1,6 +1,7 @@
 <template>
   <v-app dark class="cg-app">
     <report-window/>
+    <account-window/>
     <v-navigation-drawer class="main-drawer" fixed app :mini-variant="miniVariant" v-model="drawer">
       <v-list>
         <v-list-tile router exact @click="drawer=false" to="/">
@@ -53,6 +54,12 @@
       </v-btn>
       <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
       <v-spacer/>
+      <v-tooltip bottom>
+        <v-btn icon slot="activator" @click="$store.commit('account/showAccountDialog', true)">
+          <v-icon>account_circle</v-icon>
+        </v-btn>
+        <span>Create a character and checkmark locations where you been</span>
+      </v-tooltip>
       <template v-if="$store.state.showMapControls">
         <v-tooltip bottom>
           <v-btn icon slot="activator" @click="copyToClipboard">
@@ -71,12 +78,6 @@
           </v-btn>
           <span>Place a marker</span>
         </v-tooltip>
-        <!-- <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="$bus.$emit('openAccountDrawer')">
-            <v-icon>account_circle</v-icon>
-          </v-btn>
-          <span>Create a character and checkmark locations where you been</span>
-        </v-tooltip>-->
         <v-tooltip bottom>
           <v-btn icon slot="activator" @click="$bus.$emit('openFilterDrawer')">
             <v-icon>filter_list</v-icon>
@@ -110,6 +111,7 @@ import MapSearchDrawer from '~/components/MapSearchDrawer';
 import MapFilterDrawer from '~/components/MapFilterDrawer';
 // import AccountDrawer from '~/components/AccountDrawer';
 import ReportWindow from '~/components/ReportWindow';
+import AccountWindow from '~/components/AccountWindow';
 export default {
   components: {
     CopyPasteLink,
@@ -118,7 +120,8 @@ export default {
     MapSearchDrawer,
     MapFilterDrawer,
     // AccountDrawer,
-    ReportWindow
+    ReportWindow,
+    AccountWindow
   },
   created: function () {
     this.$store.watch(
@@ -155,9 +158,28 @@ export default {
     }
   },
   mounted () {
+    // let showMetalsCookie = this.$cookies.get('showAllMetals');
+    // if (typeof showMetalsCookie !== 'undefined') {
+    //   this.$store.commit('setConfigOption', {
+    //     option: 'showAllMetals',
+    //     value: Boolean(showMetalsCookie)
+    //   });
+    // }
     this.$bus.$on('closeSearchFilterDrawer', e => {
       this.searchFilterDrawer = false;
     });
+    if (
+      this.$router.currentRoute &&
+      this.$router.currentRoute.query &&
+      this.$router.currentRoute.query.charkey
+    ) {
+      this.$store.commit(
+        'account/setCharKey',
+        this.$router.currentRoute.query.charkey
+      );
+      this.$store.commit('account/showAccountDialog', true);
+      this.$router.replace({ name: this.$router.currentRoute.name });
+    }
   },
   data () {
     return {

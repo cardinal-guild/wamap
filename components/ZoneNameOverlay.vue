@@ -4,7 +4,6 @@
     :url="zonenamesData"
     :attribution="attribution"
     :bounds="bounds"
-    :className="map-zone-overlay"
     :clickable="false"
     :interactive="false"
     @load="setOverlayLoaded"

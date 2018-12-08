@@ -23,8 +23,6 @@ export const state = () => ({
   islandData: null,
   zonenamesData: null,
   metalTypes: null,
-  characters: null,
-  selectedChar: null,
   showMarker: false,
   showMapControls: false,
   highlightedCoords: [],
@@ -71,33 +69,6 @@ export const mutations = {
       console.log("Metal types loaded")
     }
     state.metalTypes = data
-  },
-  characters (state, data) {
-    state.characters = data;
-    window.localStorage.setItem("characters", JSON.stringify(data));
-    if (console.log) {
-      console.log("Loaded character data")
-    }
-  },
-  addCharacter (state, char) {
-    state.characters.push(char);
-    window.localStorage.setItem("characters", JSON.stringify(state.characters));
-  },
-  delCharacter (state, name) {
-    state.characters = state.characters.filter(o => o.name !== name)
-    window.localStorage.setItem("characters", JSON.stringify(state.characters));
-    if (window.localStorage.getItem(name)) {
-      window.localStorage.removeItem(name);
-    }
-    if (state.selectedChar === name) {
-      state.selectedChar = null;
-    }
-  },
-  setSelected (state, name) {
-    if (state.selectedChar === name) {
-      state.selectedChar = null;
-    }
-    else state.selectedChar = name;
   },
   toggleMarker (state) {
     state.showMarker = !state.showMarker;
@@ -177,12 +148,12 @@ export const actions = {
       const zonenamesData = await this.$axios.$get('/data/zonenames.svg')
       commit('zonenamesData', svgToDataURL(zonenamesData))
 
-      if (window.localStorage.getItem("characters")) {
-        commit("characters", JSON.parse(window.localStorage.getItem("characters")))
-      }
-      else {
-        commit("characters", [])
-      }
+      // if (window.localStorage.getItem("characters")) {
+      //   commit("characters", JSON.parse(window.localStorage.getItem("characters")))
+      // }
+      // else {
+      //   commit("characters", [])
+      // }
 
       commit('loading', false)
     }
