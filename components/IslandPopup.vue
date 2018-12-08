@@ -3,155 +3,157 @@
     <no-ssr>
       <l-popup>
         <div class="island-popup">
-          <table class="island-data-table">
-            <tr class="name">
-              <th colspan="2">
-                <div class="island-title">
-                  <div class="island-name">
+          <template v-if="showPopup">
+            <table class="island-data-table">
+              <tr class="name">
+                <th colspan="2">
+                  <div class="island-title">
+                    <div class="island-name">
+                      <component
+                        class="island-name"
+                        :is="workshopUrl?'a':'div'"
+                        :href="workshopUrl || ''"
+                        target="_blank"
+                        rel="nofollow,noopener"
+                      >
+                        <span class="nickname">{{nickName?nickName:name}}</span>
+                        <span v-if="nickName" class="name">({{name}})</span>
+                        <img src="/assets/steam_icon.png" v-if="workshopUrl">
+                      </component>
+                    </div>
+                    <span class="by-author">by</span>
                     <component
-                      class="island-name"
-                      :is="workshopUrl?'a':'div'"
-                      :href="workshopUrl || ''"
+                      class="creator-name"
+                      :is="creatorWorkshopUrl?'a':'span'"
+                      :href="creatorWorkshopUrl || ''"
                       target="_blank"
                       rel="nofollow,noopener"
                     >
-                      <span class="nickname">{{nickName?nickName:name}}</span>
-                      <span v-if="nickName" class="name">({{name}})</span>
-                      <img src="/assets/steam_icon.png" v-if="workshopUrl">
+                      <span class="username">{{creator}}</span>
+                      <img src="/assets/steam_icon.png" v-if="creatorWorkshopUrl">
                     </component>
                   </div>
-                  <span class="by-author">by</span>
-                  <component
-                    class="creator-name"
-                    :is="creatorWorkshopUrl?'a':'span'"
-                    :href="creatorWorkshopUrl || ''"
-                    target="_blank"
-                    rel="nofollow,noopener"
-                  >
-                    <span class="username">{{creator}}</span>
-                    <img src="/assets/steam_icon.png" v-if="creatorWorkshopUrl">
-                  </component>
-                </div>
-              </th>
-            </tr>
-            <tr>
-              <td colspan="2" class="island-popup-image">
-                <a :href="imageOriginal" target="_blank">
-                  <v-img :src="imagePopup"></v-img>
-                </a>
-                <div class="island-popup-copy-paste">
-                  <v-tooltip bottom>
-                    <v-btn icon slot="activator" @click="copyToClipboard">
-                      <CopyPasteLink/>
-                    </v-btn>
-                    <span>Copy the current island location to clipboard</span>
-                  </v-tooltip>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <table class="island-info-table mt-2">
-                <tr>
-                  <td>Altitude</td>
-                  <td>{{ altitude }}</td>
-                </tr>
-                <tr>
-                  <td>Databanks</td>
-                  <td>{{ databanks }}</td>
-                </tr>
-              </table>
-            </tr>
-            <tr class="expansion-panels">
-              <v-expansion-panel expand v-model="panel">
-                <v-expansion-panel-content class="island-extras" :ripple="true">
-                  <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
-                  <v-card>
-                    <v-card-text class="py-2">
-                      <table
-                        class="island-materials-table"
-                        v-if="(metals && metals.length > 0) || $store.state.config.showAllMetals"
-                      >
-                        <tr v-for="(metal, index) in activeMetals" :key="index">
-                          <td>{{ metal.name }}</td>
-                          <td>{{ getQuality(metal) }}</td>
-                        </tr>
-                      </table>
-                      <div class="island-materials-table" v-else>No metals data</div>
-                      <table class="island-materials-table" v-if="trees.length > 0">
-                        <tr v-for="(tree, index) in trees" :key="index">
-                          <td>{{ tree }}</td>
-                        </tr>
-                      </table>
-                      <div class="island-materials-table" v-else>No tree data</div>
-                      <div style="clear: both;"/>
-                      <div class="table-divider"/>
-                      <table class="island-extras-table">
-                        <tr v-if="surveyCreatedBy">
-                          <td>Created by:</td>
-                          <td>{{surveyCreatedBy}}</td>
-                        </tr>
-                        <tr v-if="createdAt">
-                          <td colspan="2">{{createdAt}}</td>
-                        </tr>
-                        <tr>
-                          <td colspan="2">
-                            <div class="table-divider"/>
-                          </td>
-                        </tr>
-                        <tr v-if="surveyUpdatedBy">
-                          <td>Updated by:</td>
-                          <td>{{surveyUpdatedBy}}</td>
-                        </tr>
-                        <tr v-if="updatedAt">
-                          <td colspan="2">{{updatedAt}}</td>
-                        </tr>
-                      </table>
-                    </v-card-text>
-                  </v-card>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </tr>
-            <tr v-if="$store.state.selectedChar">
-              <v-container fluid pa-0>
-                <v-layout justify-center>
-                  <v-flex shrink>
-                    <v-card color="brown" class="pa-2 mt-2">
-                      <v-checkbox
-                        color="green"
-                        :input-value="initialValue"
-                        :label="$store.state.selectedChar"
-                        @change="setVisited"
-                      />
+                </th>
+              </tr>
+              <tr>
+                <td colspan="2" class="island-popup-image">
+                  <a :href="imageOriginal" target="_blank">
+                    <v-img :src="imagePopup"></v-img>
+                  </a>
+                  <div class="island-popup-copy-paste">
+                    <v-tooltip bottom>
+                      <v-btn icon slot="activator" @click="copyToClipboard">
+                        <CopyPasteLink/>
+                      </v-btn>
+                      <span>Copy the current island location to clipboard</span>
+                    </v-tooltip>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <table class="island-info-table mt-2">
+                  <tr>
+                    <td>Altitude</td>
+                    <td>{{ altitude }}</td>
+                  </tr>
+                  <tr>
+                    <td>Databanks</td>
+                    <td>{{ databanks }}</td>
+                  </tr>
+                </table>
+              </tr>
+              <tr class="expansion-panels">
+                <v-expansion-panel expand v-model="panel">
+                  <v-expansion-panel-content class="island-extras" :ripple="true">
+                    <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
+                    <v-card>
+                      <v-card-text class="py-2">
+                        <table
+                          class="island-materials-table"
+                          v-if="(metals && metals.length > 0) || $store.state.config.showAllMetals"
+                        >
+                          <tr v-for="(metal, index) in activeMetals" :key="index">
+                            <td>{{ metal.name }}</td>
+                            <td>{{ getQuality(metal) }}</td>
+                          </tr>
+                        </table>
+                        <div class="island-materials-table" v-else>No metals data</div>
+                        <table class="island-materials-table" v-if="trees.length > 0">
+                          <tr v-for="(tree, index) in trees" :key="index">
+                            <td>{{ tree }}</td>
+                          </tr>
+                        </table>
+                        <div class="island-materials-table" v-else>No tree data</div>
+                        <div style="clear: both;"/>
+                        <div class="table-divider"/>
+                        <table class="island-extras-table">
+                          <tr v-if="surveyCreatedBy">
+                            <td>Created by:</td>
+                            <td>{{surveyCreatedBy}}</td>
+                          </tr>
+                          <tr v-if="createdAt">
+                            <td colspan="2">{{createdAt}}</td>
+                          </tr>
+                          <tr>
+                            <td colspan="2">
+                              <div class="table-divider"/>
+                            </td>
+                          </tr>
+                          <tr v-if="surveyUpdatedBy">
+                            <td>Updated by:</td>
+                            <td>{{surveyUpdatedBy}}</td>
+                          </tr>
+                          <tr v-if="updatedAt">
+                            <td colspan="2">{{updatedAt}}</td>
+                          </tr>
+                        </table>
+                      </v-card-text>
                     </v-card>
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </tr>
-          </table>
-          <v-btn
-            @click="$bus.$emit('reportInformation', $data, $props)"
-            flat
-            grow
-            block
-            class="island-popup-button"
-          >
-            <v-icon>insert_comment</v-icon>
-            <span>Report metals</span>
-          </v-btn>
-          <v-btn
-            color="green"
-            class="island-popup-button"
-            flat
-            grow
-            block
-            target="_blank"
-            rel="noopener,nofollow"
-            v-if="config.showEdit"
-            :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
-          >
-            <v-icon>create</v-icon>
-            <span>Edit</span>
-          </v-btn>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </tr>
+              <tr v-if="$store.state.selectedChar">
+                <v-container fluid pa-0>
+                  <v-layout justify-center>
+                    <v-flex shrink>
+                      <v-card color="brown" class="pa-2 mt-2">
+                        <v-checkbox
+                          color="green"
+                          :input-value="initialValue"
+                          :label="$store.state.selectedChar"
+                          @change="setVisited"
+                        />
+                      </v-card>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </tr>
+            </table>
+            <v-btn
+              @click="$bus.$emit('reportInformation', $data, $props)"
+              flat
+              grow
+              block
+              class="island-popup-button"
+            >
+              <v-icon>insert_comment</v-icon>
+              <span>Report metals</span>
+            </v-btn>
+            <v-btn
+              color="green"
+              class="island-popup-button"
+              flat
+              grow
+              block
+              target="_blank"
+              rel="noopener,nofollow"
+              v-if="config.showEdit"
+              :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
+            >
+              <v-icon>create</v-icon>
+              <span>Edit</span>
+            </v-btn>
+          </template>
         </div>
       </l-popup>
     </no-ssr>
@@ -226,11 +228,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(['characters', 'config']),
+    ...mapState(['characters', 'config', 'islandPopupId']),
     activeMetals () {
       if (this.$cookies.get('showAllMetals'))
         return this.$store.state.metalTypes;
       return this.metals;
+    }
+  },
+
+  watch: {
+    islandPopupId (newId, oldId) {
+      if (newId === this.id) {
+        this.showPopup = true;
+      }
     }
   },
   data () {
@@ -238,6 +248,7 @@ export default {
       showReportNotImplemented: false,
       showMore: false,
       metals: null,
+      showPopup: false,
       panel: [false, false, false]
     };
   },
@@ -278,9 +289,13 @@ export default {
 
 <style lang="scss">
 @import '~sass-easing/_easings';
+.leaflet-popup {
+  min-width: 310px;
+  min-height: 340px;
+}
 .island-popup {
-  min-width: 280px;
-
+  display: block;
+  min-height: 340px;
   &-toolbar {
     padding: 0;
     margin: 0;

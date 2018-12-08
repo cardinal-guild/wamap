@@ -18,6 +18,7 @@ export const state = () => ({
     showEdit: false,
     showAllMetals: false,
   },
+  islandPopupId: 0,
   overlayLoaded: false,
   boundaryData: null,
   islandData: null,
@@ -75,6 +76,9 @@ export const mutations = {
   },
   setShowReportMessage (state, payload) {
      state.showReportMessage = payload;
+  },
+  setIslandPopupId (state, islandId) {
+    state.islandPopupId = islandId;
   },
   setLatLng (state, latLng) {
     let { lat, lng } = latLng;

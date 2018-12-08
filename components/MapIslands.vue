@@ -9,7 +9,7 @@
         :id="island.id"
         layer-type="overlay"
         :closePopupOnClick="false"
-        @click="closeLegend($event, $bus)"
+        @click="closeLegend($event, $bus);$store.commit('setIslandPopupId',island.id);"
       >
         <island-popup v-bind="island.properties"/>
       </l-marker>
