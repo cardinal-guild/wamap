@@ -2,7 +2,7 @@ const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 module.exports = {
   env: {
-    API_URL: (process.env.NODE_ENV === 'production') ? 'https://surveyor.cardinalguild.com' : 'http://8bce959a.ngrok.io'
+    API_URL: 'https://surveyor.cardinalguild.com'
   },
   /*
    ** Headers of the page
