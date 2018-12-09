@@ -14,7 +14,7 @@
             class="text-xs-center"
           >To use the account system, you need to login, click below to login with steam.</v-card-text>
           <v-layout align-center justify-center pa-2>
-            <a :href="'http://8bce959a.ngrok.io/login/map?redirect='+encodeURI(redirectUrl)">
+            <a :href="process.env.API_URL+'/login/map?redirect='+encodeURI(redirectUrl)">
               <img src="~assets/login_steam.png">
             </a>
           </v-layout>
