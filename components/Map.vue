@@ -93,7 +93,7 @@ export default {
       let localZoom = (zoom / 100) * (max - min) + min;
       return localZoom;
     },
-    async startBuildUpSequence () {
+    async startBuildUpSequence() {
       let wait = ms =>
         new Promise((resolve, reject) => {
           setTimeout(() => resolve(), ms);
@@ -151,7 +151,7 @@ export default {
       this.buildUpSequence = false;
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
     const checkMapObject = setInterval(async () => {
@@ -169,8 +169,7 @@ export default {
       }
     }, 100);
   },
-  mounted () {
-    this.$store.dispatch('loadAll');
+  mounted() {
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
       let localZoom = this.zoomPercentageToLocalZoom(
@@ -192,13 +191,13 @@ export default {
       this.$bus.$emit('closeLegend');
     });
   },
-  data () {
+  data() {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function (feature) {
+        style: function(feature) {
           return feature.properties;
         },
         interactive: false

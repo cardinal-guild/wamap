@@ -1,6 +1,9 @@
 const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 module.exports = {
+  env: {
+    API_URL: (process.env.NODE_ENV === 'production') ? 'https://surveyor.cardinalguild.com' : 'http://8bce959a.ngrok.io'
+  },
   /*
    ** Headers of the page
    */
@@ -68,7 +71,8 @@ module.exports = {
     'nuxt-clipboard2',
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    'cookie-universal-nuxt'
+    'cookie-universal-nuxt',
+    'nuxt-client-init-module'
   ],
   plugins: [
     {
@@ -90,7 +94,7 @@ module.exports = {
     {
       src: '~/plugins/nuxt-leaflet.js',
       ssr: false
-    }
+    }    
   ],
   css: [
     '~/assets/style/leaflet.scss',

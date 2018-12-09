@@ -14,9 +14,7 @@
             class="text-xs-center"
           >To use the account system, you need to login, click below to login with steam.</v-card-text>
           <v-layout align-center justify-center pa-2>
-            <a
-              :href="'https://surveyor.cardinalguild.com/login/map?redirect='+encodeURI(redirectUrl)"
-            >
+            <a :href="'http://8bce959a.ngrok.io/login/map?redirect='+encodeURI(redirectUrl)">
               <img src="~assets/login_steam.png">
             </a>
           </v-layout>
@@ -27,7 +25,7 @@
         <template v-else>
           <v-card-text class="text-xs-center">You are now connected</v-card-text>
           <v-card-text class="text-xs-center">
-            <strong>{{ charKey }}</strong>
+            <strong>{{ apiToken }}</strong>
           </v-card-text>
           <v-card-actions>
             <v-btn flat @click="$store.commit('account/showAccountDialog', false)">Close</v-btn>
@@ -46,7 +44,7 @@ export default {
     ...mapState('account', {
       showAccountDialog: 'showAccountDialog',
       loggedIn: 'loggedIn',
-      charKey: 'charKey',
+      apiToken: 'apiToken',
       data: 'data'
     })
   },
@@ -56,14 +54,7 @@ export default {
     this.redirectUrl =
       a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
   },
-  updated () {
-    let charKey = this.$cookies.get('account-char-key');
-    if (typeof charKey !== 'undefined' && charKey !== null && charKey !== '') {
-      this.$store.commit('account/setCharKey', charKey);
-    }
-  },
   methods: {},
-
   data () {
     return {
       redirectUrl: ''

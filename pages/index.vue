@@ -61,7 +61,6 @@ export default {
   },
   mounted () {
     this.$store.commit('setShowMapControls', false);
-    this.$store.dispatch('loadAll');
     this.$store.commit('setPageTitle', this.title);
   }
 };

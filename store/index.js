@@ -126,20 +126,41 @@ export const mutations = {
 }
 
 export const actions = {
-  async loadAll ({
-    commit,
-    app
-  }) {
-    if (!this.state.islandData || !this.state.boundaryData) {
-      if (console.log) {
-        console.log('Loading islands from surveyor.cardinalguild')
-      }
-      commit('loading', true)
+  async nuxtClientInit ({ state, commit }, { req }) {
+    commit('loading', true);
+    if (
+      this.$router.currentRoute &&
+      this.$router.currentRoute.query &&
+      this.$router.currentRoute.query.api_token
+    ) {
+      commit(
+        'account/setApiToken',
+        this.$router.currentRoute.query.api_token
+      );
+      this.$router.replace({ name: this.$router.currentRoute.name });
+    }
+   
+    if (!state.islandData || !state.boundaryData) {
 
-      const metalTypes = await this.$axios.$get("https://surveyor.cardinalguild.com/api/metaltypes.json")
+     
+      let apiToken = this.$cookies.get('api-token');
+      if (typeof apiToken !== 'undefined' && apiToken !== null && apiToken !== '') {
+        commit(
+          'account/setApiToken',
+          apiToken
+        );
+        this.$axios.$get(process.env.API_URL + '/api/account/validate', { progress: false }).catch(e => {
+          commit('account/logout');
+        })
+      }
+      if (console.log) {
+        console.log('Loading islands from '+process.env.API_URL)
+      }
+
+      const metalTypes = await this.$axios.$get( process.env.API_URL+'/api/metaltypes.json')
       commit("metalTypes", metalTypes)
 
-      const islandData = await this.$axios.$get('https://surveyor.cardinalguild.com/api/islands.json')
+      const islandData = await this.$axios.$get(process.env.API_URL+'/api/islands.json')
       commit('islandData', islandData)
       if (console.log) {
         console.log('Loading map boundaries')
@@ -158,6 +179,9 @@ export const actions = {
       // else {
       //   commit("characters", [])
       // }
+
+      
+
 
       commit('loading', false)
     }

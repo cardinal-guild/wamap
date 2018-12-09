@@ -4,21 +4,26 @@ export const state = () => ({
   showAccountDialog: false,
   loggedIn: false,
   data: {},
-  charKey: '',
+  apiToken: '',
   characters: null,
   selectedChar: null
 })
 
 export const mutations = {
   logout (state) {
-    state.charKey = ''; 
+    state.apiKey = ''; 
     state.loggedIn = false;
-    this.$cookies.remove('account-char-key');
+    this.$cookies.remove('api-token');
+    this.$axios.$get(process.env.API_URL + '/api/account/logout', { progress: false }).catch(e => { });
+    if (console.log) {
+      console.log("Loaded character data")
+    }
   },
-  setCharKey (state, data) {
-    state.charKey = data;
+  setApiToken (state, data) {
+    state.apiToken = data;
     state.loggedIn = true;
-    this.$cookies.set('account-char-key', data);
+    this.$cookies.set('api-token', data);
+    this.$axios.setToken(data);
   },
   characters (state, data) {
     state.characters = data;
@@ -52,14 +57,5 @@ export const mutations = {
   },
   showAccountDialog (state, value) {
     state.showAccountDialog = value;
-  },
-}
-
-export const actions = {
-  async loadAll ({
-    commit,
-    app
-  }) {
-    
   }
 }

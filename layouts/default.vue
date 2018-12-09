@@ -174,20 +174,6 @@ export default {
     this.$bus.$on('closeSearchFilterDrawer', e => {
       this.searchFilterDrawer = false;
     });
-    if (
-      this.$router.currentRoute &&
-      this.$router.currentRoute.query &&
-      this.$router.currentRoute.query.charkey
-    ) {
-      this.$store.commit(
-        'account/setCharKey',
-        this.$router.currentRoute.query.charkey
-      );
-      this.$store.commit('account/showAccountDialog', true);
-      setTimeout(() => {
-        this.$router.replace({ name: this.$router.currentRoute.name });
-      }, 5000).bind(this);
-    }
   },
   data () {
     return {
