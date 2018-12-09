@@ -14,7 +14,7 @@
             class="text-xs-center"
           >To use the account system, you need to login, click below to login with steam.</v-card-text>
           <v-layout align-center justify-center pa-2>
-            <a :href="process.env.API_URL+'/login/map?redirect='+encodeURI(redirectUrl)">
+            <a :href="API_URL+'/login/map?redirect='+encodeURI(redirectUrl)">
               <img src="~assets/login_steam.png">
             </a>
           </v-layout>
@@ -48,16 +48,17 @@ export default {
       data: 'data'
     })
   },
-  mounted () {
+  mounted() {
     const a = document.createElement('a');
     a.href = this.$router.resolve(location).href;
     this.redirectUrl =
       a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
   },
   methods: {},
-  data () {
+  data() {
     return {
-      redirectUrl: ''
+      redirectUrl: '',
+      API_URL: process.env.API_URL
     };
   }
 };
