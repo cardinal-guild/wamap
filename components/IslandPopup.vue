@@ -38,7 +38,7 @@
               <tr>
                 <td colspan="2" class="island-popup-image">
                   <a :href="imageOriginal" target="_blank">
-                    <v-img :src="imagePopup"></v-img>
+                    <v-img :width="300" :src="imagePopup"></v-img>
                   </a>
                   <div class="island-popup-copy-paste">
                     <v-tooltip bottom>
@@ -289,13 +289,8 @@ export default {
 
 <style lang="scss">
 @import '~sass-easing/_easings';
-.leaflet-popup {
-  min-width: 310px;
-  min-height: 340px;
-}
 .island-popup {
   display: block;
-  min-height: 340px;
   &-toolbar {
     padding: 0;
     margin: 0;
