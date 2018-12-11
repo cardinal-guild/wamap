@@ -70,7 +70,7 @@
             </v-list-tile-action>
           </v-list-tile>
         </v-list>
-        <v-card-text>Above are all your characters stored in the database, click the checkmark to load on character on the map. This character stays loaded everytime you load in the map. Uncheck all to disable characters on the map. There is a limit of 10 characters per steam account.</v-card-text>
+        <v-card-text>These all your characters stored in the database, click the checkmark to load the character on the map interface. This character stays loaded everytime you load in the map. Uncheck all to disable characters on the map. There is a limit of 10 characters per steam account.</v-card-text>
     </div>
     <v-card v-else color="green darken-4">
       <v-card-text v-if="creatingCharacter">Creating character ...

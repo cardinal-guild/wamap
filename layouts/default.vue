@@ -154,7 +154,7 @@ export default {
         let filterGuid = this.$store.state.account.currentCharacter;
         let currentChar = _.chain(newArr).filter(function (x) { return x.guid === filterGuid; }).first().value();
         console.log(currentChar)
-        if(currentChar.length) {
+        if(currentChar) {
           this.currentCharName = currentChar.name;
         }
       } else {

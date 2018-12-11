@@ -43,6 +43,9 @@ export const mutations = {
     _.remove(state.characters, {
       guid: deleteGuid
     });
+    if(state.currentCharacter === deleteGuid) {
+      state.currentCharacter = '';
+    }
   },
   setCurrentCharacter (state, guid) {
     state.currentCharacter = guid;
@@ -50,6 +53,43 @@ export const mutations = {
       this.$cookies.remove('current-character');
     } else {
       this.$cookies.set('current-character', guid);
+    }
+  },
+  addIslandVisited(state, id) {
+    if(state.currentCharacter !== '') {
+      this.$axios.$post(process.env.API_URL + '/api/account/character/visit', {
+        guid: state.currentCharacter,
+        id: id
+      }, { progress: false });
+
+      let filterGuid = state.currentCharacter;
+      let characterData = _.chain(state.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
+      if(characterData && characterData.visited_islands) {
+        let updateIndex = _.findIndex(state.characters, function(character) { return character.guid === filterGuid });
+        characterData.visited_islands.push(id.toString());
+        if(updateIndex >= 0) {
+          state.characters[updateIndex].visited_islands = characterData.visited_islands;
+        }
+      }
+    }
+  },
+  removeIslandVisited(state, id) {
+    if(state.currentCharacter !== '') {
+      this.$axios.$post(process.env.API_URL + '/api/account/character/unvisit', {
+        guid: state.currentCharacter,
+        id: id
+      }, { progress: false });
+      let filterGuid = state.currentCharacter;
+      let characterData = _.chain(state.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
+      if(characterData && characterData.visited_islands) {
+        let updateIndex = _.findIndex(state.characters, function(character) { return character.guid === filterGuid });
+        let updatedVisitedIslands = _.filter(characterData.visited_islands, item => {
+          return item !== id.toString();
+        });
+        if(updateIndex >= 0) {
+          state.characters[updateIndex].visited_islands = updatedVisitedIslands;
+        }
+      }
     }
   },
   setLoggedIn (state, value) {

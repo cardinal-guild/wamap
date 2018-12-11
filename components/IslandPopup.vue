@@ -112,16 +112,15 @@
                   </v-expansion-panel-content>
                 </v-expansion-panel>
               </tr>
-              <tr v-if="$store.state.selectedChar">
+              <tr v-if="currentChar.guid && currentChar.name">
                 <v-container fluid pa-0>
                   <v-layout justify-center>
                     <v-flex shrink>
                       <v-card color="brown" class="pa-2 mt-2">
                         <v-checkbox
-                          color="green"
-                          :input-value="initialValue"
-                          :label="$store.state.selectedChar"
-                          @change="setVisited"
+                          color="green" 
+                          :label="'Visited with `'+currentChar.name+'`'"
+                          v-model="islandVisited"
                         />
                       </v-card>
                     </v-flex>
@@ -187,6 +186,13 @@ export default {
     }
   },
   methods: {
+    changeIslandVisited(visited) {
+      if(visited) {
+        this.$store.commit('account/addIslandVisited', this.id);
+      } else {
+        this.$store.commit('account/removeIslandVisited', this.id);
+      }
+    },
     async copyToClipboard (e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
@@ -226,9 +232,42 @@ export default {
     } else {
       this.metals = this.pveMetals;
     }
+    if(this.currentCharacter && this.characters && this.characters.length) {
+      let filterGuid = this.currentCharacter;
+      this.currentChar = _.chain(this.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
+      
+    }
   },
   computed: {
-    ...mapState(['characters', 'config', 'islandPopupId']),
+    ...mapState(['config', 'islandPopupId']),
+    ...mapState('account', {
+      loggedIn: 'loggedIn',
+      currentCharacter: 'currentCharacter',
+      characters: 'characters'
+    }),
+    islandVisited: {
+      get () {
+        if(this.currentCharacter && this.characters.length) {
+          let filterGuid = this.currentCharacter;
+          let characterData = _.chain(this.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
+          if(characterData && characterData.visited_islands && characterData.visited_islands.length) {
+            if(characterData.visited_islands.indexOf(this.id.toString()) >= 0) {
+              return true;
+            }
+          }
+        }
+        return false;
+      },
+      set (value) {
+        if(this.id) {
+          if(value) {
+            this.$store.commit('account/addIslandVisited', this.id)
+          } else {
+            this.$store.commit('account/removeIslandVisited', this.id)
+          }
+        }
+      }
+    }, 
     activeMetals () {
       if (this.$cookies.get('showAllMetals'))
         return this.$store.state.metalTypes;
@@ -241,10 +280,35 @@ export default {
       if (newId === this.id) {
         this.showPopup = true;
       }
+    },
+     currentCharacter (newGuid, oldGuid) {
+      if(newGuid !== '' && this.$store.state.account.characters.length) {
+        let currentChar = _.chain(this.$store.state.account.characters).filter(function (x) { return x.guid === newGuid; }).first().value();
+        if(currentChar) {
+          this.currentChar = currentChar;
+        } else {
+          this.currentChar = {name:'',guid:''};
+        }
+      } else {
+
+          this.currentChar = {name:'',guid:''};
+      }
+    }, 
+    characters (newArr, oldArr) {
+      if(this.$store.state.account.currentCharacter !== '' && newArr.length) { 
+        let filterGuid = this.$store.state.account.currentCharacter;
+        let currentChar = _.chain(newArr).filter(function (x) { return x.guid === filterGuid; }).first().value();
+        if(currentChar) {
+          this.currentCharName = currentChar;
+        }
+      } else {
+          this.currentCharName = {name:'',guid:''};
+      }
     }
   },
   data () {
     return {
+      currentChar: {name:'',guid:''},
       showReportNotImplemented: false,
       showMore: false,
       metals: null,

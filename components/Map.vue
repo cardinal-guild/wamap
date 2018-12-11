@@ -37,6 +37,7 @@
           :showCirclesFromPercentage="75"
         />
         <map-highlighter :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75"/>
+        <!-- <map-account-checkmarker /> -->
         <map-location-marker/>
         <map-legend :fadeOutFromZoomPercentage="75"/>
       </l-map>
@@ -53,6 +54,7 @@ import MapHighlighter from '~/components/MapHighlighter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
 import MapLocationMarker from '~/components/MapLocationMarker.vue';
+import MapAccountCheckmarker from '~/components/MapAccountCheckmarker.vue';
 import BuildUpOverlay from '~/components/BuildUpOverlay.vue';
 const isBrowser = typeof window !== 'undefined';
 
@@ -68,6 +70,7 @@ export default {
     ZoneNameOverlay,
     SectorNamesOverlay,
     MapLocationMarker,
+    MapAccountCheckmarker,
     BuildUpOverlay
   },
   computed: {
