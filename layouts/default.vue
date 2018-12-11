@@ -54,6 +54,9 @@
       </v-btn>
       <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
       <v-spacer/>
+      <div class="toolbar-charname" @click="$store.commit('account/showAccountDialog', true)">
+      {{ currentCharName }}
+      </div>
       <v-tooltip bottom>
         <v-btn icon slot="activator" @click="$store.commit('account/showAccountDialog', true)">
           <v-icon :color="loggedIn ? 'green': 'red'">account_circle</v-icon>
@@ -126,8 +129,38 @@ export default {
   },
   computed: {
     ...mapState('account', {
-      loggedIn: 'loggedIn'
+      loggedIn: 'loggedIn',
+      currentCharacter: 'currentCharacter',
+      characters: 'characters'
     })
+  },
+  watch: {
+    currentCharacter (newGuid, oldGuid) {
+      if(newGuid !== '' && this.$store.state.account.characters.length) {
+        let currentChar = _.chain(this.$store.state.account.characters).filter(function (x) { return x.guid === newGuid; }).first().value();
+        console.log(currentChar)
+        if(currentChar) {
+          this.currentCharName = currentChar.name;
+        } else {
+          this.currentCharName = '';
+        }
+      } else {
+
+          this.currentCharName = '';
+      }
+    }, 
+    characters (newArr, oldArr) {
+      if(this.$store.state.account.currentCharacter !== '' && newArr.length) { 
+        let filterGuid = this.$store.state.account.currentCharacter;
+        let currentChar = _.chain(newArr).filter(function (x) { return x.guid === filterGuid; }).first().value();
+        console.log(currentChar)
+        if(currentChar.length) {
+          this.currentCharName = currentChar.name;
+        }
+      } else {
+          this.currentCharName = '';
+      }
+    }
   },
   created: function () {
     this.$store.watch(
@@ -182,6 +215,7 @@ export default {
       snackText: 'test',
       drawer: false,
       fixed: false,
+      currentCharName: '',
       items: [
         { icon: 'apps', title: 'Welcome', to: '/' },
         { icon: PVEIcon, title: 'PVE Map', to: '/pve' },
@@ -229,6 +263,10 @@ html {
 .cg-app.theme--dark.application {
   background-color: transparent;
   background: none;
+  .toolbar-charname {
+    cursor: pointer;
+    user-select: none;
+  }
   .svg-tile {
     svg {
       fill: white;

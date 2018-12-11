@@ -126,7 +126,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async nuxtClientInit ({ state, commit }, { req }) {
+  async nuxtClientInit ({ state, commit, dispatch }, { req }) {
     commit('loading', true);
     if (
       this.$router.currentRoute &&
@@ -137,22 +137,12 @@ export const actions = {
         'account/setApiToken',
         this.$router.currentRoute.query.api_token
       );
+      commit('account/showAccountDialog', true);
       this.$router.replace({ name: this.$router.currentRoute.name });
     }
    
     if (!state.islandData || !state.boundaryData) {
-
-     
-      let apiToken = this.$cookies.get('api-token');
-      if (typeof apiToken !== 'undefined' && apiToken !== null && apiToken !== '') {
-        commit(
-          'account/setApiToken',
-          apiToken
-        );
-        this.$axios.$get(process.env.API_URL + '/api/account/validate', { progress: false }).catch(e => {
-          commit('account/logout');
-        })
-      }
+      dispatch('account/loadCharacters');
       if (console.log) {
         console.log('Loading islands from '+process.env.API_URL)
       }

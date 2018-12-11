@@ -5,8 +5,10 @@ export const state = () => ({
   loggedIn: false,
   data: {},
   apiToken: '',
-  characters: null,
-  selectedChar: null
+  characters: [],
+  showAddCharacter: false,
+  charactersLoading: false,
+  currentCharacter: ''
 })
 
 export const mutations = {
@@ -16,8 +18,17 @@ export const mutations = {
     this.$cookies.remove('api-token');
     this.$axios.$get(process.env.API_URL + '/api/account/logout', { progress: false }).catch(e => { });
     if (console.log) {
-      console.log("Loaded character data")
+      console.log("Account logged out")
     }
+  },
+  setShowAddCharacter (state, value) {
+    state.showAddCharacter = value;
+  },
+  setCharactersLoading (state, value) {
+    state.charactersLoading = value;
+  },
+  setCharacters (state, characters) {
+    state.characters = characters;
   },
   setApiToken (state, data) {
     state.apiToken = data;
@@ -25,32 +36,21 @@ export const mutations = {
     this.$cookies.set('api-token', data);
     this.$axios.setToken(data);
   },
-  characters (state, data) {
-    state.characters = data;
-    window.localStorage.setItem("characters", JSON.stringify(data));
-    if (console.log) {
-      console.log("Loaded character data")
-    }
-  },
   addCharacter (state, char) {
     state.characters.push(char);
-    window.localStorage.setItem("characters", JSON.stringify(state.characters));
   },
-  delCharacter (state, name) {
-    state.characters = state.characters.filter(o => o.name !== name)
-    window.localStorage.setItem("characters", JSON.stringify(state.characters));
-    if (window.localStorage.getItem(name)) {
-      window.localStorage.removeItem(name);
-    }
-    if (state.selectedChar === name) {
-      state.selectedChar = null;
-    }
+  deleteCharacter (state, deleteGuid) {
+    _.remove(state.characters, {
+      guid: deleteGuid
+    });
   },
-  setSelected (state, name) {
-    if (state.selectedChar === name) {
-      state.selectedChar = null;
+  setCurrentCharacter (state, guid) {
+    state.currentCharacter = guid;
+    if(guid === '') {
+      this.$cookies.remove('current-character');
+    } else {
+      this.$cookies.set('current-character', guid);
     }
-    else state.selectedChar = name;
   },
   setLoggedIn (state, value) {
     state.loggedIn = value;
@@ -58,4 +58,38 @@ export const mutations = {
   showAccountDialog (state, value) {
     state.showAccountDialog = value;
   }
+}
+
+export const actions = {
+  async loadCharacters ({ state, commit }) {
+    commit('setCharactersLoading', true);
+    let apiToken = this.$cookies.get('api-token');
+    if (typeof apiToken !== 'undefined' && apiToken !== null && apiToken !== '') {
+      commit(
+        'setApiToken',
+        apiToken
+      );
+      try {
+        await this.$axios.$get(process.env.API_URL + '/api/account/validate', { progress: false });
+      } catch(e) {
+        commit('setCharactersLoading', false);
+        commit('logout');
+        return false;
+      };
+      try {
+        const characters = await this.$axios.$get(process.env.API_URL + '/api/account/characters', { progress: false });
+        commit('setCharacters', characters);
+      } catch(e) {
+        commit('setCharactersLoading', false);
+        return false;
+      };
+      let currentCharacter = this.$cookies.get('current-character');
+      if (typeof currentCharacter !== 'undefined' && currentCharacter !== null && currentCharacter !== '') {
+        commit('setCurrentCharacter', currentCharacter);
+      }
+    }
+
+    commit('setCharactersLoading', false);
+     
+  } 
 }

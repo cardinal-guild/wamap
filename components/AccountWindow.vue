@@ -7,44 +7,60 @@
             <div class="headline">Your account</div>
             <span class="grey--text">Keep track of visited islands on your characters</span>
           </div>
+          <v-spacer/>
+          <v-tooltip bottom v-if="loggedIn">
+            <v-btn icon absolute top right slot="activator">
+              <v-icon color="green lighten-2">wifi</v-icon>
+            </v-btn>
+            <span>You are connected</span>
+          </v-tooltip>
+          <v-tooltip bottom v-if="!loggedIn">
+            <v-btn icon absolute top right slot="activator">
+              <v-icon color="red darken-2">wifi_off</v-icon>
+            </v-btn>
+            <span>You are not connected</span>
+          </v-tooltip>
         </v-card-title>
-        <v-alert :value="true" type="error">This account system is still under heavy development.</v-alert>
-        <template v-if="!loggedIn">
-          <v-card-text
-            class="text-xs-center"
-          >To use the account system, you need to login, click below to login with steam.</v-card-text>
+        <!-- <v-tooltip bottom v-if="!loggedIn"> -->
+        <!-- <span>You are not connected</span>
+        </v-tooltip>-->
+        <v-card-text v-if="charactersLoading">Loading your characters ...
+          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+        </v-card-text>
+        <v-card-text
+          v-if="!loggedIn && !charactersLoading"
+          class="text-xs-center"
+        >To use the account system, you need to login, click below to login with steam.
           <v-layout align-center justify-center pa-2>
             <a :href="API_URL+'/login/map?redirect='+encodeURI(redirectUrl)">
               <img src="~assets/login_steam.png">
             </a>
           </v-layout>
-          <v-card-actions>
-            <v-btn flat @click="$store.commit('account/showAccountDialog', false)">Close</v-btn>
-          </v-card-actions>
-        </template>
-        <template v-else>
-          <v-card-text class="text-xs-center">You are now connected</v-card-text>
-          <v-card-text class="text-xs-center">
-            <strong>{{ apiToken }}</strong>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn flat @click="$store.commit('account/showAccountDialog', false)">Close</v-btn>
-            <v-spacer/>
-            <v-btn flat @click="$store.commit('account/logout')">Logout</v-btn>
-          </v-card-actions>
-        </template>
+        </v-card-text>
+        <AccountCharacterManager v-if="loggedIn && !charactersLoading"/>
+        <v-card-actions>
+          <v-btn flat @click="closeAccountWindow">Close</v-btn>
+          <v-spacer/>
+          <v-btn flat v-if="loggedIn" @click="$store.commit('account/logout')">Logout</v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
 <script>
+import AccountCharacterManager from '~/components/AccountCharacterManager';
 import { mapState } from 'vuex';
 export default {
+  components: {
+    AccountCharacterManager
+  },
   computed: {
     ...mapState('account', {
       showAccountDialog: 'showAccountDialog',
       loggedIn: 'loggedIn',
+      charactersLoading: 'charactersLoading',
       apiToken: 'apiToken',
+      characters: 'characters',
       data: 'data'
     })
   },
@@ -54,7 +70,12 @@ export default {
     this.redirectUrl =
       a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
   },
-  methods: {},
+  methods: {
+    closeAccountWindow() {
+      this.$store.commit('account/setShowAddCharacter', false);
+      this.$store.commit('account/showAccountDialog', false);
+    }
+  },
   data() {
     return {
       redirectUrl: '',
@@ -64,6 +85,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.loading-characters {
+  width: 100%;
+  min-height: 240px;
+}
 .account-window {
   &-container {
     z-index: 2001;
