@@ -55,7 +55,7 @@ export const mutations = {
       this.$cookies.set('current-character', guid);
     }
   },
-  addIslandVisited(state, id) {
+  addIslandVisited (state, id) {
     if(state.currentCharacter !== '') {
       this.$axios.$post(process.env.API_URL + '/api/account/character/visit', {
         guid: state.currentCharacter,
@@ -65,15 +65,16 @@ export const mutations = {
       let filterGuid = state.currentCharacter;
       let characterData = _.chain(state.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
       if(characterData && characterData.visited_islands) {
-        let updateIndex = _.findIndex(state.characters, function(character) { return character.guid === filterGuid });
+        let updateIndex = _.findIndex(state.characters, function (character) { return character.guid === filterGuid });
         characterData.visited_islands.push(id.toString());
         if(updateIndex >= 0) {
           state.characters[updateIndex].visited_islands = characterData.visited_islands;
+          this.$bus.$emit('updateCheckmarks');
         }
       }
     }
   },
-  removeIslandVisited(state, id) {
+  removeIslandVisited (state, id) {
     if(state.currentCharacter !== '') {
       this.$axios.$post(process.env.API_URL + '/api/account/character/unvisit', {
         guid: state.currentCharacter,
@@ -82,12 +83,13 @@ export const mutations = {
       let filterGuid = state.currentCharacter;
       let characterData = _.chain(state.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
       if(characterData && characterData.visited_islands) {
-        let updateIndex = _.findIndex(state.characters, function(character) { return character.guid === filterGuid });
+        let updateIndex = _.findIndex(state.characters, function (character) { return character.guid === filterGuid });
         let updatedVisitedIslands = _.filter(characterData.visited_islands, item => {
           return item !== id.toString();
         });
         if(updateIndex >= 0) {
           state.characters[updateIndex].visited_islands = updatedVisitedIslands;
+          this.$bus.$emit('updateCheckmarks');
         }
       }
     }

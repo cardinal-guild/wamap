@@ -26,37 +26,45 @@ export default {
   computed: {
     ...mapState(['highlightedCoords', 'zoomPercentage'])
   },
-
   watch: {
     zoomPercentage (newZoomPercentage, oldZoomPercentage) {
       if (newZoomPercentage <= this.normalIconFromZoomPercentage) {
-        this.highlightIcon = leaflet.divIcon({
-          html:
-            '<img style="width:30px;height:30px;" src="/assets/highlight_arrow.png" />',
-          iconSize: [30, 50],
-          iconAnchor: [15, 25],
-          clickable: false,
-          interactive: false,
-          className: 'highlight-icon'
-        });
+        if(this.currentSize !== "small") {
+          this.highlightIcon = leaflet.divIcon({
+            html:
+              '<img style="width:30px;height:30px;" src="/assets/highlight_arrow.png" />',
+            iconSize: [30, 50],
+            iconAnchor: [15, 25],
+            clickable: false,
+            interactive: false,
+            className: 'highlight-icon'
+          });
+          this.currentSize = "small";
+        }
       } else if (newZoomPercentage <= this.bigIconfromZoomPercentage) {
-        this.highlightIcon = leaflet.divIcon({
-          html: '<img src="/assets/highlight_arrow.png" />',
-          iconSize: [60, 100],
-          iconAnchor: [30, 50],
-          clickable: false,
-          interactive: false,
-          className: 'highlight-icon'
-        });
+         if(this.currentSize !== "medium") {
+          this.highlightIcon = leaflet.divIcon({
+            html: '<img src="/assets/highlight_arrow.png" />',
+            iconSize: [60, 100],
+            iconAnchor: [30, 50],
+            clickable: false,
+            interactive: false,
+            className: 'highlight-icon'
+          });
+          this.currentSize = "medium";
+        }
       } else {
-        this.highlightIcon = leaflet.divIcon({
-          html: '<img src="/assets/highlight_arrow.png" />',
-          iconSize: [60, 230],
-          iconAnchor: [30, 120],
-          clickable: false,
-          interactive: false,
-          className: 'highlight-icon'
-        });
+         if(this.currentSize !== "big") {
+            this.highlightIcon = leaflet.divIcon({
+              html: '<img src="/assets/highlight_arrow.png" />',
+              iconSize: [60, 230],
+              iconAnchor: [30, 120],
+              clickable: false,
+              interactive: false,
+              className: 'highlight-icon'
+            });
+            this.currentSize = "big";
+         }
       }
 
       // let setIconHeight = this.iconHeightBig;
@@ -92,6 +100,7 @@ export default {
   },
   data () {
     return {
+      currentSize: "",
       highlightIcon: null,
       currentIconHeight: 240
     };
@@ -100,6 +109,7 @@ export default {
 </script>
 <style lang="scss">
 .highlight-icon {
+  cursor: auto;
   pointer-events: none !important;
 }
 </style>

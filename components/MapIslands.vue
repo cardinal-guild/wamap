@@ -107,6 +107,8 @@ export default {
               '"cx="6" cy="6" r="5" /></svg>',
             iconAnchor: [6, 6],
             iconSize: [12, 12],
+            clickable: true,
+            interactive: true,
             className: 'island-dot'
           });
         } else if (properties.type === 'saborian') {
@@ -119,6 +121,8 @@ export default {
               '" width="12" height="12" /></svg>',
             iconAnchor: [6, 6],
             iconSize: [12, 12],
+            clickable: true,
+            interactive: true,
             className: 'island-dot'
           });
         }
@@ -150,6 +154,8 @@ export default {
               '"cx="15" cy="15" r="14" /></svg>',
             iconAnchor: [15, 15],
             iconSize: [30, 30],
+            clickable: true,
+            interactive: true,
             className: 'island-dot'
           });
         } else if (properties.type === 'saborian') {
@@ -204,6 +210,8 @@ export default {
               '</div>',
             iconSize: [100, 100],
             iconAnchor: [50, 50],
+            clickable: true,
+            interactive: true,
             className: classNames.join(' ')
           });
         }

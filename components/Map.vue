@@ -36,8 +36,8 @@
           :alphaIconsToPercentage="30"
           :showCirclesFromPercentage="75"
         />
-        <map-highlighter :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75"/>
-        <!-- <map-account-checkmarker /> -->
+        <map-highlighter :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75" />
+        <map-account-checkmarker :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75" />
         <map-location-marker/>
         <map-legend :fadeOutFromZoomPercentage="75"/>
       </l-map>

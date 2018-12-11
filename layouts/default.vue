@@ -54,9 +54,10 @@
       </v-btn>
       <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
       <v-spacer/>
-      <div class="toolbar-charname" @click="$store.commit('account/showAccountDialog', true)">
-      {{ currentCharName }}
-      </div>
+      <div
+        class="toolbar-charname"
+        @click="$store.commit('account/showAccountDialog', true)"
+      >{{ currentCharName }}</div>
       <v-tooltip bottom>
         <v-btn icon slot="activator" @click="$store.commit('account/showAccountDialog', true)">
           <v-icon :color="loggedIn ? 'green': 'red'">account_circle</v-icon>
@@ -136,29 +137,36 @@ export default {
   },
   watch: {
     currentCharacter (newGuid, oldGuid) {
-      if(newGuid !== '' && this.$store.state.account.characters.length) {
-        let currentChar = _.chain(this.$store.state.account.characters).filter(function (x) { return x.guid === newGuid; }).first().value();
-        console.log(currentChar)
-        if(currentChar) {
+      if (newGuid !== '' && this.$store.state.account.characters.length) {
+        let currentChar = _.chain(this.$store.state.account.characters)
+          .filter(function (x) {
+            return x.guid === newGuid;
+          })
+          .first()
+          .value();
+        if (currentChar) {
           this.currentCharName = currentChar.name;
         } else {
           this.currentCharName = '';
         }
       } else {
-
-          this.currentCharName = '';
+        this.currentCharName = '';
       }
-    }, 
+    },
     characters (newArr, oldArr) {
-      if(this.$store.state.account.currentCharacter !== '' && newArr.length) { 
+      if (this.$store.state.account.currentCharacter !== '' && newArr.length) {
         let filterGuid = this.$store.state.account.currentCharacter;
-        let currentChar = _.chain(newArr).filter(function (x) { return x.guid === filterGuid; }).first().value();
-        console.log(currentChar)
-        if(currentChar) {
+        let currentChar = _.chain(newArr)
+          .filter(function (x) {
+            return x.guid === filterGuid;
+          })
+          .first()
+          .value();
+        if (currentChar) {
           this.currentCharName = currentChar.name;
         }
       } else {
-          this.currentCharName = '';
+        this.currentCharName = '';
       }
     }
   },
