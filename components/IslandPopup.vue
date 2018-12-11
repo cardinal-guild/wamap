@@ -279,6 +279,10 @@ export default {
     islandPopupId (newId, oldId) {
       if (newId === this.id) {
         this.showPopup = true;
+        if(this.currentCharacter && this.characters && this.characters.length) {
+          let filterGuid = this.currentCharacter;
+          this.currentChar = _.chain(this.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
+        }
       }
     },
      currentCharacter (newGuid, oldGuid) {
