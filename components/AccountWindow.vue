@@ -1,5 +1,21 @@
 <template>
   <div class="account-window-container">
+    <v-dialog v-model="confirmLogoutDialog" max-width="340">
+      <v-card>
+        <v-card-text class="text-xs-center title">Logout on this or all devices?</v-card-text>
+
+        <v-card-actions>
+          <v-btn color="warning darken-2" block @click="confirmLogout">
+            <v-icon color="white darken-2" pr-4>power_settings_new</v-icon>Logout on this device
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions>
+          <v-btn color="success darken-2" block @click="confirmLogoutAll">
+            <v-icon color="white darken-2" pr-4>power_settings_new</v-icon>Logout on all devices
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="showAccountDialog" persistent max-width="500px" dark class="account-window">
       <v-card>
         <v-card-title primary-title>
@@ -41,7 +57,7 @@
         <v-card-actions>
           <v-btn flat @click="closeAccountWindow">Close</v-btn>
           <v-spacer/>
-          <v-btn flat v-if="loggedIn" @click="$store.commit('account/logout')">Logout</v-btn>
+          <v-btn flat v-if="loggedIn" @click="confirmLogoutDialog = true">Logout</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -64,20 +80,29 @@ export default {
       data: 'data'
     })
   },
-  mounted() {
+  mounted () {
     const a = document.createElement('a');
     a.href = this.$router.resolve(location).href;
     this.redirectUrl =
       a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
   },
   methods: {
-    closeAccountWindow() {
+    confirmLogout () {
+      this.$store.commit('account/logout');
+      this.confirmLogoutDialog = false;
+    },
+    confirmLogoutAll () {
+      this.$store.commit('account/logoutAll');
+      this.confirmLogoutDialog = false;
+    },
+    closeAccountWindow () {
       this.$store.commit('account/setShowAddCharacter', false);
       this.$store.commit('account/showAccountDialog', false);
     }
   },
-  data() {
+  data () {
     return {
+      confirmLogoutDialog: false,
       redirectUrl: '',
       API_URL: process.env.API_URL
     };

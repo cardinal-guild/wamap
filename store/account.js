@@ -14,11 +14,24 @@ export const state = () => ({
 export const mutations = {
   logout (state) {
     state.apiKey = ''; 
+    state.currentCharacter = '';
+    state.characters = [];
     state.loggedIn = false;
     this.$cookies.remove('api-token');
     this.$axios.$get(process.env.API_URL + '/api/account/logout', { progress: false }).catch(e => { });
     if (console.log) {
       console.log("Account logged out")
+    }
+  },
+  logoutAll (state) {
+    state.apiKey = ''; 
+    state.currentCharacter = '';
+    state.characters = [];
+    state.loggedIn = false;
+    this.$cookies.remove('api-token');
+    this.$axios.$get(process.env.API_URL + '/api/account/logout?all=true', { progress: false }).catch(e => { });
+    if (console.log) {
+      console.log("Account logged out on all devices")
     }
   },
   setShowAddCharacter (state, value) {
@@ -52,7 +65,10 @@ export const mutations = {
     if(guid === '') {
       this.$cookies.remove('current-character');
     } else {
-      this.$cookies.set('current-character', guid);
+      this.$cookies.set('current-character', guid, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 31
+      });
     }
   },
   addIslandVisited (state, id) {
