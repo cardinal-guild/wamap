@@ -24,7 +24,7 @@
         <v-card>
           <v-card-title class="title" primary-title>Report metals for {{fullName}}</v-card-title>
 
-          <v-card-text>Click 'ADD METAL' to add more metal tabs here and press report when done. You can only submit metal reports for each island, once every 8 hours to prevent spamming.</v-card-text>
+          <v-card-text>Click 'ADD METAL' to add more metal tabs here and press report when done. You can only submit metal reports for each island, once every 8 hours to prevent spamming.<br><br>ONLY REPORT METALS MINED FROM ORE NODES, NOT ONES FOUND IN CHESTS OR SALVAGE.</v-card-text>
 
           <v-divider></v-divider>
           <div :key="key" v-for="(metal, key) in report.metals">
