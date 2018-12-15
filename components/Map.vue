@@ -36,8 +36,11 @@
           :alphaIconsToPercentage="30"
           :showCirclesFromPercentage="75"
         />
-        <map-highlighter :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75" />
-        <map-account-checkmarker :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75" />
+        <map-highlighter :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75"/>
+        <map-account-checkmarker
+          :normalIconFromZoomPercentage="35"
+          :bigIconfromZoomPercentage="75"
+        />
         <map-location-marker/>
         <map-legend :fadeOutFromZoomPercentage="75"/>
       </l-map>
@@ -96,7 +99,7 @@ export default {
       let localZoom = (zoom / 100) * (max - min) + min;
       return localZoom;
     },
-    async startBuildUpSequence() {
+    async startBuildUpSequence () {
       let wait = ms =>
         new Promise((resolve, reject) => {
           setTimeout(() => resolve(), ms);
@@ -118,43 +121,46 @@ export default {
             100
         );
         this.$store.commit('setZoomPercentage', zoomPercentage);
-        if (this.$router.currentRoute.query.island && this.currentMap) {
-          let islands = this.$store.state.islandData.features;
-          let islandId = parseInt(this.$router.currentRoute.query.island);
-          let filteredIslands = _.filter(islands, { id: islandId });
-          if (filteredIslands.length) {
-            let foundIsland = filteredIslands[0];
-            let coords = foundIsland.geometry.coordinates;
-            let localZoom = this.zoomPercentageToLocalZoom(
-              90,
-              this.currentMap.options.minZoom,
-              this.currentMap.options.maxZoom
-            );
-            this.$store.commit('addHighlight', coords);
-            this.currentMap.setView(coords, localZoom);
+        let self = this;
+        setTimeout(() => {
+          if (self.$router.currentRoute.query.island && self.currentMap) {
+            let islands = self.$store.state.islandData.features;
+            let islandId = parseInt(self.$router.currentRoute.query.island);
+            let filteredIslands = _.filter(islands, { id: islandId });
+            if (filteredIslands.length) {
+              let foundIsland = filteredIslands[0];
+              let coords = foundIsland.geometry.coordinates;
+              let localZoom = self.zoomPercentageToLocalZoom(
+                90,
+                self.currentMap.options.minZoom,
+                self.currentMap.options.maxZoom
+              );
+              self.$store.commit('addHighlight', coords);
+              self.currentMap.setView(coords, localZoom);
+            }
           }
-        }
 
-        if (
-          this.$router.currentRoute.query.lat &&
-          this.$router.currentRoute.query.lng &&
-          this.$router.currentRoute.query.zoom &&
-          this.currentMap
-        ) {
-          let lat = this.$router.currentRoute.query.lat;
-          let lng = this.$router.currentRoute.query.lng;
-          let localZoom = this.zoomPercentageToLocalZoom(
-            this.$router.currentRoute.query.zoom,
-            this.currentMap.options.minZoom,
-            this.currentMap.options.maxZoom
-          );
-          this.currentMap.setView([lat, lng], localZoom);
-        }
+          if (
+            self.$router.currentRoute.query.lat &&
+            self.$router.currentRoute.query.lng &&
+            self.$router.currentRoute.query.zoom &&
+            self.currentMap
+          ) {
+            let lat = self.$router.currentRoute.query.lat;
+            let lng = self.$router.currentRoute.query.lng;
+            let localZoom = self.zoomPercentageToLocalZoom(
+              self.$router.currentRoute.query.zoom,
+              self.currentMap.options.minZoom,
+              self.currentMap.options.maxZoom
+            );
+            self.currentMap.setView([lat, lng], localZoom);
+          }
+        }, 2000);
       }
       this.buildUpSequence = false;
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
     const checkMapObject = setInterval(async () => {
@@ -172,7 +178,7 @@ export default {
       }
     }, 100);
   },
-  mounted() {
+  mounted () {
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
       let localZoom = this.zoomPercentageToLocalZoom(
@@ -194,13 +200,13 @@ export default {
       this.$bus.$emit('closeLegend');
     });
   },
-  data() {
+  data () {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function(feature) {
+        style: function (feature) {
           return feature.properties;
         },
         interactive: false

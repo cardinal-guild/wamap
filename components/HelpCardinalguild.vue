@@ -8,10 +8,7 @@
       class="help-cardinal-guild-window"
     >
       <v-card>
-        <v-card-title
-          class="title text-xs-center"
-          primary-title
-        >The Cardinal Guild wants your help!</v-card-title>
+        <v-card-title class="title text-xs-center" primary-title>The Cardinal Guild wants your help!</v-card-title>
         <v-layout align-center justify-center>
           <img src="~assets/we_want_your_metals.png">
         </v-layout>
@@ -38,9 +35,9 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  mounted() {
+  mounted () {
     let hideWelcome = this.$cookies.get('hide-welcome');
-    if(typeof hideWelcome === 'undefined' || hideWelcome === null) {
+    if (typeof hideWelcome === 'undefined' || hideWelcome === null) {
       this.welcomeDialog = true;
     }
   },
@@ -49,20 +46,23 @@ export default {
       // getter
       get: function () {
         let hideWelcome = this.$cookies.get('hide-welcome');
-        if(typeof hideWelcome === 'undefined' || hideWelcome === null) {
+        if (typeof hideWelcome === 'undefined' || hideWelcome === null) {
           return false;
         }
-        return true
+        return true;
       },
       // setter
       set: function (newValue) {
-        this.$cookies.set('hide-welcome', true);
+        this.$cookies.set('hide-welcome', true, {
+          path: '/',
+          maxAge: 60 * 60 * 24 * 31
+        });
       }
-    } 
+    }
   },
-  data() {
+  data () {
     return {
-      welcomeDialog: false,
+      welcomeDialog: false
     };
   }
 };
