@@ -64,7 +64,7 @@ module.exports = {
     }
     ],
     script: [
-      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js?features=default,fetch,Object.entries' },
+      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js?features=default,fetch,Object.entries,es6' },
     ],
   },
   modules: [
@@ -197,6 +197,7 @@ module.exports = {
         ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
         ['@babel/plugin-syntax-dynamic-import'],
         ['@babel/plugin-transform-typeof-symbol'],
+        ['@babel/plugin-transform-classes'],
         ['@babel/plugin-transform-runtime']
       ]
     },
@@ -206,8 +207,8 @@ module.exports = {
         // 'debug': true,
         'shippedProposals': true,
         'targets': {
-          "browsers": ["> 1%", "last 2 versions", "ie >= 11", "not ie <= 8"],
-          "ie": 11
+          "browsers": ["> 1%", "last 2 versions", "ie >= 10", "not ie <= 8"],
+          "ie": 10
         }
       }]
     ],
