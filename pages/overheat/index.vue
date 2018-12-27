@@ -3,7 +3,7 @@
     <no-ssr>
       <v-container>
         <v-layout column justify-center align-center>
-          <v-alert :value="true" type="info" width="800">
+          <v-alert :value="true" type="info" :width="800">
             This is very experimental, but based upon the post of
             <a
               href="https://www.worldsadrift.com/forums/topic/overheat-equation/"
@@ -190,7 +190,7 @@ export default {
       let coolingFactorPercentage = this.coolingFactor / 100;
       this.maxThrottlePercentage = parseInt(
         100 -
-          (50 + (1 - coolingFactorPercentage) * this.power - this.overheatLimit)
+          ((1 - coolingFactorPercentage) * this.power * 2 - this.overheatLimit)
       );
       let i;
       for (i = 0; i < 20; i++) {
@@ -220,9 +220,9 @@ export default {
     return {
       showGraph: false,
       title: 'Overheat calculator',
-      coolingFactor: 38,
-      power: 67,
-      overheatLimit: 64,
+      coolingFactor: 25,
+      power: 50,
+      overheatLimit: 50,
       maxThrottlePercentage: 0,
       axisMin: -50,
       axisMax: 50,
