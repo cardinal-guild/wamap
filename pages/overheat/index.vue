@@ -3,14 +3,14 @@
     <no-ssr>
       <v-container>
         <v-layout column justify-center align-center>
-          <v-alert :value="true" type="info" :width="800">
+          <v-alert :value="true" type="info" xs12 sm7>
             This is very experimental, but based upon the post of
             <a
               href="https://www.worldsadrift.com/forums/topic/overheat-equation/"
             >overheat equation</a> on the worlds adrift forums.
-            With the chart below you can pinpoint if you have good or bad engines and know the overheat factor you need.
+            With the chart below you can pinpoint how good or bad your engine is and which throttle is best to use with it.
           </v-alert>
-          <v-card color="#4f4141">
+          <v-card color="#4f4141" xs12 sm7>
             <v-card-actions>
               <table>
                 <tr>
@@ -109,24 +109,26 @@
             </v-card-actions>
           </v-card>
           <br>
-
-          <h3
-            class="subheading"
-          >Your engine will not overheat when throttled below or equal to {{ maxThrottlePercentage }} %</h3>
-          <br>
-          <graph-bar
-            :width="800"
-            :height="400"
-            :axis-min="axisMin"
-            :axis-max="axisMax"
-            :labels="labels"
-            :values="values"
-            :colors="[ '#3333FF', '#FF3333' ]"
-            v-if="showGraph"
-          >
-            <note :text="'Overheat throttle chart (Higher is worse)'"></note>
-            <tooltip :names="['Freezing factor','Overheating factor']" :position="'left'"></tooltip>
-          </graph-bar>
+          <v-flex xs12 sm7>
+            <h3
+              class="subheading text-xs-center"
+            >Your engine will not overheat when throttled below or equal to {{ maxThrottlePercentage }} %</h3>
+            <br>
+            <graph-bar
+              class="graph-bar"
+              :width="800"
+              :height="400"
+              :axis-min="axisMin"
+              :axis-max="axisMax"
+              :labels="labels"
+              :values="values"
+              :colors="[ '#3333FF', '#FF3333' ]"
+              v-if="showGraph"
+            >
+              <note :text="'Overheat throttle chart (Higher is worse)'"></note>
+              <tooltip :names="['Freezing factor','Overheating factor']" :position="'left'"></tooltip>
+            </graph-bar>
+          </v-flex>
           <!-- <graph-line-timerange
             :width="600"
             :height="200"
@@ -233,6 +235,16 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+.graph-bar {
+  width: 100%;
+  height: auto;
+  display: block;
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
 </style>
 
