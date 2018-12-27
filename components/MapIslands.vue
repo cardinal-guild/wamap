@@ -53,6 +53,9 @@ export default {
   data () {
     return {
       islandIcons: {},
+      dotIcon: null,
+      smallIcon: null,
+      circleIcon: null,
       prevZoom: null
     };
   },

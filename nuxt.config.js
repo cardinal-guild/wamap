@@ -88,6 +88,10 @@ module.exports = {
       ssr: false
     },
     {
+      src: '~/plugins/vue-graph.js',
+      ssr: false
+    },
+    {
       src: '~/plugins/particles.js',
       ssr: false
     },

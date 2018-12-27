@@ -930,6 +930,16 @@
   dependencies:
     core-js "^2.5.7"
 
+"@jzolago/vuetify-number-input@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@jzolago/vuetify-number-input/-/vuetify-number-input-0.4.0.tgz#fabb3c975b62b720473b36d95f6a2ff8cece5716"
+  integrity sha512-zummlySFI/E3jbnTz2Qbtcg+iaC9KkcAp+NS708v7Be5cL1UA/UC5GYKVQ3rjvmIRiVvcf2PCuyfGa6qdUviSg==
+  dependencies:
+    material-design-icons-iconfont "^3.0.3"
+    roboto-fontface "*"
+    vue "^2.5.17"
+    vuetify "^1.3.0"
+
 "@nuxt/babel-preset-app@2.3.4":
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/@nuxt/babel-preset-app/-/babel-preset-app-2.3.4.tgz#e8ef218a8ce58f854aa3c822bd5ebcb7c3d1c917"
@@ -6016,6 +6026,18 @@ jstransform@^11.0.3:
     object-assign "^2.0.0"
     source-map "^0.4.2"
 
+juijs-chart@2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/juijs-chart/-/juijs-chart-2.4.2.tgz#ee3eb84e2f240a00bd5225ba5937a0c8aff4cdf8"
+  integrity sha512-75kLamEuFyb8bhupzT+S5SOQvV1ScJl6T54wzkRDkfhPPSkneICqr+9LK2qNdGB24RZekg7MsX9tmvTjHhbYgg==
+  dependencies:
+    juijs-graph "1.0.2"
+
+juijs-graph@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/juijs-graph/-/juijs-graph-1.0.2.tgz#4aa3da5e259c5cba21609ce7f645d1cec6e895c0"
+  integrity sha512-B9+SBGcImLbxp44BnrhwcEP2oYOosU/y9YQ8adgzF7+MjeZ2j7qD4qTz1PDnuJgZeEeps+OYEiY2F7dTpnX2+w==
+
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -6351,6 +6373,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+material-design-icons-iconfont@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/material-design-icons-iconfont/-/material-design-icons-iconfont-3.0.3.tgz#154a1084047d4e27237fa7f5a37e1075ceea6df2"
+  integrity sha1-FUoQhAR9Ticjf6f1o34Qdc7qbfI=
 
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
@@ -9048,6 +9075,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+roboto-fontface@*:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/roboto-fontface/-/roboto-fontface-0.10.0.tgz#7eee40cfa18b1f7e4e605eaf1a2740afb6fd71b0"
+  integrity sha512-OlwfYEgA2RdboZohpldlvJ1xngOins5d7ejqnIBWr9KaMxsnBqotpptRXTyfNRLnFpqzX6sTDt+X+a+6udnU8g==
+
 run-async@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.3.0.tgz#0371ab4ae0bdd720d4166d7dfda64ff7a445a6c0"
@@ -10365,6 +10397,14 @@ vue-eslint-parser@^2.0.2, vue-eslint-parser@^2.0.3:
     esquery "^1.0.0"
     lodash "^4.17.4"
 
+vue-graph@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/vue-graph/-/vue-graph-0.7.3.tgz#6a9df4fe2eea8d321cbd5f88901f6da229225064"
+  integrity sha512-9WQPcRa1u/ILJoHRgivw0sm9lKViAJY4a2+kK+zEdzdciyxPAAjB5AfAezzt+XbYaQIhi+OsveKfv4fIoCBZIw==
+  dependencies:
+    juijs-chart "2.4.2"
+    vue "^2.5.17"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.1.tgz#b2d3d95402a811602380783ea4f566eb875569a2"
@@ -10469,6 +10509,11 @@ vuetify-loader@^1.0.5:
   integrity sha512-JbZhJqKsZCyBVHh7v4J2ECJPplJlYFnLIgEL4WPvOaaW5QWZ1YAZT2iA8AA/TcBD65Cxg3Ky9lr0r/wJtOMo9w==
   dependencies:
     loader-utils "^1.1.0"
+
+vuetify@^1.3.0:
+  version "1.3.15"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.3.15.tgz#8ef70a931d38093072775fd5a323b7ec882a45c6"
+  integrity sha512-4xpSvvz2OPwf8L9grz4clsgRswvw8xRJKe1xGmUi26gvbXllqPAMtiMt84vwXoGWYCb7dhnj/bWZ6h3Wj8lNLg==
 
 vuetify@^1.3.6:
   version "1.3.11"

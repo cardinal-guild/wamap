@@ -6,8 +6,10 @@ import Vuetify, {
   VToolbar,
   VTooltip,
   VBtn,
-  VSnackbar
+  VSnackbar,
+  VTextField
 } from 'vuetify/lib'
+import VuetifyNumberInput from '@jzolago/vuetify-number-input'
 import {
   Ripple
 } from 'vuetify/lib/directives'
@@ -20,6 +22,7 @@ Vue.use(Vuetify, {
     VFooter,
     VToolbar,
     VTooltip,
+    VTextField,
     VBtn,
     VSnackbar
   },
@@ -36,3 +39,4 @@ Vue.use(Vuetify, {
     success: "#4caf50"
   }
 })
+Vue.use(VuetifyNumberInput)

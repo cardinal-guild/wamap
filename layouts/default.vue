@@ -45,6 +45,14 @@
             <v-list-tile-title>Settings</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile router exact @click="drawer=false" to="/overheat">
+          <v-list-tile-action>
+            <v-icon>whatshot</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Overheat calculator</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed app color="#504141" class="cg-toolbar" :dense="$store.state.showMapControls">
