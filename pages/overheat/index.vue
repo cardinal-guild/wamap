@@ -192,18 +192,19 @@ export default {
   components: {
     OverheatChart
   },
-  mounted () {
+  mounted() {
     this.$store.commit('setShowMapControls', false);
     this.$store.commit('setPageTitle', this.title);
     this.calculateOverheat();
   },
   methods: {
-    fillData () {},
-    getRandomInt () {
+    fillData() {},
+    getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     },
-    calculateOverheat () {
+    calculateOverheat() {
       let setLabels = [];
+      let setFreezings = [];
       let setOverheats = [];
       let coolingFactorPercentage = this.coolingFactor / 100;
       this.maxThrottlePercentage = parseInt(
@@ -211,31 +212,50 @@ export default {
           ((1 - coolingFactorPercentage) * this.power * 2 - this.overheatLimit)
       );
       let i;
-      for (i = 0; i < 20; i++) {
+      for (i = 0; i <= 20; i++) {
         let calculatedOverheat =
           (1 - coolingFactorPercentage) * this.power * (i * 0.05) -
           this.overheatLimit / 2;
         setLabels.push(i * 5 + '%');
-        setOverheats.push(parseFloat(calculatedOverheat).toFixed(2));
+        if (calculatedOverheat <= 0) {
+          setFreezings.push(parseFloat(calculatedOverheat).toFixed(2));
+          if (calculatedOverheat <= -1) {
+            setOverheats.push(null);
+          } else {
+            setOverheats.push(parseFloat(calculatedOverheat).toFixed(2));
+          }
+        } else {
+          setOverheats.push(parseFloat(calculatedOverheat).toFixed(2));
+          if (calculatedOverheat > 1) {
+            setFreezings.push(null);
+          } else {
+            setFreezings.push(parseFloat(calculatedOverheat).toFixed(2));
+          }
+        }
       }
-      this.axisMin = setOverheats[0];
+      this.axisMin = setFreezings[0];
       this.axisMax = setOverheats[19];
       this.datacollection = {
         labels: setLabels,
         datasets: [
           {
-            label: 'Overheat',
-            backgroundColor: '#f87979',
+            label: 'Freeze point',
+            backgroundColor: '#3333FF',
+            data: setFreezings
+          },
+          {
+            label: 'Overheat point',
+            backgroundColor: '#FF3333',
             data: setOverheats
           }
         ]
       };
     }
   },
-  head () {
+  head() {
     return { title: 'Cardinal Guild - ' + this.title };
   },
-  data () {
+  data() {
     return {
       datacollection: null,
       showGraph: false,
