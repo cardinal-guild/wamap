@@ -219,18 +219,10 @@ export default {
         setLabels.push(i * 5 + '%');
         if (calculatedOverheat <= 0) {
           setFreezings.push(parseFloat(calculatedOverheat).toFixed(2));
-          if (calculatedOverheat <= -1) {
-            setOverheats.push(null);
-          } else {
-            setOverheats.push(parseFloat(calculatedOverheat).toFixed(2));
-          }
+          setOverheats.push(0);
         } else {
           setOverheats.push(parseFloat(calculatedOverheat).toFixed(2));
-          if (calculatedOverheat > 1) {
-            setFreezings.push(null);
-          } else {
-            setFreezings.push(parseFloat(calculatedOverheat).toFixed(2));
-          }
+          setFreezings.push(0);
         }
       }
       this.axisMin = setFreezings[0];
