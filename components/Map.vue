@@ -16,6 +16,7 @@
         @moveend="onMoveEnd($event, $root)"
         @zoom="onZoom($event, $root)"
         ref="map"
+        id="leaflet-map"
       >
         <l-geo-json
           class="boundaries"
