@@ -4,7 +4,7 @@
       v-model="confirmDeleteDialog"
       max-width="340"
     >
-   
+
       <v-card>
         <v-card-text v-if="deletingCharacter">Deleting character ...
             <v-progress-linear indeterminate color="red darken-3" class="mb-0"></v-progress-linear>
@@ -33,7 +33,7 @@
       </v-card>
     </v-dialog>
     <div v-if="!showAddCharacter">
-      
+
       <v-card-actions>
         <v-btn color="success" block @click="showAddCharacter = true">
           <v-icon>add_circle</v-icon>Add character
@@ -42,7 +42,7 @@
       <v-card-title class="text-xs-center">
         <v-flex xs12>Your characters:</v-flex>
       </v-card-title>
-      
+
       <v-list>
           <v-list-tile
             v-for="character in characters"
@@ -135,7 +135,7 @@ export default {
     this.creatingCharacter = false;
   },
   methods: {
-    deleteCharacter(guid, name) {
+    deleteCharacter (guid, name) {
         this.deleteGuid = guid;
         this.deleteName = name;
         this.confirmDeleteDialog = true;
@@ -173,7 +173,7 @@ export default {
     ...mapState('account', {
       loggedIn: 'loggedIn',
       characters: 'characters'
-      
+
     }),
     currentCharacter: {
       get () {

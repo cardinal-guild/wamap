@@ -118,7 +118,7 @@
                     <v-flex shrink>
                       <v-card color="brown" class="pa-2 mt-2">
                         <v-checkbox
-                          color="green" 
+                          color="green"
                           :label="'Visited with `'+currentChar.name+'`'"
                           v-model="islandVisited"
                         />
@@ -186,7 +186,7 @@ export default {
     }
   },
   methods: {
-    changeIslandVisited(visited) {
+    changeIslandVisited (visited) {
       if(visited) {
         this.$store.commit('account/addIslandVisited', this.id);
       } else {
@@ -235,7 +235,7 @@ export default {
     if(this.currentCharacter && this.characters && this.characters.length) {
       let filterGuid = this.currentCharacter;
       this.currentChar = _.chain(this.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
-      
+
     }
   },
   computed: {
@@ -267,7 +267,7 @@ export default {
           }
         }
       }
-    }, 
+    },
     activeMetals () {
       if (this.$cookies.get('showAllMetals'))
         return this.$store.state.metalTypes;
@@ -297,9 +297,9 @@ export default {
 
           this.currentChar = {name:'',guid:''};
       }
-    }, 
+    },
     characters (newArr, oldArr) {
-      if(this.$store.state.account.currentCharacter !== '' && newArr.length) { 
+      if(this.$store.state.account.currentCharacter !== '' && newArr.length) {
         let filterGuid = this.$store.state.account.currentCharacter;
         let currentChar = _.chain(newArr).filter(function (x) { return x.guid === filterGuid; }).first().value();
         if(currentChar) {
