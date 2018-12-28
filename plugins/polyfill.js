@@ -1,11 +1,11 @@
 require("core-js/modules/es6.promise")
 require("core-js/modules/es6.array.iterator")
 require("core-js/modules/es6.array.from")
-require("core-js/modules/es6.array.find")
-require("core-js/modules/es6.object.assign")
+require("core-js/modules/es6.array.from")
+require("core-js/modules/es5")
 require("whatwg-fetch/fetch")
 require("es6-map/implement")
-require("babel-polyfill")
+require('babel-polyfill')
 
 if (!Math.cbrt) {
   Math.cbrt = (function (pow) {

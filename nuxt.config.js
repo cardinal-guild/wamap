@@ -64,8 +64,8 @@ module.exports = {
     }
     ],
     script: [
-      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js?features=default,fetch,Object.entries,es6' },
-    ],
+      { src: 'https://cdn.polyfill.io/v2/polyfill.min.js?features=default,fetch,Object.entries,class,Object.assign' },
+    ]
   },
   modules: [
     'nuxt-clipboard2',
@@ -88,7 +88,7 @@ module.exports = {
       ssr: false
     },
     {
-      src: '~/plugins/vue-graph.js',
+      src: '~/plugins/vue-chartjs.js',
       ssr: false
     },
     {
@@ -203,12 +203,11 @@ module.exports = {
     },
     presets: [
       ['@babel/preset-env', {
-        'useBuiltIns': 'usage',
+        'useBuiltIns': 'entry',
         // 'debug': true,
-        'shippedProposals': true,
         'targets': {
-          "browsers": ["> 1%", "last 2 versions", "ie >= 10", "not ie <= 8"],
-          "ie": 10
+          "browsers": ["> 1%", "last 2 versions", "ie >= 11", "not ie <= 8"],
+          "ie": 11
         }
       }]
     ],
@@ -225,7 +224,9 @@ module.exports = {
       if (process.server) {
         config.externals = [
           nodeExternals({
-            whitelist: [/^vuetify/]
+            // default value for `whitelist` is
+            // [/es6-promise|\.(?!(?:js|json)$).{1,5}$/i]
+            whitelist: [/^vuetify/, /es6-promise|\.(?!(?:js|json)$).{1,5}$/i, /^vue-echarts/]
           })
         ]
       }

@@ -3,15 +3,20 @@
     <no-ssr>
       <v-container>
         <v-layout column justify-center align-center>
-          <v-alert :value="true" type="info" xs12 sm7>
-            This is very experimental, but based upon the post of
-            <a
-              href="https://www.worldsadrift.com/forums/topic/overheat-equation/"
-            >overheat equation</a> on the worlds adrift forums.
-            With the chart below you can pinpoint how good or bad your engine is and which throttle is best to use with it.
-          </v-alert>
-          <v-card color="#4f4141" xs12 sm7>
-            <v-card-actions>
+          <v-card color="#4f4141" xs12 sm7 :max-width="800">
+            <v-card-text xs12 sm7 class="text-xs-center">
+              <div>
+                This is very experimental, but based upon the post of
+                <a
+                  href="https://www.worldsadrift.com/forums/topic/overheat-equation/"
+                >overheat equation</a> on the worlds adrift forums.
+                With the chart below you can pinpoint how good or bad your engine is and which throttle is best to use with it.
+              </div>
+            </v-card-text>
+          </v-card>
+          <br>
+          <v-card>
+            <v-card-actions align-center>
               <table>
                 <tr>
                   <th colspan="2" style="align-text:center">Please fill in your engine properties</th>
@@ -109,12 +114,17 @@
             </v-card-actions>
           </v-card>
           <br>
+          <h3
+            class="subheading text-xs-center"
+          >Your engine will not overheat when throttled below or equal to {{ maxThrottlePercentage }} %</h3>
+          <br>
           <v-flex xs12 sm7>
-            <h3
-              class="subheading text-xs-center"
-            >Your engine will not overheat when throttled below or equal to {{ maxThrottlePercentage }} %</h3>
-            <br>
-            <graph-bar
+            <div class="chart-box" d-block>
+              <overheat-chart :width="800" :height="400" :chart-data="datacollection"></overheat-chart>
+            </div>
+          </v-flex>
+          <br>
+          <!-- <graph-bar
               class="graph-bar"
               :width="800"
               :height="400"
@@ -127,8 +137,7 @@
             >
               <note :text="'Overheat throttle chart (Higher is worse)'"></note>
               <tooltip :names="['Freezing factor','Overheating factor']" :position="'left'"></tooltip>
-            </graph-bar>
-          </v-flex>
+          </graph-bar>-->
           <!-- <graph-line-timerange
             :width="600"
             :height="200"
@@ -178,16 +187,23 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import OverheatChart from '~/components/OverheatChart.js';
 export default {
+  components: {
+    OverheatChart
+  },
   mounted () {
     this.$store.commit('setShowMapControls', false);
     this.$store.commit('setPageTitle', this.title);
     this.calculateOverheat();
   },
   methods: {
+    fillData () {},
+    getRandomInt () {
+      return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
+    },
     calculateOverheat () {
       let setLabels = [];
-      let setFreezings = [];
       let setOverheats = [];
       let coolingFactorPercentage = this.coolingFactor / 100;
       this.maxThrottlePercentage = parseInt(
@@ -200,19 +216,20 @@ export default {
           (1 - coolingFactorPercentage) * this.power * (i * 0.05) -
           this.overheatLimit / 2;
         setLabels.push(i * 5 + '%');
-        if (calculatedOverheat < 0) {
-          setFreezings.push(parseFloat(calculatedOverheat).toFixed(2));
-          setOverheats.push(0);
-        } else {
-          setFreezings.push(0);
-          setOverheats.push(parseFloat(calculatedOverheat).toFixed(2));
-        }
+        setOverheats.push(parseFloat(calculatedOverheat).toFixed(2));
       }
-      this.axisMin = setFreezings[0];
+      this.axisMin = setOverheats[0];
       this.axisMax = setOverheats[19];
-      this.labels = setLabels;
-      this.values = [setFreezings, setOverheats];
-      this.showGraph = true;
+      this.datacollection = {
+        labels: setLabels,
+        datasets: [
+          {
+            label: 'Overheat',
+            backgroundColor: '#f87979',
+            data: setOverheats
+          }
+        ]
+      };
     }
   },
   head () {
@@ -220,6 +237,7 @@ export default {
   },
   data () {
     return {
+      datacollection: null,
       showGraph: false,
       title: 'Overheat calculator',
       coolingFactor: 25,
@@ -236,15 +254,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.graph-bar {
-  width: 100%;
-  height: auto;
+.chart-box {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
   display: block;
-  svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
 }
+// .graph-bar {
+//   width: 100%;
+//   height: auto;
+//   display: block;
+//   svg {
+//     width: 100%;
+//     height: auto;
+//     display: block;
+//   }
+// }
 </style>
 
