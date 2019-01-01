@@ -192,25 +192,21 @@ export default {
   components: {
     OverheatChart
   },
-  mounted() {
+  mounted () {
     this.$store.commit('setShowMapControls', false);
     this.$store.commit('setPageTitle', this.title);
     this.calculateOverheat();
   },
   methods: {
-    fillData() {},
-    getRandomInt() {
+    fillData () {},
+    getRandomInt () {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     },
-    calculateOverheat() {
+    calculateOverheat () {
       let setLabels = [];
       let setFreezings = [];
       let setOverheats = [];
       let coolingFactorPercentage = this.coolingFactor / 100;
-      this.maxThrottlePercentage = parseInt(
-        100 -
-          ((1 - coolingFactorPercentage) * this.power * 2 - this.overheatLimit)
-      );
       let i;
       for (i = 0; i <= 20; i++) {
         let calculatedOverheat =
@@ -244,10 +240,10 @@ export default {
       };
     }
   },
-  head() {
+  head () {
     return { title: 'Cardinal Guild - ' + this.title };
   },
-  data() {
+  data () {
     return {
       datacollection: null,
       showGraph: false,
