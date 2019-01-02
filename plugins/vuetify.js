@@ -7,7 +7,9 @@ import Vuetify, {
   VTooltip,
   VBtn,
   VSnackbar,
-  VTextField
+  VTextField,
+  VExpansionPanel,
+  VExpansionPanelContent
 } from 'vuetify/lib'
 import VuetifyNumberInput from '@jzolago/vuetify-number-input'
 import {
@@ -24,7 +26,9 @@ Vue.use(Vuetify, {
     VTooltip,
     VTextField,
     VBtn,
-    VSnackbar
+    VSnackbar,
+    VExpansionPanel,
+    VExpansionPanelContent
   },
   directives: {
     Ripple
