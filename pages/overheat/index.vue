@@ -134,10 +134,6 @@
               <h3 class="subheading text-xs-center">Throttle percentage ></h3>
             </div>
           </v-flex>
-          <br>
-          <v-card color="#4f4141" xs12 sm7 :max-width="800">
-            <v-card-text xs12 sm7 class="text-xs-center"></v-card-text>
-          </v-card>
           <!-- <graph-bar
               class="graph-bar"
               :width="800"
@@ -206,17 +202,17 @@ export default {
   components: {
     OverheatChart
   },
-  mounted() {
+  mounted () {
     this.$store.commit('setShowMapControls', false);
     this.$store.commit('setPageTitle', this.title);
     this.calculateOverheat();
   },
   methods: {
-    fillData() {},
-    getRandomInt() {
+    fillData () {},
+    getRandomInt () {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
     },
-    calculateOverheat() {
+    calculateOverheat () {
       let setLabels = [];
       let setFreezings = [];
       let setOverheats = [];
@@ -254,10 +250,10 @@ export default {
       };
     }
   },
-  head() {
+  head () {
     return { title: 'Cardinal Guild - ' + this.title };
   },
-  data() {
+  data () {
     return {
       datacollection: null,
       showGraph: false,
