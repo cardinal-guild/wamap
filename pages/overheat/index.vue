@@ -277,6 +277,7 @@ export default {
   padding: 10px;
   border-radius: 10px;
   display: block;
+  color: black;
 }
 // .graph-bar {
 //   width: 100%;
