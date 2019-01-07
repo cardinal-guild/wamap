@@ -1,9 +1,9 @@
 <template>
-  <div class="fullscreen-loader text-xs-center" v-if="loading && !overlayLoaded">
+  <div v-if="loading && !overlayLoaded" class="fullscreen-loader text-xs-center">
     <v-container bg fill-height grid-list-md text-xs-center>
       <v-layout row wrap align-center>
         <v-flex>
-          <v-progress-circular indeterminate color="primary" aria-setsize="20"></v-progress-circular>Loading map data ...
+          <v-progress-circular indeterminate color="primary" aria-setsize="20"/>Loading map data ...
         </v-flex>
       </v-layout>
     </v-container>

@@ -2,22 +2,22 @@
   <div class="credits-page">
     <no-ssr>
       <vue-particles
+        :particles-number="120"
+        :particle-size="4"
+        :move-speed=".8"
+        :line-opacity="0.1"
         class="particles"
         color="#668"
-        :particlesNumber="120"
-        shapeType="star"
-        :particleSize="4"
-        :moveSpeed=".8"
-        :lineOpacity="0.1"
+        shape-type="star"
       />
       <article class="starwars">
         <audio
-          preload="auto"
           ref="audio"
+          preload="auto"
           autoplay="true"
+          play="true"
           @playing="startAnimation=true"
           @ended="startAnimation=false"
-          play="true"
         >
           <source
             src="https://s.cdpn.io/1202/Star_Wars_original_opening_crawl_1977.ogg"
@@ -29,13 +29,13 @@
           >
         </audio>
 
-        <div class="start" @click="$refs.audio.play()" v-show="!startAnimation">
+        <div v-show="!startAnimation" class="start" @click="$refs.audio.play()">
           <h1>
             <v-icon>play_arrow</v-icon>Click here to play the credits
           </h1>
         </div>
 
-        <div class="animation" v-if="startAnimation">
+        <div v-if="startAnimation" class="animation">
           <section class="intro">
             <span>A long time ago, in a adrift world,
               <br>far, far away....

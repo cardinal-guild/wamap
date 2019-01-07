@@ -1,49 +1,49 @@
 <template>
-  <div id="map-wrap" v-if="islandData && boundaryData">
+  <div v-if="islandData && boundaryData" id="map-wrap">
     <no-ssr>
       <BuildUpOverlay v-if="buildUpSequence"/>
       <l-map
+        id="leaflet-map"
+        ref="map"
         :bounds="bounds"
         :center="center"
         :crs="crs"
         :zoom="zoom"
         :options="mapOptions"
-        :attributionControl="false"
+        :attribution-control="false"
         :attribution="false"
-        :closePopupOnClick="false"
-        :preferCanvas="true"
+        :close-popup-on-click="false"
+        :prefer-canvas="true"
         :z-index="0"
         @moveend="onMoveEnd($event, $root)"
         @zoom="onZoom($event, $root)"
-        ref="map"
-        id="leaflet-map"
       >
         <l-geo-json
-          class="boundaries"
+          v-if="buildGeoJson"
           ref="boundaries"
           :geojson="$store.state.boundaryData"
           :options="boundaryOptions"
-          v-if="buildGeoJson"
+          class="boundaries"
         />
-        <sector-names-overlay v-if="buildGeoJson" :fromZoomPercentage="15" :toZoomPercentage="65"/>
+        <sector-names-overlay v-if="buildGeoJson" :from-zoom-percentage="15" :to-zoom-percentage="65"/>
         <zone-name-overlay
           v-if="buildGeoJson"
-          :alphaFromZoomPercentage="0"
-          :alphaToZoomPercentage="40"
+          :alpha-from-zoom-percentage="0"
+          :alpha-to-zoom-percentage="40"
         />
         <map-islands
           v-if="buildIslandIcons"
-          :showIconsFromPercentage="35"
-          :alphaIconsToPercentage="30"
-          :showCirclesFromPercentage="75"
+          :show-icons-from-percentage="35"
+          :alpha-icons-to-percentage="30"
+          :show-circles-from-percentage="75"
         />
-        <map-highlighter :normalIconFromZoomPercentage="35" :bigIconfromZoomPercentage="75"/>
+        <map-highlighter :normal-icon-from-zoom-percentage="35" :big-iconfrom-zoom-percentage="75"/>
         <map-account-checkmarker
-          :normalIconFromZoomPercentage="35"
-          :bigIconfromZoomPercentage="75"
+          :normal-icon-from-zoom-percentage="35"
+          :big-iconfrom-zoom-percentage="75"
         />
         <map-location-marker/>
-        <map-legend :fadeOutFromZoomPercentage="75"/>
+        <map-legend :fade-out-from-zoom-percentage="75"/>
       </l-map>
     </no-ssr>
   </div>
@@ -81,7 +81,7 @@ export default {
     ...mapState(['islandData', 'boundaryData'])
   },
   methods: {
-    zoomToQuery() {
+    zoomToQuery () {
       if (this.$router.currentRoute.query.island && this.currentMap) {
         let islands = this.$store.state.islandData.features;
         let islandId = parseInt(this.$router.currentRoute.query.island);
@@ -134,7 +134,7 @@ export default {
       let localZoom = (zoom / 100) * (max - min) + min;
       return localZoom;
     },
-    async startBuildUpSequence() {
+    async startBuildUpSequence () {
       let wait = ms =>
         new Promise((resolve, reject) => {
           setTimeout(() => resolve(), ms);
@@ -162,7 +162,7 @@ export default {
       this.zoomToQuery();
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.crs = leaflet.CRS.Simple;
     this.$store.commit('setMapMode', this.mode);
     const checkMapObject = setInterval(async () => {
@@ -180,7 +180,7 @@ export default {
       }
     }, 100);
   },
-  mounted() {
+  mounted () {
     this.$store.commit('setHighlights', []);
     this.$bus.$on('zoomToIsland', coords => {
       let localZoom = this.zoomPercentageToLocalZoom(
@@ -202,13 +202,13 @@ export default {
       this.$bus.$emit('closeLegend');
     });
   },
-  data() {
+  data () {
     return {
       currentMap: null,
       center: [-4750, 4750],
       bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
-        style: function(feature) {
+        style: function (feature) {
           return feature.properties;
         },
         interactive: false

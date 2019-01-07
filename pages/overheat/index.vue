@@ -4,7 +4,7 @@
       <v-container>
         <v-layout column justify-center align-center>
           <v-flex xs12 sm7>
-            <v-expansion-panel xs12 sm7 :max-width="800">
+            <v-expansion-panel :max-width="800" xs12 sm7>
               <v-expansion-panel-content>
                 <div slot="header">More information
                   <v-icon>info</v-icon>
@@ -43,39 +43,39 @@
                           <v-list-tile-title>Cooling Factor</v-list-tile-title>
                           <v-list-tile-action>
                             <v-input-number
-                              label="Your engine Cooling Factor"
                               v-model="coolingFactor"
                               :outline="false"
                               :min="0"
                               :max="100"
+                              label="Your engine Cooling Factor"
                               @input="calculateOverheat"
-                            ></v-input-number>
+                            />
                           </v-list-tile-action>
                         </v-list-tile>
                         <v-list-tile>
                           <v-list-tile-title>Power</v-list-tile-title>
                           <v-list-tile-action>
                             <v-input-number
-                              label="Your engine Power"
                               v-model="power"
                               :outline="false"
                               :min="0"
                               :max="100"
+                              label="Your engine Power"
                               @input="calculateOverheat"
-                            ></v-input-number>
+                            />
                           </v-list-tile-action>
                         </v-list-tile>
                         <v-list-tile>
                           <v-list-tile-title>Overheat Limit</v-list-tile-title>
                           <v-list-tile-action>
                             <v-input-number
-                              label="Your engine Overheat Limit"
                               v-model="overheatLimit"
                               :outline="false"
                               :min="0"
                               :max="100"
+                              label="Your engine Overheat Limit"
                               @input="calculateOverheat"
-                            ></v-input-number>
+                            />
                           </v-list-tile-action>
                         </v-list-tile>
                         <!-- <v-list-tile>
@@ -130,7 +130,7 @@
           <br>
           <v-flex xs12 sm7>
             <div class="chart-box" d-block>
-              <overheat-chart :width="800" :height="400" :chart-data="datacollection"></overheat-chart>
+              <overheat-chart :width="800" :height="400" :chart-data="datacollection"/>
               <h3 class="subheading text-xs-center">Throttle percentage ></h3>
             </div>
           </v-flex>

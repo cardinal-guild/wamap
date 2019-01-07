@@ -1,43 +1,43 @@
 <template>
   <l-control position="topright" class="map-legend-control">
     <div
-      class="map-legend"
       :class="{ 'fade-legend': (zoomPercentage > fadeOutFromZoomPercentage) , 'close-legend': !opened }"
+      class="map-legend"
     >
       <div class="map-legend-toggle" @click="opened=!opened">
         <v-icon large>chevron_right</v-icon>
       </div>
       <div class="map-legend-content">
         <div class="map-legend-title">Legend</div>
-        <div class="map-legend-separator"></div>
+        <div class="map-legend-separator"/>
         <ul class="legend-list">
           <li>
             <span class="header">Altitudes</span>
           </li>
           <li>
             <span class="icon">
-              <div class="island saborian low"></div>
-              <div class="island kioki low"></div>
+              <div class="island saborian low"/>
+              <div class="island kioki low"/>
             </span>
             <span class="description">Low Altitude</span>
           </li>
-          <li class="map-legend-separator"></li>
+          <li class="map-legend-separator"/>
           <li>
             <span class="icon">
-              <div class="island saborian medium"></div>
-              <div class="island kioki medium"></div>
+              <div class="island saborian medium"/>
+              <div class="island kioki medium"/>
             </span>
             <span class="description">Medium Altitude</span>
           </li>
-          <li class="map-legend-separator"></li>
+          <li class="map-legend-separator"/>
           <li>
             <span class="icon">
-              <div class="island saborian high"></div>
-              <div class="island kioki high"></div>
+              <div class="island saborian high"/>
+              <div class="island kioki high"/>
             </span>
             <span class="description">High Altitude</span>
           </li>
-          <li class="map-legend-separator"></li>
+          <li class="map-legend-separator"/>
           <li>
             <span class="header">Icons</span>
           </li>
@@ -80,6 +80,12 @@
               </div>
             </span>
             <span class="description">Saborian</span>
+          </li>
+          <li>
+            <span class="icon single background">
+              <div class="dangerous"/>
+            </span>
+            <span class="description">Dangerous</span>
           </li>
         </ul>
       </div>
@@ -316,6 +322,11 @@ export default {
                 background: #fff0dc;
                 width: 32px;
                 height: 32px;
+              }
+
+              &.dangerous {
+                border: 3px #ea6d6d solid;
+                background: gray;
               }
 
               img {

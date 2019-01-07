@@ -10,27 +10,27 @@
                   <div class="island-title">
                     <div class="island-name">
                       <component
-                        class="island-name"
                         :is="workshopUrl?'a':'div'"
                         :href="workshopUrl || ''"
+                        class="island-name"
                         target="_blank"
                         rel="nofollow,noopener"
                       >
-                        <span class="nickname">{{nickName?nickName:name}}</span>
-                        <span v-if="nickName" class="name">({{name}})</span>
-                        <img src="/assets/steam_icon.png" v-if="workshopUrl">
+                        <span class="nickname">{{ nickName?nickName:name }}</span>
+                        <span v-if="nickName" class="name">({{ name }})</span>
+                        <img v-if="workshopUrl" src="/assets/steam_icon.png">
                       </component>
                     </div>
                     <span class="by-author">by</span>
                     <component
-                      class="creator-name"
                       :is="creatorWorkshopUrl?'a':'span'"
                       :href="creatorWorkshopUrl || ''"
+                      class="creator-name"
                       target="_blank"
                       rel="nofollow,noopener"
                     >
-                      <span class="username">{{creator}}</span>
-                      <img src="/assets/steam_icon.png" v-if="creatorWorkshopUrl">
+                      <span class="username">{{ creator }}</span>
+                      <img v-if="creatorWorkshopUrl" src="/assets/steam_icon.png">
                     </component>
                   </div>
                 </th>
@@ -38,11 +38,11 @@
               <tr>
                 <td colspan="2" class="island-popup-image">
                   <a :href="imageOriginal" target="_blank">
-                    <v-img :width="300" :src="imagePopup"></v-img>
+                    <v-img :width="300" :src="imagePopup"/>
                   </a>
                   <div class="island-popup-copy-paste">
                     <v-tooltip bottom>
-                      <v-btn icon slot="activator" @click="copyToClipboard">
+                      <v-btn slot="activator" icon @click="copyToClipboard">
                         <CopyPasteLink/>
                       </v-btn>
                       <span>Copy the current island location to clipboard</span>
@@ -63,36 +63,36 @@
                 </table>
               </tr>
               <tr class="expansion-panels">
-                <v-expansion-panel expand v-model="panel">
-                  <v-expansion-panel-content class="island-extras" :ripple="true">
+                <v-expansion-panel v-model="panel" expand>
+                  <v-expansion-panel-content :ripple="true" class="island-extras">
                     <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
                     <v-card>
                       <v-card-text class="py-2">
                         <table
-                          class="island-materials-table"
                           v-if="(metals && metals.length > 0) || $store.state.config.showAllMetals"
+                          class="island-materials-table"
                         >
                           <tr v-for="(metal, index) in activeMetals" :key="index">
                             <td>{{ metal.name }}</td>
                             <td>{{ getQuality(metal) }}</td>
                           </tr>
                         </table>
-                        <div class="island-materials-table" v-else>No metals data</div>
-                        <table class="island-materials-table" v-if="trees.length > 0">
+                        <div v-else class="island-materials-table">No metals data</div>
+                        <table v-if="trees.length > 0" class="island-materials-table">
                           <tr v-for="(tree, index) in trees" :key="index">
                             <td>{{ tree }}</td>
                           </tr>
                         </table>
-                        <div class="island-materials-table" v-else>No tree data</div>
+                        <div v-else class="island-materials-table">No tree data</div>
                         <div style="clear: both;"/>
                         <div class="table-divider"/>
                         <table class="island-extras-table">
                           <tr v-if="surveyCreatedBy">
                             <td>Created by:</td>
-                            <td>{{surveyCreatedBy}}</td>
+                            <td>{{ surveyCreatedBy }}</td>
                           </tr>
                           <tr v-if="createdAt">
-                            <td colspan="2">{{createdAt}}</td>
+                            <td colspan="2">{{ createdAt }}</td>
                           </tr>
                           <tr>
                             <td colspan="2">
@@ -101,10 +101,10 @@
                           </tr>
                           <tr v-if="surveyUpdatedBy">
                             <td>Updated by:</td>
-                            <td>{{surveyUpdatedBy}}</td>
+                            <td>{{ surveyUpdatedBy }}</td>
                           </tr>
                           <tr v-if="updatedAt">
-                            <td colspan="2">{{updatedAt}}</td>
+                            <td colspan="2">{{ updatedAt }}</td>
                           </tr>
                         </table>
                       </v-card-text>
@@ -118,9 +118,9 @@
                     <v-flex shrink>
                       <v-card color="brown" class="pa-2 mt-2">
                         <v-checkbox
-                          color="green"
                           :label="'Visited with `'+currentChar.name+'`'"
                           v-model="islandVisited"
+                          color="green"
                         />
                       </v-card>
                     </v-flex>
@@ -129,16 +129,18 @@
               </tr>
             </table>
             <v-btn
-              @click="$bus.$emit('reportInformation', $data, $props)"
               flat
               grow
               block
               class="island-popup-button"
+              @click="$bus.$emit('reportInformation', $data, $props)"
             >
               <v-icon>insert_comment</v-icon>
               <span>Report metals</span>
             </v-btn>
             <v-btn
+              v-if="config.showEdit"
+              :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
               color="green"
               class="island-popup-button"
               flat
@@ -146,8 +148,6 @@
               block
               target="_blank"
               rel="noopener,nofollow"
-              v-if="config.showEdit"
-              :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
             >
               <v-icon>create</v-icon>
               <span>Edit</span>

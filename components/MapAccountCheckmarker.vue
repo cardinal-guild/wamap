@@ -1,7 +1,7 @@
 <template>
   <div
-    class="highlight-markers"
     v-if="islandData && islandData.features && islandData.features.length && currentCharacter && characters.length"
+    class="highlight-markers"
   >
     <no-ssr>
       <l-marker
@@ -10,7 +10,7 @@
         :lat-lng="island.geometry.coordinates"
         :icon="checkMarkerIcon"
         layer-type="overlay"
-      ></l-marker>
+      />
     </no-ssr>
   </div>
 </template>

@@ -24,14 +24,14 @@
             <span class="grey--text">Keep track of visited islands on your characters</span>
           </div>
           <v-spacer/>
-          <v-tooltip bottom v-if="loggedIn">
-            <v-btn icon absolute top right slot="activator">
+          <v-tooltip v-if="loggedIn" bottom>
+            <v-btn slot="activator" icon absolute top right>
               <v-icon color="green lighten-2">wifi</v-icon>
             </v-btn>
             <span>You are connected</span>
           </v-tooltip>
-          <v-tooltip bottom v-if="!loggedIn">
-            <v-btn icon absolute top right slot="activator">
+          <v-tooltip v-if="!loggedIn" bottom>
+            <v-btn slot="activator" icon absolute top right>
               <v-icon color="red darken-2">wifi_off</v-icon>
             </v-btn>
             <span>You are not connected</span>
@@ -41,7 +41,7 @@
         <!-- <span>You are not connected</span>
         </v-tooltip>-->
         <v-card-text v-if="charactersLoading">Loading your characters ...
-          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+          <v-progress-linear indeterminate color="white" class="mb-0"/>
         </v-card-text>
         <v-card-text
           v-if="!loggedIn && !charactersLoading"
@@ -57,7 +57,7 @@
         <v-card-actions>
           <v-btn flat @click="closeAccountWindow">Close</v-btn>
           <v-spacer/>
-          <v-btn flat v-if="loggedIn" @click="confirmLogoutDialog = true">Logout</v-btn>
+          <v-btn v-if="loggedIn" flat @click="confirmLogoutDialog = true">Logout</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

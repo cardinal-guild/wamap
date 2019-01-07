@@ -1,5 +1,10 @@
 <template>
-  <v-navigation-drawer right v-model="opened" :mini-variant="false" :width="320" fixed app>
+  <v-navigation-drawer v-model="opened" 
+                       :mini-variant="false" 
+                       :width="320" 
+                       right 
+                       fixed 
+                       app>
     <v-toolbar flat dense>
       <v-list>
         <v-list-tile>
@@ -12,7 +17,7 @@
       </v-btn>
     </v-toolbar>
 
-    <v-divider></v-divider>
+    <v-divider/>
     <v-list v-if="islandData && islandData.features && islandData.features.length">
       <v-list-tile>
         <v-text-field
@@ -21,13 +26,13 @@
           placeholder="Search by creator or name"
           single-line
           hide-details
-        ></v-text-field>
+        />
       </v-list-tile>
       <v-data-table
-        class="search-drawer-datatable"
         :headers="headers"
         :search="search"
         :items="islandData.features"
+        class="search-drawer-datatable"
       >
         <template slot="items" slot-scope="props">
           <tr

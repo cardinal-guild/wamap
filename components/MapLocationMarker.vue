@@ -1,19 +1,19 @@
 <template>
   <div>
     <l-marker v-if="$store.state.showMarker"
-      :lat-lng="latLng"
-      :icon="icon"
-      :draggable="true"
-      ref="customMarker"
+              ref="customMarker"
+              :lat-lng="latLng"
+              :icon="icon"
+              :draggable="true"
     >
       <l-popup>
         <v-btn color="#232323" @click="copyLink">Copy Link</v-btn>
       </l-popup>
     </l-marker>
     <l-marker v-if="$router.currentRoute.query.pointer"
-      :lat-lng="[$router.currentRoute.query.lat, $router.currentRoute.query.lng]"
-      :icon="icon"
-      ref="customPointer"
+              ref="customPointer"
+              :lat-lng="[$router.currentRoute.query.lat, $router.currentRoute.query.lng]"
+              :icon="icon"
     >
       <l-popup>
         <v-btn color="red" @click="$parent.$parent.$refs.map.mapObject.removeLayer($refs.customPointer.mapObject);">Delete Marker</v-btn>

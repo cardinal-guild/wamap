@@ -1,14 +1,14 @@
 <template>
   <l-image-overlay
     v-if="zonenamesData"
+    ref="zonenames"
     :url="zonenamesData"
     :attribution="attribution"
     :bounds="bounds"
     :clickable="false"
     :interactive="false"
-    @load="setOverlayLoaded"
     :options="{class: 'map-zone-overlay', className: 'map-zone-overlay', interactive: false}"
-    ref="zonenames"
+    @load="setOverlayLoaded"
   />
 </template>
 <script>

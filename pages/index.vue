@@ -15,17 +15,17 @@
               <p>Please choose the server map you are playing on:</p>
             </v-card-text>
             <v-card-actions>
-              <v-spacer></v-spacer>
+              <v-spacer/>
               <v-btn class="welcome-btn" nuxt to="/pve">
                 <PVEIcon/>
                 <span>PVE Map (Kubo)</span>
               </v-btn>
-              <v-spacer></v-spacer>
+              <v-spacer/>
               <v-btn class="welcome-btn" nuxt to="/pvp">
                 <PVPIcon/>
                 <span>PVP Map (Driss)</span>
               </v-btn>
-              <v-spacer></v-spacer>
+              <v-spacer/>
             </v-card-actions>
             <v-card-text>
               <p>

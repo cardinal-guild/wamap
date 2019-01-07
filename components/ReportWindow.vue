@@ -3,7 +3,7 @@
     <v-dialog v-model="submitting" persistent width="300">
       <v-card color="primary" dark class="submit-card">
         <v-card-text>Submitting report ...
-          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+          <v-progress-linear indeterminate color="white" class="mb-0"/>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -22,12 +22,12 @@
     >
       <v-form ref="reportForm" v-model="valid" lazy-validation>
         <v-card>
-          <v-card-title class="title" primary-title>Report metals for {{fullName}}</v-card-title>
+          <v-card-title class="title" primary-title>Report metals for {{ fullName }}</v-card-title>
 
           <v-card-text>Click 'ADD METAL' to add more metal tabs here and press report when done. You can only submit metal reports for each island, once every 8 hours to prevent spamming.<br><br>ONLY REPORT METALS MINED FROM ORE NODES, NOT ONES FOUND IN CHESTS OR SALVAGE.</v-card-text>
 
-          <v-divider></v-divider>
-          <div :key="key" v-for="(metal, key) in report.metals">
+          <v-divider/>
+          <div v-for="(metal, key) in report.metals" :key="key">
             <v-card-actions row no-wrap>
               <v-layout small row no-wrap>
                 <v-flex small xs8 mr-2>
@@ -52,21 +52,21 @@
                 </v-flex>
               </v-layout>
             </v-card-actions>
-            <v-divider></v-divider>
+            <v-divider/>
           </div>
           <v-card-actions>
             <v-btn color="success" block @click="addMetalRow">
               <v-icon>add_circle</v-icon>Add metal
             </v-btn>
           </v-card-actions>
-          <v-divider></v-divider>
+          <v-divider/>
           <v-card-actions>
             <v-btn color="secondary" flat @click="dialog = false">Cancel</v-btn>
-            <v-spacer></v-spacer>
+            <v-spacer/>
             <v-btn
+              :disabled="!valid"
               submit
               color="success"
-              :disabled="!valid"
               flat
               @click="submitReport()"
             >Send Report</v-btn>

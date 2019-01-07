@@ -2,9 +2,9 @@
   <v-app dark class="cg-app">
     <report-window/>
     <account-window/>
-    <v-navigation-drawer class="main-drawer" fixed app :mini-variant="miniVariant" v-model="drawer">
+    <v-navigation-drawer :mini-variant="miniVariant" v-model="drawer" class="main-drawer" fixed app>
       <v-list>
-        <v-list-tile router exact @click="drawer=false" to="/">
+        <v-list-tile router exact to="/" @click="drawer=false">
           <v-list-tile-action>
             <v-icon>apps</v-icon>
           </v-list-tile-action>
@@ -12,7 +12,7 @@
             <v-list-tile-title>Welcome</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router exact @click="drawer=false" to="/pve">
+        <v-list-tile router exact to="/pve" @click="drawer=false">
           <v-list-tile-action class="svg-tile">
             <PVEIcon/>
           </v-list-tile-action>
@@ -21,7 +21,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile router exact @click="drawer=false" to="/pvp">
+        <v-list-tile router exact to="/pvp" @click="drawer=false">
           <v-list-tile-action class="svg-tile">
             <PVPIcon/>
           </v-list-tile-action>
@@ -29,7 +29,7 @@
             <v-list-tile-title>PVP Map</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router exact @click="drawer=false" to="/credits">
+        <v-list-tile router exact to="/credits" @click="drawer=false">
           <v-list-tile-action>
             <v-icon>people</v-icon>
           </v-list-tile-action>
@@ -37,7 +37,7 @@
             <v-list-tile-title>Credits</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router exact @click="drawer=false" to="/config">
+        <v-list-tile router exact to="/config" @click="drawer=false">
           <v-list-tile-action>
             <v-icon>settings</v-icon>
           </v-list-tile-action>
@@ -45,7 +45,7 @@
             <v-list-tile-title>Settings</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router exact @click="drawer=false" to="/overheat">
+        <v-list-tile router exact to="/overheat" @click="drawer=false">
           <v-list-tile-action>
             <v-icon>whatshot</v-icon>
           </v-list-tile-action>
@@ -55,10 +55,10 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app color="#504141" class="cg-toolbar" :dense="$store.state.showMapControls">
-      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
+    <v-toolbar :dense="$store.state.showMapControls" fixed app color="#504141" class="cg-toolbar">
+      <v-toolbar-side-icon @click="drawer = !drawer"/>
       <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
+        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"/>
       </v-btn>
       <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
       <v-spacer/>
@@ -67,37 +67,37 @@
         @click="$store.commit('account/showAccountDialog', true)"
       >{{ currentCharName }}</div>
       <v-tooltip bottom>
-        <v-btn icon slot="activator" @click="$store.commit('account/showAccountDialog', true)">
+        <v-btn slot="activator" icon @click="$store.commit('account/showAccountDialog', true)">
           <v-icon :color="loggedIn ? 'green': 'red'">account_circle</v-icon>
         </v-btn>
         <span>Create a character and checkmark locations where you been</span>
       </v-tooltip>
       <template v-if="$store.state.showMapControls">
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="copyToClipboard">
+          <v-btn slot="activator" icon @click="copyToClipboard">
             <CopyPasteLink/>
           </v-btn>
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
         <v-tooltip bottom>
           <v-btn
-            icon
             slot="activator"
-            @click="$store.commit('toggleMarker'); $bus.$emit('toggleMarker')"
             :class="{visible: $store.state.showMarker}"
+            icon
+            @click="$store.commit('toggleMarker'); $bus.$emit('toggleMarker')"
           >
             <v-icon>add_location</v-icon>
           </v-btn>
           <span>Place a marker</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="$bus.$emit('openFilterDrawer')">
+          <v-btn slot="activator" icon @click="$bus.$emit('openFilterDrawer')">
             <v-icon>filter_list</v-icon>
           </v-btn>
           <span>Filter islands by materials or databanks</span>
         </v-tooltip>
         <v-tooltip bottom>
-          <v-btn icon slot="activator" @click="$bus.$emit('openSearchDrawer')">
+          <v-btn slot="activator" icon @click="$bus.$emit('openSearchDrawer')">
             <v-icon>search</v-icon>
           </v-btn>
           <span>Search for an island</span>
@@ -111,7 +111,7 @@
     <map-search-drawer/>
     <map-filter-drawer/>
     <!-- <account-drawer/> -->
-    <v-snackbar bottom right v-model="showSnack" :color="snackColor" :timeout="6000">{{ snackText }}</v-snackbar>
+    <v-snackbar v-model="showSnack" :color="snackColor" :timeout="6000" bottom right>{{ snackText }}</v-snackbar>
   </v-app>
 </template>
 

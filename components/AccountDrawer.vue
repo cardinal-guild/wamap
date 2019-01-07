@@ -1,5 +1,10 @@
 <template>
-  <v-navigation-drawer right v-model="opened" :mini-variant="false" :width="320" fixed app>
+  <v-navigation-drawer v-model="opened" 
+                       :mini-variant="false" 
+                       :width="320" 
+                       right 
+                       fixed 
+                       app>
     <v-toolbar flat dense>
       <v-list>
         <v-list-tile>
@@ -12,17 +17,17 @@
       </v-btn>
     </v-toolbar>
 
-    <v-divider></v-divider>
+    <v-divider/>
 
     <v-list>
       <v-list-tile>
         <v-layout row>
           <v-flex xs10>
             <v-text-field
+              v-model="characterName"
               placeholder="Add a new character"
               single-line
               hide-details
-              v-model="characterName"
             />
           </v-flex>
           <v-flex xs2>
@@ -36,7 +41,7 @@
         :items="$store.state.characters"
       >
         <template slot="items" slot-scope="props">
-          <tr @click="selectChar(props.item.name)" :class="{selected: selectedChar === props.item.name}">
+          <tr :class="{selected: selectedChar === props.item.name}" @click="selectChar(props.item.name)">
             <td class="character character-name">{{ props.item.name }}</td>
             <td class="character character-created">{{ props.item.created }}</td>
             <td class="pl-0 character character-delete">
@@ -48,7 +53,7 @@
         </template>
       </v-data-table>
     </v-list>
-    <v-snackbar bottom right v-model="snackbar" :color="snackColor" :timeout="3000">{{ snackText }}</v-snackbar>
+    <v-snackbar v-model="snackbar" :color="snackColor" :timeout="3000" bottom right>{{ snackText }}</v-snackbar>
   </v-navigation-drawer>
 </template>
 

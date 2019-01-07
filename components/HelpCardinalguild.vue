@@ -1,8 +1,8 @@
 <template>
   <div class="help-cardinal-guild">
     <v-dialog
-      max-width="500px"
       v-model="welcomeDialog"
+      max-width="500px"
       persistent
       dark
       class="help-cardinal-guild-window"
@@ -21,11 +21,11 @@
           <img src="~assets/report_btn.jpg">
         </v-layout>
         <v-card-text>Togheter we can improve the data for each island, so that people can find their quality faster. Thank you very much for helping us</v-card-text>
-        <v-divider></v-divider>
+        <v-divider/>
 
         <v-card-actions>
-          <v-checkbox label="Don't show this message again" v-model="dontShowAgain"></v-checkbox>
-          <v-spacer></v-spacer>
+          <v-checkbox v-model="dontShowAgain" label="Don't show this message again"/>
+          <v-spacer/>
           <v-btn submit color="success" flat @click="welcomeDialog = false">Close</v-btn>
         </v-card-actions>
       </v-card>

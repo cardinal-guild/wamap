@@ -1,5 +1,5 @@
 <template>
-  <div class="islandMarkers" v-if="islandData && islandData.features && islandData.features.length">
+  <div v-if="islandData && islandData.features && islandData.features.length" class="islandMarkers">
     <no-ssr>
       <l-marker
         v-for="island in islandData.features"
@@ -7,8 +7,8 @@
         :lat-lng="island.geometry.coordinates"
         :icon="getIcon(island.properties)"
         :id="island.id"
+        :close-popup-on-click="false"
         layer-type="overlay"
-        :closePopupOnClick="false"
         @mouseover="$store.commit('setIslandPopupId',island.id);"
         @mousedown="$store.commit('setIslandPopupId',island.id);"
         @click="closeLegend($event, $bus);$store.commit('setIslandPopupId',island.id);"

@@ -8,7 +8,7 @@
         :icon="highlightIcon"
         :options="{interactive: false}"
         layer-type="overlay"
-      ></l-marker>
+      />
     </no-ssr>
   </div>
 </template>

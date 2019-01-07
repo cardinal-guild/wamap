@@ -11,10 +11,10 @@
                 </th>
               </tr>
               <tr>
-                <v-checkbox hide-details color="#ffe5c4" label="Show edit button" v-model="showEdit" class="ma-0 pa-0"/>
+                <v-checkbox v-model="showEdit" hide-details color="#ffe5c4" label="Show edit button" class="ma-0 pa-0"/>
               </tr>
               <tr>
-                <v-checkbox hide-details color="#ffe5c4" label="Show all metals" v-model="showAllMetals" class="ma-0 pa-0"/>
+                <v-checkbox v-model="showAllMetals" hide-details color="#ffe5c4" label="Show all metals" class="ma-0 pa-0"/>
               </tr>
             </table>
           </v-card-actions>

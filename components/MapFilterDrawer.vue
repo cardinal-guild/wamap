@@ -1,10 +1,10 @@
 <template>
   <v-navigation-drawer
-    class="filter-drawer"
-    right
     v-model="opened"
     :mini-variant="false"
     :width="320"
+    class="filter-drawer"
+    right
     fixed
     app
   >
@@ -19,16 +19,16 @@
         <v-icon>cancel</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-divider></v-divider>
+    <v-divider/>
     <v-card>
       <v-card-actions>
         <v-layout grid-list-xs text-xs-center row wrap>
           <v-flex xs12>
             <v-select
-              class="pr-2"
               v-model="metal"
-              prepend-icon="filter_list"
               :items="metalTypes"
+              class="pr-2"
+              prepend-icon="filter_list"
               item-text="name"
               item-value="id"
               return-object
@@ -41,12 +41,12 @@
             <v-layout row no-wrap>
               <v-flex>
                 <v-slider
-                  class="pr-2"
                   v-model="quality"
-                  thumb-label
-                  label="Min. Q"
                   :min="1"
                   :max="10"
+                  class="pr-2"
+                  thumb-label
+                  label="Min. Q"
                   @change="change"
                 />
               </v-flex>
@@ -56,13 +56,13 @@
             </v-layout>
           </v-flex>
           <v-flex xs12>
-            <v-btn large @click="clear" block small>Clear</v-btn>
+            <v-btn large block small @click="clear">Clear</v-btn>
           </v-flex>
         </v-layout>
       </v-card-actions>
     </v-card>
     <v-divider/>
-    <v-data-table class="filter-drawer-datatable" :headers="headers" :items="filteredIslands">
+    <v-data-table :headers="headers" :items="filteredIslands" class="filter-drawer-datatable">
       <template slot="items" slot-scope="props">
         <tr
           class="filter-drawer-row"
