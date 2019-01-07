@@ -37,7 +37,8 @@ module.exports = {
       }
     }],
     'vue/order-in-components': 'off',
-    'vue/require-prop-types': 'off'
+    'vue/require-prop-types': 'off',
+    'vue/html-indent': 'warn'
   },
   globals: {
     "debugger": true,
