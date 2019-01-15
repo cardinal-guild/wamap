@@ -88,7 +88,7 @@
                         <div class="table-divider"/>
                         <table class="island-extras-table">
                           <tr v-if="surveyCreatedBy">
-                            <td>Created by:</td>
+                            <td>Survey by:</td>
                             <td>{{ surveyCreatedBy }}</td>
                           </tr>
                           <tr v-if="createdAt">
