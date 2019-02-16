@@ -24,12 +24,15 @@
         <v-card>
           <v-card-title class="title" primary-title>Report metals for {{ fullName }}</v-card-title>
 
-          <v-card-text>Click 'ADD METAL' to add more metal tabs here and press report when done. You can only submit metal reports for each island, once every 8 hours to prevent spamming.<br><br>ONLY REPORT METALS MINED FROM ORE NODES, NOT ONES FOUND IN CHESTS OR SALVAGE.</v-card-text>
+          <v-card-text>Click 'ADD METAL' to add more metal tabs here and press report when done. You can only submit metal reports for each island, once every 8 hours to prevent spamming.
+            <br>
+            <br>ONLY REPORT METALS MINED FROM ORE NODES, NOT ONES FOUND IN CHESTS OR SALVAGE.
+          </v-card-text>
 
           <v-divider/>
           <div v-for="(metal, key) in report.metals" :key="key">
             <v-card-actions row no-wrap>
-              <v-layout small row no-wrap>
+              <v-layout small row no-wrap fill-height>
                 <v-flex small xs8 mr-2>
                   <v-select
                     v-model="metal.type"
@@ -49,6 +52,14 @@
                     required
                     label="Quality"
                   />
+                </v-flex>
+                <v-flex pt-3 pl-2>
+                  <v-tooltip bottom>
+                    <v-btn slot="activator" icon @click="removeMetalRow(key)">
+                      <v-icon color="error">delete</v-icon>
+                    </v-btn>
+                    <span>Remove this metal from the report</span>
+                  </v-tooltip>
                 </v-flex>
               </v-layout>
             </v-card-actions>
@@ -82,12 +93,12 @@ export default {
   computed: {
     ...mapState(['islandData', 'metalTypes', 'recaptchaKey'])
   },
-  created () {
+  created() {
     for (let i = 1; i <= 10; i++) {
       this.qualities.push(i);
     }
   },
-  mounted () {
+  mounted() {
     this.$bus.$on('reportInformation', (data, props) => {
       this.showReportMessage = false;
       this.reportMessage = '';
@@ -100,11 +111,15 @@ export default {
     });
   },
   methods: {
-    addMetalRow () {
+    addMetalRow() {
       this.report.metals.push({ type: null, quality: null });
       this.valid = false;
     },
-    async submitReport () {
+    removeMetalRow(index) {
+      this.report.metals.splice(index, 1);
+      this.$refs.reportForm.validate();
+    },
+    async submitReport() {
       if (this.$refs.reportForm.validate()) {
         this.submitting = true;
         this.reportMessage = '';
@@ -150,7 +165,7 @@ export default {
     }
   },
 
-  data () {
+  data() {
     return {
       valid: false,
       dialog: false,
