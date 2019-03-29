@@ -29,21 +29,31 @@
           >
         </audio>
 
-        <div v-show="!startAnimation" class="start" @click="$refs.audio.play()">
+        <div
+          v-show="!startAnimation"
+          class="start"
+          @click="$refs.audio.play()"
+        >
           <h1>
             <v-icon>play_arrow</v-icon>Click here to play the credits
           </h1>
         </div>
 
-        <div v-if="startAnimation" class="animation">
+        <div
+          v-if="startAnimation"
+          class="animation"
+        >
           <section class="intro">
-            <span>A long time ago, in a adrift world,
+            <span>A long time ago, in a world adrift,
               <br>far, far away....
             </span>
           </section>
 
           <section class="titles">
-            <div contenteditable="true" spellcheck="false">
+            <div
+              contenteditable="false"
+              spellcheck="false"
+            >
               <p>Lead programming: FearlessJake and Machine_Maker</p>
 
               <p>Additional styling and programming: JeremyKerman</p>
@@ -188,7 +198,7 @@ export default {
     > div {
       position: absolute;
       top: 100%;
-      animation: titles 81s linear 13s;
+      animation: titles 30s linear 13s;
 
       > p {
         margin: 1.35em 0 1.85em 0;
