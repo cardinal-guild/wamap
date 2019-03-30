@@ -1,26 +1,35 @@
 <template>
-  <v-navigation-drawer v-model="opened" 
-                       :mini-variant="false" 
-                       :width="320" 
-                       right 
-                       fixed 
-                       app>
-    <v-toolbar flat dense>
+  <v-navigation-drawer
+    v-model="opened"
+    :mini-variant="false"
+    :width="320"
+    right
+    fixed
+    app
+  >
+    <v-toolbar
+      flat
+      dense
+    >
       <v-list>
         <v-list-tile>
           <v-list-tile-title class="title">Search an island</v-list-tile-title>
-          <v-spacer/>
+          <v-spacer />
         </v-list-tile>
       </v-list>
-      <v-btn icon @click="opened = false">
+      <v-btn
+        icon
+        @click="opened = false"
+      >
         <v-icon>cancel</v-icon>
       </v-btn>
     </v-toolbar>
 
-    <v-divider/>
+    <v-divider />
     <v-list v-if="islandData && islandData.features && islandData.features.length">
       <v-list-tile>
         <v-text-field
+          ref="searchField"
           v-model="search"
           append-icon="search"
           placeholder="Search by creator or name"
@@ -34,7 +43,10 @@
         :items="islandData.features"
         class="search-drawer-datatable"
       >
-        <template slot="items" slot-scope="props">
+        <template
+          slot="items"
+          slot-scope="props"
+        >
           <tr
             class="search-drawer-row"
             @click="$bus.$emit('zoomToIsland', props.item.geometry.coordinates);"
@@ -70,8 +82,9 @@ export default {
     this.$bus.$on("openAccountDrawer", e => {
       this.opened = false;
     });
-     this.$bus.$on('openSearchDrawer', e => {
+    this.$bus.$on('openSearchDrawer', e => {
       this.opened = true;
+      this.$refs.searchField.focus()
     });
   },
   data () {
