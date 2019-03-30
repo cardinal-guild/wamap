@@ -1,15 +1,34 @@
 <template>
   <div class="report-window-container">
-    <v-dialog v-model="submitting" persistent width="300">
-      <v-card color="primary" dark class="submit-card">
+    <v-dialog
+      v-model="submitting"
+      persistent
+      width="300"
+    >
+      <v-card
+        color="primary"
+        dark
+        class="submit-card"
+      >
         <v-card-text>Submitting report ...
-          <v-progress-linear indeterminate color="white" class="mb-0"/>
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          />
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="showReportMessage" min-width="300" width="500">
+    <v-dialog
+      v-model="showReportMessage"
+      min-width="300"
+      width="500"
+    >
       <v-card dark>
-        <v-alert :value="true" :type="reportMessageType">{{ reportMessage }}</v-alert>
+        <v-alert
+          :value="true"
+          :type="reportMessageType"
+        >{{ reportMessage }}</v-alert>
       </v-card>
     </v-dialog>
     <v-dialog
@@ -20,20 +39,42 @@
       dark
       class="report-window"
     >
-      <v-form ref="reportForm" v-model="valid" lazy-validation>
+      <v-form
+        ref="reportForm"
+        v-model="valid"
+        lazy-validation
+      >
         <v-card>
-          <v-card-title class="title" primary-title>Report metals for {{ fullName }}</v-card-title>
+          <v-card-title
+            class="title"
+            primary-title
+          >Report metals for {{ fullName }}</v-card-title>
 
           <v-card-text>Click 'ADD METAL' to add more metal tabs here and press report when done. You can only submit metal reports for each island, once every 8 hours to prevent spamming.
             <br>
             <br>ONLY REPORT METALS MINED FROM ORE NODES, NOT ONES FOUND IN CHESTS OR SALVAGE.
           </v-card-text>
 
-          <v-divider/>
-          <div v-for="(metal, key) in report.metals" :key="key">
-            <v-card-actions row no-wrap>
-              <v-layout small row no-wrap fill-height>
-                <v-flex small xs8 mr-2>
+          <v-divider />
+          <div
+            v-for="(metal, key) in report.metals"
+            :key="key"
+          >
+            <v-card-actions
+              row
+              no-wrap
+            >
+              <v-layout
+                small
+                row
+                no-wrap
+                fill-height
+              >
+                <v-flex
+                  small
+                  xs8
+                  mr-2
+                >
                   <v-select
                     v-model="metal.type"
                     :items="metalTypes"
@@ -53,9 +94,16 @@
                     label="Quality"
                   />
                 </v-flex>
-                <v-flex pt-3 pl-2>
+                <v-flex
+                  pt-3
+                  pl-2
+                >
                   <v-tooltip bottom>
-                    <v-btn slot="activator" icon @click="removeMetalRow(key)">
+                    <v-btn
+                      slot="activator"
+                      icon
+                      @click="removeMetalRow(key)"
+                    >
                       <v-icon color="error">delete</v-icon>
                     </v-btn>
                     <span>Remove this metal from the report</span>
@@ -63,17 +111,25 @@
                 </v-flex>
               </v-layout>
             </v-card-actions>
-            <v-divider/>
+            <v-divider />
           </div>
           <v-card-actions>
-            <v-btn color="success" block @click="addMetalRow">
+            <v-btn
+              color="success"
+              block
+              @click="addMetalRow"
+            >
               <v-icon>add_circle</v-icon>Add metal
             </v-btn>
           </v-card-actions>
-          <v-divider/>
+          <v-divider />
           <v-card-actions>
-            <v-btn color="secondary" flat @click="dialog = false">Cancel</v-btn>
-            <v-spacer/>
+            <v-btn
+              color="secondary"
+              flat
+              @click="dialog = false"
+            >Cancel</v-btn>
+            <v-spacer />
             <v-btn
               :disabled="!valid"
               submit
@@ -93,12 +149,12 @@ export default {
   computed: {
     ...mapState(['islandData', 'metalTypes', 'recaptchaKey'])
   },
-  created() {
+  created () {
     for (let i = 1; i <= 10; i++) {
       this.qualities.push(i);
     }
   },
-  mounted() {
+  mounted () {
     this.$bus.$on('reportInformation', (data, props) => {
       this.showReportMessage = false;
       this.reportMessage = '';
@@ -111,15 +167,15 @@ export default {
     });
   },
   methods: {
-    addMetalRow() {
+    addMetalRow () {
       this.report.metals.push({ type: null, quality: null });
       this.valid = false;
     },
-    removeMetalRow(index) {
+    removeMetalRow (index) {
       this.report.metals.splice(index, 1);
       this.$refs.reportForm.validate();
     },
-    async submitReport() {
+    async submitReport () {
       if (this.$refs.reportForm.validate()) {
         this.submitting = true;
         this.reportMessage = '';
@@ -165,7 +221,7 @@ export default {
     }
   },
 
-  data() {
+  data () {
     return {
       valid: false,
       dialog: false,

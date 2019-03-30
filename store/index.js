@@ -1,4 +1,5 @@
 import _ from "lodash";
+import moment from "moment";
 
 const svgToDataURL = svgStr => {
   const encoded = encodeURIComponent(svgStr)
@@ -112,7 +113,9 @@ export const mutations = {
   },
   setConfigOption (state, obj) {
     state.config[obj.option] = obj.value;
-    this.$cookies.set(obj.option, obj.value);
+    this.$cookies.set(obj.option, obj.value, {
+      expires: moment().add(1, 'y').toDate()
+    });
     // make sure the cookie option matches the config object property
   },
   addHighlight (state, payload) {

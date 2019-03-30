@@ -65,7 +65,7 @@ export default {
   data () {
     return {
       attribution:
-        "App made by the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>",
+        "Data from the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>. App made by Machine_Maker and FearlessJake",
       bounds: [[0, 0], [-9500, 9500]]
     };
   }
