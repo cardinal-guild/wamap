@@ -253,19 +253,10 @@ export default {
       }
     },
     async copyToClipboard (e) {
-      const a = document.createElement('a');
-      a.href = this.$router.resolve(location).href;
-      let fullUrl =
-        a.protocol +
-        '//' +
-        a.host +
-        a.pathname +
-        a.search +
-        a.hash +
-        '?island=' +
-        this.id;
+      const url = `
+        ${window.location.origin}${window.location.pathname}/${this.id}`
       try {
-        await this.$copyText(fullUrl);
+        await this.$copyText(url);
         this.$store.commit('setSnack', {
           text: 'Url copied to clipboard',
           color: 'success'
