@@ -211,6 +211,7 @@ module.exports = {
     description: 'Worlds Adrift interactive map, created by the Cardinal Guild'
   },
   build: {
+    quiet: false,
     transpile: [/^vuetify/],
     plugins: [
       new VuetifyLoaderPlugin()
