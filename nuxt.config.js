@@ -25,7 +25,8 @@ module.exports = {
           })
         ]
       })
-    }
+    },
+    concurrency: 100
   },
   /*
    ** Headers of the page
