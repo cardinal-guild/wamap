@@ -61,7 +61,7 @@ module.exports = {
       content: 'Cardinal Guild'
     },
     {
-      hid: 'og:descripion',
+      hid: 'og:description',
       name: 'og:description',
       content: 'An interactive map for Worlds Adrift'
     },

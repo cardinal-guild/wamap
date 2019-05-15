@@ -1,10 +1,5 @@
 <template>
-  <div v-if="island">
-    {{ island.properties.name }}
-  </div>
-  <div v-else>
-    {{ $store.state.islandData ? $store.state.islandData.length : 'null' }}
-  </div>
+  <div>{{ island.id }}</div>
 </template>
 <script>
 import axios from 'axios'
@@ -22,9 +17,12 @@ export default {
       }
     }
   },
-  fetch ({ redirect, params, route, payload }) {
-    if (!payload) redirect(`/${route.path.split('/')[1]}?island=${params.id}`)
+  mounted () {
+    this.$router.push(`/${this.$route.path.split('/')[1]}?island=${this.$route.params.id}`)
   },
+  // fetch ({ redirect, params, route, payload }) {
+  //   if (!payload) redirect(`/${route.path.split('/')[1]}?island=${params.id}`)
+  // },
   head () {
     return {
       title: this.island ? this.island.properties.name : 'Loading...',
