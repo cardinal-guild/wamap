@@ -1,8 +1,31 @@
+const axios = require('axios')
 const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 module.exports = {
   env: {
     API_URL: 'https://surveyor.cardinalguild.com'
+  },
+  /*
+  ** Generate
+ */
+  generate: {
+    routes: () => {
+      return axios.get('https://surveyor.cardinalguild.com/api/islands.json').then(res => {
+        return [...res.data.features.map(island => {
+          return {
+            route: `/pve/${island.id}`,
+            payload: island
+          }
+        }),
+          ...res.data.features.map(island => {
+            return {
+              route: `/pvp/${island.id}`,
+              payload: island
+            }
+          })
+        ]
+      })
+    }
   },
   /*
    ** Headers of the page
