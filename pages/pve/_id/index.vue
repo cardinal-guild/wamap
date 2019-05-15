@@ -20,9 +20,6 @@ export default {
   mounted () {
     this.$router.push(`/${this.$route.path.split('/')[1]}?island=${this.$route.params.id}`)
   },
-  // fetch ({ redirect, params, route, payload }) {
-  //   if (!payload) redirect(`/${route.path.split('/')[1]}?island=${params.id}`)
-  // },
   head () {
     return {
       title: this.island ? this.island.properties.name : 'Loading...',
@@ -37,8 +34,10 @@ export default {
               Culture: ${this.island.properties.type.slice(0, 1).toUpperCase() + this.island.properties.type.slice(1)}
             ` :
             'N/A'
-        }
-      ]
+        },
+        { hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' }
+      ],
+      link: [{ type: 'application/json+oembed', href: this.island ? `${process.env.API_URL}/api/islands/${this.island.id}/oEmbed.json` : 'none' }]
     }
   }
 }
