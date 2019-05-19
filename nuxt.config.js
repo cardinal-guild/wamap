@@ -236,7 +236,7 @@ module.exports = {
         }
       }]
     ],
-    extractCSS: true,
+    extractCSS: process.env.NODE_ENV === 'production' ? true : false,
     extend (config, ctx) {
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
