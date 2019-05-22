@@ -86,7 +86,7 @@ jobs:
             git init
             git add .
             git commit -am "Automated deployment to GitHub Pages (staging): ${CIRCLE_SHA1}" --allow-empty
-            git push --force --quiet git@github.com:fearlessjake/wamap_dev.git master:gh-pages
+            git push --force --quiet $STAGING_REPO_URL master:gh-pages
 
 workflows:
   version: 2
