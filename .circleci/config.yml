@@ -78,6 +78,8 @@ jobs:
       - deploy:
           name: Deploy
           command: |
+            git config --global user.name $CIRCLE_USERNAME
+            git config --global user.email "wacardinalguild@gmail.com"
             rm -rf dist || true
             yarn generate
             cp -R .circleci dist/
