@@ -82,3 +82,7 @@ dist
 
 # Service worker
 sw.*
+
+assets/\.DS_Store
+
+\.DS_Store
