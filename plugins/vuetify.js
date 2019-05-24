@@ -1,46 +1,15 @@
 import Vue from 'vue'
-import Vuetify, {
-  VApp, // required
-  VNavigationDrawer,
-  VFooter,
-  VToolbar,
-  VTooltip,
-  VBtn,
-  VSnackbar,
-  VTextField,
-  VExpansionPanel,
-  VExpansionPanelContent
-} from 'vuetify/lib'
-import VuetifyNumberInput from '@jzolago/vuetify-number-input'
-import {
-  Ripple
-} from 'vuetify/lib/directives'
-import '../assets/style/app.styl'
+import Vuetify from 'vuetify/lib'
+import colors from 'vuetify/es5/util/colors'
 
 Vue.use(Vuetify, {
-  components: {
-    VApp,
-    VNavigationDrawer,
-    VFooter,
-    VToolbar,
-    VTooltip,
-    VTextField,
-    VBtn,
-    VSnackbar,
-    VExpansionPanel,
-    VExpansionPanelContent
-  },
-  directives: {
-    Ripple
-  },
   theme: {
-    primary: "#E0AF84",
-    secondary: "#FFD180",
-    accent: "#FFC107",
-    error: "#f44336",
-    warning: "#ffeb3b",
-    info: "#2196f3",
-    success: "#4caf50"
+    primary: '#232323',
+    accent: colors.red.lighten2,
+    secondary: '#4f4141',
+    info: '#ffe5c4',
+    warning: colors.amber.base,
+    error: colors.deepOrange.accent4,
+    success: '#e0af84'
   }
 })
-Vue.use(VuetifyNumberInput)
