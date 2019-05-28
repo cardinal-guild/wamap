@@ -2,17 +2,12 @@
   <v-layout row wrap>
     <v-flex xs12>
       <no-ssr>
-        <MglMap
-          :map-style.sync="mapStyle"
-          :max-bounds="[[-90, -60], [90, 60]]"
-          @load="onMapLoad"
-        >
+        <MglMap :map-style.sync="mapStyle" @load="onMapLoad" @click="click">
           <MglGeojsonLayer
             :source.sync="data"
             source-id="geojson"
             layer-id="geojson"
             :layer="layer"
-            @click="click"
           />
         </MglMap>
       </no-ssr>
@@ -26,7 +21,7 @@ export default {
     return {
       data: {
         type: 'geojson',
-        data: require('../static/data/wamap.json')
+        data: require('../static/data/new.json')
       },
       mapStyle: {
         version: 8,
