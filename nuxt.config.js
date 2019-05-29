@@ -1,4 +1,4 @@
-import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
+// import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 import colors from 'vuetify/es5/util/colors'
 import pkg from './package'
 
@@ -85,7 +85,7 @@ export default {
    */
   build: {
     transpile: ['vuetify/lib'],
-    plugins: [new VuetifyLoaderPlugin()],
+    // plugins: [new VuetifyLoaderPlugin()],
     quiet: false,
     loaders: {
       stylus: {

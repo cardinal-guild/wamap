@@ -20,8 +20,7 @@
     "mapbox-gl": "^1.0.0",
     "nuxt": "^2.4.0",
     "nuxt-client-init-module": "^0.1.4",
-    "vue-mapbox": "^0.4.1",
-    "vuetify-loader": "^1.2.2"
+    "vue-mapbox": "^0.4.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
