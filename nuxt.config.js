@@ -58,6 +58,8 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    retry: { retries: 5 },
+    baseUrl: ''
   },
   /**
    * Vuetify configuration
