@@ -1,8 +1,11 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
+import colors from 'vuetify/es5/util/colors'
 import pkg from './package'
 
 export default {
-  mode: 'universal',
+  env: {
+    API_URL: 'https://surveyor.cardinalguild.com'
+  },
 
   /*
    ** Headers of the page
@@ -27,30 +30,54 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#d9b18a' },
 
   /*
    ** Global CSS
    */
-  css: ['~/assets/style/app.styl', 'mapbox-gl/dist/mapbox-gl.css'],
+  css: [
+    'mapbox-gl/dist/mapbox-gl.css',
+    '@mdi/font/css/materialdesignicons.css'
+  ],
 
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify', { src: '~/plugins/mapbox', ssr: false }],
+  plugins: [{ src: '@/plugins/mapbox', ssr: false }],
 
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/vuetify',
+    'nuxt-client-init-module'
   ],
   /*
    ** Axios module configuration
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+  /**
+   * Vuetify configuration
+   */
+  vuetify: {
+    theme: {
+      dark: true,
+      themes: {
+        dark: {
+          primary: '#232323',
+          accent: colors.red.lighten2,
+          secondary: '#4f4141',
+          info: '#ffe5c4',
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: '#e0af84'
+        }
+      }
+    }
   },
 
   /*

@@ -1,16 +1,36 @@
 <template>
-  <v-app dark class="secondary">
-    <v-toolbar color="primary" fixed app>
+  <v-app class="secondary">
+    <v-app-bar color="primary" fixed app>
       <v-btn color="accent" icon>
         <v-icon>settings</v-icon>
       </v-btn>
-      <v-toolbar-title class="info--text">Cardinal Guild</v-toolbar-title>
+      <v-toolbar-title class="info--text">
+        Cardinal Guild
+      </v-toolbar-title>
       <v-spacer />
-      <v-btn color="success primary--text" small>Kubo (PvE)</v-btn>
-      <v-btn color="success primary--text" small to="/pvp" nuxt>
+      <v-btn
+        color="success primary--text"
+        class="mx-1"
+        to="/pve"
+        active-class="v-btn--active v-btn--disabled"
+        outlined
+        small
+        nuxt
+      >
+        Kubo (PvE)
+      </v-btn>
+      <v-btn
+        color="success primary--text"
+        class="mx-1"
+        to="/pvp"
+        active-class="v-btn--active v-btn--disabled"
+        outlined
+        small
+        nuxt
+      >
         Driss (PvP)
       </v-btn>
-    </v-toolbar>
+    </v-app-bar>
     <v-content>
       <v-container fluid>
         <nuxt />
@@ -22,7 +42,24 @@
           &copy; 2019 Cardinal Guild
         </div>
         <v-flex shrink>
-          <v-btn color="success primary--text">Credits</v-btn>
+          <v-btn
+            color="success primary--text"
+            class="mx-1"
+            active-class="v-btn--active v-btn--disabled"
+            to="/"
+            nuxt
+          >
+            Home
+          </v-btn>
+        </v-flex>
+        <v-flex shrink>
+          <v-btn
+            color="success primary--text"
+            class="mx-1"
+            active-class="v-btn--active v-btn--disabled"
+          >
+            Credits
+          </v-btn>
         </v-flex>
       </v-layout>
     </v-footer>

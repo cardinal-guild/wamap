@@ -1,15 +1,19 @@
 import Vue from 'vue'
 import {
   MglMap,
-  MglGeolocateControl,
   MglNavigationControl,
-  MglGeojsonLayer
+  MglGeojsonLayer,
+  MglFullscreenControl,
+  MglMarker
 } from 'vue-mapbox'
 import Mapbox from 'mapbox-gl'
 
 Vue.component('MglMap', MglMap)
-Vue.component('MglGeolocateControl', MglGeolocateControl)
 Vue.component('MglNavigationControl', MglNavigationControl)
 Vue.component('MglGeojsonLayer', MglGeojsonLayer)
+Vue.component('MglFullscreenControl', MglFullscreenControl)
+Vue.component('MglMarker', MglMarker)
 
-Vue.prototype.$mapbox = Mapbox
+export default ({ app }, inject) => {
+  inject('mapbox', Mapbox)
+}

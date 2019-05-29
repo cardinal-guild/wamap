@@ -19,6 +19,14 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    "no-console": "off"
+    "no-console": "off",
+    "vue/multiline-html-element-content-newline": "warn",
+    "vue/html-self-closing": ["warn",
+      {
+        "html": {
+          "void": "always"
+        }
+      }
+    ]
   }
 }

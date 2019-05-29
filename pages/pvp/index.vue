@@ -1,5 +1,5 @@
 <template>
-  <Map></Map>
+  <Map />
 </template>
 <script>
 import Map from '@/components/Map'

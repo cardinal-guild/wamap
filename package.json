@@ -13,13 +13,15 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@mdi/font": "^3.6.95",
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/vuetify": "^1.0.0-alpha.6",
     "cross-env": "^5.2.0",
     "mapbox-gl": "^1.0.0",
     "nuxt": "^2.4.0",
+    "nuxt-client-init-module": "^0.1.4",
     "vue-mapbox": "^0.4.1",
-    "vuetify": "^1.5.5",
-    "vuetify-loader": "^1.2.1"
+    "vuetify-loader": "^1.2.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
@@ -39,8 +41,6 @@
     "node-sass": "^4.12.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.16.4",
-    "sass-loader": "^7.1.0",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2"
+    "sass-loader": "^7.1.0"
   }
 }
