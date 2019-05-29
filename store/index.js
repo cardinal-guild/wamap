@@ -22,7 +22,12 @@ export const actions = {
       const islandData = await this.$axios.$get(
         process.env.API_URL + '/api/islands.json'
       )
-      commit('setMapData', { p: 'islandData', v: islandData.features })
+      for (const island of islandData.features) {
+        island.geometry.coordinates[0] *= 0.00021
+        island.geometry.coordinates[1] *= 0.00021
+        island.geometry.coordinates = island.geometry.coordinates.reverse()
+      }
+      commit('setMapData', { p: 'islandData', v: islandData })
     }
     commit('incrementLoading', 100)
   }
