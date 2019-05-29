@@ -86,6 +86,7 @@ export default {
   build: {
     transpile: ['vuetify/lib'],
     plugins: [new VuetifyLoaderPlugin()],
+    quiet: false,
     loaders: {
       stylus: {
         import: ['~assets/style/variables.styl']
