@@ -48,17 +48,11 @@ jobs:
             git commit -am "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
             git push --force --quiet $CIRCLE_REPOSITORY_URL master:gh-pages
 
-  build_nuxt:
+  staging:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:11
 
     working_directory: ~/repo
-
-    environment:
-      - API_URL: ''
-      - GIT_COMMITTER_NAME: 'Cardinal Guild CircleCI'
-      - GIT_AUTHOR_NAME: 'Cardinal Guild CircleCI'
-      - EMAIL: 'fearjake82@gmail.com'
 
     steps:
       - checkout
@@ -66,16 +60,16 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-staging-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
+            - v1-staging-dependencies-
 
       - run: yarn install
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-staging-dependencies-{{ checksum "package.json" }}
 
       - add_ssh_keys:
           fingerprints:
@@ -88,10 +82,11 @@ jobs:
             yarn generate
             cp -R .circleci dist/
             cd dist
+            echo "staging.cardinalguild.com" > ./CNAME
             git init
             git add .
-            git commit -am "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
-            git push --force --quiet git@github.com:fearlessjake/wamap_dev.git master:gh-pages
+            git commit -am "Automated deployment to GitHub Pages (staging): ${CIRCLE_SHA1}" --allow-empty
+            git push --force --quiet $STAGING_REPO_URL master:gh-pages
 
 workflows:
   version: 2
@@ -101,7 +96,7 @@ workflows:
           filters:
             branches:
               only: master
-      - build_nuxt:
+      - staging:
           filters:
             branches:
-              only: nuxt-rework
+              only: staging
