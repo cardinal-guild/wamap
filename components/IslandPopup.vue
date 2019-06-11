@@ -254,7 +254,7 @@ export default {
     },
     async copyToClipboard(e) {
       const url = `
-        ${window.location.origin}${window.location.pathname}${this.id}`
+        ${window.location.origin}${window.location.pathname}/${this.id}`
       try {
         await this.$copyText(url);
         this.$store.commit('setSnack', {
