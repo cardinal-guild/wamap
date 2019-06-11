@@ -1,7 +1,18 @@
 <template>
   <div id="pve-map-page">
-    <LoadingOverlay/>
-    <Map mode="pve"/>
+    <!-- <LoadingOverlay/>
+    <Map mode="pve"/>-->
+    <v-container bg fill-height grid-list-md text-xs-center>
+      <v-layout row wrap align-center>
+        <v-flex>
+          <h1>Current map is invalid. Disabled untill region surveying is finished in update 31 ...</h1>
+          <a
+            href="https://www.worldsadrift.com/category/patch-notes/"
+            target="_blank"
+          >Read patch notes</a>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 <script>
