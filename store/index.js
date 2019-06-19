@@ -23,6 +23,7 @@ export const state = () => ({
   overlayLoaded: false,
   boundaryData: null,
   islandData: null,
+  mapData: null,
   zonenamesData: null,
   metalTypes: null,
   showMarker: false,
@@ -65,6 +66,12 @@ export const mutations = {
       console.log('Zone names data loaded')
     }
     state.zonenamesData = data
+  },
+  mapData (state, data) {
+    if (console.log) {
+      console.log('Map data loaded')
+    }
+    state.mapData = data
   },
   metalTypes (state, data) {
     if (console.log) {
@@ -143,7 +150,7 @@ export const actions = {
       commit('account/showAccountDialog', true);
       this.$router.replace({ name: this.$router.currentRoute.name });
     }
-   
+
     if (!state.islandData || !state.boundaryData) {
       dispatch('account/loadCharacters');
       if (console.log) {
@@ -158,13 +165,15 @@ export const actions = {
       if (console.log) {
         console.log('Loading map boundaries')
       }
-      const boundaryData = await this.$axios.$get('/data/wamap.geojson')
-      commit('boundaryData', boundaryData)
-      if (console.log) {
-        console.log('Loading zone name overlay')
-      }
-      const zonenamesData = await this.$axios.$get('/data/zonenames.svg')
-      commit('zonenamesData', svgToDataURL(zonenamesData))
+      // const boundaryData = await this.$axios.$get('/data/wamap.geojson')
+      // commit('boundaryData', boundaryData)
+      // if (console.log) {
+      //   console.log('Loading zone name overlay')
+      // }
+      const mapData = await this.$axios.$get('/data/map.svg')
+      commit('mapData', svgToDataURL(mapData))
+      // const zonenamesData = await this.$axios.$get('/data/zonenames.svg')
+      // commit('zonenamesData', svgToDataURL(zonenamesData))
 
       // if (window.localStorage.getItem("characters")) {
       //   commit("characters", JSON.parse(window.localStorage.getItem("characters")))
@@ -173,7 +182,7 @@ export const actions = {
       //   commit("characters", [])
       // }
 
-      
+
 
 
       commit('loading', false)

@@ -1,5 +1,6 @@
 <template>
-  <div v-if="islandData && boundaryData" id="map-wrap">
+  <div v-if="islandData" id="map-wrap">
+    <Update31Notice/>
     <no-ssr>
       <BuildUpOverlay v-if="buildUpSequence"/>
       <l-map
@@ -18,24 +19,38 @@
         @moveend="onMoveEnd($event, $root)"
         @zoom="onZoom($event, $root)"
       >
-        <l-geo-json
+        <!-- <l-geo-json
           v-if="buildGeoJson"
           ref="boundaries"
           :geojson="$store.state.boundaryData"
           :options="boundaryOptions"
           class="boundaries"
-        />
-        <sector-names-overlay v-if="buildGeoJson" :from-zoom-percentage="15" :to-zoom-percentage="65"/>
-        <zone-name-overlay
+        />-->
+        <!-- <sector-names-overlay
+          v-if="buildGeoJson"
+          :from-zoom-percentage="15"
+          :to-zoom-percentage="65"
+        />-->
+        <!-- <zone-name-overlay
           v-if="buildGeoJson"
           :alpha-from-zoom-percentage="0"
           :alpha-to-zoom-percentage="40"
-        />
-        <map-islands
+        />-->
+        <!-- <map-islands
           v-if="buildIslandIcons"
           :show-icons-from-percentage="35"
           :alpha-icons-to-percentage="30"
           :show-circles-from-percentage="75"
+        />-->
+        <l-image-overlay
+          v-if="mapData"
+          ref="mapData"
+          :url="mapData"
+          :attribution="attribution"
+          :bounds="bounds"
+          :clickable="false"
+          :interactive="false"
+          :options="{interactive: false}"
         />
         <map-highlighter :normal-icon-from-zoom-percentage="35" :big-iconfrom-zoom-percentage="75"/>
         <map-account-checkmarker
@@ -48,7 +63,6 @@
     </no-ssr>
   </div>
 </template>
-
 <script>
 import { mapState } from 'vuex';
 import _ from 'lodash';
@@ -58,6 +72,7 @@ import MapHighlighter from '~/components/MapHighlighter.vue';
 import ZoneNameOverlay from '~/components/ZoneNameOverlay.vue';
 import SectorNamesOverlay from '~/components/SectorNamesOverlay.vue';
 import MapLocationMarker from '~/components/MapLocationMarker.vue';
+import Update31Notice from '~/components/Update31Notice.vue';
 import MapAccountCheckmarker from '~/components/MapAccountCheckmarker.vue';
 import BuildUpOverlay from '~/components/BuildUpOverlay.vue';
 const isBrowser = typeof window !== 'undefined';
@@ -75,10 +90,11 @@ export default {
     SectorNamesOverlay,
     MapLocationMarker,
     MapAccountCheckmarker,
-    BuildUpOverlay
+    BuildUpOverlay,
+    Update31Notice
   },
   computed: {
-    ...mapState(['islandData', 'boundaryData'])
+    ...mapState(['mapData', 'islandData'])
   },
   methods: {
     zoomToQuery () {
@@ -169,7 +185,7 @@ export default {
       if (
         this.$refs.map &&
         this.$refs.map.mapObject &&
-        this.$store.state.boundaryData &&
+        // this.$store.state.boundaryData &&
         this.$store.state.islandData
       ) {
         this.$store.commit('loading', false);
@@ -204,9 +220,11 @@ export default {
   },
   data () {
     return {
+      attribution:
+        "Data from the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>. App made by Machine_Maker and FearlessJake",
+      bounds: [[0, 0], [-9500, 9500]],
       currentMap: null,
       center: [-4750, 4750],
-      bounds: [[0, 0], [-9500, 9500]],
       boundaryOptions: {
         style: function (feature) {
           return feature.properties;
