@@ -36,12 +36,12 @@
           :alpha-from-zoom-percentage="0"
           :alpha-to-zoom-percentage="40"
         />-->
-        <!-- <map-islands
+        <map-islands
           v-if="buildIslandIcons"
           :show-icons-from-percentage="35"
           :alpha-icons-to-percentage="30"
           :show-circles-from-percentage="75"
-        />-->
+        />
         <l-image-overlay
           v-if="mapData"
           ref="mapData"

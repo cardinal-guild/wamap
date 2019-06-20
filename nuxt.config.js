@@ -122,7 +122,7 @@ module.exports = {
     {
       src: '~/plugins/nuxt-leaflet.js',
       ssr: false
-    }    
+    }
   ],
   css: [
     '~/assets/style/leaflet.scss',
