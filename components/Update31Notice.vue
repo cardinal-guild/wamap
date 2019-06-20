@@ -12,13 +12,11 @@
         <v-card-text>
           <p>Hey there drifters, as you might already know, Worlds Adrift is shutting down.</p>
           <p>This is the final map that was given to the Cardinal Guild. We are currently working on placing the final islands on the map.</p>
-          <p>Due to the fact there are islands hidden in the island workshop i am unable to retrieve the names of those islands.</p>
-          <p>We need to manually map these 'hidden' workshop islands, so they are a bit in delay.</p>
-          <p>We might resort to other ways finding out the exact name of these islands.</p>
-        </v-card-text>
-        <v-card-text>
-          <p>We thank the entire team at Bossa making the impossible game possible and inspiring a lot of people with the freedom of the skies!</p>
+          <p>Last 11 islands are missing from Oddnova on the map, hopefully we can fix this asap.</p>
+          <p>We thank the entire team at Bossa making the impossible game, possible and inspiring a lot of people with the freedom of the skies!</p>
           <p>PS Dave is god! And hopefully all pineapples will return to Bossa :-)</p>
+          <br>
+          <p>Keep on grappling!</p>
         </v-card-text>
 
         <v-card-actions>
@@ -33,7 +31,7 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  mounted() {
+  mounted () {
     let hideNewMap = this.$cookies.get('hide-newmap');
     if (typeof hideNewMap === 'undefined' || hideNewMap === null) {
       this.newMapDialog = true;
@@ -42,7 +40,7 @@ export default {
   computed: {
     dontShowAgain: {
       // getter
-      get: function() {
+      get: function () {
         let hideNewMap = this.$cookies.get('hide-newmap');
         if (typeof hideNewMap === 'undefined' || hideNewMap === null) {
           return false;
@@ -50,7 +48,7 @@ export default {
         return true;
       },
       // setter
-      set: function(newValue) {
+      set: function (newValue) {
         this.$cookies.set('hide-newmap', true, {
           path: '/',
           maxAge: 60 * 60 * 24 * 31
@@ -58,7 +56,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       newMapDialog: false
     };
