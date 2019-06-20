@@ -17,14 +17,8 @@
                         rel="nofollow,noopener"
                       >
                         <span class="nickname">{{ nickName?nickName:name }}</span>
-                        <span
-                          v-if="nickName"
-                          class="name"
-                        >({{ name }})</span>
-                        <img
-                          v-if="workshopUrl"
-                          src="/assets/steam_icon.png"
-                        >
+                        <span v-if="nickName" class="name">({{ name }})</span>
+                        <img v-if="workshopUrl" src="/assets/steam_icon.png">
                       </component>
                     </div>
                     <span class="by-author">by</span>
@@ -36,36 +30,20 @@
                       rel="nofollow,noopener"
                     >
                       <span class="username">{{ creator }}</span>
-                      <img
-                        v-if="creatorWorkshopUrl"
-                        src="/assets/steam_icon.png"
-                      >
+                      <img v-if="creatorWorkshopUrl" src="/assets/steam_icon.png">
                     </component>
                   </div>
                 </th>
               </tr>
               <tr>
-                <td
-                  colspan="2"
-                  class="island-popup-image"
-                >
-                  <a
-                    :href="imageOriginal"
-                    target="_blank"
-                  >
-                    <v-img
-                      :width="300"
-                      :src="imagePopup"
-                    />
+                <td colspan="2" class="island-popup-image">
+                  <a :href="imageOriginal" target="_blank">
+                    <v-img :width="300" :src="imagePopup"/>
                   </a>
                   <div class="island-popup-copy-paste">
                     <v-tooltip bottom>
-                      <v-btn
-                        slot="activator"
-                        icon
-                        @click="copyToClipboard"
-                      >
-                        <CopyPasteLink />
+                      <v-btn slot="activator" icon @click="copyToClipboard">
+                        <CopyPasteLink/>
                       </v-btn>
                       <span>Copy the current island location to clipboard</span>
                     </v-tooltip>
@@ -85,18 +63,9 @@
                 </table>
               </tr>
               <tr class="expansion-panels">
-                <v-expansion-panel
-                  v-model="panel"
-                  expand
-                >
-                  <v-expansion-panel-content
-                    :ripple="true"
-                    class="island-extras"
-                  >
-                    <div
-                      slot="header"
-                      class="text-xs-center expansion-header subheading"
-                    >More info</div>
+                <v-expansion-panel v-model="panel" expand>
+                  <v-expansion-panel-content :ripple="true" class="island-extras">
+                    <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
                     <v-card>
                       <v-card-text class="py-2">
                         <table
@@ -104,10 +73,7 @@
                           class="island-materials-table"
                         >
                           <!-- Material Qualities changed so I commented this out. Can be removed later -->
-                          <tr
-                            v-for="(metal, index) in activeMetals"
-                            :key="index"
-                          >
+                          <tr v-for="(metal, index) in activeMetals" :key="index">
                             <td>{{ metal.name }}</td>
                             <td>{{ getQuality(metal) }}</td>
                           </tr>
@@ -115,67 +81,26 @@
                         <div
                           v-else-if="tier === 4"
                           class="island-materials-table"
-                        >
-                          Mat Qualties just changed in T4 and next hotfix the qualities will be randomized
-                        </div>
-                        <div
-                          v-else
-                          class="island-materials-table"
-                        >No metals data</div>
-                        <table
-                          v-if="trees.length > 0"
-                          class="island-materials-table"
-                        >
-                          <tr
-                            v-for="(tree, index) in trees"
-                            :key="index"
-                          >
+                        >Mat Qualties just changed in T4 and next hotfix the qualities will be randomized</div>
+                        <div v-else class="island-materials-table">No metals data</div>
+                        <table v-if="trees.length > 0" class="island-materials-table">
+                          <tr v-for="(tree, index) in trees" :key="index">
                             <td>{{ tree }}</td>
                           </tr>
                         </table>
-                        <div
-                          v-else
-                          class="island-materials-table"
-                        >No tree data</div>
-                        <div style="clear: both;" />
-                        <div class="table-divider" />
-                        <table class="island-extras-table">
-                          <tr v-if="surveyCreatedBy">
-                            <td>Survey by:</td>
-                            <td>{{ surveyCreatedBy }}</td>
-                          </tr>
-                          <tr v-if="createdAt">
-                            <td colspan="2">{{ createdAt }}</td>
-                          </tr>
-                          <tr>
-                            <td colspan="2">
-                              <div class="table-divider" />
-                            </td>
-                          </tr>
-                          <tr v-if="surveyUpdatedBy">
-                            <td>Updated by:</td>
-                            <td>{{ surveyUpdatedBy }}</td>
-                          </tr>
-                          <tr v-if="updatedAt">
-                            <td colspan="2">{{ updatedAt }}</td>
-                          </tr>
-                        </table>
+                        <div v-else class="island-materials-table">No tree data</div>
+                        <div style="clear: both;"/>
+                        <div class="table-divider"/>
                       </v-card-text>
                     </v-card>
                   </v-expansion-panel-content>
                 </v-expansion-panel>
               </tr>
               <tr v-if="currentChar.guid && currentChar.name">
-                <v-container
-                  fluid
-                  pa-0
-                >
+                <v-container fluid pa-0>
                   <v-layout justify-center>
                     <v-flex shrink>
-                      <v-card
-                        color="brown"
-                        class="pa-2 mt-2"
-                      >
+                      <v-card color="brown" class="pa-2 mt-2">
                         <v-checkbox
                           :label="'Visited with `'+currentChar.name+'`'"
                           v-model="islandVisited"
@@ -245,16 +170,16 @@ export default {
     }
   },
   methods: {
-    changeIslandVisited(visited) {
+    changeIslandVisited (visited) {
       if (visited) {
         this.$store.commit('account/addIslandVisited', this.id);
       } else {
         this.$store.commit('account/removeIslandVisited', this.id);
       }
     },
-    async copyToClipboard(e) {
+    async copyToClipboard (e) {
       const url = `
-        ${window.location.origin}${window.location.pathname}/${this.id}`
+        ${window.location.origin}${window.location.pathname}/${this.id}`;
       try {
         await this.$copyText(url);
         this.$store.commit('setSnack', {
@@ -268,7 +193,7 @@ export default {
         });
       }
     },
-    getQuality(metal) {
+    getQuality (metal) {
       if (!metal.quality) {
         let foundMetal = _.find(this.metals, o => o.name === metal.name);
         return foundMetal ? foundMetal.quality : 'N/A';
@@ -276,7 +201,7 @@ export default {
       return metal.quality;
     }
   },
-  mounted() {
+  mounted () {
     if (this.$store.state.mapMode === 'pvp') {
       this.metals = this.pvpMetals;
     } else {
@@ -284,8 +209,12 @@ export default {
     }
     if (this.currentCharacter && this.characters && this.characters.length) {
       let filterGuid = this.currentCharacter;
-      this.currentChar = _.chain(this.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
-
+      this.currentChar = _.chain(this.characters)
+        .filter(function (x) {
+          return x.guid === filterGuid;
+        })
+        .first()
+        .value();
     }
   },
   computed: {
@@ -296,29 +225,40 @@ export default {
       characters: 'characters'
     }),
     islandVisited: {
-      get() {
+      get () {
         if (this.currentCharacter && this.characters.length) {
           let filterGuid = this.currentCharacter;
-          let characterData = _.chain(this.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
-          if (characterData && characterData.visited_islands && characterData.visited_islands.length) {
-            if (characterData.visited_islands.indexOf(this.id.toString()) >= 0) {
+          let characterData = _.chain(this.characters)
+            .filter(function (x) {
+              return x.guid === filterGuid;
+            })
+            .first()
+            .value();
+          if (
+            characterData &&
+            characterData.visited_islands &&
+            characterData.visited_islands.length
+          ) {
+            if (
+              characterData.visited_islands.indexOf(this.id.toString()) >= 0
+            ) {
               return true;
             }
           }
         }
         return false;
       },
-      set(value) {
+      set (value) {
         if (this.id) {
           if (value) {
-            this.$store.commit('account/addIslandVisited', this.id)
+            this.$store.commit('account/addIslandVisited', this.id);
           } else {
-            this.$store.commit('account/removeIslandVisited', this.id)
+            this.$store.commit('account/removeIslandVisited', this.id);
           }
         }
       }
     },
-    activeMetals() {
+    activeMetals () {
       if (this.$cookies.get('showAllMetals'))
         return this.$store.state.metalTypes;
       return this.metals;
@@ -326,32 +266,50 @@ export default {
   },
 
   watch: {
-    islandPopupId(newId, oldId) {
+    islandPopupId (newId, oldId) {
       if (newId === this.id) {
         this.showPopup = true;
-        if (this.currentCharacter && this.characters && this.characters.length) {
+        if (
+          this.currentCharacter &&
+          this.characters &&
+          this.characters.length
+        ) {
           let filterGuid = this.currentCharacter;
-          this.currentChar = _.chain(this.characters).filter(function (x) { return x.guid === filterGuid; }).first().value();
+          this.currentChar = _.chain(this.characters)
+            .filter(function (x) {
+              return x.guid === filterGuid;
+            })
+            .first()
+            .value();
         }
       }
     },
-    currentCharacter(newGuid, oldGuid) {
+    currentCharacter (newGuid, oldGuid) {
       if (newGuid !== '' && this.$store.state.account.characters.length) {
-        let currentChar = _.chain(this.$store.state.account.characters).filter(function (x) { return x.guid === newGuid; }).first().value();
+        let currentChar = _.chain(this.$store.state.account.characters)
+          .filter(function (x) {
+            return x.guid === newGuid;
+          })
+          .first()
+          .value();
         if (currentChar) {
           this.currentChar = currentChar;
         } else {
           this.currentChar = { name: '', guid: '' };
         }
       } else {
-
         this.currentChar = { name: '', guid: '' };
       }
     },
-    characters(newArr, oldArr) {
+    characters (newArr, oldArr) {
       if (this.$store.state.account.currentCharacter !== '' && newArr.length) {
         let filterGuid = this.$store.state.account.currentCharacter;
-        let currentChar = _.chain(newArr).filter(function (x) { return x.guid === filterGuid; }).first().value();
+        let currentChar = _.chain(newArr)
+          .filter(function (x) {
+            return x.guid === filterGuid;
+          })
+          .first()
+          .value();
         if (currentChar) {
           this.currentCharName = currentChar;
         }
@@ -360,7 +318,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       currentChar: { name: '', guid: '' },
       showReportNotImplemented: false,
