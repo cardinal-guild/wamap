@@ -69,7 +69,7 @@
                     <v-card>
                       <v-card-text class="py-2">
                         <table
-                          v-if="((metals && metals.length > 0) || $store.state.config.showAllMetals) && tier !== 4"
+                          v-if="(metals && metals.length > 0) || $store.state.config.showAllMetals"
                           class="island-materials-table"
                         >
                           <!-- Material Qualities changed so I commented this out. Can be removed later -->
@@ -78,10 +78,6 @@
                             <td>{{ getQuality(metal) }}</td>
                           </tr>
                         </table>
-                        <div
-                          v-else-if="tier === 4"
-                          class="island-materials-table"
-                        >Mat Qualties just changed in T4 and next hotfix the qualities will be randomized</div>
                         <div v-else class="island-materials-table">No metals data</div>
                         <table v-if="trees.length > 0" class="island-materials-table">
                           <tr v-for="(tree, index) in trees" :key="index">

@@ -14,6 +14,7 @@
           <p>This is the final map that was given to the Cardinal Guild. We are currently working on placing the final islands on the map.</p>
           <p>Last 11 islands are missing from Oddnova on the map, hopefully we can fix this asap.</p>
           <p>We thank the entire team at Bossa making the impossible game, possible and inspiring a lot of people with the freedom of the skies!</p>
+          <p>We thank the CCC for doing a great job with the latest map!</p>
           <p>PS Dave is god! And hopefully all pineapples will return to Bossa :-)</p>
           <br>
           <p>Keep on grappling!</p>
