@@ -149,33 +149,33 @@ export default {
   },
   name: 'IslandPopup',
   filters: {
-    capitalize: function (value) {
+    capitalize: function(value) {
       if (!value) return '';
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
     },
-    upper: function (value) {
+    upper: function(value) {
       return value.toUpperCase();
     },
-    metalsToString: function (metals) {
+    metalsToString: function(metals) {
       let metalNames = [];
-      _.forEach(metals, function (metal) {
+      _.forEach(metals, function(metal) {
         metalNames.push(metal.name + ' Q' + metal.quality);
       });
       return metalNames.join(', ');
     }
   },
   methods: {
-    changeIslandVisited (visited) {
+    changeIslandVisited(visited) {
       if (visited) {
         this.$store.commit('account/addIslandVisited', this.id);
       } else {
         this.$store.commit('account/removeIslandVisited', this.id);
       }
     },
-    async copyToClipboard (e) {
+    async copyToClipboard(e) {
       const url = `
-        ${window.location.origin}${window.location.pathname}/${this.id}`;
+        ${window.location.origin}${window.location.pathname}${this.id}`;
       try {
         await this.$copyText(url);
         this.$store.commit('setSnack', {
@@ -189,7 +189,7 @@ export default {
         });
       }
     },
-    getQuality (metal) {
+    getQuality(metal) {
       if (!metal.quality) {
         let foundMetal = _.find(this.metals, o => o.name === metal.name);
         return foundMetal ? foundMetal.quality : 'N/A';
@@ -197,7 +197,7 @@ export default {
       return metal.quality;
     }
   },
-  mounted () {
+  mounted() {
     if (this.$store.state.mapMode === 'pvp') {
       this.metals = this.pvpMetals;
     } else {
@@ -206,7 +206,7 @@ export default {
     if (this.currentCharacter && this.characters && this.characters.length) {
       let filterGuid = this.currentCharacter;
       this.currentChar = _.chain(this.characters)
-        .filter(function (x) {
+        .filter(function(x) {
           return x.guid === filterGuid;
         })
         .first()
@@ -221,11 +221,11 @@ export default {
       characters: 'characters'
     }),
     islandVisited: {
-      get () {
+      get() {
         if (this.currentCharacter && this.characters.length) {
           let filterGuid = this.currentCharacter;
           let characterData = _.chain(this.characters)
-            .filter(function (x) {
+            .filter(function(x) {
               return x.guid === filterGuid;
             })
             .first()
@@ -244,7 +244,7 @@ export default {
         }
         return false;
       },
-      set (value) {
+      set(value) {
         if (this.id) {
           if (value) {
             this.$store.commit('account/addIslandVisited', this.id);
@@ -254,7 +254,7 @@ export default {
         }
       }
     },
-    activeMetals () {
+    activeMetals() {
       if (this.$cookies.get('showAllMetals'))
         return this.$store.state.metalTypes;
       return this.metals;
@@ -262,7 +262,7 @@ export default {
   },
 
   watch: {
-    islandPopupId (newId, oldId) {
+    islandPopupId(newId, oldId) {
       if (newId === this.id) {
         this.showPopup = true;
         if (
@@ -272,7 +272,7 @@ export default {
         ) {
           let filterGuid = this.currentCharacter;
           this.currentChar = _.chain(this.characters)
-            .filter(function (x) {
+            .filter(function(x) {
               return x.guid === filterGuid;
             })
             .first()
@@ -280,10 +280,10 @@ export default {
         }
       }
     },
-    currentCharacter (newGuid, oldGuid) {
+    currentCharacter(newGuid, oldGuid) {
       if (newGuid !== '' && this.$store.state.account.characters.length) {
         let currentChar = _.chain(this.$store.state.account.characters)
-          .filter(function (x) {
+          .filter(function(x) {
             return x.guid === newGuid;
           })
           .first()
@@ -297,11 +297,11 @@ export default {
         this.currentChar = { name: '', guid: '' };
       }
     },
-    characters (newArr, oldArr) {
+    characters(newArr, oldArr) {
       if (this.$store.state.account.currentCharacter !== '' && newArr.length) {
         let filterGuid = this.$store.state.account.currentCharacter;
         let currentChar = _.chain(newArr)
-          .filter(function (x) {
+          .filter(function(x) {
             return x.guid === filterGuid;
           })
           .first()
@@ -314,7 +314,7 @@ export default {
       }
     }
   },
-  data () {
+  data() {
     return {
       currentChar: { name: '', guid: '' },
       showReportNotImplemented: false,
