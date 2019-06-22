@@ -11,15 +11,17 @@
         <v-card-title class="title text-xs-center" primary-title>Update 31: The end of the world</v-card-title>
         <v-card-text>
           <p>Hey there drifters, as you might already know, Worlds Adrift is shutting down.</p>
-          <p>This is the final map that was given to the Cardinal Guild. We are currently working on finalizing the island data on the map.</p>
+          <p>This is the final map that was given to the Cardinal Guild. All islands are present, but missing metal Q data.</p>
+          <p>Please report as many Q materials as possible, it will help improve the map for others.</p>
+          <br>
           <p>We thank the entire team at Bossa making the impossible game, possible and inspiring a lot of people with the freedom of the skies!</p>
           <p>We thank the CCC for doing a great job with the latest map!</p>
           <br>
-          <p>Keep on grappling!</p>
+          <p>
+            <strong>Keep on grappling!</strong>
+          </p>
           <br>
-          <p>PS Dave is god! And hopefully all pineapples will return to Bossa :-)</p>
-          <br>
-          <p>There is one island in Tier 3 missing on the map that is almost in the abyss, for you to discover ;-)</p>
+          <small>PS Dave is god!</small>
         </v-card-text>
 
         <v-card-actions>
@@ -44,7 +46,7 @@ export default {
     dontShowAgain: {
       // getter
       get: function () {
-        let hideNewMap = this.$cookies.get('hide-newmap');
+        let hideNewMap = this.$cookies.get('hide-newmap-b');
         if (typeof hideNewMap === 'undefined' || hideNewMap === null) {
           return false;
         }
@@ -52,7 +54,7 @@ export default {
       },
       // setter
       set: function (newValue) {
-        this.$cookies.set('hide-newmap', true, {
+        this.$cookies.set('hide-newmap-b', true, {
           path: '/',
           maxAge: 60 * 60 * 24 * 31
         });
