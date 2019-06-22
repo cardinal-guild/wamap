@@ -37,7 +37,7 @@
 import { mapState } from 'vuex';
 export default {
   mounted () {
-    let hideNewMap = this.$cookies.get('hide-newmap');
+    let hideNewMap = this.$cookies.get('hide-newmap-b');
     if (typeof hideNewMap === 'undefined' || hideNewMap === null) {
       this.newMapDialog = true;
     }
