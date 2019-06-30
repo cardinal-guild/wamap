@@ -92,6 +92,7 @@ module.exports = {
     ]
   },
   modules: [
+    '@nuxtjs/onesignal',
     'nuxt-clipboard2',
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
@@ -137,6 +138,12 @@ module.exports = {
    */
   loading: {
     color: '#D9B18A'
+  },
+  oneSignal: {
+    init: {
+      appId: '94370406-d4bc-4470-a5a4-d20957fd1020',
+      allowLocalhostAsSecureOrigin: true
+    }
   },
   /*
    ** Build configuration
