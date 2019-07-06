@@ -178,7 +178,7 @@ export default {
       if (url.substring(url.length - 1) !== '/') {
         url = url + '/';
       }
-      url = url + id;
+      url = url + this.id;
       try {
         await this.$copyText(url);
         this.$store.commit('setSnack', {
