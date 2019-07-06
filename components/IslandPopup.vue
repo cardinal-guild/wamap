@@ -174,7 +174,7 @@ export default {
       }
     },
     async copyToClipboard (e) {
-      const url = window.location.origin + window.location.pathname;
+      let url = window.location.origin + window.location.pathname;
       if (url.substring(url.length - 1) !== '/') {
         url = url + '/';
       }
