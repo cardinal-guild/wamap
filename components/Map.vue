@@ -1,8 +1,8 @@
 <template>
   <div v-if="islandData" id="map-wrap">
-    <Update31Notice/>
+    <Update31Notice />
     <no-ssr>
-      <BuildUpOverlay v-if="buildUpSequence"/>
+      <BuildUpOverlay v-if="buildUpSequence" />
       <l-map
         id="leaflet-map"
         ref="map"
@@ -52,13 +52,13 @@
           :interactive="false"
           :options="{interactive: false}"
         />
-        <map-highlighter :normal-icon-from-zoom-percentage="35" :big-iconfrom-zoom-percentage="75"/>
+        <map-highlighter :normal-icon-from-zoom-percentage="35" :big-iconfrom-zoom-percentage="75" />
         <map-account-checkmarker
           :normal-icon-from-zoom-percentage="35"
           :big-iconfrom-zoom-percentage="75"
         />
-        <map-location-marker/>
-        <map-legend :fade-out-from-zoom-percentage="75"/>
+        <map-location-marker />
+        <map-legend :fade-out-from-zoom-percentage="75" />
       </l-map>
     </no-ssr>
   </div>
@@ -220,8 +220,7 @@ export default {
   },
   data () {
     return {
-      attribution:
-        "Data from the <a href='https://discord.gg/BVwKDwy'>Cardinal Guild</a>. App made by Machine_Maker and FearlessJake",
+      attribution: "<a href='/credits'>Click here for credits</a>",
       bounds: [[0, 0], [-9500, 9500]],
       currentMap: null,
       center: [-4750, 4750],

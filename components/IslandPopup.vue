@@ -9,10 +9,19 @@
                 <th colspan="2">
                   <div class="island-title">
                     <div class="island-name">
+                      <div
+                        v-if="tcAlliance
+                        && tcAlliance !== 'Unclaimed'"
+                        class="tc-alliance"
+                        @click="hiliteAlliance"
+                      >
+                        <span>Owned by:</span>
+                        <strong>{{ tcAlliance }}</strong>
+                      </div>
                       <component
                         :is="workshopUrl?'a':'div'"
                         :href="workshopUrl || ''"
-                        class="island-name"
+                        class="island-name-link"
                         target="_blank"
                         rel="nofollow,noopener"
                       >
@@ -166,6 +175,28 @@ export default {
     }
   },
   methods: {
+    hiliteAlliance () {
+      let closeBtns = document.querySelectorAll('.leaflet-popup-close-button');
+      if (closeBtns) {
+        for (var i = 0; i < closeBtns.length; i++) {
+          closeBtns[i].click();
+        }
+      }
+      let self = this;
+      this.filteredIslands = _.filter(
+        self.$store.state.islandData.features,
+        function (o) {
+          return (
+            o.properties.tc[self.$store.state.mapMode].alliance ===
+            self.tcAlliance
+          );
+        }
+      );
+      let filteredCoords = this.filteredIslands.map(function (o) {
+        return o.geometry.coordinates;
+      });
+      this.$store.commit('setHighlights', filteredCoords);
+    },
     changeIslandVisited (visited) {
       if (visited) {
         this.$store.commit('account/addIslandVisited', this.id);
@@ -203,8 +234,12 @@ export default {
   mounted () {
     if (this.$store.state.mapMode === 'pvp') {
       this.metals = this.pvpMetals;
+      this.tcAlliance = this.tc['pvp'].alliance;
+      this.tcName = this.tc['pvp'].tower_name;
     } else {
       this.metals = this.pveMetals;
+      this.tcAlliance = this.tc['pve'].alliance;
+      this.tcName = this.tc['pve'].tower_name;
     }
     if (this.currentCharacter && this.characters && this.characters.length) {
       let filterGuid = this.currentCharacter;
@@ -319,6 +354,8 @@ export default {
   },
   data () {
     return {
+      tcAlliance: '',
+      tcName: '',
       currentChar: { name: '', guid: '' },
       showReportNotImplemented: false,
       showMore: false,
@@ -358,7 +395,8 @@ export default {
     'imageOriginal',
     'createdAt',
     'updatedAt',
-    'latLng'
+    'latLng',
+    'tc'
   ]
 };
 </script>
@@ -383,6 +421,27 @@ export default {
       display: block;
       width: 100%;
       height: auto;
+    }
+  }
+  .island-name {
+    display: flex;
+    flex-direction: column;
+
+    .tc-alliance {
+      padding: 0.5rem;
+      background-color: darkred;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      font-size: 1rem;
+      cursor: pointer;
+      &:hover {
+        background-color: red;
+      }
+      strong {
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
     }
   }
   .island-popup-button.theme--dark.v-btn {
