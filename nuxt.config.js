@@ -5,26 +5,26 @@ module.exports = {
   /*
   ** Generate
  */
-  generate: {
-    routes: () => {
-      return axios.get('/islands.json').then(res => {
-        return [...res.data.features.map(island => {
-          return {
-            route: `/pve/${island.id}`,
-            payload: island
-          }
-        }),
-          ...res.data.features.map(island => {
-            return {
-              route: `/pvp/${island.id}`,
-              payload: island
-            }
-          })
-        ]
-      })
-    },
-    concurrency: 100
-  },
+  // generate: {
+  //   routes: () => {
+  //     return axios.get('/islands.json').then(res => {
+  //       return [...res.data.features.map(island => {
+  //         return {
+  //           route: `/pve/${island.id}`,
+  //           payload: island
+  //         }
+  //       }),
+  //         ...res.data.features.map(island => {
+  //           return {
+  //             route: `/pvp/${island.id}`,
+  //             payload: island
+  //           }
+  //         })
+  //       ]
+  //     })
+  //   },
+  //   concurrency: 100
+  // },
   /*
    ** Headers of the page
    */

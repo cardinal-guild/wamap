@@ -5,10 +5,10 @@
 import axios from 'axios';
 
 export default {
-  validate ({ params }) {
+  validate({ params }) {
     return /^\d+/.test(params.id);
   },
-  async asyncData ({ payload, params }) {
+  async asyncData({ payload, params }) {
     if (payload) return { island: payload };
     else {
       const res = await axios.get(`/islands.json`);
@@ -17,12 +17,7 @@ export default {
       };
     }
   },
-  mounted () {
-    this.$router.push(
-      `/${this.$route.path.split('/')[1]}?island=${this.$route.params.id}`
-    );
-  },
-  head () {
+  head() {
     return {
       title: this.island ? this.island.properties.name : 'Loading...',
       meta: [
@@ -57,9 +52,7 @@ export default {
       link: [
         {
           type: 'application/json+oembed',
-          href: this.island
-            ? `${process.env.API_URL}/api/islands/${this.island.id}/oEmbed.json`
-            : 'none'
+          href: this.island ? `/islands/${this.island.id}/oEmbed.json` : 'none'
         }
       ]
     };
