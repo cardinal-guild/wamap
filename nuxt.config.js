@@ -2,9 +2,6 @@ const axios = require('axios')
 const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 module.exports = {
-  env: {
-    API_URL: 'https://map.cardinalguild.com'
-  },
   /*
   ** Generate
  */
