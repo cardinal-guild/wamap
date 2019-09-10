@@ -118,18 +118,8 @@
               </tr>
             </table>
             <v-btn
-              flat
-              grow
-              block
-              class="island-popup-button"
-              @click="$bus.$emit('reportInformation', $data, $props)"
-            >
-              <v-icon>insert_comment</v-icon>
-              <span>Report metals</span>
-            </v-btn>
-            <v-btn
               v-if="config.showEdit"
-              :href="'https://surveyor.cardinalguild.com/islands/'+id+'/edit'"
+              :href="'/islands/'+id+'/edit'"
               color="green"
               class="island-popup-button"
               flat

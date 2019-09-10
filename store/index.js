@@ -157,10 +157,10 @@ export const actions = {
         console.log('Loading islands from '+process.env.API_URL)
       }
 
-      const metalTypes = await this.$axios.$get( process.env.API_URL+'/api/metaltypes.json')
+      const metalTypes = await this.$axios.$get( '/metaltypes.json')
       commit("metalTypes", metalTypes)
 
-      const islandData = await this.$axios.$get(process.env.API_URL+'/api/islands.json')
+      const islandData = await this.$axios.$get('/islands.json')
       commit('islandData', islandData)
       if (console.log) {
         console.log('Loading map boundaries')

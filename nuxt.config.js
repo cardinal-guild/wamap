@@ -3,14 +3,14 @@ const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 module.exports = {
   env: {
-    API_URL: 'https://surveyor.cardinalguild.com'
+    API_URL: 'https://map.cardinalguild.com'
   },
   /*
   ** Generate
  */
   generate: {
     routes: () => {
-      return axios.get('https://surveyor.cardinalguild.com/api/islands.json').then(res => {
+      return axios.get('/islands.json').then(res => {
         return [...res.data.features.map(island => {
           return {
             route: `/pve/${island.id}`,
@@ -180,27 +180,13 @@ module.exports = {
       },
       {
         // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
-        urlPattern: 'https://surveyor.cardinalguild.com/media/.*',
+        urlPattern: '/island_images/.*',
         // Defaults to `networkFirst` if omitted
         handler: 'cacheFirst',
         // Defaults to `GET` if omitted
         method: 'GET',
         strategyOptions: {
-          cacheName: 'surveyor-media-cache',
-          cacheExpiration: {
-            maxAgeSeconds: 86400
-          }
-        }
-      },
-      {
-        // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
-        urlPattern: 'https://surveyor.cardinalguild.com/images/.*',
-        // Defaults to `networkFirst` if omitted
-        handler: 'cacheFirst',
-        // Defaults to `GET` if omitted
-        method: 'GET',
-        strategyOptions: {
-          cacheName: 'surveyor-image-cache',
+          cacheName: 'media-cache',
           cacheExpiration: {
             maxAgeSeconds: 86400
           }

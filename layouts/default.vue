@@ -1,7 +1,5 @@
 <template>
   <v-app dark class="cg-app">
-    <report-window/>
-    <account-window/>
     <v-navigation-drawer :mini-variant="miniVariant" v-model="drawer" class="main-drawer" fixed app>
       <v-list>
         <v-list-tile router exact to="/" @click="drawer=false">
@@ -14,7 +12,7 @@
         </v-list-tile>
         <v-list-tile router exact to="/pve" @click="drawer=false">
           <v-list-tile-action class="svg-tile">
-            <PVEIcon/>
+            <PVEIcon />
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>PVE Map</v-list-tile-title>
@@ -23,7 +21,7 @@
 
         <v-list-tile router exact to="/pvp" @click="drawer=false">
           <v-list-tile-action class="svg-tile">
-            <PVPIcon/>
+            <PVPIcon />
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>PVP Map</v-list-tile-title>
@@ -56,26 +54,16 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar :dense="$store.state.showMapControls" fixed app color="#504141" class="cg-toolbar">
-      <v-toolbar-side-icon @click="drawer = !drawer"/>
+      <v-toolbar-side-icon @click="drawer = !drawer" />
       <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"/>
+        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'" />
       </v-btn>
       <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
-      <v-spacer/>
-      <div
-        class="toolbar-charname"
-        @click="$store.commit('account/showAccountDialog', true)"
-      >{{ currentCharName }}</div>
-      <v-tooltip bottom>
-        <v-btn slot="activator" icon @click="$store.commit('account/showAccountDialog', true)">
-          <v-icon :color="loggedIn ? 'green': 'red'">account_circle</v-icon>
-        </v-btn>
-        <span>Create a character and checkmark locations where you been</span>
-      </v-tooltip>
+      <v-spacer />
       <template v-if="$store.state.showMapControls">
         <v-tooltip bottom>
           <v-btn slot="activator" icon @click="copyToClipboard">
-            <CopyPasteLink/>
+            <CopyPasteLink />
           </v-btn>
           <span>Copy the current zoomed in location to clipboard</span>
         </v-tooltip>
@@ -105,11 +93,11 @@
       </template>
     </v-toolbar>
     <v-content>
-      <nuxt/>
+      <nuxt />
     </v-content>
 
-    <map-search-drawer/>
-    <map-filter-drawer/>
+    <map-search-drawer />
+    <map-filter-drawer />
     <!-- <account-drawer/> -->
     <v-snackbar v-model="showSnack" :color="snackColor" :timeout="6000" bottom right>{{ snackText }}</v-snackbar>
   </v-app>
@@ -122,8 +110,6 @@ import PVPIcon from '~/assets/svg/pvp_icon.svg';
 import MapSearchDrawer from '~/components/MapSearchDrawer';
 import MapFilterDrawer from '~/components/MapFilterDrawer';
 // import AccountDrawer from '~/components/AccountDrawer';
-import ReportWindow from '~/components/ReportWindow';
-import AccountWindow from '~/components/AccountWindow';
 import { mapState } from 'vuex';
 export default {
   components: {
@@ -131,10 +117,7 @@ export default {
     PVEIcon,
     PVPIcon,
     MapSearchDrawer,
-    MapFilterDrawer,
-    // AccountDrawer,
-    ReportWindow,
-    AccountWindow
+    MapFilterDrawer
   },
   computed: {
     ...mapState('account', {
