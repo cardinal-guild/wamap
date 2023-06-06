@@ -1,6 +1,12 @@
 <template>
   <div
-    v-if="islandData && islandData.features && islandData.features.length && currentCharacter && characters.length"
+    v-if="
+      islandData &&
+        islandData.features &&
+        islandData.features.length &&
+        currentCharacter &&
+        characters.length
+    "
     class="highlight-markers"
   >
     <no-ssr>
@@ -35,7 +41,7 @@ export default {
     })
   },
   methods: {
-    updateVisitedIslands () {
+    updateVisitedIslands() {
       if (
         this.currentCharacter !== '' &&
         this.characters &&
@@ -46,7 +52,7 @@ export default {
       ) {
         let filterGuid = this.currentCharacter;
         let currentChar = _.chain(this.characters)
-          .filter(function (x) {
+          .filter(function(x) {
             return x.guid === filterGuid;
           })
           .first()
@@ -60,7 +66,7 @@ export default {
           _.each(currentChar.visited_islands, visitedIslandId => {
             setVisitedIslands.push(
               _.chain(this.islandData.features)
-                .filter(function (x) {
+                .filter(function(x) {
                   return x.id === parseInt(visitedIslandId);
                 })
                 .first()
@@ -76,9 +82,9 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.checkMarkerIcon = leaflet.divIcon({
-      html: '<img src="/assets/checkmark_small.png" />',
+      html: '<img src="/wamap/assets/checkmark_small.png" />',
       iconSize: [32, 32],
       iconAnchor: [16, 16],
       clickable: false,
@@ -92,11 +98,11 @@ export default {
     });
   },
   watch: {
-    zoomPercentage (newZoomPercentage, oldZoomPercentage) {
+    zoomPercentage(newZoomPercentage, oldZoomPercentage) {
       if (newZoomPercentage <= this.normalIconFromZoomPercentage) {
         if (this.currentSize !== 'small') {
           this.checkMarkerIcon = leaflet.divIcon({
-            html: '<img src="/assets/checkmark_small.png" />',
+            html: '<img src="/wamap/assets/checkmark_small.png" />',
             iconSize: [32, 32],
             iconAnchor: [16, 16],
             clickable: false,
@@ -108,7 +114,7 @@ export default {
       } else if (newZoomPercentage <= this.bigIconfromZoomPercentage) {
         if (this.currentSize !== 'medium') {
           this.checkMarkerIcon = leaflet.divIcon({
-            html: '<img src="/assets/checkmark.png" />',
+            html: '<img src="/wamap/assets/checkmark.png" />',
             iconSize: [60, 60],
             iconAnchor: [30, 30],
             clickable: false,
@@ -120,7 +126,7 @@ export default {
       } else {
         if (this.currentSize !== 'big') {
           this.checkMarkerIcon = leaflet.divIcon({
-            html: '<img src="/assets/checkmark.png" />',
+            html: '<img src="/wamap/assets/checkmark.png" />',
             iconSize: [140, 140],
             iconAnchor: [70, 70],
             clickable: false,
@@ -131,10 +137,10 @@ export default {
         }
       }
     },
-    currentCharacter (newGuid, oldGuid) {
+    currentCharacter(newGuid, oldGuid) {
       this.updateVisitedIslands();
     },
-    characters (newArr, oldArr) {
+    characters(newArr, oldArr) {
       this.updateVisitedIslands();
     }
   },
@@ -148,7 +154,7 @@ export default {
       default: 70
     }
   },
-  data () {
+  data() {
     return {
       currentSize: '',
       checkMarkerIcon: null,

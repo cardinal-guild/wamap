@@ -10,36 +10,42 @@
                   <div class="island-title">
                     <div class="island-name">
                       <div
-                        v-if="tcAlliance
-                        && tcAlliance !== 'Unclaimed'"
+                        v-if="tcAlliance && tcAlliance !== 'Unclaimed'"
                         class="tc-alliance"
                         @click="hiliteAlliance"
                       >
-                        <span>Owned by:</span>
-                        <strong>{{ tcAlliance }}</strong>
+                        <span>Owned by:</span> <strong>{{ tcAlliance }}</strong>
                       </div>
                       <component
-                        :is="workshopUrl?'a':'div'"
+                        :is="workshopUrl ? 'a' : 'div'"
                         :href="workshopUrl || ''"
                         class="island-name-link"
                         target="_blank"
                         rel="nofollow,noopener"
                       >
-                        <span class="nickname">{{ nickName?nickName:name }}</span>
+                        <span class="nickname">{{
+                          nickName ? nickName : name
+                        }}</span>
                         <span v-if="nickName" class="name">({{ name }})</span>
-                        <img v-if="workshopUrl" src="/assets/steam_icon.png" >
+                        <img
+                          v-if="workshopUrl"
+                          src="/wamap/assets/steam_icon.png"
+                        />
                       </component>
                     </div>
                     <span class="by-author">by</span>
                     <component
-                      :is="creatorWorkshopUrl?'a':'span'"
+                      :is="creatorWorkshopUrl ? 'a' : 'span'"
                       :href="creatorWorkshopUrl || ''"
                       class="creator-name"
                       target="_blank"
                       rel="nofollow,noopener"
                     >
                       <span class="username">{{ creator }}</span>
-                      <img v-if="creatorWorkshopUrl" src="/assets/steam_icon.png" >
+                      <img
+                        v-if="creatorWorkshopUrl"
+                        src="/wamap/assets/steam_icon.png"
+                      />
                     </component>
                   </div>
                 </th>
@@ -73,27 +79,50 @@
               </tr>
               <tr class="expansion-panels">
                 <v-expansion-panel v-model="panel" expand>
-                  <v-expansion-panel-content :ripple="true" class="island-extras">
-                    <div slot="header" class="text-xs-center expansion-header subheading">More info</div>
+                  <v-expansion-panel-content
+                    :ripple="true"
+                    class="island-extras"
+                  >
+                    <div
+                      slot="header"
+                      class="text-xs-center expansion-header subheading"
+                    >
+                      More info
+                    </div>
                     <v-card>
                       <v-card-text class="py-2">
                         <table
-                          v-if="(metals && metals.length > 0) || $store.state.config.showAllMetals"
+                          v-if="
+                            (metals && metals.length > 0) ||
+                              $store.state.config.showAllMetals
+                          "
                           class="island-materials-table"
                         >
                           <!-- Material Qualities changed so I commented this out. Can be removed later -->
-                          <tr v-for="(metal, index) in activeMetals" :key="index">
+                          <tr
+                            v-for="(metal, index) in activeMetals"
+                            :key="index"
+                          >
                             <td>{{ metal.name }}</td>
                             <td>{{ getQuality(metal) }}</td>
                           </tr>
                         </table>
-                        <div v-else class="island-materials-table">No metals data</div>
-                        <table v-if="trees.length > 0" class="island-materials-table">
+
+                        <div v-else class="island-materials-table">
+                          No metals data
+                        </div>
+                        <table
+                          v-if="trees.length > 0"
+                          class="island-materials-table"
+                        >
                           <tr v-for="(tree, index) in trees" :key="index">
                             <td>{{ tree }}</td>
                           </tr>
                         </table>
-                        <div v-else class="island-materials-table">No tree data</div>
+
+                        <div v-else class="island-materials-table">
+                          No tree data
+                        </div>
                         <div style="clear: both;" />
                         <div class="table-divider" />
                       </v-card-text>
@@ -107,7 +136,7 @@
                     <v-flex shrink>
                       <v-card color="brown" class="pa-2 mt-2">
                         <v-checkbox
-                          :label="'Visited with `'+currentChar.name+'`'"
+                          :label="'Visited with `' + currentChar.name + '`'"
                           v-model="islandVisited"
                           color="green"
                         />
@@ -117,9 +146,10 @@
                 </v-container>
               </tr>
             </table>
+
             <v-btn
               v-if="config.showEdit"
-              :href="'/islands/'+id+'/edit'"
+              :href="'/islands/' + id + '/edit'"
               color="green"
               class="island-popup-button"
               flat
@@ -148,24 +178,24 @@ export default {
   },
   name: 'IslandPopup',
   filters: {
-    capitalize: function (value) {
+    capitalize: function(value) {
       if (!value) return '';
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
     },
-    upper: function (value) {
+    upper: function(value) {
       return value.toUpperCase();
     },
-    metalsToString: function (metals) {
+    metalsToString: function(metals) {
       let metalNames = [];
-      _.forEach(metals, function (metal) {
+      _.forEach(metals, function(metal) {
         metalNames.push(metal.name + ' Q' + metal.quality);
       });
       return metalNames.join(', ');
     }
   },
   methods: {
-    hiliteAlliance () {
+    hiliteAlliance() {
       let closeBtns = document.querySelectorAll('.leaflet-popup-close-button');
       if (closeBtns) {
         for (var i = 0; i < closeBtns.length; i++) {
@@ -175,26 +205,26 @@ export default {
       let self = this;
       this.filteredIslands = _.filter(
         self.$store.state.islandData.features,
-        function (o) {
+        function(o) {
           return (
             o.properties.tc[self.$store.state.mapMode].alliance ===
             self.tcAlliance
           );
         }
       );
-      let filteredCoords = this.filteredIslands.map(function (o) {
+      let filteredCoords = this.filteredIslands.map(function(o) {
         return o.geometry.coordinates;
       });
       this.$store.commit('setHighlights', filteredCoords);
     },
-    changeIslandVisited (visited) {
+    changeIslandVisited(visited) {
       if (visited) {
         this.$store.commit('account/addIslandVisited', this.id);
       } else {
         this.$store.commit('account/removeIslandVisited', this.id);
       }
     },
-    async copyToClipboard (e) {
+    async copyToClipboard(e) {
       let url = window.location.origin + window.location.pathname;
       if (url.substring(url.length - 1) !== '/') {
         url = url + '/';
@@ -213,7 +243,7 @@ export default {
         });
       }
     },
-    getQuality (metal) {
+    getQuality(metal) {
       if (!metal.quality) {
         let foundMetal = _.find(this.metals, o => o.name === metal.name);
         return foundMetal ? foundMetal.quality : 'N/A';
@@ -221,7 +251,7 @@ export default {
       return metal.quality;
     }
   },
-  mounted () {
+  mounted() {
     if (this.$store.state.mapMode === 'pvp') {
       this.metals = this.pvpMetals;
       this.tcAlliance = this.tc['pvp'].alliance;
@@ -234,7 +264,7 @@ export default {
     if (this.currentCharacter && this.characters && this.characters.length) {
       let filterGuid = this.currentCharacter;
       this.currentChar = _.chain(this.characters)
-        .filter(function (x) {
+        .filter(function(x) {
           return x.guid === filterGuid;
         })
         .first()
@@ -249,11 +279,11 @@ export default {
       characters: 'characters'
     }),
     islandVisited: {
-      get () {
+      get() {
         if (this.currentCharacter && this.characters.length) {
           let filterGuid = this.currentCharacter;
           let characterData = _.chain(this.characters)
-            .filter(function (x) {
+            .filter(function(x) {
               return x.guid === filterGuid;
             })
             .first()
@@ -272,7 +302,7 @@ export default {
         }
         return false;
       },
-      set (value) {
+      set(value) {
         if (this.id) {
           if (value) {
             this.$store.commit('account/addIslandVisited', this.id);
@@ -282,7 +312,7 @@ export default {
         }
       }
     },
-    activeMetals () {
+    activeMetals() {
       if (this.$cookies.get('showAllMetals'))
         return this.$store.state.metalTypes;
       return this.metals;
@@ -290,7 +320,7 @@ export default {
   },
 
   watch: {
-    islandPopupId (newId, oldId) {
+    islandPopupId(newId, oldId) {
       if (newId === this.id) {
         this.showPopup = true;
         if (
@@ -300,7 +330,7 @@ export default {
         ) {
           let filterGuid = this.currentCharacter;
           this.currentChar = _.chain(this.characters)
-            .filter(function (x) {
+            .filter(function(x) {
               return x.guid === filterGuid;
             })
             .first()
@@ -308,10 +338,10 @@ export default {
         }
       }
     },
-    currentCharacter (newGuid, oldGuid) {
+    currentCharacter(newGuid, oldGuid) {
       if (newGuid !== '' && this.$store.state.account.characters.length) {
         let currentChar = _.chain(this.$store.state.account.characters)
-          .filter(function (x) {
+          .filter(function(x) {
             return x.guid === newGuid;
           })
           .first()
@@ -325,11 +355,11 @@ export default {
         this.currentChar = { name: '', guid: '' };
       }
     },
-    characters (newArr, oldArr) {
+    characters(newArr, oldArr) {
       if (this.$store.state.account.currentCharacter !== '' && newArr.length) {
         let filterGuid = this.$store.state.account.currentCharacter;
         let currentChar = _.chain(newArr)
-          .filter(function (x) {
+          .filter(function(x) {
             return x.guid === filterGuid;
           })
           .first()
@@ -342,7 +372,7 @@ export default {
       }
     }
   },
-  data () {
+  data() {
     return {
       tcAlliance: '',
       tcName: '',

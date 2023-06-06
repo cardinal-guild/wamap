@@ -65,18 +65,18 @@ module.exports = {
     {
       hid: 'og:image',
       name: 'og:image',
-      content: '/assets/opengraph.jpg'
+      content: 'assets/opengraph.jpg'
     }],
     link: [{
       rel: 'icon',
       type: 'image/png',
-      href: '/favicon-16x16.png',
+      href: 'favicon-16x16.png',
       sizes: '16x16'
     },
     {
       rel: 'icon',
       type: 'image/png',
-      href: '/favicon-32x32.png',
+      href: 'favicon-32x32.png',
       sizes: '32x32'
     },
     {
@@ -89,7 +89,6 @@ module.exports = {
     ]
   },
   modules: [
-    '@nuxtjs/onesignal',
     'nuxt-clipboard2',
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
@@ -135,12 +134,6 @@ module.exports = {
    */
   loading: {
     color: '#D9B18A'
-  },
-  oneSignal: {
-    init: {
-      appId: '94370406-d4bc-4470-a5a4-d20957fd1020',
-      allowLocalhostAsSecureOrigin: true
-    }
   },
   /*
    ** Build configuration

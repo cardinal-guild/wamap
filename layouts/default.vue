@@ -1,16 +1,20 @@
 <template>
   <v-app dark class="cg-app">
-    <v-navigation-drawer :mini-variant="miniVariant" v-model="drawer" class="main-drawer" fixed app>
+    <v-navigation-drawer
+      :mini-variant="miniVariant"
+      v-model="drawer"
+      class="main-drawer"
+      fixed
+      app
+    >
       <v-list>
-        <v-list-tile router exact to="/" @click="drawer=false">
-          <v-list-tile-action>
-            <v-icon>apps</v-icon>
-          </v-list-tile-action>
+        <v-list-tile router exact to="/" @click="drawer = false">
+          <v-list-tile-action> <v-icon>apps</v-icon> </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Welcome</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router exact to="/pve" @click="drawer=false">
+        <v-list-tile router exact to="/pve" @click="drawer = false">
           <v-list-tile-action class="svg-tile">
             <PVEIcon />
           </v-list-tile-action>
@@ -19,7 +23,7 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile router exact to="/pvp" @click="drawer=false">
+        <v-list-tile router exact to="/pvp" @click="drawer = false">
           <v-list-tile-action class="svg-tile">
             <PVPIcon />
           </v-list-tile-action>
@@ -27,38 +31,40 @@
             <v-list-tile-title>PVP Map</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router exact to="/credits" @click="drawer=false">
-          <v-list-tile-action>
-            <v-icon>people</v-icon>
-          </v-list-tile-action>
+        <v-list-tile router exact to="/credits" @click="drawer = false">
+          <v-list-tile-action> <v-icon>people</v-icon> </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Credits</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router exact to="/config" @click="drawer=false">
-          <v-list-tile-action>
-            <v-icon>settings</v-icon>
-          </v-list-tile-action>
+        <v-list-tile router exact to="/config" @click="drawer = false">
+          <v-list-tile-action> <v-icon>settings</v-icon> </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Settings</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile router exact to="/overheat" @click="drawer=false">
-          <v-list-tile-action>
-            <v-icon>whatshot</v-icon>
-          </v-list-tile-action>
+        <v-list-tile router exact to="/overheat" @click="drawer = false">
+          <v-list-tile-action> <v-icon>whatshot</v-icon> </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>Overheat calculator</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar :dense="$store.state.showMapControls" fixed app color="#504141" class="cg-toolbar">
+    <v-toolbar
+      :dense="$store.state.showMapControls"
+      fixed
+      app
+      color="#504141"
+      class="cg-toolbar"
+    >
       <v-toolbar-side-icon @click="drawer = !drawer" />
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'" />
       </v-btn>
-      <v-toolbar-title>Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title>
+      <v-toolbar-title
+        >Cardinal Guild - {{ $store.state.pageTitle }}</v-toolbar-title
+      >
       <v-spacer />
       <template v-if="$store.state.showMapControls">
         <v-tooltip bottom>
@@ -70,9 +76,12 @@
         <v-tooltip bottom>
           <v-btn
             slot="activator"
-            :class="{visible: $store.state.showMarker}"
+            :class="{ visible: $store.state.showMarker }"
             icon
-            @click="$store.commit('toggleMarker'); $bus.$emit('toggleMarker')"
+            @click="
+              $store.commit('toggleMarker');
+              $bus.$emit('toggleMarker');
+            "
           >
             <v-icon>add_location</v-icon>
           </v-btn>
@@ -92,14 +101,19 @@
         </v-tooltip>
       </template>
     </v-toolbar>
-    <v-content>
-      <nuxt />
-    </v-content>
+    <v-content> <nuxt /> </v-content>
 
     <map-search-drawer />
     <map-filter-drawer />
     <!-- <account-drawer/> -->
-    <v-snackbar v-model="showSnack" :color="snackColor" :timeout="6000" bottom right>{{ snackText }}</v-snackbar>
+    <v-snackbar
+      v-model="showSnack"
+      :color="snackColor"
+      :timeout="6000"
+      bottom
+      right
+      >{{ snackText }}</v-snackbar
+    >
   </v-app>
 </template>
 
@@ -127,10 +141,10 @@ export default {
     })
   },
   watch: {
-    currentCharacter (newGuid, oldGuid) {
+    currentCharacter(newGuid, oldGuid) {
       if (newGuid !== '' && this.$store.state.account.characters.length) {
         let currentChar = _.chain(this.$store.state.account.characters)
-          .filter(function (x) {
+          .filter(function(x) {
             return x.guid === newGuid;
           })
           .first()
@@ -144,11 +158,11 @@ export default {
         this.currentCharName = '';
       }
     },
-    characters (newArr, oldArr) {
+    characters(newArr, oldArr) {
       if (this.$store.state.account.currentCharacter !== '' && newArr.length) {
         let filterGuid = this.$store.state.account.currentCharacter;
         let currentChar = _.chain(newArr)
-          .filter(function (x) {
+          .filter(function(x) {
             return x.guid === filterGuid;
           })
           .first()
@@ -161,7 +175,7 @@ export default {
       }
     }
   },
-  created: function () {
+  created: function() {
     this.$store.watch(
       state => state.snackText,
       () => {
@@ -179,7 +193,7 @@ export default {
       }
     );
   },
-  beforeMount () {
+  beforeMount() {
     let showEditCookie = this.$cookies.get('showEdit');
     if (typeof showEditCookie !== 'undefined') {
       this.$store.commit('setConfigOption', {
@@ -195,7 +209,7 @@ export default {
       });
     }
   },
-  mounted () {
+  mounted() {
     // let showMetalsCookie = this.$cookies.get('showAllMetals');
     // if (typeof showMetalsCookie !== 'undefined') {
     //   this.$store.commit('setConfigOption', {
@@ -207,7 +221,7 @@ export default {
       this.searchFilterDrawer = false;
     });
   },
-  data () {
+  data() {
     return {
       showSnack: false,
       snackColor: 'info',
@@ -225,7 +239,7 @@ export default {
     };
   },
   methods: {
-    async copyToClipboard (e) {
+    async copyToClipboard(e) {
       const a = document.createElement('a');
       a.href = this.$router.resolve(location).href;
       let fullUrl = a.protocol + '//' + a.host + a.pathname + a.search + a.hash;
@@ -256,7 +270,7 @@ export default {
 <style lang="scss">
 body,
 html {
-  background-image: url('/assets/wood_background.jpg');
+  background-image: url('/wamap/assets/wood_background.jpg');
   background-repeat: repeat;
 }
 .cg-app.theme--dark.application {
@@ -310,4 +324,3 @@ html {
   }
 }
 </style>
-

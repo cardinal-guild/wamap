@@ -6,7 +6,7 @@
         :key="index"
         :lat-lng="highlightedCoord"
         :icon="highlightIcon"
-        :options="{interactive: false}"
+        :options="{ interactive: false }"
         layer-type="overlay"
       />
     </no-ssr>
@@ -27,44 +27,44 @@ export default {
     ...mapState(['highlightedCoords', 'zoomPercentage'])
   },
   watch: {
-    zoomPercentage (newZoomPercentage, oldZoomPercentage) {
+    zoomPercentage(newZoomPercentage, oldZoomPercentage) {
       if (newZoomPercentage <= this.normalIconFromZoomPercentage) {
-        if(this.currentSize !== "small") {
+        if (this.currentSize !== 'small') {
           this.highlightIcon = leaflet.divIcon({
             html:
-              '<img style="width:30px;height:30px;" src="/assets/highlight_arrow.png" />',
+              '<img style="width:30px;height:30px;" src="/wamap/assets/highlight_arrow.png" />',
             iconSize: [30, 50],
             iconAnchor: [15, 25],
             clickable: false,
             interactive: false,
             className: 'highlight-icon'
           });
-          this.currentSize = "small";
+          this.currentSize = 'small';
         }
       } else if (newZoomPercentage <= this.bigIconfromZoomPercentage) {
-         if(this.currentSize !== "medium") {
+        if (this.currentSize !== 'medium') {
           this.highlightIcon = leaflet.divIcon({
-            html: '<img src="/assets/highlight_arrow.png" />',
+            html: '<img src="/wamap/assets/highlight_arrow.png" />',
             iconSize: [60, 100],
             iconAnchor: [30, 50],
             clickable: false,
             interactive: false,
             className: 'highlight-icon'
           });
-          this.currentSize = "medium";
+          this.currentSize = 'medium';
         }
       } else {
-         if(this.currentSize !== "big") {
-            this.highlightIcon = leaflet.divIcon({
-              html: '<img src="/assets/highlight_arrow.png" />',
-              iconSize: [60, 230],
-              iconAnchor: [30, 120],
-              clickable: false,
-              interactive: false,
-              className: 'highlight-icon'
-            });
-            this.currentSize = "big";
-         }
+        if (this.currentSize !== 'big') {
+          this.highlightIcon = leaflet.divIcon({
+            html: '<img src="/wamap/assets/highlight_arrow.png" />',
+            iconSize: [60, 230],
+            iconAnchor: [30, 120],
+            clickable: false,
+            interactive: false,
+            className: 'highlight-icon'
+          });
+          this.currentSize = 'big';
+        }
       }
 
       // let setIconHeight = this.iconHeightBig;
@@ -89,18 +89,18 @@ export default {
       default: 70
     }
   },
-  mounted () {
+  mounted() {
     this.highlightIcon = leaflet.divIcon({
-      html: '<img src="/assets/highlight_arrow.png" />',
+      html: '<img src="/wamap/assets/highlight_arrow.png" />',
       iconSize: [60, 120],
       clickable: false,
       interactive: false,
       className: 'highlight-icon'
     });
   },
-  data () {
+  data() {
     return {
-      currentSize: "",
+      currentSize: '',
       highlightIcon: null,
       currentIconHeight: 240
     };

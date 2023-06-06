@@ -157,10 +157,10 @@ export const actions = {
         console.log('Loading islands from '+process.env.API_URL)
       }
 
-      const metalTypes = await this.$axios.$get( '/metaltypes.json')
+      const metalTypes = await this.$axios.$get( '/wamap/metaltypes.json')
       commit("metalTypes", metalTypes)
 
-      const islandData = await this.$axios.$get('/islands.json')
+      const islandData = await this.$axios.$get('/wamap/islands.json')
       commit('islandData', islandData)
       if (console.log) {
         console.log('Loading map boundaries')
@@ -170,7 +170,7 @@ export const actions = {
       // if (console.log) {
       //   console.log('Loading zone name overlay')
       // }
-      const mapData = await this.$axios.$get('/data/map.svg')
+      const mapData = await this.$axios.$get('/wamap/data/map.svg')
       commit('mapData', svgToDataURL(mapData))
       // const zonenamesData = await this.$axios.$get('/data/zonenames.svg')
       // commit('zonenamesData', svgToDataURL(zonenamesData))
