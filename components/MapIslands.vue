@@ -314,7 +314,7 @@ export default {
   }
   &.kioki {
     .island-circle-type:after {
-      background-image: url('/island_icons/kioki_icon.png');
+      background-image: url('/wamap/island_icons/kioki_icon.png');
     }
   }
   &.saborian {
@@ -344,7 +344,7 @@ export default {
         transform: rotateZ(45deg);
       }
       &:after {
-        background-image: url('/island_icons/saborian_icon.png');
+        background-image: url('/wamap/island_icons/saborian_icon.png');
       }
     }
   }
@@ -366,7 +366,7 @@ export default {
     height: 36px;
     top: -15px;
     left: 32px;
-    background-image: url('/island_icons/knowledge_icon.png');
+    background-image: url('/wamap/island_icons/knowledge_icon.png');
     color: black;
     text-align: center;
     padding: 7px;
@@ -395,7 +395,7 @@ export default {
     }
     &:after {
       content: ' ';
-      background-image: url('/island_icons/revival_icon.png');
+      background-image: url('/wamap/island_icons/revival_icon.png');
       width: 20px;
       height: 20px;
       display: block;
@@ -426,7 +426,7 @@ export default {
     }
     &:after {
       content: ' ';
-      background-image: url('/island_icons/turret_icon.png');
+      background-image: url('/wamap/island_icons/turret_icon.png');
       width: 20px;
       height: 20px;
       display: block;
